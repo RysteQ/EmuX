@@ -14,9 +14,7 @@ namespace EmuX
             openFD.Filter = "Text file (*.txt)|*.txt|Assenbly file (*.asm)|*.asm|All files (*.*)|*.*";
 
             if (openFD.ShowDialog() == DialogResult.OK)
-            {
                 return openFD.FileName;
-            }
 
             return null;
         }
@@ -27,9 +25,7 @@ namespace EmuX
             saveFD.Filter = "Text file (*.txt)|*.txt|Assenbly file (*.asm)|*.asm|All files (*.*)|*.*";
 
             if (saveFD.ShowDialog() == DialogResult.OK)
-            {
                 return saveFD.FileName;
-            }
 
             return null;
         }

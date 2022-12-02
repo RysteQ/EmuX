@@ -85,5 +85,11 @@ namespace EmuX
         }
 
         private VirtualSystem virtual_system;
+
+        private void ButtonShowRegisterValues_Click(object sender, EventArgs e)
+        {
+            Registers_Form registers_form = new Registers_Form();
+            registers_form.Show();
+        }
     }
 }

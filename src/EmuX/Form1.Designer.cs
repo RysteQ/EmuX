@@ -251,6 +251,7 @@
             this.ButtonShowRegisterValues.TabIndex = 0;
             this.ButtonShowRegisterValues.Text = "Show Registers";
             this.ButtonShowRegisterValues.UseVisualStyleBackColor = true;
+            this.ButtonShowRegisterValues.Click += new System.EventHandler(this.ButtonShowRegisterValues_Click);
             // 
             // GroupboxMemory
             // 
@@ -332,6 +333,7 @@
             this.Controls.Add(this.GroupboxInput);
             this.Controls.Add(this.mainMenuStrip);
             this.MainMenuStrip = this.mainMenuStrip;
+            this.MinimumSize = new System.Drawing.Size(816, 443);
             this.Name = "mainForm";
             this.Text = "EmuX";
             this.Load += new System.EventHandler(this.mainForm_Load);
