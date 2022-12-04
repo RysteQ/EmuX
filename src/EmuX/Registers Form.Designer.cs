@@ -210,6 +210,11 @@
             // ComboBoxR11
             // 
             this.ComboBoxR11.FormattingEnabled = true;
+            this.ComboBoxR11.Items.AddRange(new object[] {
+            "R11",
+            "R11D",
+            "R11W",
+            "R11B"});
             this.ComboBoxR11.Location = new System.Drawing.Point(6, 22);
             this.ComboBoxR11.Name = "ComboBoxR11";
             this.ComboBoxR11.Size = new System.Drawing.Size(53, 23);
@@ -236,16 +241,21 @@
             // ComboBoxR14
             // 
             this.ComboBoxR14.FormattingEnabled = true;
+            this.ComboBoxR14.Items.AddRange(new object[] {
+            "R14",
+            "R14D",
+            "R14W",
+            "R14B"});
             this.ComboBoxR14.Location = new System.Drawing.Point(6, 22);
             this.ComboBoxR14.Name = "ComboBoxR14";
-            this.ComboBoxR14.Size = new System.Drawing.Size(47, 23);
+            this.ComboBoxR14.Size = new System.Drawing.Size(53, 23);
             this.ComboBoxR14.TabIndex = 39;
             // 
             // TextBoxR14
             // 
-            this.TextBoxR14.Location = new System.Drawing.Point(59, 22);
+            this.TextBoxR14.Location = new System.Drawing.Point(65, 22);
             this.TextBoxR14.Name = "TextBoxR14";
-            this.TextBoxR14.Size = new System.Drawing.Size(95, 23);
+            this.TextBoxR14.Size = new System.Drawing.Size(89, 23);
             this.TextBoxR14.TabIndex = 40;
             // 
             // GroupBoxR12
@@ -262,16 +272,21 @@
             // ComboBoxR12
             // 
             this.ComboBoxR12.FormattingEnabled = true;
+            this.ComboBoxR12.Items.AddRange(new object[] {
+            "R12",
+            "R12D",
+            "R12W",
+            "R12B"});
             this.ComboBoxR12.Location = new System.Drawing.Point(6, 22);
             this.ComboBoxR12.Name = "ComboBoxR12";
-            this.ComboBoxR12.Size = new System.Drawing.Size(47, 23);
+            this.ComboBoxR12.Size = new System.Drawing.Size(53, 23);
             this.ComboBoxR12.TabIndex = 35;
             // 
             // TextBoxR12
             // 
-            this.TextBoxR12.Location = new System.Drawing.Point(59, 22);
+            this.TextBoxR12.Location = new System.Drawing.Point(65, 22);
             this.TextBoxR12.Name = "TextBoxR12";
-            this.TextBoxR12.Size = new System.Drawing.Size(95, 23);
+            this.TextBoxR12.Size = new System.Drawing.Size(89, 23);
             this.TextBoxR12.TabIndex = 36;
             // 
             // GroupBoxR13
@@ -288,16 +303,21 @@
             // ComboBoxR13
             // 
             this.ComboBoxR13.FormattingEnabled = true;
+            this.ComboBoxR13.Items.AddRange(new object[] {
+            "R13",
+            "R13D",
+            "R13W",
+            "R13B"});
             this.ComboBoxR13.Location = new System.Drawing.Point(6, 22);
             this.ComboBoxR13.Name = "ComboBoxR13";
-            this.ComboBoxR13.Size = new System.Drawing.Size(47, 23);
+            this.ComboBoxR13.Size = new System.Drawing.Size(53, 23);
             this.ComboBoxR13.TabIndex = 37;
             // 
             // TextBoxR13
             // 
-            this.TextBoxR13.Location = new System.Drawing.Point(59, 22);
+            this.TextBoxR13.Location = new System.Drawing.Point(65, 22);
             this.TextBoxR13.Name = "TextBoxR13";
-            this.TextBoxR13.Size = new System.Drawing.Size(95, 23);
+            this.TextBoxR13.Size = new System.Drawing.Size(89, 23);
             this.TextBoxR13.TabIndex = 38;
             // 
             // GroupBoxR15
@@ -313,17 +333,22 @@
             // 
             // TextBoxR15
             // 
-            this.TextBoxR15.Location = new System.Drawing.Point(59, 22);
+            this.TextBoxR15.Location = new System.Drawing.Point(65, 22);
             this.TextBoxR15.Name = "TextBoxR15";
-            this.TextBoxR15.Size = new System.Drawing.Size(95, 23);
+            this.TextBoxR15.Size = new System.Drawing.Size(89, 23);
             this.TextBoxR15.TabIndex = 42;
             // 
             // ComboBoxR15
             // 
             this.ComboBoxR15.FormattingEnabled = true;
+            this.ComboBoxR15.Items.AddRange(new object[] {
+            "R15",
+            "R15D",
+            "R15W",
+            "R15B"});
             this.ComboBoxR15.Location = new System.Drawing.Point(6, 22);
             this.ComboBoxR15.Name = "ComboBoxR15";
-            this.ComboBoxR15.Size = new System.Drawing.Size(47, 23);
+            this.ComboBoxR15.Size = new System.Drawing.Size(53, 23);
             this.ComboBoxR15.TabIndex = 41;
             // 
             // GroupBoxR8
