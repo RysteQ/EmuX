@@ -91,5 +91,29 @@ namespace EmuX
             Registers_Form registers_form = new Registers_Form();
             registers_form.Show();
         }
+
+        private void ButtonExecute_Click(object sender, EventArgs e)
+        {
+            Analyzer analyzer = new Analyzer();
+            Emulator emulator = new Emulator();
+
+            analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
+
+            // check if there was an error while analyzing the code
+            if (analyzer.AnalyzingSuccessful() == false)
+            {
+                // get the error line and the line that cause the error
+                int error_line = analyzer.GetErrorLine();
+                string error_line_text = RichTextboxAssemblyCode.Text.Split('\n')[error_line];
+
+                error_line++;
+
+                MessageBox.Show("There was an error at line " + error_line.ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            emulator.SetData(analyzer.GetInstructions());
+            emulator.Execute();
+        }
     }
 }

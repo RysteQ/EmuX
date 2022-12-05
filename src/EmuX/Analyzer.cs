@@ -43,6 +43,7 @@ namespace EmuX
                 if (instruction_to_add.instruction == Instruction.Instruction_ENUM.NoN)
                 {
                     this.successful = false;
+                    this.error_line = i;
                     return;
                 }
 
@@ -52,6 +53,7 @@ namespace EmuX
                 if (instruction_to_add.variant == Instruction.Instruction_Variant_ENUM.NoN)
                 {
                     this.successful = false;
+                    this.error_line = i;
                     return;
                 }
 
@@ -150,6 +152,11 @@ namespace EmuX
         public bool AnalyzingSuccessful()
         {
             return this.successful;
+        }
+
+        public int GetErrorLine()
+        {
+            return this.error_line;
         }
 
         public List<Instruction> GetInstructions()
@@ -362,6 +369,7 @@ namespace EmuX
         private string[] instructions_to_analyze;
         private List<Instruction> instructions = new List<Instruction>();
         private bool successful = false;
+        private int error_line = 0;
 
         // to continue from JCXZ
         private class Instruction_Groups

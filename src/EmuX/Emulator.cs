@@ -8,5 +8,16 @@ namespace EmuX
 {
     internal class Emulator
     {
+        public void SetData(List<Instruction> instructions)
+        {
+            this.instructions = instructions;
+        }
+
+        public void Execute()
+        {
+            // TODO
+        }
+
+        private List<Instruction> instructions = new List<Instruction>();
     }
 }
