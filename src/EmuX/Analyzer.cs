@@ -38,6 +38,50 @@ namespace EmuX
                 }
 
                 instruction_to_add.instruction = GetInstruction(tokens[0]);
+
+                // check if the instruction exists or not
+                if (instruction_to_add.instruction == Instruction.Instruction_ENUM.NoN)
+                {
+                    this.successful = false;
+                    return;
+                }
+
+                instruction_to_add.variant = GetVariant(instruction_to_add.instruction, tokens);
+
+                // check if the instruction is of a valid variant or not
+                if (instruction_to_add.variant == Instruction.Instruction_Variant_ENUM.NoN)
+                {
+                    this.successful = false;
+                    return;
+                }
+
+                // TODO
+                switch(instruction_to_add.variant)
+                {
+                    case Instruction.Instruction_Variant_ENUM.SINGLE:
+                        break;
+
+                    case Instruction.Instruction_Variant_ENUM.SINGLE_REGISTER:
+                        break;
+
+                    case Instruction.Instruction_Variant_ENUM.SINGLE_VALUE:
+                        break;
+
+                    case Instruction.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
+                        break;
+
+                    case Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
+                        break;
+
+                    case Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_VALUE:
+                        break;
+
+                    case Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_ADDRESS:
+                        break;
+
+                    case Instruction.Instruction_Variant_ENUM.ADDRESS_VALUE_SOURCE_REGISTER:
+                        break;
+                }
             }
         }
 
@@ -55,10 +99,156 @@ namespace EmuX
         {
             Instruction.Instruction_ENUM toReturn;
 
-            if (Enum.TryParse<Instruction.Instruction_ENUM>(opcode_to_analyze, out toReturn))
+            if (Enum.TryParse<Instruction.Instruction_ENUM>(opcode_to_analyze.ToUpper(), out toReturn))
                 return toReturn;
 
             return Instruction.Instruction_ENUM.NoN;
+        }
+
+        private Instruction.Instruction_Variant_ENUM GetVariant(Instruction.Instruction_ENUM instruction, string[] tokens)
+        {
+            Instruction_Groups instruction_groups = new Instruction_Groups();
+
+            // check if the instruction has no operands
+            if (instruction_groups.no_operands.Contains(instruction) && tokens.Length == 1)
+                return Instruction.Instruction_Variant_ENUM.SINGLE;
+
+            // check if the instruction has one operand
+            if (instruction_groups.one_operands.Contains(instruction) && tokens.Length == 2)
+            {
+                Instruction.Registers_ENUM junk;
+                int integer_junk;
+
+                // check if it points to a value in memory
+                if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
+                    if (GetCharOccurrences(tokens[1], '[') == 1 && GetCharOccurrences(tokens[1], ']') == 1)
+                        return Instruction.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE;
+
+                // check if it refers to a register
+                if (Enum.TryParse<Instruction.Registers_ENUM>(tokens[1].ToUpper(), out junk))
+                    return Instruction.Instruction_Variant_ENUM.SINGLE_REGISTER;
+
+                // check if it refers to an int
+                if (int.TryParse(tokens[1], out integer_junk))
+                    return Instruction.Instruction_Variant_ENUM.SINGLE_VALUE;
+
+                // check if it refers to binary
+                if (tokens[1].ToUpper().EndsWith('B'))
+                {
+                    bool acceptable_binary_number = true;
+
+                    for (int i = 0; i < tokens[1].Length && acceptable_binary_number; i++)
+                        if (tokens[1][i] != '0' || tokens[1][i] != '1')
+                            acceptable_binary_number = false;
+
+                    if (acceptable_binary_number)
+                        return Instruction.Instruction_Variant_ENUM.SINGLE_VALUE;
+                }
+
+                // check if it refers to hex
+                if (tokens[1].ToUpper().EndsWith('H'))
+                {
+                    char[] acceptable_characters = new char[]
+                    {
+                        '0', '1', '2', '3', 
+                        '4', '5', '6', '7', 
+                        '8', '9', 'A', 'B',
+                        'C', 'D', 'E', 'F'
+                    };
+
+                    bool acceptable_hex_number = true;
+
+                    for (int i = 0; i < tokens[1].Length && acceptable_hex_number; i++)
+                        for (int j = 0; j < acceptable_characters.Length && acceptable_hex_number; j++)
+                            if (tokens[1].ToUpper()[i] != acceptable_characters[j])
+                                acceptable_hex_number = false;
+
+                    if (acceptable_hex_number)
+                        return Instruction.Instruction_Variant_ENUM.SINGLE_VALUE;
+                }
+            }
+
+            // check if the instruction has two operands
+            if (instruction_groups.two_operands.Contains(instruction) && tokens.Length == 3)
+            {
+                Instruction.Instruction_Variant_ENUM junk;
+                int integer_junk;
+
+                // check if the destination and source are both registers
+                if (Enum.TryParse<Instruction.Instruction_Variant_ENUM>(tokens[1].ToUpper(), out junk))
+                    if (Enum.TryParse<Instruction.Instruction_Variant_ENUM>(tokens[2].ToUpper(), out junk))
+                        return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER;
+
+                // check if the destination is a register and source a number
+                if (Enum.TryParse<Instruction.Instruction_Variant_ENUM>(tokens[1].ToUpper(), out junk))
+                {
+                    // check if it refers to an int
+                    if (int.TryParse(tokens[2], out integer_junk))
+                        return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_VALUE;
+
+                    // check if it refers to binary
+                    if (tokens[2].ToUpper().EndsWith('B'))
+                    {
+                        bool acceptable_binary_number = true;
+
+                        for (int i = 0; i < tokens[2].Length && acceptable_binary_number; i++)
+                            if (tokens[2][i] != '0' || tokens[2][i] != '1')
+                                acceptable_binary_number = false;
+
+                        if (acceptable_binary_number)
+                            return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_VALUE;
+                    }
+
+                    // check if it refers to hex
+                    if (tokens[2].ToUpper().EndsWith('H'))
+                    {
+                        char[] acceptable_characters = new char[]
+                        {
+                        '0', '1', '2', '3',
+                        '4', '5', '6', '7',
+                        '8', '9', 'A', 'B',
+                        'C', 'D', 'E', 'F'
+                        };
+
+                        bool acceptable_hex_number = true;
+
+                        for (int i = 0; i < tokens[2].Length && acceptable_hex_number; i++)
+                            for (int j = 0; j < acceptable_characters.Length && acceptable_hex_number; j++)
+                                if (tokens[2].ToUpper()[i] != acceptable_characters[j])
+                                    acceptable_hex_number = false;
+
+                        if (acceptable_hex_number)
+                            return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_VALUE;
+                    
+                        // TODO, add a check for ASCII characters
+                    }
+
+                    // check if the destination is a register and the source is a value from memory
+                    if (Enum.TryParse<Instruction.Instruction_Variant_ENUM>(tokens[1].ToUpper(), out junk))
+                        if (tokens[2].StartsWith('[') && tokens[2].EndsWith(']'))
+                            if (GetCharOccurrences(tokens[2], '[') == 1 && GetCharOccurrences(tokens[2], ']') == 1)
+                                return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_ADDRESS;
+
+                    // check if the destination is a location in memory and the source is a register
+                    if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
+                        if (GetCharOccurrences(tokens[1], '[') == 1 && GetCharOccurrences(tokens[1], ']') == 1)
+                            if (Enum.TryParse<Instruction.Instruction_Variant_ENUM>(tokens[2].ToUpper(), out junk))
+                                return Instruction.Instruction_Variant_ENUM.ADDRESS_VALUE_SOURCE_REGISTER;
+                }
+            }
+
+            return Instruction.Instruction_Variant_ENUM.NoN;
+        }
+
+        private int GetCharOccurrences(string string_to_check, char char_to_check)
+        {
+            int toReturn = 0;
+
+            for (int i = 0; i < string_to_check.Length; i++)
+                if (string_to_check[i] == char_to_check)
+                    toReturn++;
+
+            return toReturn;
         }
 
         private string[] RemoveComments(string[] to_remove_from)
