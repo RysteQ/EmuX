@@ -139,7 +139,7 @@ class VirtualSystem
     }
 
     // REGISTERS
-    ulong[] registers = new ulong[(int)Instruction.Registers_ENUM.LAST];
+    ulong[] registers = new ulong[(int)Instruction.Registers_ENUM.LAST - 1];
 
     // MEMORY
     // first kilobyte is the stack

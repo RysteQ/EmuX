@@ -106,16 +106,17 @@ namespace EmuX
 
         public enum Instruction_Variant_ENUM
         {
-            NON,
+            SINGLE,
             SINGLE_REGISTER,
             SINGLE_VALUE,
+            SINGLE_ADDRESS_VALUE,
             DESTINATION_REGISTER_SOURCE_REGISTER,
             DESTINATION_REGISTER_VALUE,
             DESTINATION_REGISTER_ADDRESS,
-            VALUE_SOURCE_REGISTER,
-            ADDRESS_SOURCE_REGISTER,
+            ADDRESS_VALUE_SOURCE_REGISTER,
 
-            LABEL
+            LABEL,
+            NoN
         }
 
         public enum Memory_Type_ENUM
@@ -123,7 +124,8 @@ namespace EmuX
             VALUE,
             ADDRESS,
 
-            LABEL
+            LABEL,
+            NoN
         }
 
         public enum Registers_ENUM
@@ -179,6 +181,7 @@ namespace EmuX
             DR15,
             EFLAGS,
 
+            NoN, // DO NOT USE THIS AS WELL
             LAST    // <----- DO NOT USE THIS
         }
     }

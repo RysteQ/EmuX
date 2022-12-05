@@ -56,30 +56,92 @@ namespace EmuX
                 }
 
                 // TODO
+                // Get the other values needed like the registers needed ETC
+                Instruction.Registers_ENUM destination_register;
+                Instruction.Registers_ENUM source_register;
+                int value;
+                
                 switch(instruction_to_add.variant)
                 {
                     case Instruction.Instruction_Variant_ENUM.SINGLE:
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction.Registers_ENUM.NoN, Instruction.Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction.Memory_Type_ENUM.NoN, Instruction.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, null);
                         break;
 
                     case Instruction.Instruction_Variant_ENUM.SINGLE_REGISTER:
+                        Instruction.Registers_ENUM register = Enum.Parse<Instruction.Registers_ENUM>(tokens[1].ToUpper());
+
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, register, Instruction.Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction.Memory_Type_ENUM.NoN, Instruction.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, null);
                         break;
 
                     case Instruction.Instruction_Variant_ENUM.SINGLE_VALUE:
+                        // convert the number from base 10 / binary / hex to an integer
+                        if (int.TryParse(tokens[1], out value) == false)
+                        {
+                            BaseConverter base_converter = new BaseConverter();
+
+                            if (tokens[1].ToUpper().EndsWith('B'))
+                                value = base_converter.ConvertBinaryToInt(tokens[1]);
+                            else
+                                value = base_converter.ConvertHexToInt(tokens[1]);
+                        }
+                            
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction.Registers_ENUM.NoN, Instruction.Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction.Memory_Type_ENUM.VALUE, Instruction.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, value.ToString(), null);
                         break;
 
                     case Instruction.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction.Registers_ENUM.NoN, Instruction.Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction.Memory_Type_ENUM.ADDRESS, Instruction.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1].Trim('[', ']'), null);
                         break;
 
                     case Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
+                        destination_register = Enum.Parse<Instruction.Registers_ENUM>(tokens[1].ToUpper());
+                        source_register = Enum.Parse<Instruction.Registers_ENUM>(tokens[2].ToUpper());
+
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, source_register);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction.Memory_Type_ENUM.NoN, Instruction.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, null);
                         break;
 
                     case Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_VALUE:
+                        destination_register = Enum.Parse<Instruction.Registers_ENUM>(tokens[1].ToUpper());
+
+                        // convert the number from base 10 / binary / hex to an integer
+                        if (int.TryParse(tokens[2], out value) == false)
+                        {
+                            BaseConverter base_converter = new BaseConverter();
+
+                            if (tokens[1].ToUpper().EndsWith('B'))
+                                value = base_converter.ConvertBinaryToInt(tokens[1]);
+                            else
+                                value = base_converter.ConvertHexToInt(tokens[1]);
+                        }
+
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction.Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction.Memory_Type_ENUM.VALUE, Instruction.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, value.ToString());
                         break;
 
                     case Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_ADDRESS:
+                        destination_register = Enum.Parse<Instruction.Registers_ENUM>(tokens[1].ToUpper());
+
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction.Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction.Memory_Type_ENUM.ADDRESS, Instruction.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, tokens[2]);
                         break;
 
                     case Instruction.Instruction_Variant_ENUM.ADDRESS_VALUE_SOURCE_REGISTER:
+                        source_register = Enum.Parse<Instruction.Registers_ENUM>(tokens[2].ToUpper());
+
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction.Registers_ENUM.NoN, source_register);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction.Memory_Type_ENUM.ADDRESS, Instruction.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1], null);
                         break;
                 }
             }
@@ -270,6 +332,30 @@ namespace EmuX
                     toReturn.Add(to_remove_from[i].Trim());
 
             return toReturn.ToArray();
+        }
+
+        private Instruction AssignRegisterParameters(Instruction instruction, Instruction.Registers_ENUM destination_register, Instruction.Registers_ENUM source_register)
+        {
+            instruction.destination_register = destination_register;
+            instruction.source_register = source_register;
+
+            return instruction;
+        }
+
+        private Instruction AssignMemoryTypeParameters(Instruction instruction, Instruction.Memory_Type_ENUM destination_memory_type, Instruction.Memory_Type_ENUM source_memory_type)
+        {
+            instruction.source_memory_type = source_memory_type;
+            instruction.destination_memory_type = destination_memory_type;
+
+            return instruction;
+        }
+
+        private Instruction AssignMemoryNameParameters(Instruction instruction, string destination_memory_name, string source_memory_name)
+        {
+            instruction.destination_memory_name = destination_memory_name;
+            instruction.source_memory_name = destination_memory_name;
+
+            return instruction;
         }
 
         private string instructions_data;
