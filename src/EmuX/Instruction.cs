@@ -21,10 +21,10 @@ namespace EmuX
         // All the possible instructions (I will slowly build upon this)
         public enum Instruction_ENUM
         {
-            AAA,
+            // AAA, This instructioni is not in x86_64
             AAD,
             AAM,
-            AAS,
+            // AAS, This instructioni is not in x86_64
             ADC,
             ADD,
             AND,

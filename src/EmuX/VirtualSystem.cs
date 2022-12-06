@@ -138,8 +138,23 @@ class VirtualSystem
         registers[(int) register_to_get] = (ulong) value;
     }
 
+    // EFLAGS getters
+    public uint GetEFLAGS()
+    {
+        return this.EFLAGS;
+    }
+
+    // EFLAGS setters
+    public void SetEflags(uint flags)
+    {
+        this.EFLAGS = flags;
+    }
+
     // REGISTERS
-    ulong[] registers = new ulong[(int)Instruction.Registers_ENUM.LAST - 1];
+    private ulong[] registers = new ulong[(int)Instruction.Registers_ENUM.LAST - 1];
+
+    // EFLAGS
+    private uint EFLAGS = 0;
 
     // MEMORY
     // first kilobyte is the stack

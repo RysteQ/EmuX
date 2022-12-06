@@ -376,10 +376,10 @@ namespace EmuX
         {
             public Instruction.Instruction_ENUM[] no_operands = new Instruction.Instruction_ENUM[]
             {
-                Instruction.Instruction_ENUM.AAA,
+                // Instruction.Instruction_ENUM.AAA, Look at Instruction.cs for further information
                 Instruction.Instruction_ENUM.AAD,
                 Instruction.Instruction_ENUM.AAM,
-                Instruction.Instruction_ENUM.AAS,
+                // Instruction.Instruction_ENUM.AAS,
                 Instruction.Instruction_ENUM.CLC,
                 Instruction.Instruction_ENUM.CLD,
                 Instruction.Instruction_ENUM.CLI,
