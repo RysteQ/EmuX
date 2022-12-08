@@ -111,7 +111,7 @@ namespace EmuX
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, null);
                         break;
 
-                    case Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_VALUE:
+                    case Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
                         destination_register = Enum.Parse<Instruction.Registers_ENUM>(tokens[1].ToUpper());
 
                         // convert the number from base 10 / binary / hex to an integer
@@ -130,7 +130,7 @@ namespace EmuX
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, value.ToString());
                         break;
 
-                    case Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_ADDRESS:
+                    case Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
                         destination_register = Enum.Parse<Instruction.Registers_ENUM>(tokens[1].ToUpper());
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction.Registers_ENUM.NoN);
@@ -138,7 +138,7 @@ namespace EmuX
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, tokens[2]);
                         break;
 
-                    case Instruction.Instruction_Variant_ENUM.ADDRESS_VALUE_SOURCE_REGISTER:
+                    case Instruction.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
                         source_register = Enum.Parse<Instruction.Registers_ENUM>(tokens[2].ToUpper());
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction.Registers_ENUM.NoN, source_register);
@@ -253,7 +253,7 @@ namespace EmuX
                 {
                     // check if it refers to an int
                     if (int.TryParse(tokens[2], out integer_junk))
-                        return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_VALUE;
+                        return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if it refers to binary
                     if (tokens[2].ToUpper().EndsWith('B'))
@@ -265,7 +265,7 @@ namespace EmuX
                                 acceptable_binary_number = false;
 
                         if (acceptable_binary_number)
-                            return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_VALUE;
+                            return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
                     }
 
                     // check if it refers to hex
@@ -287,7 +287,7 @@ namespace EmuX
                                     acceptable_hex_number = false;
 
                         if (acceptable_hex_number)
-                            return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_VALUE;
+                            return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
                     
                         // TODO, add a check for ASCII characters
                     }
@@ -296,13 +296,13 @@ namespace EmuX
                     if (Enum.TryParse<Instruction.Instruction_Variant_ENUM>(tokens[1].ToUpper(), out junk))
                         if (tokens[2].StartsWith('[') && tokens[2].EndsWith(']'))
                             if (GetCharOccurrences(tokens[2], '[') == 1 && GetCharOccurrences(tokens[2], ']') == 1)
-                                return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_ADDRESS;
+                                return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
 
                     // check if the destination is a location in memory and the source is a register
                     if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
                         if (GetCharOccurrences(tokens[1], '[') == 1 && GetCharOccurrences(tokens[1], ']') == 1)
                             if (Enum.TryParse<Instruction.Instruction_Variant_ENUM>(tokens[2].ToUpper(), out junk))
-                                return Instruction.Instruction_Variant_ENUM.ADDRESS_VALUE_SOURCE_REGISTER;
+                                return Instruction.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
                 }
             }
 

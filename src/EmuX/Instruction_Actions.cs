@@ -18,9 +18,9 @@ namespace EmuX
             // I do not understand what this does and / or I cannot find what it does online
         }
 
-        public long ADC(long destination, long source, bool carry_flag)
+        public ulong ADC(ulong destination, ulong source, bool carry_flag)
         {
-            long toReturn = toReturn = destination + source;
+            ulong toReturn = destination + source;
 
             if (carry_flag)
                 toReturn++;
@@ -28,22 +28,22 @@ namespace EmuX
             return toReturn;
         }
 
-        public long ADD(long destination, long source)
+        public ulong ADD(ulong destination, ulong source)
         {
             return destination + source;
         }
 
-        public long AND(long destination, long source)
+        public ulong AND(ulong destination, ulong source)
         {
-            long toReturn = destination;
+            ulong toReturn = destination;
             toReturn &= source;
 
             return toReturn;
         }
 
-        public long CBW(long source)
+        public ulong CBW(ulong source)
         {
-            long toReturn = (byte) source;
+            ulong toReturn = (byte) source;
             toReturn = (toReturn << 8) + toReturn;
 
             return toReturn;
