@@ -14,6 +14,7 @@ namespace EmuX
         public Registers_ENUM source_register;
         public Memory_Type_ENUM destination_memory_type;
         public Memory_Type_ENUM source_memory_type;
+        public Bit_Mode_ENUM bit_mode;
         public string destination_memory_name;
         public string source_memory_name;
         public string label;
@@ -130,7 +131,7 @@ namespace EmuX
 
         public enum Registers_ENUM
         {
-            RAX,
+            RAX, // 64 BIT
             RBX,
             RCX,
             RDX,
@@ -161,40 +162,25 @@ namespace EmuX
             _64_BIT,
         }
 
-        public readonly string[] _64_bit_registers =
+        public readonly Dictionary<string[], Registers_ENUM> register_lookup = new Dictionary<string[], Registers_ENUM>
         {
-            "RAX", "RBX", "RCX", "RDX",
-            "RSI", "RDI", "RSP", "RBP",
-            "RIP", "R8", "R9", "R10",
-            "R11", "R12", "R13", "R14",
-            "R15"
-        };
-
-        public readonly string[] _32_bit_registers =
-        {
-            "EAX", "EBX", "ECX", "EDX",
-            "ESI", "EDI", "ESP", "EBP",
-            "EIP", "R8D", "R9D", "R10D",
-            "R11D", "R12D", "R13D", "R14D",
-            "R15D"
-        };
-
-        public readonly string[] _16_bit_registers =
-        {
-            "AX", "BX", "CX", "DX",
-            "SI", "DI", "SP", "BP",
-            "IP", "R8W", "R9W", "R10W",
-            "R11W", "R12W", "R13W", "R14W",
-            "R15W"
-        };
-
-        public readonly string[] _8_bit_registers =
-        {
-            "AH", "AL", "BH", "BL",
-            "CH", "CL", "DH", "DL",
-            "SIL", "DIL", "SPL", "BPL",
-            "R8B", "R9B", "R10B", "R11B", 
-            "R12B", "R13B", "R14B", "R15W"
+            { new string[] { "RAX", "EAX", "AX", "AH", "AL" }, Registers_ENUM.RAX },
+            { new string[] { "RBX", "EBX", "BX", "BH", "BL" }, Registers_ENUM.RBX },
+            { new string[] { "RCX", "ECX", "CX", "CH", "CL" }, Registers_ENUM.RCX },
+            { new string[] { "RDX", "EDX", "DX", "DH", "DL" }, Registers_ENUM.RDX },
+            { new string[] { "RSI", "ESI", "SI", "SIL" }, Registers_ENUM.RSI },
+            { new string[] { "RDI", "EDI", "DI", "DIL" }, Registers_ENUM.RDI },
+            { new string[] { "RSP", "ESP", "SP", "SPL" }, Registers_ENUM.RSP },
+            { new string[] { "RBP", "EBP", "BP", "BPL" }, Registers_ENUM.RBP },
+            { new string[] { "RIP", "EIP", "IP" }, Registers_ENUM.RIP },
+            { new string[] { "R8", "R8D", "R8W", "R8B" }, Registers_ENUM.R8 },
+            { new string[] { "R9", "R9D", "R9W", "R9B" }, Registers_ENUM.R9 },
+            { new string[] { "R10", "R10D", "R10W", "R10B" }, Registers_ENUM.R10 },
+            { new string[] { "R11", "R11D", "R11W", "R11B" }, Registers_ENUM.R11 },
+            { new string[] { "R12", "R12D", "R12W", "R12B" }, Registers_ENUM.R12 },
+            { new string[] { "R13", "R13D", "R13W", "R13B" }, Registers_ENUM.R13 },
+            { new string[] { "R14", "R14D", "R14W", "R14B" }, Registers_ENUM.R14 },
+            { new string[] { "R15", "R15D", "R15W", "R15B" }, Registers_ENUM.R15 },
         };
     }
 }
