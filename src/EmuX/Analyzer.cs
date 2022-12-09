@@ -238,40 +238,15 @@ namespace EmuX
 
                     // check if it refers to binary
                     if (tokens[2].ToUpper().EndsWith('B'))
-                    {
-                        bool acceptable_binary_number = true;
-
-                        for (int i = 0; i < tokens[2].Length && acceptable_binary_number; i++)
-                            if (tokens[2][i] != '0' || tokens[2][i] != '1')
-                                acceptable_binary_number = false;
-
-                        if (acceptable_binary_number)
+                        if (new HexConverter().IsBinary(tokens[2].ToUpper().TrimEnd('B')))
                             return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
-                    }
 
                     // check if it refers to hex
                     if (tokens[2].ToUpper().EndsWith('H'))
-                    {
-                        char[] acceptable_characters = new char[]
-                        {
-                        '0', '1', '2', '3',
-                        '4', '5', '6', '7',
-                        '8', '9', 'A', 'B',
-                        'C', 'D', 'E', 'F'
-                        };
-
-                        bool acceptable_hex_number = true;
-
-                        for (int i = 0; i < tokens[2].Length && acceptable_hex_number; i++)
-                            for (int j = 0; j < acceptable_characters.Length && acceptable_hex_number; j++)
-                                if (tokens[2].ToUpper()[i] != acceptable_characters[j])
-                                    acceptable_hex_number = false;
-
-                        if (acceptable_hex_number)
+                        if (new HexConverter().IsHex(tokens[2].ToUpper().TrimEnd('H')))
                             return Instruction.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
                     
-                        // TODO, add a check for ASCII characters
-                    }
+                    // TODO, add a check for ASCII characters
 
                     // check if the destination is a register and the source is a value from memory
                     if (Enum.TryParse<Instruction.Instruction_Variant_ENUM>(tokens[1].ToUpper(), out junk))

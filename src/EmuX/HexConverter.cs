@@ -55,8 +55,18 @@ namespace EmuX
                 'C', 'D', 'E', 'F'
             };
 
+            // go through every character and see if the character is a valid hexadecimal character
             for (int i = 0; i < hex_string.Length; i++)
                 if (acceptable_characters.Contains(hex_string[i]) == false)
+                    return false;
+
+            return true;
+        }
+
+        public bool IsBinary(string binary_string)
+        {
+            for (int i = 0; i < binary_string.Length; i++)
+                if (binary_string[i] != '1' && binary_string[i] != '0')
                     return false;
 
             return true;
