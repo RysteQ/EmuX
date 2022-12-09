@@ -214,25 +214,8 @@ namespace EmuX
 
                 // check if it refers to hex
                 if (tokens[1].ToUpper().EndsWith('H'))
-                {
-                    char[] acceptable_characters = new char[]
-                    {
-                        '0', '1', '2', '3', 
-                        '4', '5', '6', '7', 
-                        '8', '9', 'A', 'B',
-                        'C', 'D', 'E', 'F'
-                    };
-
-                    bool acceptable_hex_number = true;
-
-                    for (int i = 0; i < tokens[1].Length && acceptable_hex_number; i++)
-                        for (int j = 0; j < acceptable_characters.Length && acceptable_hex_number; j++)
-                            if (tokens[1].ToUpper()[i] != acceptable_characters[j])
-                                acceptable_hex_number = false;
-
-                    if (acceptable_hex_number)
+                    if (new HexConverter().IsHex(tokens[1].ToUpper().TrimEnd('H')))
                         return Instruction.Instruction_Variant_ENUM.SINGLE_VALUE;
-                }
             }
 
             // check if the instruction has two operands
