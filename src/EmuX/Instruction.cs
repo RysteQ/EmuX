@@ -129,6 +129,7 @@ namespace EmuX
             NoN
         }
 
+        // Only add 64 bit registers here and pair them with the dictionary named register_lookup
         public enum Registers_ENUM
         {
             RAX, // 64 BIT
@@ -150,8 +151,8 @@ namespace EmuX
             R15,
             EFLAGS,
 
-            NoN, // DO NOT USE THIS AS WELL
-            LAST    // <----- DO NOT USE THIS
+            NoN, // DO NOT USE THIS
+            LAST    // <----- OR THIS
         }
 
         public enum Bit_Mode_ENUM
@@ -162,6 +163,8 @@ namespace EmuX
             _64_BIT,
         }
 
+        // Add all possible register names here and then add the 64 bit register enum so it pairs for example the 16 bit version of a register
+        // to its 64 bit variant
         public readonly Dictionary<string[], Registers_ENUM> register_lookup = new Dictionary<string[], Registers_ENUM>
         {
             { new string[] { "RAX", "EAX", "AX", "AH", "AL" }, Registers_ENUM.RAX },

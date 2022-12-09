@@ -22,17 +22,17 @@ namespace EmuX
 
             Instruction instruction_to_add = new Instruction();
 
-            for (int i = 0; i < this.instructions_to_analyze.Length; i++)
+            for (int i = 0; i < this.instructions_to_analyze.Length && this.successful; i++)
             {
                 string[] tokens = this.instructions_to_analyze[i].Split(' ');
 
                 // check if the token is a label or not
-                if (tokens[0].EndsWith(':') && tokens[0].Length > 1)
+                if (tokens[0].EndsWith(':') && tokens[0].Length > 1 && tokens[0].Contains(' ') == false)
                 {
                     instruction_to_add.instruction = Instruction.Instruction_ENUM.LABEL;
                     instruction_to_add.variant = Instruction.Instruction_Variant_ENUM.LABEL;
                     instruction_to_add.destination_memory_type = Instruction.Memory_Type_ENUM.LABEL;
-                    instruction_to_add.destination_memory_name = tokens[0].Trim(':');
+                    instruction_to_add.destination_memory_name = tokens[0].TrimEnd(':');
 
                     continue;
                 }
@@ -42,23 +42,20 @@ namespace EmuX
                 // check if the instruction exists or not
                 if (instruction_to_add.instruction == Instruction.Instruction_ENUM.NoN)
                 {
-                    this.successful = false;
-                    this.error_line = i;
+                    AnalyzerError(false, i + 1);
                     return;
                 }
 
+                // TODO: Improve the GetVariant function
                 instruction_to_add.variant = GetVariant(instruction_to_add.instruction, tokens);
 
                 // check if the instruction is of a valid variant or not
                 if (instruction_to_add.variant == Instruction.Instruction_Variant_ENUM.NoN)
                 {
-                    this.successful = false;
-                    this.error_line = i;
+                    AnalyzerError(false, i + 1);
                     return;
                 }
 
-                // TODO
-                // Get the other values needed like the registers needed ETC
                 Instruction.Registers_ENUM destination_register;
                 Instruction.Registers_ENUM source_register;
                 int value;
@@ -72,11 +69,12 @@ namespace EmuX
                         break;
 
                     case Instruction.Instruction_Variant_ENUM.SINGLE_REGISTER:
-                        Instruction.Registers_ENUM register = Enum.Parse<Instruction.Registers_ENUM>(tokens[1].ToUpper());
+                        destination_register = Enum.Parse<Instruction.Registers_ENUM>(tokens[1].ToUpper());
 
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, register, Instruction.Registers_ENUM.NoN);
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction.Memory_Type_ENUM.NoN, Instruction.Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, null);
+                        // instruction_to_add.bit_mode = Instruction.Bit_Mode_ENUM._32_BIT;
                         break;
 
                     case Instruction.Instruction_Variant_ENUM.SINGLE_VALUE:
@@ -325,7 +323,12 @@ namespace EmuX
             List<string> toReturn = new List<string>();
 
             for (int i = 0; i < to_remove_from.Length; i++)
-                toReturn.Add(to_remove_from[i].Split(';')[0]);
+            {
+                if (to_remove_from[i].Contains(';'))
+                    toReturn.Add(to_remove_from[i].Split(';')[0]);
+                else
+                    toReturn.Add(to_remove_from[i]);
+            }
 
             return toReturn.ToArray();
         }
@@ -335,8 +338,8 @@ namespace EmuX
             List<string> toReturn = new List<string>();
 
             for (int i = 0; i < to_remove_from.Length; i++)
-                if (to_remove_from[i].Length == 0)
-                    toReturn.Add(to_remove_from[i].Trim());
+                if (to_remove_from[i].Trim().Length != 0)
+                    toReturn.Add(to_remove_from[i]);
 
             return toReturn.ToArray();
         }
@@ -363,6 +366,19 @@ namespace EmuX
             instruction.source_memory_name = destination_memory_name;
 
             return instruction;
+        }
+
+        private Instruction Assign64BitRegister(Instruction instruction)
+        {
+            // TODO
+
+            return instruction;
+        }
+
+        private void AnalyzerError(bool successful, int error_line)
+        {
+            this.successful = successful;
+            this.error_line = error_line;
         }
 
         private string instructions_data;
