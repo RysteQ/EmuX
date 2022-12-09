@@ -152,5 +152,49 @@ namespace EmuX
             NoN, // DO NOT USE THIS AS WELL
             LAST    // <----- DO NOT USE THIS
         }
+
+        public enum Bit_Mode_ENUM
+        {
+            _8_BIT,
+            _16_BIT,
+            _32_BIT,
+            _64_BIT,
+        }
+
+        public readonly string[] _64_bit_registers =
+        {
+            "RAX", "RBX", "RCX", "RDX",
+            "RSI", "RDI", "RSP", "RBP",
+            "RIP", "R8", "R9", "R10",
+            "R11", "R12", "R13", "R14",
+            "R15"
+        };
+
+        public readonly string[] _32_bit_registers =
+        {
+            "EAX", "EBX", "ECX", "EDX",
+            "ESI", "EDI", "ESP", "EBP",
+            "EIP", "R8D", "R9D", "R10D",
+            "R11D", "R12D", "R13D", "R14D",
+            "R15D"
+        };
+
+        public readonly string[] _16_bit_registers =
+        {
+            "AX", "BX", "CX", "DX",
+            "SI", "DI", "SP", "BP",
+            "IP", "R8W", "R9W", "R10W",
+            "R11W", "R12W", "R13W", "R14W",
+            "R15W"
+        };
+
+        public readonly string[] _8_bit_registers =
+        {
+            "AH", "AL", "BH", "BL",
+            "CH", "CL", "DH", "DL",
+            "SIL", "DIL", "SPL", "BPL",
+            "R8B", "R9B", "R10B", "R11B", 
+            "R12B", "R13B", "R14B", "R15W"
+        };
     }
 }
