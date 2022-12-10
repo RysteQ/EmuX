@@ -8,17 +8,20 @@ namespace EmuX
 {
     internal class Instruction
     {
-        public Instruction_ENUM instruction;
-        public Instruction_Variant_ENUM variant;
-        public Registers_ENUM destination_register;
-        public Registers_ENUM source_register;
-        public Memory_Type_ENUM destination_memory_type;
-        public Memory_Type_ENUM source_memory_type;
-        public Bit_Mode_ENUM bit_mode;
+        public Instruction_Data.Instruction_ENUM instruction;
+        public Instruction_Data.Instruction_Variant_ENUM variant;
+        public Instruction_Data.Registers_ENUM destination_register;
+        public Instruction_Data.Registers_ENUM source_register;
+        public Instruction_Data.Memory_Type_ENUM destination_memory_type;
+        public Instruction_Data.Memory_Type_ENUM source_memory_type;
+        public Instruction_Data.Bit_Mode_ENUM bit_mode;
         public string destination_memory_name;
         public string source_memory_name;
         public string label;
+    }
 
+    internal class Instruction_Data
+    {
         // All the possible instructions (I will slowly build upon this)
         public enum Instruction_ENUM
         {
@@ -161,7 +164,45 @@ namespace EmuX
             _16_BIT,
             _32_BIT,
             _64_BIT,
+
+            NoN
         }
+
+        public readonly string[] _64_bit_registers =
+{
+            "RAX", "RBX", "RCX", "RDX",
+            "RSI", "RDI", "RSP", "RBP",
+            "RIP", "R8", "R9", "R10",
+            "R11", "R12", "R13", "R14",
+            "R15"
+        };
+
+        public readonly string[] _32_bit_registers =
+        {
+            "EAX", "EBX", "ECX", "EDX",
+            "ESI", "EDI", "ESP", "EBP",
+            "EIP", "R8D", "R9D", "R10D",
+            "R11D", "R12D", "R13D", "R14D",
+            "R15D"
+        };
+
+        public readonly string[] _16_bit_registers =
+        {
+            "AX", "BX", "CX", "DX",
+            "SI", "DI", "SP", "BP",
+            "IP", "R8W", "R9W", "R10W",
+            "R11W", "R12W", "R13W", "R14W",
+            "R15W"
+        };
+
+        public readonly string[] _8_bit_registers =
+        {
+            "AH", "AL", "BH", "BL",
+            "CH", "CL", "DH", "DL",
+            "SIL", "DIL", "SPL", "BPL",
+            "R8B", "R9B", "R10B", "R11B",
+            "R12B", "R13B", "R14B", "R15W"
+        };
 
         // Add all possible register names here and then add the 64 bit register enum so it pairs for example the 16 bit version of a register
         // to its 64 bit variant

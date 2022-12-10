@@ -25,16 +25,16 @@ namespace EmuX
                 // I will work on this after I make sure I get the rest of the code up to a working order / been able to recognize a far more complex program
 
                 // ---
-                uint flags = 0;
+                uint flags = virtual_system.GetEFLAGS();
                 ulong source_value = AnalyzeInstructionVariant(instruction_to_execute, virtual_system);
                 // ---
 
                 switch (instruction_to_execute.instruction)
                 {
-                    case Instruction.Instruction_ENUM.ADC:
-                        if (instruction_to_execute.destination_register != Instruction.Registers_ENUM.NoN)
+                    case Instruction_Data.Instruction_ENUM.ADC:
+                        if (instruction_to_execute.destination_register != Instruction_Data.Registers_ENUM.NoN)
                         {
-                            virtual_system.SetRegisterValue(instruction_to_execute.destination_register, actions.ADC(virtual_system.GetRegisterQuad(instruction_to_execute.destination_register), source_value, GetFlag(virtual_system.GetEFLAGS(), 1)));
+                            virtual_system.SetRegisterValue(instruction_to_execute.destination_register, actions.ADC(virtual_system.GetRegisterQuad(instruction_to_execute.destination_register), source_value, GetFlag(flags, 1)));
                         }
                         else
                         {
@@ -43,21 +43,21 @@ namespace EmuX
 
                         break;
 
-                    case Instruction.Instruction_ENUM.ADD:
+                    case Instruction_Data.Instruction_ENUM.ADD:
                         virtual_system.SetRegisterValue(instruction_to_execute.destination_register, actions.ADD(virtual_system.GetRegisterQuad(instruction_to_execute.destination_register), source_value));
                         break;
 
-                    case Instruction.Instruction_ENUM.AND:
+                    case Instruction_Data.Instruction_ENUM.AND:
                         break;
 
-                    case Instruction.Instruction_ENUM.CALL:
+                    case Instruction_Data.Instruction_ENUM.CALL:
                         // TODO
                         break;
 
-                    case Instruction.Instruction_ENUM.CBW:
+                    case Instruction_Data.Instruction_ENUM.CBW:
                         break;
 
-                    case Instruction.Instruction_ENUM.CLC:
+                    case Instruction_Data.Instruction_ENUM.CLC:
                         flags = virtual_system.GetEFLAGS();
 
                         if (flags % 2 == 1)
@@ -66,7 +66,7 @@ namespace EmuX
                         virtual_system.SetEflags(flags);
                         break;
 
-                    case Instruction.Instruction_ENUM.CLD:
+                    case Instruction_Data.Instruction_ENUM.CLD:
                         flags = virtual_system.GetEFLAGS();
 
                         flags &= 0xFFFFFBFF;
@@ -74,7 +74,7 @@ namespace EmuX
                         virtual_system.SetEflags(flags);
                         break;
 
-                    case Instruction.Instruction_ENUM.CLI:
+                    case Instruction_Data.Instruction_ENUM.CLI:
                         flags = virtual_system.GetEFLAGS();
 
                         flags &= 0xFFFFFDFF;
@@ -82,7 +82,7 @@ namespace EmuX
                         virtual_system.SetEflags(flags);
                         break;
 
-                    case Instruction.Instruction_ENUM.CMC:
+                    case Instruction_Data.Instruction_ENUM.CMC:
                         flags = virtual_system.GetEFLAGS();
 
                         if (flags % 2 == 0)
@@ -105,19 +105,19 @@ namespace EmuX
 
             switch (instruction.variant)
             {
-                case Instruction.Instruction_Variant_ENUM.SINGLE:
+                case Instruction_Data.Instruction_Variant_ENUM.SINGLE:
                     toReturn = ulong.Parse(instruction.destination_memory_name);
                     break;
 
-                case Instruction.Instruction_Variant_ENUM.SINGLE_REGISTER:
+                case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
                     toReturn = virtual_system.GetRegisterQuad(instruction.destination_register);
                     break;
 
-                case Instruction.Instruction_Variant_ENUM.SINGLE_VALUE:
+                case Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE:
                     toReturn = ulong.Parse(instruction.destination_memory_name);
                     break;
 
-                case Instruction.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
+                case Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
                     address_name = instruction.destination_memory_name.Trim('[').Trim(']');
                     value = virtual_system.GetQuadMemory(GetAddressOffset(address_name));
                     toReturn = value;

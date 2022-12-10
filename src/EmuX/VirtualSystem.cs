@@ -64,8 +64,8 @@ class VirtualSystem
     // stack getters
     public void PushByte(byte value_to_push)
     {
-        memory[registers[(int) Instruction.Registers_ENUM.RSP]] = value_to_push;
-        registers[(int) Instruction.Registers_ENUM.RSP]++;
+        memory[registers[(int) Instruction_Data.Registers_ENUM.RSP]] = value_to_push;
+        registers[(int) Instruction_Data.Registers_ENUM.RSP]++;
     }
 
     public void PushShort(ushort value_to_push)
@@ -89,8 +89,8 @@ class VirtualSystem
     // stack setters
     public byte PopByte()
     {
-        registers[(int) Instruction.Registers_ENUM.RSP]--;
-        return this.memory[registers[(int) Instruction.Registers_ENUM.RSP]];
+        registers[(int) Instruction_Data.Registers_ENUM.RSP]--;
+        return this.memory[registers[(int) Instruction_Data.Registers_ENUM.RSP]];
     }
 
     public ushort PopShort()
@@ -109,7 +109,7 @@ class VirtualSystem
     }
 
     // register getters
-    public byte GetRegisterByte(Instruction.Registers_ENUM register_to_get, bool high_or_low)
+    public byte GetRegisterByte(Instruction_Data.Registers_ENUM register_to_get, bool high_or_low)
     {
         if (high_or_low)
             return (byte) ((ushort) registers[(int)register_to_get] >> 8);
@@ -117,23 +117,23 @@ class VirtualSystem
         return (byte) registers[(int) register_to_get];
     }
 
-    public ushort GetRegisterShort(Instruction.Registers_ENUM register_to_get)
+    public ushort GetRegisterShort(Instruction_Data.Registers_ENUM register_to_get)
     {
         return (ushort) registers[(int) register_to_get];
     }
 
-    public uint GetRegisterDouble(Instruction.Registers_ENUM register_to_get)
+    public uint GetRegisterDouble(Instruction_Data.Registers_ENUM register_to_get)
     {
         return (uint) registers[(int) register_to_get];
     }
 
-    public ulong GetRegisterQuad(Instruction.Registers_ENUM register_to_get)
+    public ulong GetRegisterQuad(Instruction_Data.Registers_ENUM register_to_get)
     {
         return (ulong) registers[(int) register_to_get];
     }
 
     // register setters
-    public void SetRegisterValue(Instruction.Registers_ENUM register_to_get, object value)
+    public void SetRegisterValue(Instruction_Data.Registers_ENUM register_to_get, object value)
     {
         registers[(int) register_to_get] = (ulong) value;
     }
@@ -151,7 +151,7 @@ class VirtualSystem
     }
 
     // REGISTERS
-    private ulong[] registers = new ulong[(int)Instruction.Registers_ENUM.LAST - 1];
+    private ulong[] registers = new ulong[(int) Instruction_Data.Registers_ENUM.LAST - 1];
 
     // EFLAGS
     private uint EFLAGS = 0;
