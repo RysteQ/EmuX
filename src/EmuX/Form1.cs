@@ -67,30 +67,12 @@ namespace EmuX
             this.Close();
         }
 
-        private void ButtonShowMemory_Click(object sender, EventArgs e)
-        {
-            // initialize the memory form and show it
-            // Also, if you increase the memory limit in VisualSystem.cs expect for some SERIOUS LAG
-            // So if you do that I would suggest to write some code so it doesn't display bytes but quads (8 bytes) or something like that
-            // Byte = 1 byte, Short = 2 bytes, Double = 4 bytes, Quad = 8 bytes
-            // Don't ask me why they have chosen such names, I do not know or care to find out
-
-            MemoryForm memory_form = new MemoryForm(virtual_system.GetAllMemory(), 8);
-            memory_form.Show();
-        }
-
         private void mainForm_Load(object sender, EventArgs e)
         {
             virtual_system = new VirtualSystem();
         }
 
         private VirtualSystem virtual_system;
-
-        private void ButtonShowRegisterValues_Click(object sender, EventArgs e)
-        {
-            Registers_Form registers_form = new Registers_Form();
-            registers_form.Show();
-        }
 
         private void ButtonExecute_Click(object sender, EventArgs e)
         {
@@ -105,8 +87,6 @@ namespace EmuX
                 // get the error line and the line that cause the error
                 int error_line = analyzer.GetErrorLine();
                 string error_line_text = RichTextboxAssemblyCode.Text.Split('\n')[error_line];
-
-                error_line++;
 
                 MessageBox.Show("There was an error at line " + error_line.ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
