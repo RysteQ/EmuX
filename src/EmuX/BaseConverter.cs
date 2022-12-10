@@ -8,6 +8,11 @@ namespace EmuX
 {
     internal class BaseConverter
     {
+        /// <summary>
+        /// Converts a binary value to its integer form
+        /// </summary>
+        /// <param name="binary_value"></param>
+        /// <returns></returns>
         public int ConvertBinaryToInt(string binary_value)
         {
             int toReturn = 0;
@@ -31,6 +36,11 @@ namespace EmuX
             return ConvertBinaryToInt(ConvertHexToBinary(hex_value));
         }
 
+        /// <summary>
+        /// Converts a hexadecimal value to it's binary form
+        /// </summary>
+        /// <param name="hex_value"></param>
+        /// <returns></returns>
         private string ConvertHexToBinary(string hex_value)
         {
             string toReturn = "";
@@ -64,6 +74,11 @@ namespace EmuX
             return toReturn;
         }
 
+        /// <summary>
+        /// Gets a string value as an input and returns the string in reverse order
+        /// </summary>
+        /// <param name="string_to_reverse"></param>
+        /// <returns></returns>
         private string ReverseString(string string_to_reverse)
         {
             string toReturn = "";

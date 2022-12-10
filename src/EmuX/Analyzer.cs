@@ -7,13 +7,24 @@ using System.Threading.Tasks;
 
 namespace EmuX
 {
+    /// <summary>
+    /// Analyzes a string value and returns the instructions and the data necessary for the Emulator.cs class
+    /// </summary>
     internal class Analyzer
     {
+        /// <summary>
+        /// Setter - Sets the instructions data to analyze with <c>AnalyzeInstructions()</c>
+        /// </summary>
+        /// <param name="instructions_to_analyze"></param>
         public void SetInstructions(string instructions_to_analyze)
         {
             this.instructions_data = instructions_to_analyze;
         }
 
+        /// <summary>
+        /// Analyzes the instructions specified earlier with <c>SetInstructions(string instructions_to_analyze)</c>
+        /// It does not return any value
+        /// </summary>
         public void AnalyzeInstructions()
         {
             this.instructions_to_analyze = this.instructions_data.Split('\n');
@@ -42,7 +53,7 @@ namespace EmuX
                 // check if the instruction exists or not
                 if (instruction_to_add.instruction == Instruction_Data.Instruction_ENUM.NoN)
                 {
-                    AnalyzerError(false, i + 1);
+                    AnalyzerError(false, i);
                     return;
                 }
 
@@ -52,7 +63,7 @@ namespace EmuX
                 // check if the instruction is of a valid variant or not
                 if (instruction_to_add.variant == Instruction_Data.Instruction_Variant_ENUM.NoN)
                 {
-                    AnalyzerError(false, i + 1);
+                    AnalyzerError(false, i);
                     return;
                 }
 
@@ -66,6 +77,7 @@ namespace EmuX
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, null);
+                        instruction_to_add = AssignBitMode(instruction_to_add, "");
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
@@ -92,12 +104,14 @@ namespace EmuX
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.VALUE, Instruction_Data.Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, value.ToString(), null);
+                        instruction_to_add = AssignBitMode(instruction_to_add, "");
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1].Trim('[', ']'), null);
+                        instruction_to_add = AssignBitMode(instruction_to_add, "");
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
@@ -107,6 +121,7 @@ namespace EmuX
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, source_register);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, null);
+                        instruction_to_add = AssignBitMode(instruction_to_add, tokens[2].ToUpper());
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
@@ -126,6 +141,7 @@ namespace EmuX
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.VALUE, Instruction_Data.Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, value.ToString());
+                        instruction_to_add = AssignBitMode(instruction_to_add, tokens[1].ToUpper());
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
@@ -147,21 +163,41 @@ namespace EmuX
             }
         }
 
+        /// <summary>
+        /// Getter - Returns a boolean value based on if the analyzing step was successful or not
+        /// </summary>
+        /// <returns></returns>
         public bool AnalyzingSuccessful()
         {
             return this.successful;
         }
 
+        /// <summary>
+        /// Getter - Returns the error line the analyzer failed (if the analyzer threw an error that is)
+        /// </summary>
+        /// <returns></returns>
         public int GetErrorLine()
         {
-            return this.error_line;
+            if (this.successful)
+                return this.error_line + 1;
+
+            return -1;
         }
 
+        /// <summary>
+        /// Getter - Gets the instructions analyzed earlier
+        /// </summary>
+        /// <returns></returns>
         public List<Instruction> GetInstructions()
         {
             return this.instructions;
         }
 
+        /// <summary>
+        /// Parses and returns the instruction enum
+        /// </summary>
+        /// <param name="opcode_to_analyze"></param>
+        /// <returns></returns>
         private Instruction_Data.Instruction_ENUM GetInstruction(string opcode_to_analyze)
         {
             Instruction_Data.Instruction_ENUM toReturn;
@@ -172,6 +208,12 @@ namespace EmuX
             return Instruction_Data.Instruction_ENUM.NoN;
         }
 
+        /// <summary>
+        /// Analyzes and return the variant of the specified instruction
+        /// </summary>
+        /// <param name="instruction"></param>
+        /// <param name="tokens"></param>
+        /// <returns></returns>
         private Instruction_Data.Instruction_Variant_ENUM GetVariant(Instruction_Data.Instruction_ENUM instruction, string[] tokens)
         {
             Instruction_Groups instruction_groups = new Instruction_Groups();
@@ -245,8 +287,11 @@ namespace EmuX
                     if (tokens[2].ToUpper().EndsWith('H'))
                         if (new HexConverter().IsHex(tokens[2].ToUpper().TrimEnd('H')))
                             return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
-                    
-                    // TODO, add a check for ASCII characters
+
+                    // Check if it refers to an ASCII character
+                    if (tokens[2].EndsWith('\'') && tokens[2].StartsWith('\''))
+                        if (tokens[2].Length == 3)
+                            return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if the destination is a register and the source is a value from memory
                     if (Enum.TryParse<Instruction_Data.Instruction_Variant_ENUM>(tokens[1].ToUpper(), out junk))
@@ -265,6 +310,12 @@ namespace EmuX
             return Instruction_Data.Instruction_Variant_ENUM.NoN;
         }
 
+        /// <summary>
+        /// Gets the total number of a character occurrence inside a string
+        /// </summary>
+        /// <param name="string_to_check"></param>
+        /// <param name="char_to_check"></param>
+        /// <returns></returns>
         private int GetCharOccurrences(string string_to_check, char char_to_check)
         {
             int toReturn = 0;
@@ -276,6 +327,11 @@ namespace EmuX
             return toReturn;
         }
 
+        /// <summary>
+        /// Removes the comments from the code, for example if the code is <c>mov rax, 60 ; sets rax to 60</c> then the return value will be <c>mov rax, 60</c>
+        /// </summary>
+        /// <param name="to_remove_from"></param>
+        /// <returns></returns>
         private string[] RemoveComments(string[] to_remove_from)
         {
             List<string> toReturn = new List<string>();
@@ -291,6 +347,11 @@ namespace EmuX
             return toReturn.ToArray();
         }
 
+        /// <summary>
+        /// Removes the empty lines
+        /// </summary>
+        /// <param name="to_remove_from"></param>
+        /// <returns></returns>
         private string[] RemoveEmptyLines(string[] to_remove_from)
         {
             List<string> toReturn = new List<string>();
@@ -326,9 +387,15 @@ namespace EmuX
             return instruction;
         }
 
+        /// <summary>
+        /// Assigns the bit mode specified by the register used, if no register is used, for example <c>inc [to_increment]</c> then it returns NoN if register_token is set to ""
+        /// </summary>
+        /// <param name="instruction"></param>
+        /// <param name="register_token"></param>
+        /// <returns></returns>
         private Instruction AssignBitMode(Instruction instruction, string register_token)
         {
-            if (instruction.destination_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_register == Instruction_Data.Registers_ENUM.NoN)
+            if ((instruction.destination_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_register == Instruction_Data.Registers_ENUM.NoN) || register_token == "")
             {
                 instruction.bit_mode = Instruction_Data.Bit_Mode_ENUM.NoN;
                 return instruction;
