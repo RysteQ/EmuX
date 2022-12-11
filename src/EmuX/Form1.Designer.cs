@@ -37,6 +37,9 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tODOToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.increaseSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.decreaseSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupboxInput = new System.Windows.Forms.GroupBox();
             this.RichTextboxAssemblyCode = new System.Windows.Forms.RichTextBox();
@@ -139,6 +142,7 @@
             this.TextBoxRSI = new System.Windows.Forms.TextBox();
             this.Output = new System.Windows.Forms.TabPage();
             this.RichtextBoxOutput = new System.Windows.Forms.RichTextBox();
+            this.fontDialog = new System.Windows.Forms.FontDialog();
             this.mainMenuStrip.SuspendLayout();
             this.GroupboxInput.SuspendLayout();
             this.GroupboxControls.SuspendLayout();
@@ -220,7 +224,10 @@
             // textToolStripMenuItem
             // 
             this.textToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.tODOToolStripMenuItem});
+            this.tODOToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.increaseSizeToolStripMenuItem,
+            this.decreaseSizeToolStripMenuItem});
             this.textToolStripMenuItem.Name = "textToolStripMenuItem";
             this.textToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.textToolStripMenuItem.Text = "Text";
@@ -228,8 +235,30 @@
             // tODOToolStripMenuItem
             // 
             this.tODOToolStripMenuItem.Name = "tODOToolStripMenuItem";
-            this.tODOToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.tODOToolStripMenuItem.Text = "TODO";
+            this.tODOToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.tODOToolStripMenuItem.Text = "Change Font";
+            this.tODOToolStripMenuItem.Click += new System.EventHandler(this.tODOToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(183, 6);
+            // 
+            // increaseSizeToolStripMenuItem
+            // 
+            this.increaseSizeToolStripMenuItem.Name = "increaseSizeToolStripMenuItem";
+            this.increaseSizeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.increaseSizeToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.increaseSizeToolStripMenuItem.Text = "Increase Size";
+            this.increaseSizeToolStripMenuItem.Click += new System.EventHandler(this.increaseSizeToolStripMenuItem_Click);
+            // 
+            // decreaseSizeToolStripMenuItem
+            // 
+            this.decreaseSizeToolStripMenuItem.Name = "decreaseSizeToolStripMenuItem";
+            this.decreaseSizeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
+            this.decreaseSizeToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.decreaseSizeToolStripMenuItem.Text = "Decrease Size";
+            this.decreaseSizeToolStripMenuItem.Click += new System.EventHandler(this.decreaseSizeToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1386,5 +1415,9 @@
         private Label LabelID;
         private Label LabelVIP;
         private Label LabelVIF;
+        private ToolStripSeparator toolStripSeparator2;
+        private ToolStripMenuItem increaseSizeToolStripMenuItem;
+        private ToolStripMenuItem decreaseSizeToolStripMenuItem;
+        private FontDialog fontDialog;
     }
 }

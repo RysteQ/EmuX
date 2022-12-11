@@ -353,5 +353,30 @@ namespace EmuX
 
             virtual_system.SetEflags(EFLAGS_to_set);
         }
+
+        private void increaseSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Font font_to_set = new Font(RichTextboxAssemblyCode.Font.FontFamily, RichTextboxAssemblyCode.Font.Size + 1, FontStyle.Regular);
+
+            RichTextboxAssemblyCode.Font = font_to_set;
+            RichtextBoxOutput.Font = font_to_set;
+        }
+
+        private void decreaseSizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Font font_to_set = new Font(RichTextboxAssemblyCode.Font.FontFamily, RichTextboxAssemblyCode.Font.Size + 1, FontStyle.Regular);
+
+            RichTextboxAssemblyCode.Font = font_to_set;
+            RichtextBoxOutput.Font = font_to_set;
+        }
+
+        private void tODOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (fontDialog.ShowDialog() == DialogResult.OK)
+            {
+                RichTextboxAssemblyCode.Font = fontDialog.Font;
+                RichtextBoxOutput.Font = fontDialog.Font;
+            }
+        }
     }
 }
