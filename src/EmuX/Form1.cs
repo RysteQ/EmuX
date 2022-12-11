@@ -1,3 +1,5 @@
+using System.DirectoryServices;
+
 namespace EmuX
 {
     public partial class mainForm : Form
@@ -98,19 +100,67 @@ namespace EmuX
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            switch (EmuXTabControl.SelectedIndex)
+            // this section is focused solely on the registers tab
+            if (EmuXTabControl.SelectedIndex != 2)
+                return;
+
+            // get the values to set + the textboxes to set the values with
+            ulong[] values_to_display = virtual_system.GetAllRegisterValues();
+            TextBox[] textbox_to_update = new TextBox[]
             {
-                case 0:
-                    break;
-                case 1:
-                    // TODO
-                    break;
-                case 2:
-                    // TODO
-                    break;
-                case 3:
-                    break;
+                TextBoxRAX,
+                TextBoxRBX,
+                TextBoxRCX,
+                TextBoxRDX,
+                TextBoxRSI,
+                TextBoxRDI,
+                TextBoxRSP,
+                TextBoxRBP,
+                TextBoxRIP,
+                TextBoxR8,
+                TextBoxR9,
+                TextBoxR10,
+                TextBoxR11,
+                TextBoxR12,
+                TextBoxR13,
+                TextBoxR14,
+                TextBoxR15
+            };
+
+            // set the said values to said textboxed and reset the back colour
+            for (int i = 0; i < textbox_to_update.Length; i++)
+            {
+                textbox_to_update[i].Text = values_to_display[i].ToString();
+                textbox_to_update[i].BackColor = Color.White;
             }
+
+            // get and set the EFLAGS checkboxes
+            uint EFLAGS = virtual_system.GetEFLAGS();
+            CheckBox[] checkboxes_to_update = new CheckBox[]
+            {
+                CheckBoxCF,
+                CheckBoxPF,
+                CheckBoxAF,
+                CheckBoxZF,
+                CheckBoxSF,
+                CheckBoxTF,
+                CheckBoxIF,
+                CheckBoxDF,
+                CheckBoxOF,
+                CheckBoxIOPL,
+                CheckBoxNT,
+                CheckBoxRF,
+                CheckBoxVM,
+                CheckBoxAC,
+                CheckBoxVIF,
+                CheckBoxVIP,
+                CheckBoxID
+            };
+
+            uint[] masks = virtual_system.GetEFLAGSMasks();
+
+            for (int i = 0; i < checkboxes_to_update.Length; i++)
+                checkboxes_to_update[i].Checked = (EFLAGS & masks[i]) != 0;
         }
 
         private void ButtonSearchMemoryRange_Click(object sender, EventArgs e)
@@ -226,6 +276,82 @@ namespace EmuX
             // set all of the bytes to said value
             for (int index = 0; index < (memory_end - memory_start); index++)
                 virtual_system.SetByteMemory(index, value_to_set);
+        }
+
+        private void ButtonSetRegisterValues_Click(object sender, EventArgs e)
+        {
+            // the textboxes to check the new register values of
+            List<ulong> values_to_set = new List<ulong>();
+            TextBox[] textbox_to_update = new TextBox[]
+            {
+                TextBoxRAX,
+                TextBoxRBX,
+                TextBoxRCX,
+                TextBoxRDX,
+                TextBoxRSI,
+                TextBoxRDI,
+                TextBoxRSP,
+                TextBoxRBP,
+                TextBoxRIP,
+                TextBoxR8,
+                TextBoxR9,
+                TextBoxR10,
+                TextBoxR11,
+                TextBoxR12,
+                TextBoxR13,
+                TextBoxR14,
+                TextBoxR15
+            };
+
+            // reset the back colour
+            for (int i = 0; i < textbox_to_update.Length; i++)
+                textbox_to_update[i].BackColor = Color.White;
+
+            // get all of the values and to a validity check on them
+            for (int i = 0; i < textbox_to_update.Length; i++)
+            {
+                ulong value = 0;
+
+                if (textbox_to_update[i].Text.Trim().Length != 0 && ulong.TryParse(textbox_to_update[i].Text, out value))
+                    values_to_set.Add(value);
+                else
+                    textbox_to_update[i].BackColor = Color.Red;
+            }
+
+            // set the values
+            virtual_system.SetAllRegisterValues(values_to_set.ToArray());
+
+            // the eflags masks and value to set the eflags at
+            uint[] masks = virtual_system.GetEFLAGSMasks();
+            uint EFLAGS_to_set = 0;
+
+            CheckBox[] checkboxes_to_update = new CheckBox[]
+            {
+                CheckBoxCF,
+                CheckBoxPF,
+                CheckBoxAF,
+                CheckBoxZF,
+                CheckBoxSF,
+                CheckBoxTF,
+                CheckBoxIF,
+                CheckBoxDF,
+                CheckBoxOF,
+                CheckBoxIOPL,
+                CheckBoxNT,
+                CheckBoxRF,
+                CheckBoxVM,
+                CheckBoxAC,
+                CheckBoxVIF,
+                CheckBoxVIP,
+                CheckBoxID
+            };
+
+            // check and increment the corresponding bit of the EFLAGS
+            for (int i = 0; i < masks.Length; i++)
+                if (checkboxes_to_update[i].Checked)
+                    EFLAGS_to_set += masks[i];
+
+            virtual_system.SetEflags(EFLAGS_to_set);
         }
     }
 }

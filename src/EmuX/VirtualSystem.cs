@@ -3,6 +3,12 @@ using System;
 
 class VirtualSystem
 {
+    public VirtualSystem()
+    {
+        for (int i = 0; i < this.registers.Length; i++)
+            this.registers[i] = 0;
+    }
+
     // memory getters
     public byte[] GetAllMemory()
     {
@@ -132,16 +138,53 @@ class VirtualSystem
         return (ulong) registers[(int) register_to_get];
     }
 
+    public ulong[] GetAllRegisterValues()
+    {
+        return this.registers;
+    }
+
     // register setters
     public void SetRegisterValue(Instruction_Data.Registers_ENUM register_to_get, object value)
     {
         registers[(int) register_to_get] = (ulong) value;
     }
 
+    public void SetAllRegisterValues(ulong[] values)
+    {
+        for (int i = 0; i < values.Length - 2; i++)
+            registers[i] = values[i];
+    }
+
     // EFLAGS getters
     public uint GetEFLAGS()
     {
         return this.EFLAGS;
+    }
+
+    public uint[] GetEFLAGSMasks()
+    {
+        uint[] masks = new uint[]
+        {
+                0x00000001, // CF
+                0x00000004, // PF
+                0x00000010, // AF
+                0x00000040, // ZF
+                0x00000080, // SF
+                0x00000100, // TF
+                0x00000200, // IF
+                0x00000400, // DF
+                0x00000800, // OF
+                0x00003000, // IOPL
+                0x00004000, // NT
+                0x00010000, // RF
+                0x00020000, // VM
+                0x00040000, // AC
+                0x00080000, // VIF
+                0x00100000, // VIP
+                0x00200000, // ID
+        };
+
+        return masks;
     }
 
     // EFLAGS setters
@@ -151,7 +194,7 @@ class VirtualSystem
     }
 
     // REGISTERS
-    private ulong[] registers = new ulong[(int) Instruction_Data.Registers_ENUM.LAST - 1];
+    private ulong[] registers = new ulong[(int) Instruction_Data.Registers_ENUM.LAST - 2];
 
     // EFLAGS
     private uint EFLAGS = 0;

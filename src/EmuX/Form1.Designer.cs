@@ -73,7 +73,7 @@
             this.LabelID = new System.Windows.Forms.Label();
             this.LabelVIP = new System.Windows.Forms.Label();
             this.LabelVIF = new System.Windows.Forms.Label();
-            this.AC = new System.Windows.Forms.CheckBox();
+            this.CheckBoxAC = new System.Windows.Forms.CheckBox();
             this.LabelAC = new System.Windows.Forms.Label();
             this.CheckBoxVM = new System.Windows.Forms.CheckBox();
             this.LabelVM = new System.Windows.Forms.Label();
@@ -83,7 +83,7 @@
             this.LabelNT = new System.Windows.Forms.Label();
             this.CheckBoxIOPL = new System.Windows.Forms.CheckBox();
             this.LabelIOPL = new System.Windows.Forms.Label();
-            this.OF = new System.Windows.Forms.CheckBox();
+            this.CheckBoxOF = new System.Windows.Forms.CheckBox();
             this.LabelOF = new System.Windows.Forms.Label();
             this.CheckBoxDF = new System.Windows.Forms.CheckBox();
             this.LabelDF = new System.Windows.Forms.Label();
@@ -507,7 +507,6 @@
             // 
             this.DataGridViewMemory.AllowUserToAddRows = false;
             this.DataGridViewMemory.AllowUserToDeleteRows = false;
-            this.DataGridViewMemory.AllowUserToOrderColumns = true;
             this.DataGridViewMemory.AllowUserToResizeColumns = false;
             this.DataGridViewMemory.AllowUserToResizeRows = false;
             this.DataGridViewMemory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -518,6 +517,7 @@
             this.DataGridViewMemory.Enabled = false;
             this.DataGridViewMemory.Location = new System.Drawing.Point(8, 124);
             this.DataGridViewMemory.Name = "DataGridViewMemory";
+            this.DataGridViewMemory.ReadOnly = true;
             this.DataGridViewMemory.RowTemplate.Height = 25;
             this.DataGridViewMemory.Size = new System.Drawing.Size(624, 124);
             this.DataGridViewMemory.TabIndex = 0;
@@ -544,7 +544,7 @@
             this.GroupBoxEFLAGS.Controls.Add(this.LabelID);
             this.GroupBoxEFLAGS.Controls.Add(this.LabelVIP);
             this.GroupBoxEFLAGS.Controls.Add(this.LabelVIF);
-            this.GroupBoxEFLAGS.Controls.Add(this.AC);
+            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxAC);
             this.GroupBoxEFLAGS.Controls.Add(this.LabelAC);
             this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxVM);
             this.GroupBoxEFLAGS.Controls.Add(this.LabelVM);
@@ -554,7 +554,7 @@
             this.GroupBoxEFLAGS.Controls.Add(this.LabelNT);
             this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxIOPL);
             this.GroupBoxEFLAGS.Controls.Add(this.LabelIOPL);
-            this.GroupBoxEFLAGS.Controls.Add(this.OF);
+            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxOF);
             this.GroupBoxEFLAGS.Controls.Add(this.LabelOF);
             this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxDF);
             this.GroupBoxEFLAGS.Controls.Add(this.LabelDF);
@@ -633,14 +633,14 @@
             this.LabelVIF.TabIndex = 28;
             this.LabelVIF.Text = "VIF";
             // 
-            // AC
+            // CheckBoxAC
             // 
-            this.AC.AutoSize = true;
-            this.AC.Location = new System.Drawing.Point(126, 47);
-            this.AC.Name = "AC";
-            this.AC.Size = new System.Drawing.Size(15, 14);
-            this.AC.TabIndex = 27;
-            this.AC.UseVisualStyleBackColor = true;
+            this.CheckBoxAC.AutoSize = true;
+            this.CheckBoxAC.Location = new System.Drawing.Point(126, 47);
+            this.CheckBoxAC.Name = "CheckBoxAC";
+            this.CheckBoxAC.Size = new System.Drawing.Size(15, 14);
+            this.CheckBoxAC.TabIndex = 27;
+            this.CheckBoxAC.UseVisualStyleBackColor = true;
             // 
             // LabelAC
             // 
@@ -723,14 +723,14 @@
             this.LabelIOPL.TabIndex = 18;
             this.LabelIOPL.Text = "IOPL";
             // 
-            // OF
+            // CheckBoxOF
             // 
-            this.OF.AutoSize = true;
-            this.OF.Location = new System.Drawing.Point(53, 139);
-            this.OF.Name = "OF";
-            this.OF.Size = new System.Drawing.Size(15, 14);
-            this.OF.TabIndex = 17;
-            this.OF.UseVisualStyleBackColor = true;
+            this.CheckBoxOF.AutoSize = true;
+            this.CheckBoxOF.Location = new System.Drawing.Point(53, 139);
+            this.CheckBoxOF.Name = "CheckBoxOF";
+            this.CheckBoxOF.Size = new System.Drawing.Size(15, 14);
+            this.CheckBoxOF.TabIndex = 17;
+            this.CheckBoxOF.UseVisualStyleBackColor = true;
             // 
             // LabelOF
             // 
@@ -895,6 +895,7 @@
             this.ButtonSetRegisterValues.TabIndex = 19;
             this.ButtonSetRegisterValues.Text = "Set Register Values";
             this.ButtonSetRegisterValues.UseVisualStyleBackColor = true;
+            this.ButtonSetRegisterValues.Click += new System.EventHandler(this.ButtonSetRegisterValues_Click);
             // 
             // GroupBoxGeneralPurposeRegisters
             // 
@@ -1353,7 +1354,7 @@
         private Label LabelR9;
         private TextBox TextBoxR8;
         private Label LabelR8;
-        private CheckBox AC;
+        private CheckBox CheckBoxAC;
         private Label LabelAC;
         private CheckBox CheckBoxVM;
         private Label LabelVM;
@@ -1363,7 +1364,7 @@
         private Label LabelNT;
         private CheckBox CheckBoxIOPL;
         private Label LabelIOPL;
-        private CheckBox OF;
+        private CheckBox CheckBoxOF;
         private Label LabelOF;
         private CheckBox CheckBoxDF;
         private Label LabelDF;
