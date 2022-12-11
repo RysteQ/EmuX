@@ -36,6 +36,19 @@ namespace EmuX
             return ConvertBinaryToInt(ConvertHexToBinary(hex_value));
         }
 
+        public string ConvertIntToBinaryString(int value)
+        {
+            string toReturn = "";
+
+            do
+            {
+                toReturn += (value % 2).ToString();
+                value = value / 2;
+            } while (value != 0);
+
+            return toReturn;
+        }
+
         /// <summary>
         /// Converts a hexadecimal value to it's binary form
         /// </summary>

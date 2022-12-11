@@ -8,6 +8,19 @@ namespace EmuX
 {
     internal class HexConverter
     {
+        public string ConvertIntToHex(uint to_convert)
+        {
+            byte[] bytes = new byte[4]
+            {
+                (byte) (to_convert & 0xFF000000),
+                (byte) (to_convert & 0x00FF0000),
+                (byte) (to_convert & 0x0000FF00),
+                (byte) to_convert
+            };
+
+            return ConvertByteToHex(bytes[3]) + ConvertByteToHex(bytes[2]) + ConvertByteToHex(bytes[1]) + ConvertByteToHex(bytes[0]);
+        }
+
         /// <summary>
         /// Gets a byte value and returns the hexadecimal value of said byte
         /// </summary>

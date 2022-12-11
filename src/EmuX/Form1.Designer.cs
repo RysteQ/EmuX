@@ -359,6 +359,7 @@
             this.EmuXTabControl.SelectedIndex = 0;
             this.EmuXTabControl.Size = new System.Drawing.Size(646, 285);
             this.EmuXTabControl.TabIndex = 1;
+            this.EmuXTabControl.SelectedIndexChanged += new System.EventHandler(this.EmuXTabControl_SelectedIndexChanged);
             // 
             // Assembly
             // 
@@ -414,6 +415,7 @@
             this.ButtonClearMemoryTable.TabIndex = 9;
             this.ButtonClearMemoryTable.Text = "Clear";
             this.ButtonClearMemoryTable.UseVisualStyleBackColor = true;
+            this.ButtonClearMemoryTable.Click += new System.EventHandler(this.ButtonClearMemoryTable_Click);
             // 
             // LabelValue
             // 
@@ -451,6 +453,7 @@
             this.ButtonSetMemoryValue.TabIndex = 5;
             this.ButtonSetMemoryValue.Text = "Set";
             this.ButtonSetMemoryValue.UseVisualStyleBackColor = true;
+            this.ButtonSetMemoryValue.Click += new System.EventHandler(this.ButtonSetMemoryValue_Click);
             // 
             // ButtonSearchMemoryRange
             // 
@@ -461,6 +464,7 @@
             this.ButtonSearchMemoryRange.TabIndex = 4;
             this.ButtonSearchMemoryRange.Text = "Search";
             this.ButtonSearchMemoryRange.UseVisualStyleBackColor = true;
+            this.ButtonSearchMemoryRange.Click += new System.EventHandler(this.ButtonSearchMemoryRange_Click);
             // 
             // TextBoxMemoryValue
             // 
@@ -490,6 +494,10 @@
             // 
             this.ComboBoxMemoryRepresentation.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ComboBoxMemoryRepresentation.FormattingEnabled = true;
+            this.ComboBoxMemoryRepresentation.Items.AddRange(new object[] {
+            "Decimal",
+            "Binary",
+            "Hexadecimal"});
             this.ComboBoxMemoryRepresentation.Location = new System.Drawing.Point(189, 51);
             this.ComboBoxMemoryRepresentation.Name = "ComboBoxMemoryRepresentation";
             this.ComboBoxMemoryRepresentation.Size = new System.Drawing.Size(202, 23);
@@ -497,10 +505,17 @@
             // 
             // DataGridViewMemory
             // 
+            this.DataGridViewMemory.AllowUserToAddRows = false;
+            this.DataGridViewMemory.AllowUserToDeleteRows = false;
+            this.DataGridViewMemory.AllowUserToOrderColumns = true;
+            this.DataGridViewMemory.AllowUserToResizeColumns = false;
+            this.DataGridViewMemory.AllowUserToResizeRows = false;
             this.DataGridViewMemory.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.DataGridViewMemory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.DataGridViewMemory.EditMode = System.Windows.Forms.DataGridViewEditMode.EditProgrammatically;
+            this.DataGridViewMemory.Enabled = false;
             this.DataGridViewMemory.Location = new System.Drawing.Point(8, 124);
             this.DataGridViewMemory.Name = "DataGridViewMemory";
             this.DataGridViewMemory.RowTemplate.Height = 25;
@@ -1217,7 +1232,7 @@
             this.RichtextBoxOutput.Enabled = false;
             this.RichtextBoxOutput.Location = new System.Drawing.Point(8, 3);
             this.RichtextBoxOutput.Name = "RichtextBoxOutput";
-            this.RichtextBoxOutput.Size = new System.Drawing.Size(759, 245);
+            this.RichtextBoxOutput.Size = new System.Drawing.Size(627, 245);
             this.RichtextBoxOutput.TabIndex = 0;
             this.RichtextBoxOutput.Text = "";
             // 

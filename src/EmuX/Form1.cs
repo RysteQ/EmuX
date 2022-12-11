@@ -95,5 +95,137 @@ namespace EmuX
             emulator.SetData(analyzer.GetInstructions());
             emulator.Execute();
         }
+
+        private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            switch (EmuXTabControl.SelectedIndex)
+            {
+                case 0:
+                    break;
+                case 1:
+                    // TODO
+                    break;
+                case 2:
+                    // TODO
+                    break;
+                case 3:
+                    break;
+            }
+        }
+
+        private void ButtonSearchMemoryRange_Click(object sender, EventArgs e)
+        {
+            if ((TextBoxMemoryRangeStart.Text.Trim() == "" && TextBoxMemoryRangeEnd.Text.Trim() == "") || ComboBoxMemoryRepresentation.SelectedIndex == -1)
+                return;
+
+            HexConverter hex_converter = new HexConverter();
+            BaseConverter base_converter = new BaseConverter();
+            List<byte> bytes_to_show = new List<byte>();
+            int start = 0;
+            int end = 0;
+
+            // get and test the memory range start
+            if (TextBoxMemoryRangeStart.Text.Trim().Length != 0)
+            {
+                if (int.TryParse(TextBoxMemoryRangeStart.Text, out start) == false)
+                {
+                    MessageBox.Show("Error converting memory range start to int", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    TextBoxMemoryRangeStart.BackColor = Color.Red;
+                    return;
+                }
+            }
+
+            // get and test the memory range and 
+            if (TextBoxMemoryRangeEnd.Text.Trim().Length != 0)
+            {
+                if (int.TryParse(TextBoxMemoryRangeEnd.Text, out end) == false)
+                {
+                    MessageBox.Show("Error converting memory range end to int", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    TextBoxMemoryRangeEnd.BackColor = Color.Red;
+                    return;
+                }
+            }
+
+            // check if the values are valid
+            if (end < start || (start - end) % 8 != 0)
+            {
+                MessageBox.Show("Please select a range of at least 8 bytes", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // get the bytes within the range
+            for (int i = 0; i < end - start; i++)
+                bytes_to_show.Add(virtual_system.GetByteMemory(i));
+
+            // init the data grid view
+            ButtonClearMemoryTable_Click(null, null);
+            DataGridViewMemory.Columns.Add("empty", "");
+
+            for (int i = 0; i < 8; i++)
+                DataGridViewMemory.Columns.Add("+" + (i + 1).ToString(), "+" + (i + 1).ToString());
+
+            // add the bytes to the data grid view
+            for (int row = 0; row < (end - start) / 8; row++)
+            {
+                List<string> to_add = new List<string>();
+                to_add.Add((row * 8).ToString());
+
+                // check which representation the user wants
+                // 0 = decimal, 1 = binary and 2 = hexadecimal
+                switch (ComboBoxMemoryRepresentation.SelectedIndex)
+                {
+                    case 0:
+                        for (int column = 0; column < 8; column++)
+                            to_add.Add(bytes_to_show[row * 8 + column].ToString());
+
+                        break;
+
+                    case 1:
+                        for (int column = 0; column < 8; column++)
+                            to_add.Add("0b" + base_converter.ConvertIntToBinaryString(bytes_to_show[row * 8 + column]));
+
+                        break;
+
+                    case 2:
+                        for (int column = 0; column < 8; column++)
+                            to_add.Add("0x" + hex_converter.ConvertByteToHex(bytes_to_show[row * 8 + column]));
+
+                        break;
+                }
+
+                // add the memory data to the table
+                DataGridViewMemory.Rows.Add(to_add.ToArray());
+            }
+        }
+
+        private void ButtonClearMemoryTable_Click(object sender, EventArgs e)
+        {
+
+            DataGridViewMemory.Rows.Clear();
+            DataGridViewMemory.Columns.Clear();
+        }
+
+        private void ButtonSetMemoryValue_Click(object sender, EventArgs e)
+        {
+            byte value_to_set;
+            int memory_end;
+            int memory_start;
+
+            // parse all of the data
+            bool valid_end_range = int.TryParse(TextBoxMemoryRangeEnd.Text, out memory_end);
+            bool valid_start_range = int.TryParse(TextBoxMemoryRangeStart.Text, out memory_start);
+            bool valid_value = byte.TryParse(TextBoxMemoryValue.Text, out value_to_set);
+
+            // check if all of the data was parsed successfuly and that the range is valid
+            if ((valid_end_range == false || valid_start_range == false || valid_value == false) && memory_end >= memory_start)
+            {
+                MessageBox.Show("Please enter a valid memory range / value to set the memory range at", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // set all of the bytes to said value
+            for (int index = 0; index < (memory_end - memory_start); index++)
+                virtual_system.SetByteMemory(index, value_to_set);
+        }
     }
 }
