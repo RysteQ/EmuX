@@ -19,6 +19,7 @@ namespace EmuX
         public void SetInstructions(string instructions_to_analyze)
         {
             this.instructions_data = instructions_to_analyze;
+            this.successful = true;
         }
 
         /// <summary>
@@ -35,7 +36,12 @@ namespace EmuX
 
             for (int i = 0; i < this.instructions_to_analyze.Length && this.successful; i++)
             {
-                string[] tokens = this.instructions_to_analyze[i].Split(' ');
+                string instruction_to_analyze = this.instructions_to_analyze[i];
+
+                if (instruction_to_analyze.Contains(','))
+                    instruction_to_analyze = instruction_to_analyze.Remove(instruction_to_analyze.IndexOf(','), 1);
+
+                string[] tokens = instruction_to_analyze.Split(' ');
 
                 // check if the token is a label or not
                 if (tokens[0].EndsWith(':') && tokens[0].Length > 1 && tokens[0].Contains(' ') == false)
@@ -272,8 +278,9 @@ namespace EmuX
                         return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER;
 
                 // check if the destination is a register and source a number
-                if (Enum.TryParse<Instruction_Data.Instruction_Variant_ENUM>(tokens[1].ToUpper(), out junk))
+                if (false)
                 {
+                    MessageBox.Show("lol");
                     // check if it refers to an int
                     if (int.TryParse(tokens[2], out integer_junk))
                         return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
@@ -306,8 +313,18 @@ namespace EmuX
                                 return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
                 }
             }
+            MessageBox.Show("WHY");
 
             return Instruction_Data.Instruction_Variant_ENUM.NoN;
+        }
+
+        private Instruction_Data.Registers_ENUM GetRegister(string register_name)
+        {
+            Instruction_Data.Registers_ENUM toReturn = Instruction_Data.Registers_ENUM.NoN;
+
+            // TODO
+
+            return toReturn;
         }
 
         /// <summary>
@@ -446,7 +463,15 @@ namespace EmuX
                 Instruction_Data.Instruction_ENUM.HTL,
                 Instruction_Data.Instruction_ENUM.INTO,
                 Instruction_Data.Instruction_ENUM.IRET,
+                Instruction_Data.Instruction_ENUM.LAHF,
                 Instruction_Data.Instruction_ENUM.NOP,
+                Instruction_Data.Instruction_ENUM.POPF,
+                Instruction_Data.Instruction_ENUM.PUSHF,
+                Instruction_Data.Instruction_ENUM.RCR,
+                Instruction_Data.Instruction_ENUM.SAHF,
+                Instruction_Data.Instruction_ENUM.STC,
+                Instruction_Data.Instruction_ENUM.STD,
+                Instruction_Data.Instruction_ENUM.STI,
             };
 
             public Instruction_Data.Instruction_ENUM[] one_operands = new Instruction_Data.Instruction_ENUM[]
@@ -455,20 +480,6 @@ namespace EmuX
                 Instruction_Data.Instruction_ENUM.DEC,
                 Instruction_Data.Instruction_ENUM.INC,
                 Instruction_Data.Instruction_ENUM.INT,
-            };
-
-            public Instruction_Data.Instruction_ENUM[] two_operands = new Instruction_Data.Instruction_ENUM[]
-            {
-                Instruction_Data.Instruction_ENUM.ADC,
-                Instruction_Data.Instruction_ENUM.ADD,
-                Instruction_Data.Instruction_ENUM.AND,
-                Instruction_Data.Instruction_ENUM.CMP,
-                Instruction_Data.Instruction_ENUM.CMPSB,
-                Instruction_Data.Instruction_ENUM.CMPSW,
-                Instruction_Data.Instruction_ENUM.DIV,
-                Instruction_Data.Instruction_ENUM.ESC,
-                Instruction_Data.Instruction_ENUM.IDIV,
-                Instruction_Data.Instruction_ENUM.IMUL,
                 Instruction_Data.Instruction_ENUM.JA,
                 Instruction_Data.Instruction_ENUM.JAE,
                 Instruction_Data.Instruction_ENUM.JB,
@@ -498,7 +509,52 @@ namespace EmuX
                 Instruction_Data.Instruction_ENUM.JPE,
                 Instruction_Data.Instruction_ENUM.JPO,
                 Instruction_Data.Instruction_ENUM.JS,
-                Instruction_Data.Instruction_ENUM.JZ
+                Instruction_Data.Instruction_ENUM.JZ,
+                Instruction_Data.Instruction_ENUM.JCXZ,
+                Instruction_Data.Instruction_ENUM.JMP,
+                Instruction_Data.Instruction_ENUM.NEG,
+                Instruction_Data.Instruction_ENUM.NOT,
+                Instruction_Data.Instruction_ENUM.POP,
+                Instruction_Data.Instruction_ENUM.PUSH,
+            };
+
+            public Instruction_Data.Instruction_ENUM[] two_operands = new Instruction_Data.Instruction_ENUM[]
+            {
+                Instruction_Data.Instruction_ENUM.ADC,
+                Instruction_Data.Instruction_ENUM.ADD,
+                Instruction_Data.Instruction_ENUM.AND,
+                Instruction_Data.Instruction_ENUM.CMP,
+                Instruction_Data.Instruction_ENUM.CMPSB,
+                Instruction_Data.Instruction_ENUM.CMPSW,
+                Instruction_Data.Instruction_ENUM.DIV,
+                Instruction_Data.Instruction_ENUM.ESC,
+                Instruction_Data.Instruction_ENUM.IDIV,
+                Instruction_Data.Instruction_ENUM.IMUL,
+                Instruction_Data.Instruction_ENUM.LDS,
+                Instruction_Data.Instruction_ENUM.LEA,
+                Instruction_Data.Instruction_ENUM.LES,
+                Instruction_Data.Instruction_ENUM.LODSB,
+                Instruction_Data.Instruction_ENUM.LODSW,
+                Instruction_Data.Instruction_ENUM.MOV,
+                Instruction_Data.Instruction_ENUM.MOVSB,
+                Instruction_Data.Instruction_ENUM.MOVSW,
+                Instruction_Data.Instruction_ENUM.MUL,
+                Instruction_Data.Instruction_ENUM.OR,
+                Instruction_Data.Instruction_ENUM.RCL,
+                Instruction_Data.Instruction_ENUM.RCR,
+                Instruction_Data.Instruction_ENUM.ROL,
+                Instruction_Data.Instruction_ENUM.ROR,
+                Instruction_Data.Instruction_ENUM.SAL,
+                Instruction_Data.Instruction_ENUM.SAR,
+                Instruction_Data.Instruction_ENUM.SBB,
+                Instruction_Data.Instruction_ENUM.SCASB,
+                Instruction_Data.Instruction_ENUM.SCASW,
+                Instruction_Data.Instruction_ENUM.SHL,
+                Instruction_Data.Instruction_ENUM.SHR,
+                Instruction_Data.Instruction_ENUM.STOSB,
+                Instruction_Data.Instruction_ENUM.STOSW,
+                Instruction_Data.Instruction_ENUM.SUB,
+                Instruction_Data.Instruction_ENUM.XOR
             };
         }
     }

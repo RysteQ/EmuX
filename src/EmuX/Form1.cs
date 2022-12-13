@@ -81,8 +81,11 @@ namespace EmuX
             Analyzer analyzer = new Analyzer();
             Emulator emulator = new Emulator();
 
-            analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
+            string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
 
+            analyzer.SetInstructions(code_to_analyze);
+            analyzer.AnalyzeInstructions();
+            return;
             // check if there was an error while analyzing the code
             if (analyzer.AnalyzingSuccessful() == false)
             {
