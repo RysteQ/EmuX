@@ -60,7 +60,7 @@ namespace EmuX
                 // check if the instruction exists or not
                 if (instruction_to_add.instruction == Instruction_Data.Instruction_ENUM.NoN)
                 {
-                    AnalyzerError(false, i);
+                    AnalyzerError(i);
                     return;
                 }
 
@@ -70,7 +70,7 @@ namespace EmuX
                 // check if the instruction is of a valid variant or not
                 if (instruction_to_add.variant == Instruction_Data.Instruction_Variant_ENUM.NoN)
                 {
-                    AnalyzerError(false, i);
+                    AnalyzerError(i);
                     return;
                 }
 
@@ -173,7 +173,7 @@ namespace EmuX
         /// <summary>
         /// Getter - Returns a boolean value based on if the analyzing step was successful or not
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A boolean value of whether the analyzing step was successful or not</returns>
         public bool AnalyzingSuccessful()
         {
             return this.successful;
@@ -182,7 +182,7 @@ namespace EmuX
         /// <summary>
         /// Getter - Returns the error line the analyzer failed (if the analyzer threw an error that is)
         /// </summary>
-        /// <returns></returns>
+        /// <returns>The error line</returns>
         public int GetErrorLine()
         {
             if (this.successful)
@@ -194,7 +194,7 @@ namespace EmuX
         /// <summary>
         /// Getter - Gets the instructions analyzed earlier
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of all the instructions analyzed</returns>
         public List<Instruction> GetInstructions()
         {
             return this.instructions;
@@ -204,7 +204,7 @@ namespace EmuX
         /// Parses and returns the instruction enum, returns NoN if a match wasnt found
         /// </summary>
         /// <param name="opcode_to_analyze">The string value of the opcode to analyze</param>
-        /// <returns></returns>
+        /// <returns>The instruction Enum (MOV, ADD, etc)</returns>
         private Instruction_Data.Instruction_ENUM GetInstruction(string opcode_to_analyze)
         {
             Instruction_Data.Instruction_ENUM toReturn;
@@ -218,9 +218,9 @@ namespace EmuX
         /// <summary>
         /// Analyzes and return the variant of the specified instruction
         /// </summary>
-        /// <param name="instruction"></param>
-        /// <param name="tokens"></param>
-        /// <returns></returns>
+        /// <param name="instruction">The instruction enum (MOV, ADD, etc)</param>
+        /// <param name="tokens">The tokens to analyze</param>
+        /// <returns>The instruction variant</returns>
         private Instruction_Data.Instruction_Variant_ENUM GetVariant(Instruction_Data.Instruction_ENUM instruction, string[] tokens)
         {
             Instruction_Groups instruction_groups = new Instruction_Groups();
@@ -321,7 +321,7 @@ namespace EmuX
         /// Returns the Enum value for said register, returns NoN if a match is not found
         /// </summary>
         /// <param name="register_name">The name of the register</param>
-        /// <returns></returns>
+        /// <returns>The register enum of the matched register</returns>
         private Instruction_Data.Registers_ENUM GetRegister(string register_name)
         {
             // the register types
@@ -381,9 +381,9 @@ namespace EmuX
         /// <summary>
         /// Gets the total number of a character occurrence inside a string
         /// </summary>
-        /// <param name="string_to_check"></param>
-        /// <param name="char_to_check"></param>
-        /// <returns></returns>
+        /// <param name="string_to_check">The string to analyze</param>
+        /// <param name="char_to_check">The character to check</param>
+        /// <returns>An integer of the total occurrences of said char</returns>
         private int GetCharOccurrences(string string_to_check, char char_to_check)
         {
             int toReturn = 0;
@@ -398,8 +398,8 @@ namespace EmuX
         /// <summary>
         /// Removes the comments from the code, for example if the code is <c>mov rax, 60 ; sets rax to 60</c> then the return value will be <c>mov rax, 60</c>
         /// </summary>
-        /// <param name="to_remove_from"></param>
-        /// <returns></returns>
+        /// <param name="to_remove_from">A string array to remove the comments from</param>
+        /// <returns>The input array minues the comments</returns>
         private string[] RemoveComments(string[] to_remove_from)
         {
             List<string> toReturn = new List<string>();
@@ -418,8 +418,8 @@ namespace EmuX
         /// <summary>
         /// Removes the empty lines
         /// </summary>
-        /// <param name="to_remove_from"></param>
-        /// <returns></returns>
+        /// <param name="to_remove_from">A string array</param>
+        /// <returns>A string array</returns>
         private string[] RemoveEmptyLines(string[] to_remove_from)
         {
             List<string> toReturn = new List<string>();
@@ -431,6 +431,13 @@ namespace EmuX
             return toReturn.ToArray();
         }
 
+        /// <summary>
+        /// Assigns the register parameters
+        /// </summary>
+        /// <param name="instruction">The instruction to assign to</param>
+        /// <param name="destination_register">The destination register</param>
+        /// <param name="source_register">The source register</param>
+        /// <returns>The modified instruction</returns>
         private Instruction AssignRegisterParameters(Instruction instruction, Instruction_Data.Registers_ENUM destination_register, Instruction_Data.Registers_ENUM source_register)
         {
             instruction.destination_register = destination_register;
@@ -439,6 +446,13 @@ namespace EmuX
             return instruction;
         }
 
+        /// <summary>
+        /// Assigns the memory type parameters
+        /// </summary>
+        /// <param name="instruction">The instruction to assign to</param>
+        /// <param name="destination_memory_type">The destination memory type, either it be a register / value or label</param>
+        /// <param name="source_memory_type">The source memory type, either it be a register / value or label</param>
+        /// <returns>The modified instruction</returns>
         private Instruction AssignMemoryTypeParameters(Instruction instruction, Instruction_Data.Memory_Type_ENUM destination_memory_type, Instruction_Data.Memory_Type_ENUM source_memory_type)
         {
             instruction.source_memory_type = source_memory_type;
@@ -447,6 +461,13 @@ namespace EmuX
             return instruction;
         }
 
+        /// <summary>
+        /// Assigns the memory name parameters
+        /// </summary>
+        /// <param name="instruction">The instruction to assign to</param>
+        /// <param name="destination_memory_name">The destination memory name</param>
+        /// <param name="source_memory_name">The source memory name</param>
+        /// <returns>The modified instruction</returns>
         private Instruction AssignMemoryNameParameters(Instruction instruction, string destination_memory_name, string source_memory_name)
         {
             instruction.destination_memory_name = destination_memory_name;
@@ -458,9 +479,9 @@ namespace EmuX
         /// <summary>
         /// Assigns the bit mode specified by the register used, if no register is used, for example <c>inc [to_increment]</c> then it returns NoN if register_token is set to ""
         /// </summary>
-        /// <param name="instruction"></param>
-        /// <param name="register_token"></param>
-        /// <returns></returns>
+        /// <param name="instruction">The current instruction to assign the bit mode</param>
+        /// <param name="register_token">the register token that will be used to analyze the bit mode</param>
+        /// <returns>The instruction with the Bit_Mode_ENUM assigned</returns>
         private Instruction AssignBitMode(Instruction instruction, string register_token)
         {
             if ((instruction.destination_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_register == Instruction_Data.Registers_ENUM.NoN) || register_token == "")
@@ -483,9 +504,13 @@ namespace EmuX
             return instruction;
         }
 
-        private void AnalyzerError(bool successful, int error_line)
+        /// <summary>
+        /// Used to specift an error
+        /// </summary>
+        /// <param name="successful">The successful flag</param>
+        /// <param name="error_line">The line the error was encountered</param>
+        private void AnalyzerError(int error_line)
         {
-            this.successful = successful;
             this.error_line = error_line;
         }
 
