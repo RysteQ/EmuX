@@ -8,11 +8,18 @@ namespace EmuX
 {
     internal class Emulator
     {
+        /// <summary>
+        /// Sets the instruction data to execute but does not execute it, use the <c>Execute()</c> function to do that
+        /// </summary>
+        /// <param name="instructions">The instruction data to execute</param>
         public void SetData(List<Instruction> instructions)
         {
             this.instructions = instructions;
         }
 
+        /// <summary>
+        /// Executes the instructions given earlier with the <c>SetData(instructions)</c> function
+        /// </summary>
         public void Execute()
         {
             VirtualSystem virtual_system = new VirtualSystem();
@@ -96,6 +103,12 @@ namespace EmuX
             }
         }
 
+        /// <summary>
+        /// Analyzes the instruction variant
+        /// </summary>
+        /// <param name="instruction">The instruction to analyze</param>
+        /// <param name="virtual_system"></param>
+        /// <returns>a unsigned long value of its destination value</returns>
         private ulong AnalyzeInstructionVariant(Instruction instruction, VirtualSystem virtual_system)
         {
             ulong toReturn = 0;
@@ -127,11 +140,23 @@ namespace EmuX
             return toReturn;
         }
 
+        /// <summary>
+        /// Gets the address offset, will be used for code like
+        /// <c>my_word: dw 0</c>
+        /// </summary>
+        /// <param name="address_name">The address name</param>
+        /// <returns>The int value of the memory offset</returns>
         private int GetAddressOffset(string address_name)
         {
             return address_names.IndexOf(address_name);
         }
 
+        /// <summary>
+        /// Gets the flag from the int EFLAG register value
+        /// </summary>
+        /// <param name="EFLAGS">The EFLAG register value</param>
+        /// <param name="mask">The mask to use for the bitwise operation</param>
+        /// <returns>The bool value for the flag result</returns>
         private bool GetFlag(uint EFLAGS, uint mask)
         {
             uint flag = EFLAGS & mask;

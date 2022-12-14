@@ -11,8 +11,8 @@ namespace EmuX
         /// <summary>
         /// Converts a binary value to its integer form
         /// </summary>
-        /// <param name="binary_value"></param>
-        /// <returns></returns>
+        /// <param name="binary_value">The binary string</param>
+        /// <returns>The integer value of the binary string</returns>
         public int ConvertBinaryToInt(string binary_value)
         {
             int toReturn = 0;
@@ -31,11 +31,21 @@ namespace EmuX
             return toReturn;
         }
 
+        /// <summary>
+        /// Converts a hexadecimal value to an integer
+        /// </summary>
+        /// <param name="hex_value">The hex value to convert</param>
+        /// <returns>The integer value</returns>
         public int ConvertHexToInt(string hex_value)
         {
             return ConvertBinaryToInt(ConvertHexToBinary(hex_value));
         }
 
+        /// <summary>
+        /// Converts and int value to a binary string
+        /// </summary>
+        /// <param name="value">The value to convert</param>
+        /// <returns>The converted string binary value</returns>
         public string ConvertIntToBinaryString(int value)
         {
             string toReturn = "";
@@ -50,10 +60,10 @@ namespace EmuX
         }
 
         /// <summary>
-        /// Converts a hexadecimal value to it's binary form
+        /// Converts a hex string to a binary string
         /// </summary>
-        /// <param name="hex_value"></param>
-        /// <returns></returns>
+        /// <param name="hex_value">A hexadecimal value</param>
+        /// <returns>The binary representation of the hex input</returns>
         private string ConvertHexToBinary(string hex_value)
         {
             string toReturn = "";
@@ -88,10 +98,10 @@ namespace EmuX
         }
 
         /// <summary>
-        /// Gets a string value as an input and returns the string in reverse order
+        /// Reverses a string
         /// </summary>
-        /// <param name="string_to_reverse"></param>
-        /// <returns></returns>
+        /// <param name="string_to_reverse">The string to reverse</param>
+        /// <returns>The same string but in reverse</returns>
         private string ReverseString(string string_to_reverse)
         {
             string toReturn = "";

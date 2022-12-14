@@ -12,7 +12,7 @@ namespace EmuX
         /// Handles the open file dialog and returns the file the user specified or returns null if the user did not select a file
         /// </summary>
         /// <param name="openFD"></param>
-        /// <returns></returns>
+        /// <returns>The source path the user entered / selected</returns>
         public string openFileDialog(OpenFileDialog openFD)
         {
             openFD.FileName = "";
@@ -28,7 +28,7 @@ namespace EmuX
         /// Handles the save file dialog and returns the filename the user specified or returns null if the user did not select a filename
         /// </summary>
         /// <param name="saveFD"></param>
-        /// <returns></returns>
+        /// <returns>The save path the user entered / selected</returns>
         public string saveFileDialog(SaveFileDialog saveFD)
         {
             saveFD.FileName = "";
