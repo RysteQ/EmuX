@@ -200,28 +200,5 @@ namespace EmuX
             "R8B", "R9B", "R10B", "R11B",
             "R12B", "R13B", "R14B", "R15W"
         };
-
-        // Add all possible register names here and then add the 64 bit register enum so it pairs for example the 16 bit version of a register
-        // to its 64 bit variant
-        public readonly Dictionary<string[], Registers_ENUM> register_lookup = new Dictionary<string[], Registers_ENUM>
-        {
-            { new string[] { "RAX", "EAX", "AX", "AH", "AL" }, Registers_ENUM.RAX },
-            { new string[] { "RBX", "EBX", "BX", "BH", "BL" }, Registers_ENUM.RBX },
-            { new string[] { "RCX", "ECX", "CX", "CH", "CL" }, Registers_ENUM.RCX },
-            { new string[] { "RDX", "EDX", "DX", "DH", "DL" }, Registers_ENUM.RDX },
-            { new string[] { "RSI", "ESI", "SI", "SIL" }, Registers_ENUM.RSI },
-            { new string[] { "RDI", "EDI", "DI", "DIL" }, Registers_ENUM.RDI },
-            { new string[] { "RSP", "ESP", "SP", "SPL" }, Registers_ENUM.RSP },
-            { new string[] { "RBP", "EBP", "BP", "BPL" }, Registers_ENUM.RBP },
-            { new string[] { "RIP", "EIP", "IP" }, Registers_ENUM.RIP },
-            { new string[] { "R8", "R8D", "R8W", "R8B" }, Registers_ENUM.R8 },
-            { new string[] { "R9", "R9D", "R9W", "R9B" }, Registers_ENUM.R9 },
-            { new string[] { "R10", "R10D", "R10W", "R10B" }, Registers_ENUM.R10 },
-            { new string[] { "R11", "R11D", "R11W", "R11B" }, Registers_ENUM.R11 },
-            { new string[] { "R12", "R12D", "R12W", "R12B" }, Registers_ENUM.R12 },
-            { new string[] { "R13", "R13D", "R13W", "R13B" }, Registers_ENUM.R13 },
-            { new string[] { "R14", "R14D", "R14W", "R14B" }, Registers_ENUM.R14 },
-            { new string[] { "R15", "R15D", "R15W", "R15B" }, Registers_ENUM.R15 },
-        };
     }
 }

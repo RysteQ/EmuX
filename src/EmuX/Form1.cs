@@ -85,7 +85,7 @@ namespace EmuX
 
             analyzer.SetInstructions(code_to_analyze);
             analyzer.AnalyzeInstructions();
-            return;
+
             // check if there was an error while analyzing the code
             if (analyzer.AnalyzingSuccessful() == false)
             {

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using static EmuX.Instruction_Data;
 
 namespace EmuX
 {
@@ -87,7 +88,7 @@ namespace EmuX
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
-                        destination_register = Enum.Parse<Instruction_Data.Registers_ENUM>(tokens[1].ToUpper());
+                        destination_register = GetRegister(tokens[1].ToUpper());
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
@@ -121,8 +122,8 @@ namespace EmuX
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
-                        destination_register = Enum.Parse<Instruction_Data.Registers_ENUM>(tokens[1].ToUpper());
-                        source_register = Enum.Parse<Instruction_Data.Registers_ENUM>(tokens[2].ToUpper());
+                        destination_register = GetRegister(tokens[1].ToUpper());
+                        source_register = GetRegister(tokens[2].ToUpper());
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, source_register);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
@@ -131,7 +132,7 @@ namespace EmuX
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
-                        destination_register = Enum.Parse<Instruction_Data.Registers_ENUM>(tokens[1].ToUpper());
+                        destination_register = GetRegister(tokens[1].ToUpper());
 
                         // convert the number from base 10 / binary / hex to an integer
                         if (int.TryParse(tokens[2], out value) == false)
@@ -151,7 +152,7 @@ namespace EmuX
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
-                        destination_register = Enum.Parse<Instruction_Data.Registers_ENUM>(tokens[1].ToUpper());
+                        destination_register = GetRegister(tokens[1].ToUpper());
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
@@ -159,7 +160,7 @@ namespace EmuX
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
-                        source_register = Enum.Parse<Instruction_Data.Registers_ENUM>(tokens[2].ToUpper());
+                        source_register = GetRegister(tokens[2].ToUpper());
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, source_register);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
@@ -200,9 +201,9 @@ namespace EmuX
         }
 
         /// <summary>
-        /// Parses and returns the instruction enum
+        /// Parses and returns the instruction enum, returns NoN if a match wasnt found
         /// </summary>
-        /// <param name="opcode_to_analyze"></param>
+        /// <param name="opcode_to_analyze">The string value of the opcode to analyze</param>
         /// <returns></returns>
         private Instruction_Data.Instruction_ENUM GetInstruction(string opcode_to_analyze)
         {
@@ -240,7 +241,7 @@ namespace EmuX
                         return Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE;
 
                 // check if it refers to a register
-                if (Enum.TryParse<Instruction_Data.Registers_ENUM>(tokens[1].ToUpper(), out junk))
+                if (GetRegister(tokens[1].ToUpper()) != Instruction_Data.Registers_ENUM.NoN)
                     return Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER;
 
                 // check if it refers to an int
@@ -273,14 +274,13 @@ namespace EmuX
                 int integer_junk;
 
                 // check if the destination and source are both registers
-                if (Enum.TryParse<Instruction_Data.Instruction_Variant_ENUM>(tokens[1].ToUpper(), out junk))
-                    if (Enum.TryParse<Instruction_Data.Instruction_Variant_ENUM>(tokens[2].ToUpper(), out junk))
+                if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
+                    if (GetRegister(tokens[2]) != Registers_ENUM.NoN)
                         return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER;
 
                 // check if the destination is a register and source a number
-                if (false)
+                if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
                 {
-                    MessageBox.Show("lol");
                     // check if it refers to an int
                     if (int.TryParse(tokens[2], out integer_junk))
                         return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
@@ -301,7 +301,7 @@ namespace EmuX
                             return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if the destination is a register and the source is a value from memory
-                    if (Enum.TryParse<Instruction_Data.Instruction_Variant_ENUM>(tokens[1].ToUpper(), out junk))
+                    if (GetRegister(tokens[1].ToUpper()) != Instruction_Data.Registers_ENUM.NoN)
                         if (tokens[2].StartsWith('[') && tokens[2].EndsWith(']'))
                             if (GetCharOccurrences(tokens[2], '[') == 1 && GetCharOccurrences(tokens[2], ']') == 1)
                                 return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
@@ -309,22 +309,73 @@ namespace EmuX
                     // check if the destination is a location in memory and the source is a register
                     if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
                         if (GetCharOccurrences(tokens[1], '[') == 1 && GetCharOccurrences(tokens[1], ']') == 1)
-                            if (Enum.TryParse<Instruction_Data.Instruction_Variant_ENUM>(tokens[2].ToUpper(), out junk))
+                            if (GetRegister(tokens[1].ToUpper()) != Instruction_Data.Registers_ENUM.NoN)
                                 return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
                 }
             }
-            MessageBox.Show("WHY");
 
             return Instruction_Data.Instruction_Variant_ENUM.NoN;
         }
 
+        /// <summary>
+        /// Returns the Enum value for said register, returns NoN if a match is not found
+        /// </summary>
+        /// <param name="register_name">The name of the register</param>
+        /// <returns></returns>
         private Instruction_Data.Registers_ENUM GetRegister(string register_name)
         {
-            Instruction_Data.Registers_ENUM toReturn = Instruction_Data.Registers_ENUM.NoN;
+            // the register types
+            Instruction_Data.Registers_ENUM[] register_type= new Instruction_Data.Registers_ENUM[] {
+                Registers_ENUM.RAX,
+                Registers_ENUM.RBX,
+                Registers_ENUM.RCX,
+                Registers_ENUM.RDX,
+                Registers_ENUM.RSI,
+                Registers_ENUM.RDI,
+                Registers_ENUM.RSP,
+                Registers_ENUM.RBP,
+                Registers_ENUM.RIP,
+                Registers_ENUM.R8,
+                Registers_ENUM.R9,
+                Registers_ENUM.R10,
+                Registers_ENUM.R11,
+                Registers_ENUM.R12,
+                Registers_ENUM.R13,
+                Registers_ENUM.R14,
+                Registers_ENUM.R15
+            };
 
-            // TODO
+            // the lookup table
+            string[][] register_lookup = new string[][]
+            {
+                new string[] { "RAX", "EAX", "AX", "AH", "AL" },
+                new string[] { "RBX", "EBX", "BX", "BH", "BL" },
+                new string[] { "RCX", "ECX", "CX", "CH", "CL" },
+                new string[] { "RDX", "EDX", "DX", "DH", "DL" },
+                new string[] { "RSI", "ESI", "SI", "SIL" },
+                new string[] { "RDI", "EDI", "DI", "DIL" },
+                new string[] { "RSP", "ESP", "SP", "SPL" },
+                new string[] { "RBP", "EBP", "BP", "BPL" },
+                new string[] { "RIP", "EIP", "IP" },
+                new string[] { "R8", "R8D", "R8W", "R8B" },
+                new string[] { "R9", "R9D", "R9W", "R9B" },
+                new string[] { "R10", "R10D", "R10W", "R10B" },
+                new string[] { "R11", "R11D", "R11W", "R11B" },
+                new string[] { "R12", "R12D", "R12W", "R12B" },
+                new string[] { "R13", "R13D", "R13W", "R13B" },
+                new string[] { "R14", "R14D", "R14W", "R14B" },
+                new string[] { "R15", "R15D", "R15W", "R15B" }
+            };
 
-            return toReturn;
+            // goes through every element of the lookup table until it finds a match
+            // then it returns the register type
+            for (int i = 0; i < register_lookup.Length; i++)
+                for (int j = 0; j < register_lookup[i].Length; j++)
+                    if (register_lookup[i][j] == register_name.ToUpper())
+                        return register_type[i];
+
+            // return NoN if a match wasnt found
+            return Instruction_Data.Registers_ENUM.NoN;
         }
 
         /// <summary>
