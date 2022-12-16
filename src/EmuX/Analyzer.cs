@@ -146,7 +146,7 @@ namespace EmuX
                         }
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.VALUE, Instruction_Data.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.VALUE);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, value.ToString());
                         instruction_to_add = AssignBitMode(instruction_to_add, tokens[1].ToUpper());
                         break;
@@ -167,6 +167,8 @@ namespace EmuX
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1], null);
                         break;
                 }
+
+                this.instructions.Add(instruction_to_add);
             }
         }
 
@@ -471,7 +473,7 @@ namespace EmuX
         private Instruction AssignMemoryNameParameters(Instruction instruction, string destination_memory_name, string source_memory_name)
         {
             instruction.destination_memory_name = destination_memory_name;
-            instruction.source_memory_name = destination_memory_name;
+            instruction.source_memory_name = source_memory_name;
 
             return instruction;
         }
