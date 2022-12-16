@@ -62,8 +62,6 @@ namespace EmuX
             file_writer.Close();
         }
 
-        string save_path = null;
-
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -106,7 +104,7 @@ namespace EmuX
                 return;
 
             // Get the virtual system
-            this.virtual_system = emulator.GetVirtualSystem();
+            virtual_system = emulator.GetVirtualSystem();
 
             // get the values to set + the textboxes to set the values with
             ulong[] values_to_display = virtual_system.GetAllRegisterValues();
@@ -323,7 +321,7 @@ namespace EmuX
             }
 
             // set the values
-            this.virtual_system.SetAllRegisterValues(values_to_set.ToArray());
+            virtual_system.SetAllRegisterValues(values_to_set.ToArray());
 
             // the eflags masks and value to set the eflags at
             uint[] masks = virtual_system.GetEFLAGSMasks();
@@ -355,10 +353,10 @@ namespace EmuX
                 if (checkboxes_to_update[i].Checked)
                     EFLAGS_to_set += masks[i];
 
-            this.virtual_system.SetEflags(EFLAGS_to_set);
+            virtual_system.SetEflags(EFLAGS_to_set);
 
             // Set the virtual system to the emulator
-            this.emulator.SetVirtualSystem(this.virtual_system);
+            emulator.SetVirtualSystem(virtual_system);
         }
 
         private void increaseSizeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -386,8 +384,24 @@ namespace EmuX
             }
         }
 
+        private void convertToUppercaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int cursor_index = RichTextboxAssemblyCode.SelectionStart;
 
-        Analyzer analyzer = new Analyzer();
-        Emulator emulator = new Emulator();
+            RichTextboxAssemblyCode.Text = RichTextboxAssemblyCode.Text.ToUpper();
+            RichTextboxAssemblyCode.SelectionStart = cursor_index;
+        }
+
+        private void convertToLowercaseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            int cursor_index = RichTextboxAssemblyCode.SelectionStart;
+
+            RichTextboxAssemblyCode.Text = RichTextboxAssemblyCode.Text.ToLower();
+            RichTextboxAssemblyCode.SelectionStart = cursor_index;
+        }
+
+        private Analyzer analyzer = new Analyzer();
+        private Emulator emulator = new Emulator();
+        private string save_path = null;
     }
 }

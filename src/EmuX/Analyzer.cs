@@ -41,10 +41,9 @@ namespace EmuX
             this.instructions_to_analyze = RemoveComments(this.instructions_to_analyze);
             this.instructions_to_analyze = RemoveEmptyLines(this.instructions_to_analyze);
 
-            Instruction instruction_to_add = new Instruction();
-
             for (int i = 0; i < this.instructions_to_analyze.Length && this.successful; i++)
             {
+                Instruction instruction_to_add = new Instruction();
                 string instruction_to_analyze = this.instructions_to_analyze[i];
 
                 if (instruction_to_analyze.Contains(','))

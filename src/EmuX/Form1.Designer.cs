@@ -40,6 +40,8 @@
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.increaseSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.decreaseSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.convertToUppercaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupboxInput = new System.Windows.Forms.GroupBox();
             this.RichTextboxAssemblyCode = new System.Windows.Forms.RichTextBox();
@@ -143,6 +145,7 @@
             this.Output = new System.Windows.Forms.TabPage();
             this.RichtextBoxOutput = new System.Windows.Forms.RichTextBox();
             this.fontDialog = new System.Windows.Forms.FontDialog();
+            this.convertToLowercaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.GroupboxInput.SuspendLayout();
             this.GroupboxControls.SuspendLayout();
@@ -227,7 +230,10 @@
             this.tODOToolStripMenuItem,
             this.toolStripSeparator2,
             this.increaseSizeToolStripMenuItem,
-            this.decreaseSizeToolStripMenuItem});
+            this.decreaseSizeToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.convertToUppercaseToolStripMenuItem,
+            this.convertToLowercaseToolStripMenuItem});
             this.textToolStripMenuItem.Name = "textToolStripMenuItem";
             this.textToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
             this.textToolStripMenuItem.Text = "Text";
@@ -235,20 +241,20 @@
             // tODOToolStripMenuItem
             // 
             this.tODOToolStripMenuItem.Name = "tODOToolStripMenuItem";
-            this.tODOToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.tODOToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.tODOToolStripMenuItem.Text = "Change Font";
             this.tODOToolStripMenuItem.Click += new System.EventHandler(this.tODOToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(183, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(228, 6);
             // 
             // increaseSizeToolStripMenuItem
             // 
             this.increaseSizeToolStripMenuItem.Name = "increaseSizeToolStripMenuItem";
             this.increaseSizeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.increaseSizeToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.increaseSizeToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.increaseSizeToolStripMenuItem.Text = "Increase Size";
             this.increaseSizeToolStripMenuItem.Click += new System.EventHandler(this.increaseSizeToolStripMenuItem_Click);
             // 
@@ -256,9 +262,22 @@
             // 
             this.decreaseSizeToolStripMenuItem.Name = "decreaseSizeToolStripMenuItem";
             this.decreaseSizeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.D)));
-            this.decreaseSizeToolStripMenuItem.Size = new System.Drawing.Size(186, 22);
+            this.decreaseSizeToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.decreaseSizeToolStripMenuItem.Text = "Decrease Size";
             this.decreaseSizeToolStripMenuItem.Click += new System.EventHandler(this.decreaseSizeToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(228, 6);
+            // 
+            // convertToUppercaseToolStripMenuItem
+            // 
+            this.convertToUppercaseToolStripMenuItem.Name = "convertToUppercaseToolStripMenuItem";
+            this.convertToUppercaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.U)));
+            this.convertToUppercaseToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.convertToUppercaseToolStripMenuItem.Text = "Convert To Uppercase";
+            this.convertToUppercaseToolStripMenuItem.Click += new System.EventHandler(this.convertToUppercaseToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1266,6 +1285,14 @@
             this.RichtextBoxOutput.TabIndex = 0;
             this.RichtextBoxOutput.Text = "";
             // 
+            // convertToLowercaseToolStripMenuItem
+            // 
+            this.convertToLowercaseToolStripMenuItem.Name = "convertToLowercaseToolStripMenuItem";
+            this.convertToLowercaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.convertToLowercaseToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.convertToLowercaseToolStripMenuItem.Text = "Convert To Lowercase";
+            this.convertToLowercaseToolStripMenuItem.Click += new System.EventHandler(this.convertToLowercaseToolStripMenuItem_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1419,5 +1446,8 @@
         private ToolStripMenuItem increaseSizeToolStripMenuItem;
         private ToolStripMenuItem decreaseSizeToolStripMenuItem;
         private FontDialog fontDialog;
+        private ToolStripSeparator toolStripSeparator3;
+        private ToolStripMenuItem convertToUppercaseToolStripMenuItem;
+        private ToolStripMenuItem convertToLowercaseToolStripMenuItem;
     }
 }
