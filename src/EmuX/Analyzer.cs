@@ -24,6 +24,14 @@ namespace EmuX
         }
 
         /// <summary>
+        /// Clears the instructions list
+        /// </summary>
+        public void FlushInstructions()
+        {
+            this.instructions.Clear();
+        }
+
+        /// <summary>
         /// Analyzes the instructions specified earlier with <c>SetInstructions(string instructions_to_analyze)</c>
         /// It does not return any value
         /// </summary>

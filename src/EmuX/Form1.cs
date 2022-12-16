@@ -78,12 +78,10 @@ namespace EmuX
 
         private void ButtonExecute_Click(object sender, EventArgs e)
         {
-            Analyzer analyzer = new Analyzer();
-            Emulator emulator = new Emulator();
-
             string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
 
             analyzer.SetInstructions(code_to_analyze);
+            analyzer.FlushInstructions();
             analyzer.AnalyzeInstructions();
 
             // check if there was an error while analyzing the code
@@ -106,6 +104,9 @@ namespace EmuX
             // this section is focused solely on the registers tab
             if (EmuXTabControl.SelectedIndex != 2)
                 return;
+
+            // Get the virtual system
+            this.virtual_system = emulator.GetVirtualSystem();
 
             // get the values to set + the textboxes to set the values with
             ulong[] values_to_display = virtual_system.GetAllRegisterValues();
@@ -322,7 +323,7 @@ namespace EmuX
             }
 
             // set the values
-            virtual_system.SetAllRegisterValues(values_to_set.ToArray());
+            this.virtual_system.SetAllRegisterValues(values_to_set.ToArray());
 
             // the eflags masks and value to set the eflags at
             uint[] masks = virtual_system.GetEFLAGSMasks();
@@ -354,7 +355,10 @@ namespace EmuX
                 if (checkboxes_to_update[i].Checked)
                     EFLAGS_to_set += masks[i];
 
-            virtual_system.SetEflags(EFLAGS_to_set);
+            this.virtual_system.SetEflags(EFLAGS_to_set);
+
+            // Set the virtual system to the emulator
+            this.emulator.SetVirtualSystem(this.virtual_system);
         }
 
         private void increaseSizeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -381,5 +385,9 @@ namespace EmuX
                 RichtextBoxOutput.Font = fontDialog.Font;
             }
         }
+
+
+        Analyzer analyzer = new Analyzer();
+        Emulator emulator = new Emulator();
     }
 }

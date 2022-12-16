@@ -22,7 +22,6 @@ namespace EmuX
         /// </summary>
         public void Execute()
         {
-            VirtualSystem virtual_system = new VirtualSystem();
             Instruction_Actions actions = new Instruction_Actions();
 
             for (int index = 0; index < instructions.Count; index++)
@@ -104,11 +103,29 @@ namespace EmuX
         }
 
         /// <summary>
+        /// Getter
+        /// </summary>
+        /// <returns>The Virtual System currently in use</returns>
+        public VirtualSystem GetVirtualSystem()
+        {
+            return this.virtual_system;
+        }
+
+        /// <summary>
+        /// Setter
+        /// </summary>
+        /// <param name="virtual_system">The virtual system to set to</param>
+        public void SetVirtualSystem(VirtualSystem virtual_system)
+        {
+            this.virtual_system = virtual_system;
+        }
+
+        /// <summary>
         /// Analyzes the instruction variant
         /// </summary>
         /// <param name="instruction">The instruction to analyze</param>
         /// <param name="virtual_system"></param>
-        /// <returns>a unsigned long value of its destination value</returns>
+        /// <returns>An unsigned long value of its destination value</returns>
         private ulong AnalyzeInstructionVariant(Instruction instruction, VirtualSystem virtual_system)
         {
             ulong toReturn = 0;
@@ -116,24 +133,15 @@ namespace EmuX
             string address_name;
             ulong value;
 
+            // This might be expanded upon in the future so I am keeping it for now
             switch (instruction.variant)
             {
-                case Instruction_Data.Instruction_Variant_ENUM.SINGLE:
-                    toReturn = ulong.Parse(instruction.destination_memory_name);
+                case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
+                    toReturn = ulong.Parse(instruction.source_memory_name);
                     break;
 
-                case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
-                    toReturn = virtual_system.GetRegisterQuad(instruction.destination_register);
-                    break;
-
-                case Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE:
-                    toReturn = ulong.Parse(instruction.destination_memory_name);
-                    break;
-
-                case Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
-                    address_name = instruction.destination_memory_name.Trim('[').Trim(']');
-                    value = virtual_system.GetQuadMemory(GetAddressOffset(address_name));
-                    toReturn = value;
+                case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
+                    toReturn = virtual_system.GetRegisterQuad(instruction.source_register);
                     break;
             }
 
@@ -169,5 +177,6 @@ namespace EmuX
 
         private List<Instruction> instructions = new List<Instruction>();
         private List<string> address_names = new List<string>();
+        private VirtualSystem virtual_system = new VirtualSystem();
     }
 }
