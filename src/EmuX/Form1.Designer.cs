@@ -42,6 +42,7 @@
             this.decreaseSizeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.convertToUppercaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.convertToLowercaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupboxInput = new System.Windows.Forms.GroupBox();
             this.RichTextboxAssemblyCode = new System.Windows.Forms.RichTextBox();
@@ -145,7 +146,6 @@
             this.Output = new System.Windows.Forms.TabPage();
             this.RichtextBoxOutput = new System.Windows.Forms.RichTextBox();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.convertToLowercaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.GroupboxInput.SuspendLayout();
             this.GroupboxControls.SuspendLayout();
@@ -279,6 +279,14 @@
             this.convertToUppercaseToolStripMenuItem.Text = "Convert To Uppercase";
             this.convertToUppercaseToolStripMenuItem.Click += new System.EventHandler(this.convertToUppercaseToolStripMenuItem_Click);
             // 
+            // convertToLowercaseToolStripMenuItem
+            // 
+            this.convertToLowercaseToolStripMenuItem.Name = "convertToLowercaseToolStripMenuItem";
+            this.convertToLowercaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
+            this.convertToLowercaseToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
+            this.convertToLowercaseToolStripMenuItem.Text = "Convert To Lowercase";
+            this.convertToLowercaseToolStripMenuItem.Click += new System.EventHandler(this.convertToLowercaseToolStripMenuItem_Click);
+            // 
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
@@ -383,6 +391,7 @@
             this.ButtonPreviousInstruction.TabIndex = 1;
             this.ButtonPreviousInstruction.Text = "Previous Instruction";
             this.ButtonPreviousInstruction.UseVisualStyleBackColor = true;
+            this.ButtonPreviousInstruction.Click += new System.EventHandler(this.ButtonPreviousInstruction_Click);
             // 
             // ButtonNextInstruction
             // 
@@ -392,6 +401,7 @@
             this.ButtonNextInstruction.TabIndex = 0;
             this.ButtonNextInstruction.Text = "Next Instruction";
             this.ButtonNextInstruction.UseVisualStyleBackColor = true;
+            this.ButtonNextInstruction.Click += new System.EventHandler(this.ButtonNextInstruction_Click);
             // 
             // EmuXTabControl
             // 
@@ -1284,14 +1294,6 @@
             this.RichtextBoxOutput.Size = new System.Drawing.Size(627, 245);
             this.RichtextBoxOutput.TabIndex = 0;
             this.RichtextBoxOutput.Text = "";
-            // 
-            // convertToLowercaseToolStripMenuItem
-            // 
-            this.convertToLowercaseToolStripMenuItem.Name = "convertToLowercaseToolStripMenuItem";
-            this.convertToLowercaseToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.L)));
-            this.convertToLowercaseToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
-            this.convertToLowercaseToolStripMenuItem.Text = "Convert To Lowercase";
-            this.convertToLowercaseToolStripMenuItem.Click += new System.EventHandler(this.convertToLowercaseToolStripMenuItem_Click);
             // 
             // mainForm
             // 

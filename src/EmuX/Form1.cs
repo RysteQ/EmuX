@@ -93,8 +93,14 @@ namespace EmuX
                 return;
             }
 
-            emulator.SetData(analyzer.GetInstructions());
-            emulator.Execute();
+            List<Instruction> instructions = analyzer.GetInstructions();
+            emulator.SetData(instructions);
+
+            for (int i = 0; i < instructions.Count; i++)
+            {
+                emulator.Execute();
+                emulator.NextInstruction();
+            }
         }
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -403,5 +409,41 @@ namespace EmuX
         private Analyzer analyzer = new Analyzer();
         private Emulator emulator = new Emulator();
         private string save_path = null;
+
+        private void ButtonNextInstruction_Click(object sender, EventArgs e)
+        {
+            if (emulator.HasInstructions() == false)
+            {
+                analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
+                analyzer.AnalyzeInstructions();
+                emulator.SetData(analyzer.GetInstructions());
+            }
+
+            if (emulator.GetInstructionCount() != emulator.GetIndex())
+            {
+                emulator.Execute();
+                emulator.NextInstruction();
+
+                LabelCurrentInstruction.Text = RichTextboxAssemblyCode.Text.Split('\n')[emulator.GetIndex() - 1];
+            }
+        }
+
+        private void ButtonPreviousInstruction_Click(object sender, EventArgs e)
+        {
+            if (emulator.HasInstructions() == false)
+            {
+                analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
+                analyzer.AnalyzeInstructions();
+                emulator.SetData(analyzer.GetInstructions());
+            }
+
+            if (emulator.GetIndex() != 0)
+            {
+                emulator.PreviousInstruction();
+                emulator.Execute();
+
+                LabelCurrentInstruction.Text = RichTextboxAssemblyCode.Text.Split('\n')[emulator.GetIndex() - 1];
+            }
+        }
     }
 }
