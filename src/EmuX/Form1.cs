@@ -94,12 +94,16 @@ namespace EmuX
             }
 
             List<Instruction> instructions = analyzer.GetInstructions();
+            
             emulator.SetData(instructions);
+            ProgressBarExecutionProgress.Maximum = emulator.GetInstructionCount();
 
             for (int i = 0; i < instructions.Count; i++)
             {
                 emulator.Execute();
                 emulator.NextInstruction();
+
+                ProgressBarExecutionProgress.Value = i;
             }
         }
 
@@ -419,12 +423,17 @@ namespace EmuX
                 emulator.SetData(analyzer.GetInstructions());
             }
 
+            ProgressBarExecutionProgress.Maximum = emulator.GetInstructionCount();
+
+            // cheks if the instructions is within bounds
             if (emulator.GetInstructionCount() != emulator.GetIndex())
             {
                 emulator.Execute();
                 emulator.NextInstruction();
 
-                LabelCurrentInstruction.Text = RichTextboxAssemblyCode.Text.Split('\n')[emulator.GetIndex() - 1];
+                // Update the GUI elements
+                LabelCurrentInstruction.Text = LabelCurrentInstruction.Text + " " + RichTextboxAssemblyCode.Text.Split('\n')[emulator.GetIndex() - 1];
+                ProgressBarExecutionProgress.Value = emulator.GetIndex();
             }
         }
 
@@ -437,12 +446,17 @@ namespace EmuX
                 emulator.SetData(analyzer.GetInstructions());
             }
 
-            if (emulator.GetIndex() != 0)
+            ProgressBarExecutionProgress.Maximum = emulator.GetInstructionCount();
+
+            // cheks if the instructions is within bounds
+            if (emulator.GetIndex() > 0)
             {
                 emulator.PreviousInstruction();
                 emulator.Execute();
 
-                LabelCurrentInstruction.Text = RichTextboxAssemblyCode.Text.Split('\n')[emulator.GetIndex() - 1];
+                // Update the GUI elements
+                LabelCurrentInstruction.Text = LabelCurrentInstruction.Text + " " + RichTextboxAssemblyCode.Text.Split('\n')[emulator.GetIndex()];
+                ProgressBarExecutionProgress.Value = emulator.GetIndex();
             }
         }
     }
