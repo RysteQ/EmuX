@@ -79,7 +79,6 @@ namespace EmuX
             string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
 
             analyzer.SetInstructions(code_to_analyze);
-            analyzer.FlushInstructions();
             analyzer.AnalyzeInstructions();
 
             // check if there was an error while analyzing the code
@@ -93,9 +92,18 @@ namespace EmuX
                 return;
             }
 
+            // initialize and set the data for the emulator
             List<Instruction> instructions = analyzer.GetInstructions();
-            
-            emulator.SetData(instructions);
+            List<StaticData> static_data = analyzer.GetStaticData();
+            List<(string, int)> labels = analyzer.GetLabelData();
+
+            emulator.SetVirtualSystem(this.virtual_system);
+            emulator.SetInstructions(instructions);
+            emulator.SetStaticData(static_data);
+            emulator.SetLabelData(labels);
+            emulator.InitStaticData();
+
+            // get the instruction count
             ProgressBarExecutionProgress.Maximum = emulator.GetInstructionCount();
 
             for (int i = 0; i < instructions.Count; i++)
@@ -105,6 +113,9 @@ namespace EmuX
 
                 ProgressBarExecutionProgress.Value = i;
             }
+
+            // get the virtual system back
+            this.virtual_system = emulator.GetVirtualSystem();
         }
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -183,6 +194,7 @@ namespace EmuX
             HexConverter hex_converter = new HexConverter();
             BaseConverter base_converter = new BaseConverter();
             List<byte> bytes_to_show = new List<byte>();
+
             int start = 0;
             int end = 0;
 
@@ -216,7 +228,7 @@ namespace EmuX
             }
 
             // get the bytes within the range
-            for (int i = 0; i < end - start; i++)
+            for (int i = start; i < end; i++)
                 bytes_to_show.Add(virtual_system.GetByteMemory(i));
 
             // init the data grid view
@@ -262,7 +274,6 @@ namespace EmuX
 
         private void ButtonClearMemoryTable_Click(object sender, EventArgs e)
         {
-
             DataGridViewMemory.Rows.Clear();
             DataGridViewMemory.Columns.Clear();
         }
@@ -279,14 +290,14 @@ namespace EmuX
             bool valid_value = byte.TryParse(TextBoxMemoryValue.Text, out value_to_set);
 
             // check if all of the data was parsed successfuly and that the range is valid
-            if ((valid_end_range == false || valid_start_range == false || valid_value == false) && memory_end >= memory_start)
+            if ((valid_end_range == false || valid_start_range == false || valid_value == false) && memory_end < memory_start)
             {
                 MessageBox.Show("Please enter a valid memory range / value to set the memory range at", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             // set all of the bytes to said value
-            for (int index = 0; index < (memory_end - memory_start); index++)
+            for (int index = memory_start; index < memory_end; index++)
                 virtual_system.SetByteMemory(index, value_to_set);
         }
 
@@ -420,7 +431,7 @@ namespace EmuX
             {
                 analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
                 analyzer.AnalyzeInstructions();
-                emulator.SetData(analyzer.GetInstructions());
+                emulator.SetInstructions(analyzer.GetInstructions());
             }
 
             ProgressBarExecutionProgress.Maximum = emulator.GetInstructionCount();
@@ -443,7 +454,7 @@ namespace EmuX
             {
                 analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
                 analyzer.AnalyzeInstructions();
-                emulator.SetData(analyzer.GetInstructions());
+                emulator.SetInstructions(analyzer.GetInstructions());
             }
 
             ProgressBarExecutionProgress.Maximum = emulator.GetInstructionCount();

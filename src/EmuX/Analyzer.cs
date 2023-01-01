@@ -24,14 +24,6 @@ namespace EmuX
         }
 
         /// <summary>
-        /// Clears the instructions list
-        /// </summary>
-        public void FlushInstructions()
-        {
-            this.instructions.Clear();
-        }
-
-        /// <summary>
         /// Analyzes the instructions specified earlier with <c>SetInstructions(string instructions_to_analyze)</c>
         /// It does not return any value
         /// </summary>
@@ -39,6 +31,7 @@ namespace EmuX
         {
             int offset = 1024;
 
+            this.instructions.Clear();
             this.instructions_to_analyze = this.instructions_data.Split('\n');
             this.instructions_to_analyze = RemoveComments(this.instructions_to_analyze);
             this.instructions_to_analyze = RemoveEmptyLines(this.instructions_to_analyze);
@@ -58,45 +51,45 @@ namespace EmuX
                 {
                     if (tokens.Length == 1)
                     {
-                        instruction_to_add.instruction = Instruction_Data.Instruction_ENUM.LABEL;
-                        instruction_to_add.variant = Instruction_Data.Instruction_Variant_ENUM.LABEL;
-                        instruction_to_add.destination_memory_type = Instruction_Data.Memory_Type_ENUM.LABEL;
-                        instruction_to_add.destination_memory_name = tokens[0].TrimEnd(':');
+                        string label_name = tokens[0].TrimEnd(':');
+                        int label_line = i;
+
+                        labels.Add((label_name, label_line));
                     } else if (tokens.Length == 3)
                     {
-                        StaticData static_data = new StaticData();
+                        StaticData new_static_data = new StaticData();
 
                         // fill in the necessary information
-                        static_data.name = tokens[0].TrimEnd(':');
-                        int value_in_memory;
+                        new_static_data.name = tokens[0].TrimEnd(':');
+                        ulong value_in_memory;
 
                         // find out the bit size
                         switch (tokens[1].ToUpper())
                         {
                             case "DB":
-                                static_data.size_in_bits = StaticData.SIZE._8_BIT;
-                                static_data.memory_location = offset;
+                                new_static_data .size_in_bits = StaticData.SIZE._8_BIT;
+                                new_static_data .memory_location = offset;
                                 offset++;
 
                                 break;
 
                             case "DW":
-                                static_data.size_in_bits = StaticData.SIZE._16_BIT;
-                                static_data.memory_location = offset;
+                                new_static_data .size_in_bits = StaticData.SIZE._16_BIT;
+                                new_static_data .memory_location = offset;
                                 offset += 2;
 
                                 break;
 
                             case "DD":
-                                static_data.size_in_bits = StaticData.SIZE._32_BIT;
-                                static_data.memory_location = offset;
+                                new_static_data .size_in_bits = StaticData.SIZE._32_BIT;
+                                new_static_data .memory_location = offset;
                                 offset += 4;
 
                                 break;
 
                             case "DQ":
-                                static_data.size_in_bits = StaticData.SIZE._64_BIT;
-                                static_data.memory_location = offset;
+                                new_static_data .size_in_bits = StaticData.SIZE._64_BIT;
+                                new_static_data .memory_location = offset;
                                 offset += 8;
 
                                 break;
@@ -107,16 +100,16 @@ namespace EmuX
                         }
 
                         // check if the value is an integer or not and parse it
-                        if (int.TryParse(tokens[2], out value_in_memory) == false)
+                        if (ulong.TryParse(tokens[2], out value_in_memory) == false)
                         {
                             AnalyzerError(i);
                             return;
                         }
 
                         // save the value
-                        static_data.value = value_in_memory;
+                        new_static_data.value = value_in_memory;
 
-                        memory_locations.Add(static_data);
+                        static_data.Add(new_static_data);
                     } else
                     {
                         AnalyzerError(i);
@@ -154,7 +147,7 @@ namespace EmuX
                     case Instruction_Data.Instruction_Variant_ENUM.SINGLE:
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, null);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
                         instruction_to_add = AssignBitMode(instruction_to_add, "");
                         break;
 
@@ -163,7 +156,7 @@ namespace EmuX
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, null);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
                         instruction_to_add = AssignBitMode(instruction_to_add, tokens[1].ToUpper());
                         break;
 
@@ -181,14 +174,14 @@ namespace EmuX
                             
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.VALUE, Instruction_Data.Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, value.ToString(), null);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, value.ToString(), "");
                         instruction_to_add = AssignBitMode(instruction_to_add, "");
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1].Trim('[', ']'), null);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1].Trim('[', ']'), "");
                         instruction_to_add = AssignBitMode(instruction_to_add, "");
                         break;
 
@@ -198,7 +191,7 @@ namespace EmuX
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, source_register);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, null);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
                         instruction_to_add = AssignBitMode(instruction_to_add, tokens[2].ToUpper());
                         break;
 
@@ -218,7 +211,7 @@ namespace EmuX
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.VALUE);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, value.ToString());
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", value.ToString());
                         instruction_to_add = AssignBitMode(instruction_to_add, tokens[1].ToUpper());
                         break;
 
@@ -227,7 +220,7 @@ namespace EmuX
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, null, tokens[2]);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", tokens[2]);
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
@@ -235,7 +228,7 @@ namespace EmuX
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, source_register);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1], null);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
                         break;
                 }
 
@@ -277,9 +270,18 @@ namespace EmuX
         /// Returns a tuple list of the names and addresses of the static data region alongside the value
         /// </summary>
         /// <returns>(string, int, int) tuple list</returns>
-        public List<StaticData> GetMemoryLocations()
+        public List<StaticData> GetStaticData()
         {
-            return this.memory_locations;
+            return this.static_data;
+        }
+
+        /// <summary>
+        /// Get the label data
+        /// </summary>
+        /// <returns>A tuple list containing a string (the name) and an integer (the line) of the labels</returns>
+        public List<(string, int)> GetLabelData()
+        {
+            return this.labels;
         }
 
         /// <summary>
@@ -314,7 +316,6 @@ namespace EmuX
             // check if the Instruction_Data has one operand
             if (instruction_groups.one_operands.Contains(instruction) && tokens.Length == 2)
             {
-                Instruction_Data.Registers_ENUM junk;
                 int integer_junk;
 
                 // check if it points to a value in memory
@@ -596,10 +597,11 @@ namespace EmuX
             this.error_line = error_line;
         }
 
-        private string instructions_data;
+        private string instructions_data = "";
         private string[] instructions_to_analyze;
         private List<Instruction> instructions = new List<Instruction>();
-        private List<StaticData> memory_locations = new List<StaticData>();
+        private List<StaticData> static_data = new List<StaticData>();
+        private List<(string, int)> labels = new List<(string, int)>();
         private bool successful = false;
         private int error_line = 0;
 

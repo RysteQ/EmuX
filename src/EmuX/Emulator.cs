@@ -13,10 +13,28 @@ namespace EmuX
         /// Sets the instruction data to execute but does not execute it, use the <c>Execute()</c> function to do that
         /// </summary>
         /// <param name="instructions">The instruction data to execute</param>
-        public void SetData(List<Instruction> instructions)
+        public void SetInstructions(List<Instruction> instructions)
         {
             this.instructions = instructions;
             this.current_instruction_index = 0;
+        }
+
+        /// <summary>
+        /// Sets the static data list
+        /// </summary>
+        /// <param name="instructions">A list of StaticData</param>
+        public void SetStaticData(List<StaticData> static_data)
+        {
+            this.static_data = static_data;
+        }
+
+        /// <summary>
+        /// Sets the label data
+        /// </summary>
+        /// <param name="label_data">A list tuple of (string, int)</param>
+        public void SetLabelData(List<(string, int)> label_data)
+        {
+            this.labels = label_data;
         }
 
         /// <summary>
@@ -65,6 +83,34 @@ namespace EmuX
                 return true;
 
             return false;
+        }
+
+        /// <summary>
+        /// Initializes the static data segment, all of it at once, must be run before the execute function
+        /// </summary>
+        public void InitStaticData()
+        {
+            for (int i = 0; i < static_data.Count; i++)
+            {
+                switch (static_data[i].size_in_bits)
+                {
+                    case StaticData.SIZE._8_BIT:
+                        this.virtual_system.SetByteMemory(static_data[i].memory_location, (byte) static_data[i].value);
+                        break;
+
+                    case StaticData.SIZE._16_BIT:
+                        this.virtual_system.SetShortMemory(static_data[i].memory_location, (ushort) static_data[i].value);
+                        break;
+
+                    case StaticData.SIZE._32_BIT:
+                        this.virtual_system.SetDoubleMemory(static_data[i].memory_location, (uint) static_data[i].value);
+                        break;
+
+                    case StaticData.SIZE._64_BIT:
+                        this.virtual_system.SetQuadMemory(static_data[i].memory_location, static_data[i].value);
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -167,9 +213,6 @@ namespace EmuX
         {
             ulong toReturn = 0;
 
-            string address_name;
-            ulong value;
-
             // This might be expanded upon in the future so I am keeping it for now
             switch (instruction.variant)
             {
@@ -202,6 +245,8 @@ namespace EmuX
         }
 
         private List<Instruction> instructions = new List<Instruction>();
+        private List<StaticData> static_data = new List<StaticData>();
+        private List<(string, int)> labels = new List<(string, int)>();
         private VirtualSystem virtual_system = new VirtualSystem();
         private int current_instruction_index = 0;
     }

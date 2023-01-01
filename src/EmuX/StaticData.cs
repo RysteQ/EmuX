@@ -11,7 +11,7 @@ namespace EmuX
         public string name = "";
         public int memory_location;
         public SIZE size_in_bits;
-        public int value;
+        public ulong value;
 
         public enum SIZE
         {
