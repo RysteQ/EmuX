@@ -102,6 +102,7 @@ namespace EmuX
             XOR,
 
             LABEL,
+            Mem,
             NoN
         }
 
@@ -126,6 +127,7 @@ namespace EmuX
             ADDRESS,
 
             LABEL,
+            Mem,
             NoN
         }
 

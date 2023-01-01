@@ -80,24 +80,15 @@ namespace EmuX
             // ---
             uint flags = virtual_system.GetEFLAGS();
             ulong source_value = AnalyzeInstructionVariant(instruction_to_execute, virtual_system);
+            string memory_destination = instruction_to_execute.destination_memory_name;
             // ---
 
             switch (instruction_to_execute.instruction)
             {
                 case Instruction_Data.Instruction_ENUM.ADC:
-                    if (instruction_to_execute.destination_register != Instruction_Data.Registers_ENUM.NoN)
-                    {
-                        virtual_system.SetRegisterValue(instruction_to_execute.destination_register, actions.ADC(virtual_system.GetRegisterQuad(instruction_to_execute.destination_register), source_value, GetFlag(flags, 1)));
-                    }
-                    else
-                    {
-                        // virtual_system.SetQuadMemory(GetAddressOffset() + 1024, actions.ADC(virtual_system.GetRegisterQuad(instruction_to_execute.destination_register), source_value, GetFlag(virtual_system.GetEFLAGS(), 1)));
-                    }
-
                     break;
 
                 case Instruction_Data.Instruction_ENUM.ADD:
-                    virtual_system.SetRegisterValue(instruction_to_execute.destination_register, actions.ADD(virtual_system.GetRegisterQuad(instruction_to_execute.destination_register), source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.AND:
@@ -195,17 +186,6 @@ namespace EmuX
         }
 
         /// <summary>
-        /// Gets the address offset, will be used for code like
-        /// <c>my_word: dw 0</c>
-        /// </summary>
-        /// <param name="address_name">The address name</param>
-        /// <returns>The int value of the memory offset</returns>
-        private int GetAddressOffset(string address_name)
-        {
-            return address_names.IndexOf(address_name);
-        }
-
-        /// <summary>
         /// Gets the flag from the int EFLAG register value
         /// </summary>
         /// <param name="EFLAGS">The EFLAG register value</param>
@@ -222,7 +202,6 @@ namespace EmuX
         }
 
         private List<Instruction> instructions = new List<Instruction>();
-        private List<string> address_names = new List<string>();
         private VirtualSystem virtual_system = new VirtualSystem();
         private int current_instruction_index = 0;
     }

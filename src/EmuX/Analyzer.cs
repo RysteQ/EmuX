@@ -37,6 +37,8 @@ namespace EmuX
         /// </summary>
         public void AnalyzeInstructions()
         {
+            int offset = 1024;
+
             this.instructions_to_analyze = this.instructions_data.Split('\n');
             this.instructions_to_analyze = RemoveComments(this.instructions_to_analyze);
             this.instructions_to_analyze = RemoveEmptyLines(this.instructions_to_analyze);
@@ -54,13 +56,75 @@ namespace EmuX
                 // check if the token is a label or not
                 if (tokens[0].EndsWith(':') && tokens[0].Length > 1 && tokens[0].Contains(' ') == false)
                 {
-                    instruction_to_add.instruction = Instruction_Data.Instruction_ENUM.LABEL;
-                    instruction_to_add.variant = Instruction_Data.Instruction_Variant_ENUM.LABEL;
-                    instruction_to_add.destination_memory_type = Instruction_Data.Memory_Type_ENUM.LABEL;
-                    instruction_to_add.destination_memory_name = tokens[0].TrimEnd(':');
+                    if (tokens.Length == 1)
+                    {
+                        instruction_to_add.instruction = Instruction_Data.Instruction_ENUM.LABEL;
+                        instruction_to_add.variant = Instruction_Data.Instruction_Variant_ENUM.LABEL;
+                        instruction_to_add.destination_memory_type = Instruction_Data.Memory_Type_ENUM.LABEL;
+                        instruction_to_add.destination_memory_name = tokens[0].TrimEnd(':');
+                    } else if (tokens.Length == 3)
+                    {
+                        StaticData static_data = new StaticData();
+
+                        // fill in the necessary information
+                        static_data.name = tokens[0].TrimEnd(':');
+                        int value_in_memory;
+
+                        // find out the bit size
+                        switch (tokens[1].ToUpper())
+                        {
+                            case "DB":
+                                static_data.size_in_bits = StaticData.SIZE._8_BIT;
+                                static_data.memory_location = offset;
+                                offset++;
+
+                                break;
+
+                            case "DW":
+                                static_data.size_in_bits = StaticData.SIZE._16_BIT;
+                                static_data.memory_location = offset;
+                                offset += 2;
+
+                                break;
+
+                            case "DD":
+                                static_data.size_in_bits = StaticData.SIZE._32_BIT;
+                                static_data.memory_location = offset;
+                                offset += 4;
+
+                                break;
+
+                            case "DQ":
+                                static_data.size_in_bits = StaticData.SIZE._64_BIT;
+                                static_data.memory_location = offset;
+                                offset += 8;
+
+                                break;
+
+                            default:
+                                AnalyzerError(i);
+                                return;
+                        }
+
+                        // check if the value is an integer or not and parse it
+                        if (int.TryParse(tokens[2], out value_in_memory) == false)
+                        {
+                            AnalyzerError(i);
+                            return;
+                        }
+
+                        // save the value
+                        static_data.value = value_in_memory;
+
+                        memory_locations.Add(static_data);
+                    } else
+                    {
+                        AnalyzerError(i);
+                        return;
+                    }
 
                     continue;
-                }
+                } 
 
                 instruction_to_add.instruction = GetInstruction(tokens[0]);
 
@@ -207,6 +271,15 @@ namespace EmuX
         public List<Instruction> GetInstructions()
         {
             return this.instructions;
+        }
+
+        /// <summary>
+        /// Returns a tuple list of the names and addresses of the static data region alongside the value
+        /// </summary>
+        /// <returns>(string, int, int) tuple list</returns>
+        public List<StaticData> GetMemoryLocations()
+        {
+            return this.memory_locations;
         }
 
         /// <summary>
@@ -526,6 +599,7 @@ namespace EmuX
         private string instructions_data;
         private string[] instructions_to_analyze;
         private List<Instruction> instructions = new List<Instruction>();
+        private List<StaticData> memory_locations = new List<StaticData>();
         private bool successful = false;
         private int error_line = 0;
 
