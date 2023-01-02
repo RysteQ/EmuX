@@ -69,7 +69,7 @@ namespace EmuX
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-            virtual_system = new VirtualSystem();
+            this.virtual_system = new VirtualSystem();
         }
 
         private VirtualSystem virtual_system;
@@ -77,15 +77,16 @@ namespace EmuX
         private void ButtonExecute_Click(object sender, EventArgs e)
         {
             string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
+            int instruction_index = 0;
 
-            analyzer.SetInstructions(code_to_analyze);
-            analyzer.AnalyzeInstructions();
+            this.analyzer.SetInstructions(code_to_analyze);
+            this.analyzer.AnalyzeInstructions();
 
             // check if there was an error while analyzing the code
             if (analyzer.AnalyzingSuccessful() == false)
             {
                 // get the error line and the line that cause the error
-                int error_line = analyzer.GetErrorLine();
+                int error_line = this.analyzer.GetErrorLine();
                 string error_line_text = RichTextboxAssemblyCode.Text.Split('\n')[error_line];
 
                 MessageBox.Show("There was an error at line " + error_line.ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -93,29 +94,35 @@ namespace EmuX
             }
 
             // initialize and set the data for the emulator
-            List<Instruction> instructions = analyzer.GetInstructions();
-            List<StaticData> static_data = analyzer.GetStaticData();
-            List<(string, int)> labels = analyzer.GetLabelData();
+            List<Instruction> instructions = this.analyzer.GetInstructions();
+            List<StaticData> static_data = this.analyzer.GetStaticData();
+            List<(string, int)> labels = this.analyzer.GetLabelData();
 
-            emulator.SetVirtualSystem(this.virtual_system);
-            emulator.SetInstructions(instructions);
-            emulator.SetStaticData(static_data);
-            emulator.SetLabelData(labels);
-            emulator.InitStaticData();
+            this.virtual_system.ClearCallStack();
+
+            this.emulator.SetVirtualSystem(this.virtual_system);
+            this.emulator.SetInstructions(instructions);
+            this.emulator.SetStaticData(static_data);
+            this.emulator.SetLabelData(labels);
+            this.emulator.InitStaticData();
+            this.emulator.Reset();
 
             // get the instruction count
-            ProgressBarExecutionProgress.Maximum = emulator.GetInstructionCount();
+            ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
 
-            for (int i = 0; i < instructions.Count; i++)
+            do
             {
-                emulator.Execute();
-                emulator.NextInstruction();
+                this.emulator.Execute();
+                this.emulator.NextInstruction();
 
-                ProgressBarExecutionProgress.Value = i;
-            }
+                ProgressBarExecutionProgress.Value = instruction_index;
+            } while (instruction_index < this.emulator.GetIndex() && this.emulator.ErrorEncountered() == false && this.emulator.GetExit() == false);
+
+            if (this.emulator.ErrorEncountered())
+                MessageBox.Show("An error was encountered at command " + (this.emulator.GetIndex() + 1).ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
             // get the virtual system back
-            this.virtual_system = emulator.GetVirtualSystem();
+            this.virtual_system = this.emulator.GetVirtualSystem();
         }
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -125,7 +132,7 @@ namespace EmuX
                 return;
 
             // Get the virtual system
-            virtual_system = emulator.GetVirtualSystem();
+            this.virtual_system = this.emulator.GetVirtualSystem();
 
             // get the values to set + the textboxes to set the values with
             ulong[] values_to_display = virtual_system.GetAllRegisterValues();
@@ -158,7 +165,7 @@ namespace EmuX
             }
 
             // get and set the EFLAGS checkboxes
-            uint EFLAGS = virtual_system.GetEFLAGS();
+            uint EFLAGS = this.virtual_system.GetEFLAGS();
             CheckBox[] checkboxes_to_update = new CheckBox[]
             {
                 CheckBoxCF,
@@ -180,7 +187,7 @@ namespace EmuX
                 CheckBoxID
             };
 
-            uint[] masks = virtual_system.GetEFLAGSMasks();
+            uint[] masks = this.virtual_system.GetEFLAGSMasks();
 
             for (int i = 0; i < checkboxes_to_update.Length; i++)
                 checkboxes_to_update[i].Checked = (EFLAGS & masks[i]) != 0;
@@ -229,7 +236,7 @@ namespace EmuX
 
             // get the bytes within the range
             for (int i = start; i < end; i++)
-                bytes_to_show.Add(virtual_system.GetByteMemory(i));
+                bytes_to_show.Add(this.virtual_system.GetByteMemory(i));
 
             // init the data grid view
             ButtonClearMemoryTable_Click(null, null);
@@ -298,7 +305,7 @@ namespace EmuX
 
             // set all of the bytes to said value
             for (int index = memory_start; index < memory_end; index++)
-                virtual_system.SetByteMemory(index, value_to_set);
+                this.virtual_system.SetByteMemory(index, value_to_set);
         }
 
         private void ButtonSetRegisterValues_Click(object sender, EventArgs e)
@@ -342,10 +349,10 @@ namespace EmuX
             }
 
             // set the values
-            virtual_system.SetAllRegisterValues(values_to_set.ToArray());
+            this.virtual_system.SetAllRegisterValues(values_to_set.ToArray());
 
             // the eflags masks and value to set the eflags at
-            uint[] masks = virtual_system.GetEFLAGSMasks();
+            uint[] masks = this.virtual_system.GetEFLAGSMasks();
             uint EFLAGS_to_set = 0;
 
             CheckBox[] checkboxes_to_update = new CheckBox[]
@@ -374,10 +381,10 @@ namespace EmuX
                 if (checkboxes_to_update[i].Checked)
                     EFLAGS_to_set += masks[i];
 
-            virtual_system.SetEflags(EFLAGS_to_set);
+            this.virtual_system.SetEflags(EFLAGS_to_set);
 
             // Set the virtual system to the emulator
-            emulator.SetVirtualSystem(virtual_system);
+            this.emulator.SetVirtualSystem(this.virtual_system);
         }
 
         private void increaseSizeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -423,51 +430,51 @@ namespace EmuX
 
         private Analyzer analyzer = new Analyzer();
         private Emulator emulator = new Emulator();
-        private string save_path = null;
+        private string save_path = "";
 
         private void ButtonNextInstruction_Click(object sender, EventArgs e)
         {
-            if (emulator.HasInstructions() == false)
+            if (this.emulator.HasInstructions() == false)
             {
-                analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
-                analyzer.AnalyzeInstructions();
-                emulator.SetInstructions(analyzer.GetInstructions());
+                this.analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
+                this.analyzer.AnalyzeInstructions();
+                this.emulator.SetInstructions(this.analyzer.GetInstructions());
             }
 
-            ProgressBarExecutionProgress.Maximum = emulator.GetInstructionCount();
+            ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
 
             // cheks if the instructions is within bounds
-            if (emulator.GetInstructionCount() != emulator.GetIndex())
+            if (this.emulator.GetInstructionCount() != this.emulator.GetIndex())
             {
-                emulator.Execute();
-                emulator.NextInstruction();
+                this.emulator.Execute();
+                this.emulator.NextInstruction();
 
                 // Update the GUI elements
-                LabelCurrentInstruction.Text = LabelCurrentInstruction.Text + " " + RichTextboxAssemblyCode.Text.Split('\n')[emulator.GetIndex() - 1];
-                ProgressBarExecutionProgress.Value = emulator.GetIndex();
+                LabelCurrentInstruction.Text = LabelCurrentInstruction.Text + " " + RichTextboxAssemblyCode.Text.Split('\n')[this.emulator.GetIndex() - 1];
+                ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
             }
         }
 
         private void ButtonPreviousInstruction_Click(object sender, EventArgs e)
         {
-            if (emulator.HasInstructions() == false)
+            if (this.emulator.HasInstructions() == false)
             {
-                analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
-                analyzer.AnalyzeInstructions();
-                emulator.SetInstructions(analyzer.GetInstructions());
+                this.analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
+                this.analyzer.AnalyzeInstructions();
+                this.emulator.SetInstructions(analyzer.GetInstructions());
             }
 
-            ProgressBarExecutionProgress.Maximum = emulator.GetInstructionCount();
+            ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
 
             // cheks if the instructions is within bounds
-            if (emulator.GetIndex() > 0)
+            if (this.emulator.GetIndex() > 0)
             {
-                emulator.PreviousInstruction();
-                emulator.Execute();
+                this.emulator.PreviousInstruction();
+                this.emulator.Execute();
 
                 // Update the GUI elements
-                LabelCurrentInstruction.Text = LabelCurrentInstruction.Text + " " + RichTextboxAssemblyCode.Text.Split('\n')[emulator.GetIndex()];
-                ProgressBarExecutionProgress.Value = emulator.GetIndex();
+                LabelCurrentInstruction.Text = LabelCurrentInstruction.Text + " " + RichTextboxAssemblyCode.Text.Split('\n')[this.emulator.GetIndex()];
+                ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
             }
         }
     }

@@ -42,8 +42,8 @@ namespace EmuX
         /// </summary>
         public void NextInstruction()
         {
-            if (current_instruction_index < instructions.Count)
-                current_instruction_index++;
+            if (this.current_instruction_index < this.instructions.Count)
+                this.current_instruction_index++;
         }
         
         /// <summary>
@@ -51,8 +51,8 @@ namespace EmuX
         /// </summary>
         public void PreviousInstruction()
         {
-            if (current_instruction_index != 0)
-                current_instruction_index--;
+            if (this.current_instruction_index != 0)
+                this.current_instruction_index--;
         }
 
         /// <summary>
@@ -62,6 +62,15 @@ namespace EmuX
         public int GetIndex()
         {
             return this.current_instruction_index;
+        }
+
+        /// <summary>
+        /// Getter - Gets the exit_found boolean
+        /// </summary>
+        /// <returns>A value of true if an exit was found and false if it wasn't</returns>
+        public bool GetExit()
+        {
+            return this.exit_found;
         }
 
         /// <summary>
@@ -90,24 +99,24 @@ namespace EmuX
         /// </summary>
         public void InitStaticData()
         {
-            for (int i = 0; i < static_data.Count; i++)
+            for (int i = 0; i < this.static_data.Count; i++)
             {
-                switch (static_data[i].size_in_bits)
+                switch (this.static_data[i].size_in_bits)
                 {
                     case StaticData.SIZE._8_BIT:
-                        this.virtual_system.SetByteMemory(static_data[i].memory_location, (byte) static_data[i].value);
+                        this.virtual_system.SetByteMemory(this.static_data[i].memory_location, (byte) this.static_data[i].value);
                         break;
 
                     case StaticData.SIZE._16_BIT:
-                        this.virtual_system.SetShortMemory(static_data[i].memory_location, (ushort) static_data[i].value);
+                        this.virtual_system.SetShortMemory(this.static_data[i].memory_location, (ushort) this.static_data[i].value);
                         break;
 
                     case StaticData.SIZE._32_BIT:
-                        this.virtual_system.SetDoubleMemory(static_data[i].memory_location, (uint) static_data[i].value);
+                        this.virtual_system.SetDoubleMemory(this.static_data[i].memory_location, (uint) this.static_data[i].value);
                         break;
 
                     case StaticData.SIZE._64_BIT:
-                        this.virtual_system.SetQuadMemory(static_data[i].memory_location, static_data[i].value);
+                        this.virtual_system.SetQuadMemory(this.static_data[i].memory_location, this.static_data[i].value);
                         break;
                 }
             }
@@ -119,19 +128,25 @@ namespace EmuX
         public void Execute()
         {
             Instruction_Actions actions = new Instruction_Actions();
-            Instruction instruction_to_execute = instructions[current_instruction_index];
+            Instruction instruction_to_execute = this.instructions[this.current_instruction_index];
 
             // I will work on this after I make sure I get the rest of the code up to a working order / been able to recognize a far more complex program
 
             // ---
-            uint flags = virtual_system.GetEFLAGS();
-            ulong source_value = AnalyzeInstructionVariant(instruction_to_execute, virtual_system);
+            uint flags = this.virtual_system.GetEFLAGS();
+            ulong source_value = AnalyzeInstructionVariant(instruction_to_execute, this.virtual_system);
             string memory_destination = instruction_to_execute.destination_memory_name;
+            bool label_found = false;
+            int to_return_to = 0;
             // ---
+
+            if (error)
+                return;
 
             switch (instruction_to_execute.instruction)
             {
                 case Instruction_Data.Instruction_ENUM.ADC:
+                    this.virtual_system.SetRegisterValue(Instruction_Data.Registers_ENUM.RAX, this.virtual_system.GetRegisterQuad(Instruction_Data.Registers_ENUM.RAX) + 1);
                     break;
 
                 case Instruction_Data.Instruction_ENUM.ADD:
@@ -141,48 +156,103 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CALL:
-                    // TODO
+                    label_found = false;
+
+                    for (int i = 0; i < this.labels.Count; i++)
+                    {
+                        // if the corresponding label was found, go to the index of said label and add the index to return to the call stack
+                        if (this.labels[i].Item1 == instruction_to_execute.destination_memory_name)
+                        {
+                            this.virtual_system.PushCall(this.current_instruction_index);
+                            this.current_instruction_index = this.labels[i].Item2;
+                            label_found = true;
+                        }
+                    }
+
+                    if (label_found == false)
+                        this.error = true;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.RET:
+                    to_return_to = this.virtual_system.PopCall();
+
+                    if (to_return_to == -1)
+                    {
+                        this.error = true;
+                        break;
+                    }
+
+                    // pop the value from the call stack
+                    this.current_instruction_index = to_return_to;
+
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CBW:
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CLC:
-                    flags = virtual_system.GetEFLAGS();
+                    flags = this.virtual_system.GetEFLAGS();
 
                     if (flags % 2 == 1)
                         flags--;
 
-                    virtual_system.SetEflags(flags);
+                    this.virtual_system.SetEflags(flags);
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CLD:
-                    flags = virtual_system.GetEFLAGS();
+                    flags = this.virtual_system.GetEFLAGS();
 
                     flags &= 0xFFFFFBFF;
 
-                    virtual_system.SetEflags(flags);
+                    this.virtual_system.SetEflags(flags);
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CLI:
-                    flags = virtual_system.GetEFLAGS();
+                    flags = this.virtual_system.GetEFLAGS();
 
                     flags &= 0xFFFFFDFF;
 
-                    virtual_system.SetEflags(flags);
+                    this.virtual_system.SetEflags(flags);
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CMC:
-                    flags = virtual_system.GetEFLAGS();
+                    flags = this.virtual_system.GetEFLAGS();
 
                     if (flags % 2 == 0)
                         flags++;
                     else
                         flags--;
 
-                    virtual_system.SetEflags(flags);
+                    this.virtual_system.SetEflags(flags);
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.EXIT:
+                    this.exit_found = true;
+                    break;
+
+                default:
                     break;
             }
+        }
+
+        /// <summary>
+        /// Getter - Gets the error variable
+        /// </summary>
+        /// <returns>A boolean value, true if an error was encountered</returns>
+        public bool ErrorEncountered()
+        {
+            return this.error;
+        }
+
+
+        /// <summary>
+        /// Resets the error and exit_found boolean variable so that execution can return to normal
+        /// </summary>
+        public void Reset()
+        {
+            this.error = false;
+            this.exit_found = false;
         }
 
         /// <summary>
@@ -221,7 +291,7 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
-                    toReturn = virtual_system.GetRegisterQuad(instruction.source_register);
+                    toReturn = this.virtual_system.GetRegisterQuad(instruction.source_register);
                     break;
             }
 
@@ -249,5 +319,7 @@ namespace EmuX
         private List<(string, int)> labels = new List<(string, int)>();
         private VirtualSystem virtual_system = new VirtualSystem();
         private int current_instruction_index = 0;
+        private bool error = false;
+        private bool exit_found = false;
     }
 }

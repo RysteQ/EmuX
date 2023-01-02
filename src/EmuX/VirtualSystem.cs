@@ -125,8 +125,8 @@ class VirtualSystem
     /// <param name="value_to_push">The value to push into the stack</param>
     public void PushByte(byte value_to_push)
     {
-        memory[registers[(int) Instruction_Data.Registers_ENUM.RSP]] = value_to_push;
-        registers[(int) Instruction_Data.Registers_ENUM.RSP]++;
+        this.memory[this.registers[(int) Instruction_Data.Registers_ENUM.RSP]] = value_to_push;
+        this.registers[(int) Instruction_Data.Registers_ENUM.RSP]++;
     }
 
     /// <summary>
@@ -168,7 +168,7 @@ class VirtualSystem
     public byte PopByte()
     {
         registers[(int) Instruction_Data.Registers_ENUM.RSP]--;
-        return this.memory[registers[(int) Instruction_Data.Registers_ENUM.RSP]];
+        return this.memory[this.registers[(int) Instruction_Data.Registers_ENUM.RSP]];
     }
 
     /// <summary>
@@ -211,7 +211,7 @@ class VirtualSystem
         if (high_or_low)
             return (byte) ((ushort) registers[(int)register_to_get] >> 8);
 
-        return (byte) registers[(int) register_to_get];
+        return (byte) this.registers[(int) register_to_get];
     }
 
     /// <summary>
@@ -221,7 +221,7 @@ class VirtualSystem
     /// <returns>The said register value</returns>
     public ushort GetRegisterShort(Instruction_Data.Registers_ENUM register_to_get)
     {
-        return (ushort) registers[(int) register_to_get];
+        return (ushort) this.registers[(int) register_to_get];
     }
 
     /// <summary>
@@ -231,7 +231,7 @@ class VirtualSystem
     /// <returns>The said register value</returns>
     public uint GetRegisterDouble(Instruction_Data.Registers_ENUM register_to_get)
     {
-        return (uint) registers[(int) register_to_get];
+        return (uint) this.registers[(int) register_to_get];
     }
 
     /// <summary>
@@ -241,7 +241,7 @@ class VirtualSystem
     /// <returns>The said register value</returns>
     public ulong GetRegisterQuad(Instruction_Data.Registers_ENUM register_to_get)
     {
-        return (ulong) registers[(int) register_to_get];
+        return (ulong) this.registers[(int) register_to_get];
     }
 
     /// <summary>
@@ -262,7 +262,7 @@ class VirtualSystem
     /// <param name="value">The unsigned long value to set the register at</param>
     public void SetRegisterValue(Instruction_Data.Registers_ENUM register_to_get, ulong value)
     {
-        registers[(int) register_to_get] = value;
+        this.registers[(int) register_to_get] = value;
     }
 
     /// <summary>
@@ -272,7 +272,7 @@ class VirtualSystem
     public void SetAllRegisterValues(ulong[] values)
     {
         for (int i = 0; i < values.Length - 2; i++)
-            registers[i] = values[i];
+            this.registers[i] = values[i];
     }
 
     // EFLAGS getters
@@ -310,6 +310,39 @@ class VirtualSystem
         };
 
         return masks;
+    }
+
+    /// <summary>
+    /// Pushes the index value to the call stack
+    /// </summary>
+    /// <param name="index">The index of the instruction</param>
+    public void PushCall(int index)
+    {
+        this.call_stack.Add(index);
+    }
+
+    /// <summary>
+    /// Pops the last value of the call stack if there is something in the call stack
+    /// </summary>
+    /// <returns>The instruction index to return to, returns -1 if no elements exist in the call stack</returns>
+    public int PopCall()
+    {
+        // check if there are any elements
+        if (this.call_stack.Count == 0)
+            return -1;
+
+        int toReturn = this.call_stack[this.call_stack.Count - 1];
+        this.call_stack.RemoveAt(this.call_stack.Count - 1);
+
+        return toReturn;
+    }
+
+    /// <summary>
+    /// Clears the call stack
+    /// </summary>
+    public void ClearCallStack()
+    {
+        this.call_stack.Clear();
     }
 
     // EFLAGS setters

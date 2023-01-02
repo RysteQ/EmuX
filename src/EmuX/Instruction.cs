@@ -102,7 +102,7 @@ namespace EmuX
             XOR,
 
             LABEL,
-            Mem,
+            EXIT, // <-- Special instruction, this will just exit from the emulator loop if called
             NoN
         }
 
