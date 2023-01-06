@@ -176,6 +176,11 @@ namespace EmuX
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
                         instruction_to_add = AssignBitMode(instruction_to_add, tokens[1].ToUpper());
+
+                        // check if the register is 8 bit or not
+                        if (tokens[1].ToUpper().EndsWith('H'))
+                            instruction_to_add.high_or_low = true;
+
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE:
@@ -211,6 +216,11 @@ namespace EmuX
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
                         instruction_to_add = AssignBitMode(instruction_to_add, tokens[2].ToUpper());
+
+                        // check if the register is 8 bit or not
+                        if (tokens[2].ToUpper().EndsWith('H'))
+                            instruction_to_add.high_or_low = true;
+
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
@@ -231,6 +241,11 @@ namespace EmuX
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.VALUE);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", value.ToString());
                         instruction_to_add = AssignBitMode(instruction_to_add, tokens[1].ToUpper());
+
+                        // check if the register is 8 bit or not
+                        if (tokens[1].ToUpper().EndsWith('H'))
+                            instruction_to_add.high_or_low = true;
+
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
@@ -239,6 +254,11 @@ namespace EmuX
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", tokens[2]);
+
+                        // check if the register is 8 bit or not
+                        if (tokens[1].ToUpper().EndsWith('H'))
+                            instruction_to_add.high_or_low = true;
+
                         break;
 
                     case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
@@ -247,6 +267,11 @@ namespace EmuX
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, source_register);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
+
+                        // check if the register is 8 bit or not
+                        if (tokens[2].ToUpper().EndsWith('H'))
+                            instruction_to_add.high_or_low = true;
+
                         break;
                 }
 

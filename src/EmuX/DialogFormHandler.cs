@@ -21,7 +21,7 @@ namespace EmuX
             if (openFD.ShowDialog() == DialogResult.OK)
                 return openFD.FileName;
 
-            return null;
+            return "";
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace EmuX
             if (saveFD.ShowDialog() == DialogResult.OK)
                 return saveFD.FileName;
 
-            return null;
+            return "";
         }
     }
 }

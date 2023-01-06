@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.DirectoryServices;
 
 namespace EmuX
@@ -16,7 +17,7 @@ namespace EmuX
             string filename = dialogFormHandler.openFileDialog(openFD);
 
             // make sure the user entered the filename
-            if (filename == null)
+            if (filename == "")
                 return;
 
             // open the file
@@ -33,7 +34,7 @@ namespace EmuX
             save_path = dialogFormHandler.saveFileDialog(saveFD);
 
             // make sure the user selected a path
-            if (save_path == null)
+            if (save_path == "")
                 return;
 
             // save the file
@@ -115,8 +116,8 @@ namespace EmuX
                 this.emulator.Execute();
                 this.emulator.NextInstruction();
 
-                ProgressBarExecutionProgress.Value = instruction_index;
-            } while (instruction_index < this.emulator.GetIndex() && this.emulator.ErrorEncountered() == false && this.emulator.GetExit() == false);
+                ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
+            } while (this.emulator.ErrorEncountered() == false && this.emulator.GetExit() == false);
 
             if (this.emulator.ErrorEncountered())
                 MessageBox.Show("An error was encountered at command " + (this.emulator.GetIndex() + 1).ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -442,6 +443,16 @@ namespace EmuX
             }
 
             ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
+            int index = 0;
+
+            // go through each line and don't count empty lines
+            for (int i = 0; i < RichTextboxAssemblyCode.Text.Split('\n').Length && index != this.emulator.GetIndex(); i++)
+            {
+                if (RichTextboxAssemblyCode.Text.Split('\n')[i].Trim().Length == 0)
+                    continue;
+
+                index++;
+            }
 
             // cheks if the instructions is within bounds
             if (this.emulator.GetInstructionCount() != this.emulator.GetIndex())
@@ -450,7 +461,7 @@ namespace EmuX
                 this.emulator.NextInstruction();
 
                 // Update the GUI elements
-                LabelCurrentInstruction.Text = LabelCurrentInstruction.Text + " " + RichTextboxAssemblyCode.Text.Split('\n')[this.emulator.GetIndex() - 1];
+                LabelCurrentInstruction.Text = "Current Instruction: " + RichTextboxAssemblyCode.Text.Split('\n')[index];
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
             }
         }
@@ -465,6 +476,16 @@ namespace EmuX
             }
 
             ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
+            int index = 0;
+
+            // go through each line and don't count empty lines
+            for (int i = 0; i < RichTextboxAssemblyCode.Text.Split('\n').Length && index != this.emulator.GetIndex(); i++)
+            {
+                if (RichTextboxAssemblyCode.Text.Split('\n')[i].Trim().Length == 0)
+                    continue;
+
+                index++;
+            }
 
             // cheks if the instructions is within bounds
             if (this.emulator.GetIndex() > 0)
@@ -473,7 +494,7 @@ namespace EmuX
                 this.emulator.Execute();
 
                 // Update the GUI elements
-                LabelCurrentInstruction.Text = LabelCurrentInstruction.Text + " " + RichTextboxAssemblyCode.Text.Split('\n')[this.emulator.GetIndex()];
+                LabelCurrentInstruction.Text = "Current Instruction: " + RichTextboxAssemblyCode.Text.Split('\n')[index];
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
             }
         }

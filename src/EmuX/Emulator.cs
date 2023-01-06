@@ -127,6 +127,10 @@ namespace EmuX
         /// </summary>
         public void Execute()
         {
+            // make sure there are instructions to run in the first place
+            if (this.instructions.Count == 0)
+                return;
+
             Instruction_Actions actions = new Instruction_Actions();
             Instruction instruction_to_execute = this.instructions[this.current_instruction_index];
 
@@ -134,19 +138,19 @@ namespace EmuX
 
             // ---
             uint flags = this.virtual_system.GetEFLAGS();
-            ulong source_value = AnalyzeInstructionVariant(instruction_to_execute, this.virtual_system);
+            ulong source_value = AnalyzeInstructionSource(instruction_to_execute, this.virtual_system);
             string memory_destination = instruction_to_execute.destination_memory_name;
             bool label_found = false;
             int to_return_to = 0;
+            ulong value = 0;
             // ---
 
-            if (error)
+            if (this.error)
                 return;
 
             switch (instruction_to_execute.instruction)
             {
                 case Instruction_Data.Instruction_ENUM.ADC:
-                    this.virtual_system.SetRegisterValue(Instruction_Data.Registers_ENUM.RAX, this.virtual_system.GetRegisterQuad(Instruction_Data.Registers_ENUM.RAX) + 1);
                     break;
 
                 case Instruction_Data.Instruction_ENUM.ADD:
@@ -274,12 +278,12 @@ namespace EmuX
         }
 
         /// <summary>
-        /// Analyzes the instruction variant
+        /// Analyzes the instruction variant and returns the destination value as a ulong
         /// </summary>
         /// <param name="instruction">The instruction to analyze</param>
         /// <param name="virtual_system"></param>
         /// <returns>An unsigned long value of its destination value</returns>
-        private ulong AnalyzeInstructionVariant(Instruction instruction, VirtualSystem virtual_system)
+        private ulong AnalyzeInstructionDestination(Instruction instruction, VirtualSystem virtual_system)
         {
             ulong toReturn = 0;
 
@@ -296,6 +300,55 @@ namespace EmuX
             }
 
             return toReturn;
+        }
+
+        /// <summary>
+        /// Analyzes the instruction and return the appropriate source value
+        /// </summary>
+        /// <param name="instruction">The current instruction</param>
+        /// <param name="virtual_system">The current virtual system</param>
+        /// <returns>The ulong value of the source</returns>
+        private ulong AnalyzeInstructionSource(Instruction instruction, VirtualSystem virtual_system)
+        {
+            ulong toReturn = 0;
+
+            if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER || instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER)
+            {
+                switch (instruction.bit_mode)
+                {
+                    case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                        toReturn = virtual_system.GetRegisterByte(instruction.source_register, instruction.high_or_low);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                        toReturn = virtual_system.GetRegisterShort(instruction.source_register);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                        toReturn = virtual_system.GetRegisterDouble(instruction.source_register);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                        toReturn = virtual_system.GetRegisterQuad(instruction.source_register);
+                        break;
+                }
+
+                return toReturn;
+            } else if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS)
+            {
+                // return the value of the static data
+                for (int i = 0; i < static_data.Count; i++)
+                    if (static_data[i].name == instruction.source_memory_name)
+                        return static_data[i].value;
+            } else
+            {
+                return ulong.Parse(instruction.source_memory_name);
+            }
+
+            // if the static data label was not found then return 0 and set the error flag to true
+            error = true;
+
+            return 0;
         }
 
         /// <summary>
