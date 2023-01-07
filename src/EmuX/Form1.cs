@@ -117,7 +117,7 @@ namespace EmuX
                 this.emulator.NextInstruction();
 
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
-            } while (this.emulator.ErrorEncountered() == false && this.emulator.GetExit() == false);
+            } while (this.emulator.ErrorEncountered() == false && this.emulator.GetExit() == false && this.emulator.GetIndex() != this.emulator.GetInstructionCount());
 
             if (this.emulator.ErrorEncountered())
                 MessageBox.Show("An error was encountered at command " + (this.emulator.GetIndex() + 1).ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -429,10 +429,6 @@ namespace EmuX
             RichTextboxAssemblyCode.SelectionStart = cursor_index;
         }
 
-        private Analyzer analyzer = new Analyzer();
-        private Emulator emulator = new Emulator();
-        private string save_path = "";
-
         private void ButtonNextInstruction_Click(object sender, EventArgs e)
         {
             if (this.emulator.HasInstructions() == false)
@@ -498,5 +494,9 @@ namespace EmuX
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
             }
         }
+
+        private Analyzer analyzer = new Analyzer();
+        private Emulator emulator = new Emulator();
+        private string save_path = "";
     }
 }

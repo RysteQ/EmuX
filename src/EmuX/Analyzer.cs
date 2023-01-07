@@ -253,7 +253,7 @@ namespace EmuX
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
                         instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", tokens[2]);
+                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", tokens[2].Trim('[', ']'));
 
                         // check if the register is 8 bit or not
                         if (tokens[1].ToUpper().EndsWith('H'))

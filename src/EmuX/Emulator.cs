@@ -134,15 +134,18 @@ namespace EmuX
             Instruction_Actions actions = new Instruction_Actions();
             Instruction instruction_to_execute = this.instructions[this.current_instruction_index];
 
+            // make sure the instruction is not a label
+            if (instruction_to_execute.instruction == Instruction_Data.Instruction_ENUM.LABEL)
+                return;
+
             // I will work on this after I make sure I get the rest of the code up to a working order / been able to recognize a far more complex program
 
             // ---
             uint flags = this.virtual_system.GetEFLAGS();
+            ulong destination_value = AnalyzeInstructionDestination(instruction_to_execute, this.virtual_system);
             ulong source_value = AnalyzeInstructionSource(instruction_to_execute, this.virtual_system);
             string memory_destination = instruction_to_execute.destination_memory_name;
-            bool label_found = false;
             int to_return_to = 0;
-            ulong value = 0;
             // ---
 
             if (this.error)
@@ -160,21 +163,16 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CALL:
-                    label_found = false;
+                    (bool, int) to_go_to = actions.CALL(labels, instruction_to_execute.destination_memory_name);
 
-                    for (int i = 0; i < this.labels.Count; i++)
+                    if (to_go_to.Item1)
                     {
-                        // if the corresponding label was found, go to the index of said label and add the index to return to the call stack
-                        if (this.labels[i].Item1 == instruction_to_execute.destination_memory_name)
-                        {
-                            this.virtual_system.PushCall(this.current_instruction_index);
-                            this.current_instruction_index = this.labels[i].Item2;
-                            label_found = true;
-                        }
-                    }
-
-                    if (label_found == false)
+                        this.virtual_system.PushCall(this.current_instruction_index);
+                        this.current_instruction_index = to_go_to.Item2;
+                    } else
+                    {
                         this.error = true;
+                    }
 
                     break;
 
@@ -196,39 +194,43 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CLC:
-                    flags = this.virtual_system.GetEFLAGS();
-
-                    if (flags % 2 == 1)
-                        flags--;
-
-                    this.virtual_system.SetEflags(flags);
+                    this.virtual_system.SetEflags(actions.CLC(this.virtual_system.GetEFLAGS()));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CLD:
-                    flags = this.virtual_system.GetEFLAGS();
-
-                    flags &= 0xFFFFFBFF;
-
-                    this.virtual_system.SetEflags(flags);
+                    this.virtual_system.SetEflags(actions.CLD(this.virtual_system.GetEFLAGS()));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CLI:
-                    flags = this.virtual_system.GetEFLAGS();
-
-                    flags &= 0xFFFFFDFF;
-
-                    this.virtual_system.SetEflags(flags);
+                    this.virtual_system.SetEflags(actions.CLI(this.virtual_system.GetEFLAGS()));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CMC:
-                    flags = this.virtual_system.GetEFLAGS();
+                    this.virtual_system.SetEflags(actions.CMC(this.virtual_system.GetEFLAGS()));
+                    break;
 
-                    if (flags % 2 == 0)
-                        flags++;
-                    else
-                        flags--;
+                case Instruction_Data.Instruction_ENUM.CMP:
+                    this.virtual_system.SetEflags(actions.CMP(destination_value, source_value, this.virtual_system.GetEFLAGS()));
+                    break;
 
-                    this.virtual_system.SetEflags(flags);
+                case Instruction_Data.Instruction_ENUM.MOV:
+                    switch (instruction_to_execute.variant)
+                    {
+                        case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
+                            break;
+
+                        case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
+                            break;
+
+                        case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
+                            this.virtual_system.SetRegisterValue(instruction_to_execute.destination_register, source_value);
+                            break;
+
+                        case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
+                            this.virtual_system.SetRegisterValue(instruction_to_execute.destination_register, source_value);
+                            break;
+                    }
+
                     break;
 
                 case Instruction_Data.Instruction_ENUM.EXIT:
@@ -290,12 +292,40 @@ namespace EmuX
             // This might be expanded upon in the future so I am keeping it for now
             switch (instruction.variant)
             {
+                case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
+                    toReturn = virtual_system.GetRegisterQuad(instruction.destination_register);
+                    break;
+
+                case Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE:
+                    toReturn = ulong.Parse(instruction.destination_memory_name);
+                    break;
+
+                case Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
+                    // get the static data value
+                    for (int i = 0; i < static_data.Count; i++)
+                        if (static_data[i].name == instruction.destination_memory_name)
+                            toReturn = static_data[i].value;
+
+                    break;
+
+                case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
+                    toReturn = virtual_system.GetRegisterQuad(instruction.destination_register);
+                    break;
+
+                case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
+                    toReturn = virtual_system.GetRegisterQuad(instruction.destination_register);
+                    break;
+
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
-                    toReturn = ulong.Parse(instruction.source_memory_name);
+                    toReturn = this.virtual_system.GetRegisterQuad(instruction.destination_register);
                     break;
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
-                    toReturn = this.virtual_system.GetRegisterQuad(instruction.source_register);
+                    // get the static data value
+                    for (int i = 0; i < static_data.Count; i++)
+                        if (static_data[i].name == instruction.destination_memory_name)
+                            toReturn = static_data[i].value;
+
                     break;
             }
 
@@ -342,11 +372,17 @@ namespace EmuX
                         return static_data[i].value;
             } else
             {
+                if (instruction.source_memory_name.StartsWith('-'))
+                {
+                    this.error = true;
+                    return 0;
+                }
+
                 return ulong.Parse(instruction.source_memory_name);
             }
 
             // if the static data label was not found then return 0 and set the error flag to true
-            error = true;
+            this.error = true;
 
             return 0;
         }
