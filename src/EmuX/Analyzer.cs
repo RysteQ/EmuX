@@ -657,10 +657,10 @@ namespace EmuX
             public Instruction_Data.Instruction_ENUM[] no_operands = new Instruction_Data.Instruction_ENUM[]
             {
                 Instruction_ENUM.EXIT,
-                // Instruction.Instruction_ENUM.AAA, Look at Instruction.cs for further information
+                Instruction_Data.Instruction_ENUM.AAA,
                 Instruction_Data.Instruction_ENUM.AAD,
                 Instruction_Data.Instruction_ENUM.AAM,
-                // Instruction.Instruction_ENUM.AAS,
+                Instruction_Data.Instruction_ENUM.AAS,
                 Instruction_Data.Instruction_ENUM.CLC,
                 Instruction_Data.Instruction_ENUM.CLD,
                 Instruction_Data.Instruction_ENUM.CLI,

@@ -178,6 +178,164 @@ namespace EmuX
         }
 
         /// <summary>
+        /// The CMPSB instruction, it compares two bytes in memory and sets the EFLAGS register accordingly
+        /// </summary>
+        /// <param name="operand_one">The first byte to compare</param>
+        /// <param name="operand_two">The second byte to compare against</param>
+        /// <param name="flags">The current EFLAGS register value</param>
+        /// <returns>The new EFLAGS register value</returns>
+        public uint CMPSB(byte operand_one, byte operand_two, uint flags)
+        {
+            if (operand_one < operand_two)
+            {
+                // set the C flag to one if its not already set to one
+                if (flags % 2 == 0)
+                    flags++;
+
+                // set the Z flag to zero
+                flags = flags & 0xFFFFFFBF;
+            }
+            else if (operand_one > operand_two)
+            {
+                // set the C flag to zero if its not already set to zero
+                flags = flags & 0xFFFFFFFE;
+
+                // set the Z flag to zero
+                flags = flags & 0xFFFFFFBF;
+            }
+            else
+            {
+                // set the C flag to zero if its not already set to zero
+                flags = flags & 0xFFFFFFFE;
+
+                // set the Z flag to one if its not already se to one
+                if ((flags & 0x0040) == 0)
+                    flags += 0x00000040;
+            }
+
+            return flags;
+        }
+
+        /// <summary>
+        /// The CMPSW instruction, it compares two words (word = 2 bytes) in memory and sets the EFLAGS register accordingly
+        /// </summary>
+        /// <param name="operand_one">The first word to compare</param>
+        /// <param name="operand_two">The second word to compare against</param>
+        /// <param name="flags">The current EFLAGS register value</param>
+        /// <returns>The new EFLAGS register value</returns>
+        public uint CMPSW(ushort operand_one, ushort operand_two, uint flags)
+        {
+            if (operand_one < operand_two)
+            {
+                // set the C flag to one if its not already set to one
+                if (flags % 2 == 0)
+                    flags++;
+
+                // set the Z flag to zero
+                flags = flags & 0xFFFFFFBF;
+            }
+            else if (operand_one > operand_two)
+            {
+                // set the C flag to zero if its not already set to zero
+                flags = flags & 0xFFFFFFFE;
+
+                // set the Z flag to zero
+                flags = flags & 0xFFFFFFBF;
+            }
+            else
+            {
+                // set the C flag to zero if its not already set to zero
+                flags = flags & 0xFFFFFFFE;
+
+                // set the Z flag to one if its not already se to one
+                if ((flags & 0x0040) == 0)
+                    flags += 0x00000040;
+            }
+
+            return flags;
+        }
+
+        /// <summary>
+        /// The CWD instruction
+        /// </summary>
+        /// <param name="value">The RDX value</param>
+        /// <returns>The upmost 48bit of the register</returns>
+        public ulong CWD(ulong value)
+        {
+            return value & 0xFFFFFFFFFFFF0000;
+        }
+
+        /// <summary>
+        /// The DEC instruction, it does not protect from underflow
+        /// </summary>
+        /// <param name="value">The value to decrement</param>
+        /// <param name="bit_mode">The bitmode of the instruction, 8 / 16 / 32 bit, if a 64bit argument is provided the code will not check for underflow</param>
+        /// <returns>The original value - 1</returns>
+        public ulong DEC(ulong value, Instruction_Data.Bit_Mode_ENUM bit_mode)
+        {
+            switch (bit_mode)
+            {
+                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                    if ((value & 0x00000000000000FF) == 0)
+                        return byte.MaxValue;
+                    
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                    if ((value & 0x000000000000FFFF) == 0)
+                        return ushort.MaxValue;
+
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                    if ((value & 0x00000000FFFFFFFF) == 0)
+                        return uint.MaxValue;
+
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                    if (value == 0)
+                        return ulong.MaxValue;
+
+                    break;
+            }
+
+            return value - 1;
+        }
+
+        /// <summary>
+        /// The DAA instruction, just look at the wikidev what it does, that's how I found out
+        /// </summary>
+        /// <param name="value">The value of the AL register</param>
+        /// <param name="flags">The EFLAGS register</param>
+        /// <returns>The adjusted value if applicabble</returns>
+        public byte DAA(byte value, uint flags)
+        {
+            if ((value & 0x0F) > 9 || (flags & 0x00000010) == 1)
+                return (byte) (value + 6);
+            else if (value > 0x9F || (flags & 0x00000001) == 1)
+                return (byte) (value + 96);
+
+            return value;
+        }
+
+        /// <summary>
+        /// The DAS instruction, same as the DAA instruction but it does subtraction instead of addition to the value
+        /// </summary>
+        /// <param name="value">The value of the AL register</param>
+        /// <param name="flags">The EFLAGS register</param>
+        /// <returns>The adjusted value if applicabble</returns>
+        public byte DAS(byte value, uint flags)
+        {
+            if ((value & 0x0F) > 9 || (flags & 0x00000010) == 1)
+                return (byte) (value - 6);
+            else if (value > 0x9F || (flags & 0x00000001) == 1)
+                return (byte) (value - 96);
+
+            return value;
+        }
+
+        /// <summary>
         /// The NOP instruction, do I need to explain it ?
         /// lol no
         /// </summary>

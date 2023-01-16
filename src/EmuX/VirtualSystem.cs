@@ -37,8 +37,7 @@ class VirtualSystem
     /// <returns>An unsigned short value</returns>
     public ushort GetShortMemory(int index)
     {
-        ushort toReturn = (ushort) ((GetByteMemory(index) << 8) + GetByteMemory(index + 1));
-        return toReturn;
+        return (ushort) ((GetByteMemory(index) << 8) + GetByteMemory(index + 1));
     }
 
     /// <summary>
@@ -48,8 +47,7 @@ class VirtualSystem
     /// <returns>An unsigned integer value</returns>
     public uint GetDoubleMemory(int index)
     {
-        uint toReturn = (uint) ((GetShortMemory(index) << 16) + GetShortMemory(index + 2));
-        return toReturn;
+        return (uint) ((GetShortMemory(index) << 16) + GetShortMemory(index + 2));
     }
 
     /// <summary>
@@ -59,8 +57,7 @@ class VirtualSystem
     /// <returns>An unsigned long value</returns>
     public ulong GetQuadMemory(int index)
     {
-        ulong toReturn = (ulong) ((GetDoubleMemory(index) << 32) + GetDoubleMemory(index + 4));
-        return toReturn;
+        return (ulong) ((GetDoubleMemory(index) << 32) + GetDoubleMemory(index + 4));
     }
 
     // memory setters
@@ -91,8 +88,8 @@ class VirtualSystem
     /// <param name="value">The new value of said bytes</param>
     public void SetShortMemory(int index, ushort value)
     {
-        SetByteMemory(index, (byte) (value >> 8));
-        SetByteMemory(index + 1, (byte) value);
+        SetByteMemory(index, (byte) (value & 0xFF00));
+        SetByteMemory(index + 1, (byte) (value & 0x00FF));
     }
 
     /// <summary>
@@ -102,8 +99,8 @@ class VirtualSystem
     /// <param name="value">The new value of said bytes</param>
     public void SetDoubleMemory(int index, uint value)
     {
-        SetShortMemory(index, (ushort) (value >> 16));
-        SetShortMemory(index + 2, (ushort) value);
+        SetShortMemory(index, (ushort) (value & 0xFFFF0000));
+        SetShortMemory(index + 2, (ushort) (value & 0x0000FFFF));
     }
 
     /// <summary>
@@ -113,8 +110,8 @@ class VirtualSystem
     /// <param name="value">The new value of said bytes</param>
     public void SetQuadMemory(int index, ulong value)
     {
-        SetDoubleMemory(index, (uint) (value >> 32));
-        SetDoubleMemory(index + 4, (uint) value);
+        SetDoubleMemory(index, (uint) (value & 0xFFFFFFFF00000000));
+        SetDoubleMemory(index + 4, (uint) (value & 0x00000000FFFFFFFF));
     }
 
     // stack getters
@@ -135,8 +132,8 @@ class VirtualSystem
     /// <param name="value_to_push">The value to push into the stack</param>
     public void PushShort(ushort value_to_push)
     {
-        PushByte((byte) (value_to_push >> 8));
-        PushByte((byte) value_to_push);
+        PushByte((byte) (value_to_push & 0xFF00));
+        PushByte((byte) (value_to_push & 0x00FF));
     }
 
     /// <summary>
@@ -145,8 +142,8 @@ class VirtualSystem
     /// <param name="value_to_push">The value to push into the stack</param>
     public void PushDouble(uint value_to_push)
     {
-        PushShort((ushort) (value_to_push >> 16));
-        PushShort((ushort) value_to_push);
+        PushShort((ushort) (value_to_push & 0xFFFF0000));
+        PushShort((ushort) (value_to_push & 0x0000FFFF));
     }
 
     /// <summary>
@@ -155,8 +152,8 @@ class VirtualSystem
     /// <param name="value_to_push">The value to push into the stack</param>
     public void PushQuad(ulong value_to_push)
     {
-        PushDouble((uint) (value_to_push >> 32));
-        PushDouble((uint) value_to_push);
+        PushDouble((uint) (value_to_push & 0xFFFFFFFF00000000));
+        PushDouble((uint) (value_to_push & 0x00000000FFFFFFFF));
     }
 
     // stack setters
@@ -255,14 +252,37 @@ class VirtualSystem
 
     // register setters
 
+    public void SetRegisterByte(Instruction_Data.Registers_ENUM register_to_get, byte value, bool high_or_low)
+    {
+        ushort value_to_set = value;
+
+        if (high_or_low == new Instruction_Data().HIGH)
+            value_to_set = (ushort) (value_to_set << 8);
+
+        this.registers[(int) register_to_get] = value_to_set;
+    }
+
+    public void SetRegisterShort(Instruction_Data.Registers_ENUM register_to_get, ushort value)
+    {
+        SetRegisterByte(register_to_get, (byte) value, new Instruction_Data().HIGH);
+        SetRegisterByte(register_to_get, (byte) value, new Instruction_Data().LOW);
+    }
+
+    public void SetRegisterDouble(Instruction_Data.Registers_ENUM register_to_get, uint value)
+    {
+        SetRegisterShort(register_to_get, (ushort) (value & 0xFFFF0000));
+        SetRegisterShort(register_to_get, (ushort) (value & 0x0000FFFF));
+    }
+
     /// <summary>
     /// Sets a registed to the specified value
     /// </summary>
     /// <param name="register_to_get">The register tou want to change the value of, must provide the 64bit variant of the register</param>
     /// <param name="value">The unsigned long value to set the register at</param>
-    public void SetRegisterValue(Instruction_Data.Registers_ENUM register_to_get, ulong value)
+    public void SetRegisterQuad(Instruction_Data.Registers_ENUM register_to_get, ulong value)
     {
-        this.registers[(int) register_to_get] = value;
+        SetRegisterDouble(register_to_get, (uint) (value & 0xFFFFFFFF00000000));
+        SetRegisterDouble(register_to_get, (uint) (value & 0x00000000FFFFFFFF));
     }
 
     /// <summary>

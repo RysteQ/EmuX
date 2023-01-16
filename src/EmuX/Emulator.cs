@@ -138,14 +138,15 @@ namespace EmuX
             if (instruction_to_execute.instruction == Instruction_Data.Instruction_ENUM.LABEL)
                 return;
 
-            // I will work on this after I make sure I get the rest of the code up to a working order / been able to recognize a far more complex program
-
             // ---
             uint flags = this.virtual_system.GetEFLAGS();
             ulong destination_value = AnalyzeInstructionDestination(instruction_to_execute, this.virtual_system);
             ulong source_value = AnalyzeInstructionSource(instruction_to_execute, this.virtual_system);
             string memory_destination = instruction_to_execute.destination_memory_name;
             int to_return_to = 0;
+            ulong temp_value = 0;
+            int destination_memory_index = GetLabelMemoryIndex(this.labels, instruction_to_execute.destination_memory_name);
+            int source_memory_index = GetLabelMemoryIndex(this.labels, instruction_to_execute.source_memory_name);
             // ---
 
             if (this.error)
@@ -153,6 +154,7 @@ namespace EmuX
 
             switch (instruction_to_execute.instruction)
             {
+                // TODO LATER
                 case Instruction_Data.Instruction_ENUM.ADC:
                     break;
 
@@ -161,6 +163,7 @@ namespace EmuX
 
                 case Instruction_Data.Instruction_ENUM.AND:
                     break;
+                // --
 
                 case Instruction_Data.Instruction_ENUM.CALL:
                     (bool, int) to_go_to = actions.CALL(labels, instruction_to_execute.destination_memory_name);
@@ -213,6 +216,76 @@ namespace EmuX
                     this.virtual_system.SetEflags(actions.CMP(destination_value, source_value, this.virtual_system.GetEFLAGS()));
                     break;
 
+                case Instruction_Data.Instruction_ENUM.CMPSB:
+                    this.virtual_system.SetEflags(actions.CMPSB((byte) destination_value, (byte) source_value, this.virtual_system.GetEFLAGS()));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.CMPSW:
+                    this.virtual_system.SetEflags(actions.CMPSW((ushort) destination_value, (ushort) source_value, this.virtual_system.GetEFLAGS()));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.CWD:
+                    this.virtual_system.SetRegisterQuad(Instruction_Data.Registers_ENUM.RDX, actions.CWD(destination_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.DAA:
+                    this.virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, actions.DAA(this.virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, new Instruction_Data().LOW), this.virtual_system.GetEFLAGS()), new Instruction_Data().LOW);
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.DAS:
+                    this.virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, actions.DAS(this.virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, new Instruction_Data().LOW), this.virtual_system.GetEFLAGS()), new Instruction_Data().LOW);
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.DEC:
+                    switch (instruction_to_execute.variant)
+                    {
+                        case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
+                            switch (instruction_to_execute.bit_mode)
+                            {
+                                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                                    this.virtual_system.SetRegisterByte(instruction_to_execute.destination_register, (byte) actions.DEC(destination_value, instruction_to_execute.bit_mode), instruction_to_execute.high_or_low);
+                                    break;
+
+                                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                                    this.virtual_system.SetRegisterShort(instruction_to_execute.destination_register, (ushort) actions.DEC(destination_value, instruction_to_execute.bit_mode));
+                                    break;
+
+                                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                                    this.virtual_system.SetRegisterDouble(instruction_to_execute.destination_register, (uint) actions.DEC(destination_value, instruction_to_execute.bit_mode));
+                                    break;
+
+                                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                                    this.virtual_system.SetRegisterQuad(instruction_to_execute.destination_register, actions.DEC(destination_value, instruction_to_execute.bit_mode));
+                                    break;
+                            }
+
+                            break;
+
+                        case Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
+                            switch (instruction_to_execute.bit_mode)
+                            {
+                                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                                    this.virtual_system.SetByteMemory(destination_memory_index, (byte) actions.DEC(destination_value, Instruction_Data.Bit_Mode_ENUM._8_BIT));
+                                    break;
+
+                                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                                    this.virtual_system.SetShortMemory(destination_memory_index, (ushort) actions.DEC(destination_value, Instruction_Data.Bit_Mode_ENUM._16_BIT));
+                                    break;
+
+                                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                                    this.virtual_system.SetDoubleMemory(destination_memory_index, (uint) actions.DEC(destination_value, Instruction_Data.Bit_Mode_ENUM._32_BIT));
+                                    break;
+
+                                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                                    this.virtual_system.SetQuadMemory(destination_memory_index, actions.DEC(destination_value, Instruction_Data.Bit_Mode_ENUM._64_BIT));
+                                    break;
+                            }
+
+                            break;
+                    }
+
+                    break;
+
                 case Instruction_Data.Instruction_ENUM.MOV:
                     switch (instruction_to_execute.variant)
                     {
@@ -223,11 +296,11 @@ namespace EmuX
                             break;
 
                         case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
-                            this.virtual_system.SetRegisterValue(instruction_to_execute.destination_register, source_value);
+                            this.virtual_system.SetRegisterQuad(instruction_to_execute.destination_register, source_value);
                             break;
 
                         case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
-                            this.virtual_system.SetRegisterValue(instruction_to_execute.destination_register, source_value);
+                            this.virtual_system.SetRegisterQuad(instruction_to_execute.destination_register, source_value);
                             break;
                     }
 
@@ -250,7 +323,6 @@ namespace EmuX
         {
             return this.error;
         }
-
 
         /// <summary>
         /// Resets the error and exit_found boolean variable so that execution can return to normal
@@ -277,6 +349,22 @@ namespace EmuX
         public void SetVirtualSystem(VirtualSystem virtual_system)
         {
             this.virtual_system = virtual_system;
+        }
+
+        /// <summary>
+        /// Finds the memory index of said label
+        /// </summary>
+        /// <param name="labels">The label data</param>
+        /// <param name="label_name_to_find">The label name to find</param>
+        /// <returns>The memory index of the label, if the label is not found it returns -1</returns>
+        private int GetLabelMemoryIndex(List<(string, int)> labels, string label_name_to_find)
+        {
+            if (label_name_to_find != "")
+                for (int i = 0; i < labels.Count; i++)
+                    if (labels[i].Item1 == label_name_to_find)
+                        return labels[i].Item2;
+
+            return -1;
         }
 
         /// <summary>

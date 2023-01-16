@@ -94,6 +94,12 @@ namespace EmuX
                 return;
             }
 
+            // TODO: Add a verifier class to verify if
+            // the instructions are correct, for example
+            // the user cannot enter an instruction that
+            // can only use up to 32 bits to a 64 bits
+            // register or memory location
+
             // initialize and set the data for the emulator
             List<Instruction> instructions = this.analyzer.GetInstructions();
             List<StaticData> static_data = this.analyzer.GetStaticData();

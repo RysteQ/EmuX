@@ -25,10 +25,10 @@ namespace EmuX
         // All the possible instructions (I will slowly build upon this)
         public enum Instruction_ENUM
         {
-            // AAA, This instructioni is not in x86_64
+            AAA,
             AAD,
             AAM,
-            // AAS, This instructioni is not in x86_64
+            AAS,
             ADC,
             ADD,
             AND,
@@ -166,6 +166,9 @@ namespace EmuX
 
             NoN
         }
+
+        public bool HIGH = true;
+        public bool LOW = false;
 
         public readonly string[] _64_bit_registers =
 {
