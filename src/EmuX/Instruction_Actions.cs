@@ -9,19 +9,45 @@ namespace EmuX
     internal class Instruction_Actions
     {
         /// <summary>
-        /// NOT IMPLEMENTED
+        /// The AAA instruction
         /// </summary>
-        public void AAD()
+        /// <param name="ax_register_value">The value of the AX register</param>
+        /// <param name="flags">The EFLAGS register value</param>
+        /// <returns>The adjusted value of the AX register and the adjusted value of the EFLAGS register</returns>
+        public (ushort, uint) AAA(ushort ax_register_value, uint flags)
         {
-            // I do not understand what this does and / or I cannot find what it does online
+            if (((ax_register_value) & 0x000F) > 9 || (flags & 0x00000010) == 1)
+            {
+                ax_register_value = (ushort) (((ax_register_value & 0xFF00) + 1) + ((ax_register_value & 0x00FF) + 6));
+                flags = flags | 0x00000010;
+                flags = flags | 0x00000001;
+
+                return (ax_register_value, flags);
+            }
+
+            flags = flags & 0xFFFFFFFC;
+
+            return (ax_register_value, flags);
         }
 
         /// <summary>
-        /// NOT IMPLEMENTED
+        /// The AAD instruction
         /// </summary>
-        public void AAM()
+        /// <param name="ax_register_value">The current value of the AX register</param>
+        /// <returns>The sum of AH and AL</returns>
+        public ushort AAD(ushort ax_register_value)
         {
-            // I do not understand what this does and / or I cannot find what it does online
+            return (ushort) ((ax_register_value & 0xFF00) + (ax_register_value & 0x00FF));
+        }
+
+        /// <summary>
+        /// The AAM instruction
+        /// </summary>
+        /// <param name="ax_register_value">The current value of the AX register</param>
+        /// <returns>The sum of AH / 10 plus the remainder of the division</returns>
+        public ushort AAM(ushort ax_register_value)
+        {
+            return (ushort) ((((ax_register_value & 0xFF00) / 10) << 8) + (ax_register_value & 0xFF00) % 10);
         }
 
         /// <summary>

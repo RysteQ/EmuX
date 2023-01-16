@@ -144,7 +144,6 @@ namespace EmuX
             ulong source_value = AnalyzeInstructionSource(instruction_to_execute, this.virtual_system);
             string memory_destination = instruction_to_execute.destination_memory_name;
             int to_return_to = 0;
-            ulong temp_value = 0;
             int destination_memory_index = GetLabelMemoryIndex(this.labels, instruction_to_execute.destination_memory_name);
             int source_memory_index = GetLabelMemoryIndex(this.labels, instruction_to_execute.source_memory_name);
             // ---
@@ -154,6 +153,19 @@ namespace EmuX
 
             switch (instruction_to_execute.instruction)
             {
+                case Instruction_Data.Instruction_ENUM.AAA:
+                    this.virtual_system.SetRegisterShort(Instruction_Data.Registers_ENUM.RAX, actions.AAA((ushort) destination_value, this.virtual_system.GetEFLAGS()).Item1);
+                    this.virtual_system.SetEflags(actions.AAA((ushort) destination_value, this.virtual_system.GetEFLAGS()).Item2);
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.AAD:
+                    this.virtual_system.SetRegisterShort(Instruction_Data.Registers_ENUM.RAX, actions.AAD((ushort) destination_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.AAM:
+                    this.virtual_system.SetRegisterShort(Instruction_Data.Registers_ENUM.RAX, actions.AAM((ushort)destination_value));
+                    break;
+
                 // TODO LATER
                 case Instruction_Data.Instruction_ENUM.ADC:
                     break;
