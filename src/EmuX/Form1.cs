@@ -93,7 +93,7 @@ namespace EmuX
                 MessageBox.Show("There was an error at line " + error_line.ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            
             // TODO: Add a verifier class to verify if
             // the instructions are correct, for example
             // the user cannot enter an instruction that

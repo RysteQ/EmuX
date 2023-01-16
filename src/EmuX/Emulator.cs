@@ -167,6 +167,7 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.ADC:
+                    // MoveValue(actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()), destination_memory_index, instruction_to_execute, new List<Instruction_Data.Instruction_Variant_ENUM>() { Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER }, instruction_to_execute.bit_mode, instruction_to_execute.high_or_low);
                     if (instruction_to_execute.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER
                         || instruction_to_execute.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE
                         || instruction_to_execute.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS)
@@ -334,6 +335,7 @@ namespace EmuX
 
                     break;
 
+                // TO WORK ON
                 case Instruction_Data.Instruction_ENUM.MOV:
                     switch (instruction_to_execute.variant)
                     {
@@ -397,6 +399,96 @@ namespace EmuX
         public void SetVirtualSystem(VirtualSystem virtual_system)
         {
             this.virtual_system = virtual_system;
+        }
+
+        /// <summary>
+        /// Moves the value to the correct register or memory
+        /// </summary>
+        /// <param name="value">The value to saved</param>
+        /// <param name="variant">The variant of the instruction</param>
+        /// <param name="allowed_variants">A list of all allowed variants</param>
+        /// <param name="allowed_bit_modes">The list of all allowed bit modes</param>
+        private void MoveValue(ulong value, int memory_index, Instruction instruction, List<Instruction_Data.Instruction_Variant_ENUM> allowed_variants)
+        {
+            Instruction_Data.Registers_ENUM register = instruction.destination_register;
+            Instruction_Data.Instruction_Variant_ENUM variant = instruction.variant;
+            Instruction_Data.Bit_Mode_ENUM current_bit_mode = instruction.bit_mode;
+            bool high_or_low = instruction.high_or_low;
+
+            switch (current_bit_mode)
+            {
+                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                    if ((variant == Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS)
+                    && allowed_variants.Contains(variant))
+                    {
+                        this.virtual_system.SetRegisterByte(register, (byte) value, high_or_low);
+                    }
+                    else if ((variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER
+                            || variant == Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE)
+                            && allowed_variants.Contains(variant))
+                    {
+                        this.virtual_system.SetByteMemory(memory_index, (byte) value);
+                    }
+
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                    if ((variant == Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS)
+                    && allowed_variants.Contains(variant))
+                    {
+                        this.virtual_system.SetRegisterShort(register, (ushort) value);
+                    }
+                    else if ((variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER
+                            || variant == Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE)
+                            && allowed_variants.Contains(variant))
+                    {
+                        this.virtual_system.SetShortMemory(memory_index, (ushort) value);
+                    }
+
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                    if ((variant == Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS)
+                    && allowed_variants.Contains(variant))
+                    {
+                        this.virtual_system.SetRegisterDouble(register, (uint) value);
+                    }
+                    else if ((variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER
+                            || variant == Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE)
+                            && allowed_variants.Contains(variant))
+                    {
+                        this.virtual_system.SetDoubleMemory(memory_index, (uint) value);
+                    }
+
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                    if ((variant == Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE
+                    || variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS)
+                    && allowed_variants.Contains(variant))
+                    {
+                        this.virtual_system.SetRegisterQuad(register, value);
+                    }
+                    else if ((variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER
+                            || variant == Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE)
+                            && allowed_variants.Contains(variant))
+                    {
+                        this.virtual_system.SetQuadMemory(memory_index, value);
+                    }
+
+                    break;
+            }
         }
 
         /// <summary>

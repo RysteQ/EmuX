@@ -12,7 +12,7 @@ namespace EmuX
         public int memory_location;
         public SIZE size_in_bits;
         public ulong value;
-
+        
         public enum SIZE
         {
             _8_BIT,
