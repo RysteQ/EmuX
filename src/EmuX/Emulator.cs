@@ -127,8 +127,8 @@ namespace EmuX
         /// </summary>
         public void Execute()
         {
-            // make sure there are instructions to run in the first place
-            if (this.instructions.Count == 0)
+            // make sure there are instructions to run in the first place / the instruction is not the special EXIT instruction
+            if (this.instructions.Count == 0 || this.instructions[this.current_instruction_index].instruction == Instruction_Data.Instruction_ENUM.EXIT)
                 return;
 
             Instruction_Actions actions = new Instruction_Actions();
@@ -166,10 +166,46 @@ namespace EmuX
                     this.virtual_system.SetRegisterShort(Instruction_Data.Registers_ENUM.RAX, actions.AAM((ushort)destination_value));
                     break;
 
-                // TODO LATER
                 case Instruction_Data.Instruction_ENUM.ADC:
+                    if (instruction_to_execute.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER
+                        || instruction_to_execute.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE
+                        || instruction_to_execute.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS)
+                    {
+                        switch (instruction_to_execute.bit_mode)
+                        {
+                            case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                                this.virtual_system.SetRegisterByte(instruction_to_execute.destination_register, (byte)actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()), instruction_to_execute.high_or_low);
+                                break;
+
+                            case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                                this.virtual_system.SetRegisterShort(instruction_to_execute.destination_register, (ushort)actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()));
+                                break;
+
+                            case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                                this.virtual_system.SetRegisterDouble(instruction_to_execute.destination_register, (uint)actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()));
+                                break;
+                        }
+                    } else if (instruction_to_execute.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER)
+                    {
+                        switch (instruction_to_execute.bit_mode)
+                        {
+                            case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                                this.virtual_system.SetByteMemory(destination_memory_index, (byte) actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()));
+                                break;
+
+                            case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                                this.virtual_system.SetShortMemory(destination_memory_index, (ushort) actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()));
+                                break;
+
+                            case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                                this.virtual_system.SetDoubleMemory(destination_memory_index, (uint) actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()));
+                                break;
+                        }
+                    }
+
                     break;
 
+                // TODO LATER
                 case Instruction_Data.Instruction_ENUM.ADD:
                     break;
 

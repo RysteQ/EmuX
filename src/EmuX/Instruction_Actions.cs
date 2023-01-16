@@ -55,13 +55,13 @@ namespace EmuX
         /// </summary>
         /// <param name="destination">The destination value</param>
         /// <param name="source">The source value</param>
-        /// <param name="carry_flag">The carry flag value (bool)</param>
-        /// <returns>A ulong value of the result of destination + source + carry_flag</returns>
-        public ulong ADC(ulong destination, ulong source, bool carry_flag)
+        /// <param name="flags">The EFLAGS register value</param>
+        /// <returns>A ulong value of the result of destination + source + CF</returns>
+        public ulong ADC(ulong destination, ulong source, uint flags)
         {
             ulong toReturn = destination + source;
 
-            if (carry_flag)
+            if (flags % 2 == 1)
                 toReturn++;
 
             return toReturn;
