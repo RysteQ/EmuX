@@ -265,6 +265,7 @@ namespace EmuX
                     this.virtual_system.SetEflags(actions.CMP(destination_value, source_value, this.virtual_system.GetEFLAGS()));
                     break;
 
+                    /*
                 case Instruction_Data.Instruction_ENUM.CMPSB:
                     this.virtual_system.SetEflags(actions.CMPSB((byte) destination_value, (byte) source_value, this.virtual_system.GetEFLAGS()));
                     break;
@@ -272,6 +273,7 @@ namespace EmuX
                 case Instruction_Data.Instruction_ENUM.CMPSW:
                     this.virtual_system.SetEflags(actions.CMPSW((ushort) destination_value, (ushort) source_value, this.virtual_system.GetEFLAGS()));
                     break;
+                    */
 
                 case Instruction_Data.Instruction_ENUM.CWD:
                     this.virtual_system.SetRegisterQuad(Instruction_Data.Registers_ENUM.RDX, actions.CWD(destination_value));

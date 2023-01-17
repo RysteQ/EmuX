@@ -93,18 +93,24 @@ namespace EmuX
                 MessageBox.Show("There was an error at line " + error_line.ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            
-            // TODO: Add a verifier class to verify if
-            // the instructions are correct, for example
-            // the user cannot enter an instruction that
-            // can only use up to 32 bits to a 64 bits
-            // register or memory location
 
-            // initialize and set the data for the emulator
+            // initialize the data for the emulator
             List<Instruction> instructions = this.analyzer.GetInstructions();
             List<StaticData> static_data = this.analyzer.GetStaticData();
             List<(string, int)> labels = this.analyzer.GetLabelData();
 
+            // make sure the instructions are of the correct variant and bitmode
+            verifier.SetInstructionData(instructions);
+            verifier.VerifyInstructions();
+
+            if (verifier.AreInstructionsValid() == false)
+            {
+                int error_index = verifier.GetInstructionIndexError() + 1;
+                string error_message = verifier.GetErrorMessage();
+                MessageBox.Show("There was an error at line " + error_index.ToString() + "\nMessage: " + error_message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            // clear the previous values and prepare all the data the emulator needs
             this.virtual_system.ClearCallStack();
 
             this.emulator.SetVirtualSystem(this.virtual_system);
@@ -503,6 +509,7 @@ namespace EmuX
 
         private Analyzer analyzer = new Analyzer();
         private Emulator emulator = new Emulator();
+        private Verifier verifier = new Verifier();
         private string save_path = "";
     }
 }

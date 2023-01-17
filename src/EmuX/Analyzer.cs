@@ -121,8 +121,8 @@ namespace EmuX
 
                     // add to the instruction the label
                     instruction_to_add.instruction = Instruction_ENUM.LABEL;
-                    instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
-                    instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
+                    instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                    instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
                     instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
                     instruction_to_add = AssignBitMode(instruction_to_add, "");
                     this.instructions.Add(instruction_to_add);
@@ -133,7 +133,7 @@ namespace EmuX
                 instruction_to_add.instruction = GetInstruction(tokens[0]);
 
                 // check if the instruction exists or not
-                if (instruction_to_add.instruction == Instruction_Data.Instruction_ENUM.NoN)
+                if (instruction_to_add.instruction == Instruction_ENUM.NoN)
                 {
                     AnalyzerError(i);
                     return;
@@ -143,37 +143,37 @@ namespace EmuX
                 instruction_to_add.variant = GetVariant(instruction_to_add.instruction, tokens);
 
                 // check if the instruction is of a valid variant or not
-                if (instruction_to_add.variant == Instruction_Data.Instruction_Variant_ENUM.NoN)
+                if (instruction_to_add.variant == Instruction_Variant_ENUM.NoN)
                 {
                     AnalyzerError(i);
                     return;
                 }
 
-                Instruction_Data.Registers_ENUM destination_register;
-                Instruction_Data.Registers_ENUM source_register;
+                Registers_ENUM destination_register;
+                Registers_ENUM source_register;
                 int value;
                 
                 switch (instruction_to_add.variant)
                 {
-                    case Instruction_Data.Instruction_Variant_ENUM.SINGLE:
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
+                    case Instruction_Variant_ENUM.SINGLE:
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
                         instruction_to_add = AssignBitMode(instruction_to_add, "");
                         break;
 
-                    case Instruction_Data.Instruction_Variant_ENUM.LABEL:
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.LABEL, Instruction_Data.Memory_Type_ENUM.NoN);
+                    case Instruction_Variant_ENUM.LABEL:
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.LABEL, Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
                         instruction_to_add = AssignBitMode(instruction_to_add, "");
                         break;
 
-                    case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
+                    case Instruction_Variant_ENUM.SINGLE_REGISTER:
                         destination_register = GetRegister(tokens[1].ToUpper());
 
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
                         instruction_to_add = AssignBitMode(instruction_to_add, tokens[1].ToUpper());
 
@@ -183,7 +183,7 @@ namespace EmuX
 
                         break;
 
-                    case Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE:
+                    case Instruction_Variant_ENUM.SINGLE_VALUE:
                         // convert the number from base 10 / binary / hex to an integer
                         if (int.TryParse(tokens[1], out value) == false)
                         {
@@ -195,25 +195,25 @@ namespace EmuX
                                 value = base_converter.ConvertHexToInt(tokens[1]);
                         }
                             
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.VALUE, Instruction_Data.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.VALUE, Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, value.ToString(), "");
                         instruction_to_add = AssignBitMode(instruction_to_add, "");
                         break;
 
-                    case Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, Instruction_Data.Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
+                    case Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1].Trim('[', ']'), "");
                         instruction_to_add = AssignBitMode(instruction_to_add, "");
                         break;
 
-                    case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
+                    case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
                         destination_register = GetRegister(tokens[1].ToUpper());
                         source_register = GetRegister(tokens[2].ToUpper());
 
                         instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, source_register);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
                         instruction_to_add = AssignBitMode(instruction_to_add, tokens[2].ToUpper());
 
@@ -223,7 +223,7 @@ namespace EmuX
 
                         break;
 
-                    case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
+                    case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
                         destination_register = GetRegister(tokens[1].ToUpper());
 
                         // convert the number from base 10 / binary / hex to an integer
@@ -237,8 +237,8 @@ namespace EmuX
                                 value = base_converter.ConvertHexToInt(tokens[1]);
                         }
 
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.NoN, Instruction_Data.Memory_Type_ENUM.VALUE);
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.VALUE);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", value.ToString());
                         instruction_to_add = AssignBitMode(instruction_to_add, tokens[1].ToUpper());
 
@@ -248,11 +248,11 @@ namespace EmuX
 
                         break;
 
-                    case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
+                    case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
                         destination_register = GetRegister(tokens[1].ToUpper());
 
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Instruction_Data.Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", tokens[2].Trim('[', ']'));
 
                         // check if the register is 8 bit or not
@@ -261,11 +261,11 @@ namespace EmuX
 
                         break;
 
-                    case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
+                    case Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
                         source_register = GetRegister(tokens[2].ToUpper());
 
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Instruction_Data.Registers_ENUM.NoN, source_register);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Instruction_Data.Memory_Type_ENUM.ADDRESS, Instruction_Data.Memory_Type_ENUM.NoN);
+                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, source_register);
+                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
                         instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
 
                         // check if the register is 8 bit or not
@@ -332,14 +332,14 @@ namespace EmuX
         /// </summary>
         /// <param name="opcode_to_analyze">The string value of the opcode to analyze</param>
         /// <returns>The instruction Enum (MOV, ADD, etc)</returns>
-        private Instruction_Data.Instruction_ENUM GetInstruction(string opcode_to_analyze)
+        private Instruction_ENUM GetInstruction(string opcode_to_analyze)
         {
-            Instruction_Data.Instruction_ENUM toReturn;
+            Instruction_ENUM toReturn;
 
-            if (Enum.TryParse<Instruction_Data.Instruction_ENUM>(opcode_to_analyze.ToUpper(), out toReturn))
+            if (Enum.TryParse<Instruction_ENUM>(opcode_to_analyze.ToUpper(), out toReturn))
                 return toReturn;
 
-            return Instruction_Data.Instruction_ENUM.NoN;
+            return Instruction_ENUM.NoN;
         }
 
         /// <summary>
@@ -348,13 +348,13 @@ namespace EmuX
         /// <param name="instruction">The instruction enum (MOV, ADD, etc)</param>
         /// <param name="tokens">The tokens to analyze</param>
         /// <returns>The instruction variant</returns>
-        private Instruction_Data.Instruction_Variant_ENUM GetVariant(Instruction_Data.Instruction_ENUM instruction, string[] tokens)
+        private Instruction_Variant_ENUM GetVariant(Instruction_ENUM instruction, string[] tokens)
         {
             Instruction_Groups instruction_groups = new Instruction_Groups();
 
             // check if the instruction has no operands
             if (instruction_groups.no_operands.Contains(instruction) && tokens.Length == 1)
-                return Instruction_Data.Instruction_Variant_ENUM.SINGLE;
+                return Instruction_Variant_ENUM.SINGLE;
 
             // check if the instruction refers to a label
             if (instruction_groups.one_label.Contains(instruction) && tokens.Length == 2)
@@ -368,15 +368,15 @@ namespace EmuX
                 // check if it points to a value in memory
                 if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
                     if (GetCharOccurrences(tokens[1], '[') == 1 && GetCharOccurrences(tokens[1], ']') == 1)
-                        return Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE;
+                        return Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE;
 
                 // check if it refers to a register
-                if (GetRegister(tokens[1].ToUpper()) != Instruction_Data.Registers_ENUM.NoN)
-                    return Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER;
+                if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
+                    return Instruction_Variant_ENUM.SINGLE_REGISTER;
 
                 // check if it refers to an int
                 if (int.TryParse(tokens[1], out integer_junk))
-                    return Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE;
+                    return Instruction_Variant_ENUM.SINGLE_VALUE;
 
                 // check if it refers to binary
                 if (tokens[1].ToUpper().EndsWith('B'))
@@ -388,13 +388,13 @@ namespace EmuX
                             acceptable_binary_number = false;
 
                     if (acceptable_binary_number)
-                        return Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE;
+                        return Instruction_Variant_ENUM.SINGLE_VALUE;
                 }
 
                 // check if it refers to hex
                 if (tokens[1].ToUpper().EndsWith('H'))
                     if (new HexConverter().IsHex(tokens[1].ToUpper().TrimEnd('H')))
-                        return Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE;
+                        return Instruction_Variant_ENUM.SINGLE_VALUE;
             }
 
             // check if the instruction has two operands
@@ -405,45 +405,45 @@ namespace EmuX
                 // check if the destination and source are both registers
                 if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
                     if (GetRegister(tokens[2]) != Registers_ENUM.NoN)
-                        return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER;
+                        return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER;
 
                 // check if the destination is a register and source a number
                 if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
                 {
                     // check if it refers to an int
                     if (int.TryParse(tokens[2], out integer_junk))
-                        return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
+                        return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if it refers to binary
                     if (tokens[2].ToUpper().EndsWith('B'))
                         if (new HexConverter().IsBinary(tokens[2].ToUpper().TrimEnd('B')))
-                            return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
+                            return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if it refers to hex
                     if (tokens[2].ToUpper().EndsWith('H'))
                         if (new HexConverter().IsHex(tokens[2].ToUpper().TrimEnd('H')))
-                            return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
+                            return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // Check if it refers to an ASCII character
                     if (tokens[2].EndsWith('\'') && tokens[2].StartsWith('\''))
                         if (tokens[2].Length == 3)
-                            return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
+                            return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if the destination is a register and the source is a value from memory
-                    if (GetRegister(tokens[1].ToUpper()) != Instruction_Data.Registers_ENUM.NoN)
+                    if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
                         if (tokens[2].StartsWith('[') && tokens[2].EndsWith(']'))
                             if (GetCharOccurrences(tokens[2], '[') == 1 && GetCharOccurrences(tokens[2], ']') == 1)
-                                return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
+                                return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
 
                     // check if the destination is a location in memory and the source is a register
                     if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
                         if (GetCharOccurrences(tokens[1], '[') == 1 && GetCharOccurrences(tokens[1], ']') == 1)
-                            if (GetRegister(tokens[1].ToUpper()) != Instruction_Data.Registers_ENUM.NoN)
-                                return Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
+                            if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
+                                return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
                 }
             }
 
-            return Instruction_Data.Instruction_Variant_ENUM.NoN;
+            return Instruction_Variant_ENUM.NoN;
         }
 
         /// <summary>
@@ -451,10 +451,10 @@ namespace EmuX
         /// </summary>
         /// <param name="register_name">The name of the register</param>
         /// <returns>The register enum of the matched register</returns>
-        private Instruction_Data.Registers_ENUM GetRegister(string register_name)
+        private Registers_ENUM GetRegister(string register_name)
         {
             // the register types
-            Instruction_Data.Registers_ENUM[] register_type= new Instruction_Data.Registers_ENUM[] {
+            Registers_ENUM[] register_type= new Registers_ENUM[] {
                 Registers_ENUM.RAX,
                 Registers_ENUM.RBX,
                 Registers_ENUM.RCX,
@@ -504,7 +504,7 @@ namespace EmuX
                         return register_type[i];
 
             // return NoN if a match wasnt found
-            return Instruction_Data.Registers_ENUM.NoN;
+            return Registers_ENUM.NoN;
         }
 
         /// <summary>
@@ -567,7 +567,7 @@ namespace EmuX
         /// <param name="destination_register">The destination register</param>
         /// <param name="source_register">The source register</param>
         /// <returns>The modified instruction</returns>
-        private Instruction AssignRegisterParameters(Instruction instruction, Instruction_Data.Registers_ENUM destination_register, Instruction_Data.Registers_ENUM source_register)
+        private Instruction AssignRegisterParameters(Instruction instruction, Registers_ENUM destination_register, Registers_ENUM source_register)
         {
             instruction.destination_register = destination_register;
             instruction.source_register = source_register;
@@ -582,7 +582,7 @@ namespace EmuX
         /// <param name="destination_memory_type">The destination memory type, either it be a register / value or label</param>
         /// <param name="source_memory_type">The source memory type, either it be a register / value or label</param>
         /// <returns>The modified instruction</returns>
-        private Instruction AssignMemoryTypeParameters(Instruction instruction, Instruction_Data.Memory_Type_ENUM destination_memory_type, Instruction_Data.Memory_Type_ENUM source_memory_type)
+        private Instruction AssignMemoryTypeParameters(Instruction instruction, Memory_Type_ENUM destination_memory_type, Memory_Type_ENUM source_memory_type)
         {
             instruction.source_memory_type = source_memory_type;
             instruction.destination_memory_type = destination_memory_type;
@@ -613,22 +613,22 @@ namespace EmuX
         /// <returns>The instruction with the Bit_Mode_ENUM assigned</returns>
         private Instruction AssignBitMode(Instruction instruction, string register_token)
         {
-            if ((instruction.destination_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_register == Instruction_Data.Registers_ENUM.NoN) || register_token == "")
+            if ((instruction.destination_register == Registers_ENUM.NoN && instruction.source_register == Registers_ENUM.NoN) || register_token == "")
             {
-                instruction.bit_mode = Instruction_Data.Bit_Mode_ENUM.NoN;
+                instruction.bit_mode = Bit_Mode_ENUM.NoN;
                 return instruction;
             }
 
             Instruction_Data instruction_object = new Instruction_Data();
 
             if (instruction_object._64_bit_registers.Contains(register_token))
-                instruction.bit_mode = Instruction_Data.Bit_Mode_ENUM._64_BIT;
+                instruction.bit_mode = Bit_Mode_ENUM._64_BIT;
             else if (instruction_object._32_bit_registers.Contains(register_token))
-                instruction.bit_mode = Instruction_Data.Bit_Mode_ENUM._32_BIT;
+                instruction.bit_mode = Bit_Mode_ENUM._32_BIT;
             else if (instruction_object._16_bit_registers.Contains(register_token))
-                instruction.bit_mode = Instruction_Data.Bit_Mode_ENUM._16_BIT;
+                instruction.bit_mode = Bit_Mode_ENUM._16_BIT;
             else
-                instruction.bit_mode = Instruction_Data.Bit_Mode_ENUM._8_BIT;
+                instruction.bit_mode = Bit_Mode_ENUM._8_BIT;
 
             return instruction;
         }
@@ -654,120 +654,119 @@ namespace EmuX
         // to continue from JCXZ
         private class Instruction_Groups
         {
-            public Instruction_Data.Instruction_ENUM[] no_operands = new Instruction_Data.Instruction_ENUM[]
+            public Instruction_ENUM[] no_operands = new Instruction_ENUM[]
             {
                 Instruction_ENUM.EXIT,
-                Instruction_Data.Instruction_ENUM.AAA,
-                Instruction_Data.Instruction_ENUM.AAD,
-                Instruction_Data.Instruction_ENUM.AAM,
-                Instruction_Data.Instruction_ENUM.AAS,
-                Instruction_Data.Instruction_ENUM.CLC,
-                Instruction_Data.Instruction_ENUM.CLD,
-                Instruction_Data.Instruction_ENUM.CLI,
-                Instruction_Data.Instruction_ENUM.CBW,
-                Instruction_Data.Instruction_ENUM.CWD,
-                Instruction_Data.Instruction_ENUM.DAA,
-                Instruction_Data.Instruction_ENUM.DAS,
-                Instruction_Data.Instruction_ENUM.HTL,
-                Instruction_Data.Instruction_ENUM.INTO,
-                Instruction_Data.Instruction_ENUM.IRET,
-                Instruction_Data.Instruction_ENUM.LAHF,
-                Instruction_Data.Instruction_ENUM.NOP,
-                Instruction_Data.Instruction_ENUM.POPF,
-                Instruction_Data.Instruction_ENUM.PUSHF,
-                Instruction_Data.Instruction_ENUM.RCR,
-                Instruction_Data.Instruction_ENUM.RET,
-                Instruction_Data.Instruction_ENUM.SAHF,
-                Instruction_Data.Instruction_ENUM.STC,
-                Instruction_Data.Instruction_ENUM.STD,
-                Instruction_Data.Instruction_ENUM.STI,
+                Instruction_ENUM.AAA,
+                Instruction_ENUM.AAD,
+                Instruction_ENUM.AAM,
+                Instruction_ENUM.AAS,
+                Instruction_ENUM.CLC,
+                Instruction_ENUM.CLD,
+                Instruction_ENUM.CLI,
+                Instruction_ENUM.CBW,
+                Instruction_ENUM.CWD,
+                Instruction_ENUM.DAA,
+                Instruction_ENUM.DAS,
+                Instruction_ENUM.HTL,
+                Instruction_ENUM.INTO,
+                Instruction_ENUM.IRET,
+                Instruction_ENUM.LAHF,
+                Instruction_ENUM.NOP,
+                Instruction_ENUM.POPF,
+                Instruction_ENUM.PUSHF,
+                Instruction_ENUM.RCR,
+                Instruction_ENUM.RET,
+                Instruction_ENUM.SAHF,
+                Instruction_ENUM.STC,
+                Instruction_ENUM.STD,
+                Instruction_ENUM.STI,
             };
 
-            public Instruction_Data.Instruction_ENUM[] one_label = new Instruction_Data.Instruction_ENUM[]
+            public Instruction_ENUM[] one_label = new Instruction_ENUM[]
             {
-                Instruction_Data.Instruction_ENUM.CALL,
-                Instruction_Data.Instruction_ENUM.JA,
-                Instruction_Data.Instruction_ENUM.JAE,
-                Instruction_Data.Instruction_ENUM.JB,
-                Instruction_Data.Instruction_ENUM.JBE,
-                Instruction_Data.Instruction_ENUM.JC,
-                Instruction_Data.Instruction_ENUM.JE,
-                Instruction_Data.Instruction_ENUM.JG,
-                Instruction_Data.Instruction_ENUM.JGE,
-                Instruction_Data.Instruction_ENUM.JL,
-                Instruction_Data.Instruction_ENUM.JLE,
-                Instruction_Data.Instruction_ENUM.JNA,
-                Instruction_Data.Instruction_ENUM.JNE,
-                Instruction_Data.Instruction_ENUM.JNB,
-                Instruction_Data.Instruction_ENUM.JNBE,
-                Instruction_Data.Instruction_ENUM.JNC,
-                Instruction_Data.Instruction_ENUM.JNE,
-                Instruction_Data.Instruction_ENUM.JNG,
-                Instruction_Data.Instruction_ENUM.JNGE,
-                Instruction_Data.Instruction_ENUM.JNL,
-                Instruction_Data.Instruction_ENUM.JNLE,
-                Instruction_Data.Instruction_ENUM.JNO,
-                Instruction_Data.Instruction_ENUM.JNP,
-                Instruction_Data.Instruction_ENUM.JNS,
-                Instruction_Data.Instruction_ENUM.JNZ,
-                Instruction_Data.Instruction_ENUM.JO,
-                Instruction_Data.Instruction_ENUM.JP,
-                Instruction_Data.Instruction_ENUM.JPE,
-                Instruction_Data.Instruction_ENUM.JPO,
-                Instruction_Data.Instruction_ENUM.JS,
-                Instruction_Data.Instruction_ENUM.JZ,
-                Instruction_Data.Instruction_ENUM.JCXZ,
-                Instruction_Data.Instruction_ENUM.JMP,
+                Instruction_ENUM.CALL,
+                Instruction_ENUM.JA,
+                Instruction_ENUM.JAE,
+                Instruction_ENUM.JB,
+                Instruction_ENUM.JBE,
+                Instruction_ENUM.JC,
+                Instruction_ENUM.JE,
+                Instruction_ENUM.JG,
+                Instruction_ENUM.JGE,
+                Instruction_ENUM.JL,
+                Instruction_ENUM.JLE,
+                Instruction_ENUM.JNA,
+                Instruction_ENUM.JNE,
+                Instruction_ENUM.JNB,
+                Instruction_ENUM.JNBE,
+                Instruction_ENUM.JNC,
+                Instruction_ENUM.JNE,
+                Instruction_ENUM.JNG,
+                Instruction_ENUM.JNGE,
+                Instruction_ENUM.JNL,
+                Instruction_ENUM.JNLE,
+                Instruction_ENUM.JNO,
+                Instruction_ENUM.JNP,
+                Instruction_ENUM.JNS,
+                Instruction_ENUM.JNZ,
+                Instruction_ENUM.JO,
+                Instruction_ENUM.JP,
+                Instruction_ENUM.JPE,
+                Instruction_ENUM.JPO,
+                Instruction_ENUM.JS,
+                Instruction_ENUM.JZ,
+                Instruction_ENUM.JCXZ,
+                Instruction_ENUM.JMP,
             };
 
-            public Instruction_Data.Instruction_ENUM[] one_operands = new Instruction_Data.Instruction_ENUM[]
+            public Instruction_ENUM[] one_operands = new Instruction_ENUM[]
             {
-                Instruction_Data.Instruction_ENUM.DEC,
-                Instruction_Data.Instruction_ENUM.INC,
-                Instruction_Data.Instruction_ENUM.INT,
-                Instruction_Data.Instruction_ENUM.NEG,
-                Instruction_Data.Instruction_ENUM.NOT,
-                Instruction_Data.Instruction_ENUM.POP,
-                Instruction_Data.Instruction_ENUM.PUSH,
+                Instruction_ENUM.DEC,
+                Instruction_ENUM.INC,
+                Instruction_ENUM.INT,
+                Instruction_ENUM.NEG,
+                Instruction_ENUM.NOT,
+                Instruction_ENUM.POP,
+                Instruction_ENUM.PUSH,
             };
 
-            public Instruction_Data.Instruction_ENUM[] two_operands = new Instruction_Data.Instruction_ENUM[]
+            public Instruction_ENUM[] two_operands = new Instruction_ENUM[]
             {
-                Instruction_Data.Instruction_ENUM.ADC,
-                Instruction_Data.Instruction_ENUM.ADD,
-                Instruction_Data.Instruction_ENUM.AND,
-                Instruction_Data.Instruction_ENUM.CMP,
-                Instruction_Data.Instruction_ENUM.CMPSB,
-                Instruction_Data.Instruction_ENUM.CMPSW,
-                Instruction_Data.Instruction_ENUM.DIV,
-                Instruction_Data.Instruction_ENUM.ESC,
-                Instruction_Data.Instruction_ENUM.IDIV,
-                Instruction_Data.Instruction_ENUM.IMUL,
-                Instruction_Data.Instruction_ENUM.LDS,
-                Instruction_Data.Instruction_ENUM.LEA,
-                Instruction_Data.Instruction_ENUM.LES,
-                Instruction_Data.Instruction_ENUM.LODSB,
-                Instruction_Data.Instruction_ENUM.LODSW,
-                Instruction_Data.Instruction_ENUM.MOV,
-                Instruction_Data.Instruction_ENUM.MOVSB,
-                Instruction_Data.Instruction_ENUM.MOVSW,
-                Instruction_Data.Instruction_ENUM.MUL,
-                Instruction_Data.Instruction_ENUM.OR,
-                Instruction_Data.Instruction_ENUM.RCL,
-                Instruction_Data.Instruction_ENUM.RCR,
-                Instruction_Data.Instruction_ENUM.ROL,
-                Instruction_Data.Instruction_ENUM.ROR,
-                Instruction_Data.Instruction_ENUM.SAL,
-                Instruction_Data.Instruction_ENUM.SAR,
-                Instruction_Data.Instruction_ENUM.SBB,
-                Instruction_Data.Instruction_ENUM.SCASB,
-                Instruction_Data.Instruction_ENUM.SCASW,
-                Instruction_Data.Instruction_ENUM.SHL,
-                Instruction_Data.Instruction_ENUM.SHR,
-                Instruction_Data.Instruction_ENUM.STOSB,
-                Instruction_Data.Instruction_ENUM.STOSW,
-                Instruction_Data.Instruction_ENUM.SUB,
-                Instruction_Data.Instruction_ENUM.XOR
+                Instruction_ENUM.ADC,
+                Instruction_ENUM.ADD,
+                Instruction_ENUM.AND,
+                Instruction_ENUM.CMP,
+                // Instruction_ENUM.CMPSB,
+                // Instruction_ENUM.CMPSW,
+                Instruction_ENUM.DIV,
+                Instruction_ENUM.IDIV,
+                Instruction_ENUM.IMUL,
+                Instruction_ENUM.LDS,
+                Instruction_ENUM.LEA,
+                Instruction_ENUM.LES,
+                Instruction_ENUM.LODSB,
+                Instruction_ENUM.LODSW,
+                Instruction_ENUM.MOV,
+                Instruction_ENUM.MOVSB,
+                Instruction_ENUM.MOVSW,
+                Instruction_ENUM.MUL,
+                Instruction_ENUM.OR,
+                Instruction_ENUM.RCL,
+                Instruction_ENUM.RCR,
+                Instruction_ENUM.ROL,
+                Instruction_ENUM.ROR,
+                Instruction_ENUM.SAL,
+                Instruction_ENUM.SAR,
+                Instruction_ENUM.SBB,
+                Instruction_ENUM.SCASB,
+                Instruction_ENUM.SCASW,
+                Instruction_ENUM.SHL,
+                Instruction_ENUM.SHR,
+                Instruction_ENUM.STOSB,
+                Instruction_ENUM.STOSW,
+                Instruction_ENUM.SUB,
+                Instruction_ENUM.XOR
             };
         }
     }
