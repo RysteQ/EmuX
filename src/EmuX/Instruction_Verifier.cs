@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-/*
+﻿/*
  * For those unfortunate to stumble across this file, let me warn you
  * 
  * What you are about to see is some really stupid code
@@ -13,6 +10,8 @@ using System.Linq;
  * I am sorry, may He have mercy upon my soul
  * 
  */
+
+using static EmuX.Instruction_Data;
 
 namespace EmuX
 {

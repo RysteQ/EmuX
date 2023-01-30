@@ -87,10 +87,10 @@ namespace EmuX
             if (analyzer.AnalyzingSuccessful() == false)
             {
                 // get the error line and the line that cause the error
-                int error_line = this.analyzer.GetErrorLine();
-                string error_line_text = RichTextboxAssemblyCode.Text.Split('\n')[error_line];
+                instruction_index = this.analyzer.GetErrorLine() + 1;
+                string error_line_text = this.analyzer.GetErrorLineData();
 
-                MessageBox.Show("There was an error at line " + error_line.ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error at line " + instruction_index.ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -105,9 +105,9 @@ namespace EmuX
 
             if (verifier.AreInstructionsValid() == false)
             {
-                int error_index = verifier.GetInstructionIndexError() + 1;
+                instruction_index = verifier.GetInstructionIndexError() + 1;
                 string error_message = verifier.GetErrorMessage();
-                MessageBox.Show("There was an error at line " + error_index.ToString() + "\nMessage: " + error_message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error at line " + instruction_index.ToString() + "\nMessage: " + error_message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             // clear the previous values and prepare all the data the emulator needs

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using static EmuX.Instruction_Data;
+﻿using static EmuX.Instruction_Data;
 
 namespace EmuX
 {
@@ -294,10 +288,22 @@ namespace EmuX
         /// <returns>The error line</returns>
         public int GetErrorLine()
         {
-            if (this.successful)
-                return this.error_line + 1;
+            if (this.successful == false)
+                return this.error_line;
 
             return -1;
+        }
+
+        /// <summary>
+        /// Getter - Returns the error line data the analyzer failed (if the analyzer threw an error that is)
+        /// </summary>
+        /// <returns>A string value of the error line</returns>
+        public string GetErrorLineData()
+        {
+            if (this.successful == false)
+                return this.error_line_data;
+
+            return "";
         }
 
         /// <summary>
@@ -640,18 +646,20 @@ namespace EmuX
         /// <param name="error_line">The line the error was encountered</param>
         private void AnalyzerError(int error_line)
         {
+            this.error_line_data = this.instructions_to_analyze[error_line];
             this.error_line = error_line;
+            this.successful = false;
         }
 
         private string instructions_data = "";
-        private string[] instructions_to_analyze;
+        private string[] instructions_to_analyze = new string[] { };
         private List<Instruction> instructions = new List<Instruction>();
         private List<StaticData> static_data = new List<StaticData>();
         private List<(string, int)> labels = new List<(string, int)>();
+        private string error_line_data = "";
         private bool successful = false;
         private int error_line = 0;
 
-        // to continue from JCXZ
         private class Instruction_Groups
         {
             public Instruction_ENUM[] no_operands = new Instruction_ENUM[]

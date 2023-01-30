@@ -1,5 +1,4 @@
 ﻿using EmuX;
-using System;
 
 class VirtualSystem
 {
