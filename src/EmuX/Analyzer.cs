@@ -30,8 +30,8 @@ namespace EmuX
             this.labels.Clear();
 
             this.instructions_to_analyze = this.instructions_data.Split('\n');
-            this.instructions_to_analyze = RemoveComments(this.instructions_to_analyze);
-            this.instructions_to_analyze = RemoveEmptyLines(this.instructions_to_analyze);
+            this.instructions_to_analyze = this.RemoveComments(this.instructions_to_analyze);
+            this.instructions_to_analyze = new StringHandler().RemoveEmptyLines(this.instructions_to_analyze);
 
             for (int i = 0; i < this.instructions_to_analyze.Length && this.successful; i++)
             {
@@ -92,14 +92,14 @@ namespace EmuX
                                 break;
 
                             default:
-                                AnalyzerError(i);
+                                this.AnalyzerError(i);
                                 return;
                         }
 
                         // check if the value is an integer or not and parse it
                         if (ulong.TryParse(tokens[2], out value_in_memory) == false)
                         {
-                            AnalyzerError(i);
+                            this.AnalyzerError(i);
                             return;
                         }
 
@@ -109,37 +109,37 @@ namespace EmuX
                         static_data.Add(new_static_data);
                     } else
                     {
-                        AnalyzerError(i);
+                        this.AnalyzerError(i);
                         return;
                     }
 
                     // add to the instruction the label
                     instruction_to_add.instruction = Instruction_ENUM.LABEL;
-                    instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
-                    instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
-                    instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
-                    instruction_to_add = AssignBitMode(instruction_to_add, "");
+                    instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                    instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
+                    instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", "");
+                    instruction_to_add = this.AssignBitMode(instruction_to_add, "");
                     this.instructions.Add(instruction_to_add);
 
                     continue;
                 } 
 
-                instruction_to_add.instruction = GetInstruction(tokens[0]);
+                instruction_to_add.instruction = this.GetInstruction(tokens[0]);
 
                 // check if the instruction exists or not
                 if (instruction_to_add.instruction == Instruction_ENUM.NoN)
                 {
-                    AnalyzerError(i);
+                    this.AnalyzerError(i);
                     return;
                 }
 
                 // TODO: Improve the GetVariant function
-                instruction_to_add.variant = GetVariant(instruction_to_add.instruction, tokens);
+                instruction_to_add.variant = this.GetVariant(instruction_to_add.instruction, tokens);
 
                 // check if the instruction is of a valid variant or not
                 if (instruction_to_add.variant == Instruction_Variant_ENUM.NoN)
                 {
-                    AnalyzerError(i);
+                    this.AnalyzerError(i);
                     return;
                 }
 
@@ -150,26 +150,26 @@ namespace EmuX
                 switch (instruction_to_add.variant)
                 {
                     case Instruction_Variant_ENUM.SINGLE:
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
-                        instruction_to_add = AssignBitMode(instruction_to_add, "");
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", "");
+                        instruction_to_add = this.AssignBitMode(instruction_to_add, "");
                         break;
 
                     case Instruction_Variant_ENUM.LABEL:
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.LABEL, Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
-                        instruction_to_add = AssignBitMode(instruction_to_add, "");
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.LABEL, Memory_Type_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
+                        instruction_to_add = this.AssignBitMode(instruction_to_add, "");
                         break;
 
                     case Instruction_Variant_ENUM.SINGLE_REGISTER:
-                        destination_register = GetRegister(tokens[1].ToUpper());
+                        destination_register = this.GetRegister(tokens[1].ToUpper());
 
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
-                        instruction_to_add = AssignBitMode(instruction_to_add, tokens[1].ToUpper());
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", "");
+                        instruction_to_add = this.AssignBitMode(instruction_to_add, tokens[1].ToUpper());
 
                         // check if the register is 8 bit or not
                         if (tokens[1].ToUpper().EndsWith('H'))
@@ -189,27 +189,27 @@ namespace EmuX
                                 value = base_converter.ConvertHexToInt(tokens[1]);
                         }
                             
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.VALUE, Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, value.ToString(), "");
-                        instruction_to_add = AssignBitMode(instruction_to_add, "");
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.VALUE, Memory_Type_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, value.ToString(), "");
+                        instruction_to_add = this.AssignBitMode(instruction_to_add, "");
                         break;
 
                     case Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1].Trim('[', ']'), "");
-                        instruction_to_add = AssignBitMode(instruction_to_add, "");
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, tokens[1].Trim('[', ']'), "");
+                        instruction_to_add = this.AssignBitMode(instruction_to_add, "");
                         break;
 
                     case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
-                        destination_register = GetRegister(tokens[1].ToUpper());
-                        source_register = GetRegister(tokens[2].ToUpper());
+                        destination_register = this.GetRegister(tokens[1].ToUpper());
+                        source_register = this.GetRegister(tokens[2].ToUpper());
 
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, source_register);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", "");
-                        instruction_to_add = AssignBitMode(instruction_to_add, tokens[2].ToUpper());
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, destination_register, source_register);
+                        instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", "");
+                        instruction_to_add = this.AssignBitMode(instruction_to_add, tokens[2].ToUpper());
 
                         // check if the register is 8 bit or not
                         if (tokens[2].ToUpper().EndsWith('H'))
@@ -218,7 +218,7 @@ namespace EmuX
                         break;
 
                     case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
-                        destination_register = GetRegister(tokens[1].ToUpper());
+                        destination_register = this.GetRegister(tokens[1].ToUpper());
 
                         // convert the number from base 10 / binary / hex to an integer
                         if (int.TryParse(tokens[2], out value) == false)
@@ -231,10 +231,10 @@ namespace EmuX
                                 value = base_converter.ConvertHexToInt(tokens[1]);
                         }
 
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.VALUE);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", value.ToString());
-                        instruction_to_add = AssignBitMode(instruction_to_add, tokens[1].ToUpper());
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.VALUE);
+                        instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", value.ToString());
+                        instruction_to_add = this.AssignBitMode(instruction_to_add, tokens[1].ToUpper());
 
                         // check if the register is 8 bit or not
                         if (tokens[1].ToUpper().EndsWith('H'))
@@ -245,9 +245,9 @@ namespace EmuX
                     case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
                         destination_register = GetRegister(tokens[1].ToUpper());
 
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, "", tokens[2].Trim('[', ']'));
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", tokens[2].Trim('[', ']'));
 
                         // check if the register is 8 bit or not
                         if (tokens[1].ToUpper().EndsWith('H'))
@@ -256,11 +256,11 @@ namespace EmuX
                         break;
 
                     case Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
-                        source_register = GetRegister(tokens[2].ToUpper());
+                        source_register = this.GetRegister(tokens[2].ToUpper());
 
-                        instruction_to_add = AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, source_register);
-                        instruction_to_add = AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
-                        instruction_to_add = AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, source_register);
+                        instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
 
                         // check if the register is 8 bit or not
                         if (tokens[2].ToUpper().EndsWith('H'))
@@ -357,6 +357,8 @@ namespace EmuX
         private Instruction_Variant_ENUM GetVariant(Instruction_ENUM instruction, string[] tokens)
         {
             Instruction_Groups instruction_groups = new Instruction_Groups();
+            HexConverter hex_converter = new HexConverter();
+            StringHandler string_handler = new StringHandler();
             int integer_junk;
 
             // check if the instruction has no operands
@@ -372,11 +374,11 @@ namespace EmuX
             {
                 // check if it points to a value in memory
                 if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
-                    if (GetCharOccurrences(tokens[1], '[') == 1 && GetCharOccurrences(tokens[1], ']') == 1)
+                    if (string_handler.GetCharOccurrences(tokens[1], '[') == 1 && string_handler.GetCharOccurrences(tokens[1], ']') == 1)
                         return Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE;
 
                 // check if it refers to a register
-                if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
+                if (this.GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
                     return Instruction_Variant_ENUM.SINGLE_REGISTER;
 
                 // check if it refers to an int
@@ -398,7 +400,7 @@ namespace EmuX
 
                 // check if it refers to hex
                 if (tokens[1].ToUpper().EndsWith('H'))
-                    if (new HexConverter().IsHex(tokens[1].ToUpper().TrimEnd('H')))
+                    if (hex_converter.IsHex(tokens[1].ToUpper().TrimEnd('H')))
                         return Instruction_Variant_ENUM.SINGLE_VALUE;
             }
 
@@ -406,12 +408,12 @@ namespace EmuX
             if (instruction_groups.two_operands.Contains(instruction) && tokens.Length == 3)
             {
                 // check if the destination and source are both registers
-                if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
-                    if (GetRegister(tokens[2]) != Registers_ENUM.NoN)
+                if (this.GetRegister(tokens[1]) != Registers_ENUM.NoN)
+                    if (this.GetRegister(tokens[2]) != Registers_ENUM.NoN)
                         return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER;
 
                 // check if the destination is a register and source a number
-                if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
+                if (this.GetRegister(tokens[1]) != Registers_ENUM.NoN)
                 {
                     // check if it refers to an int
                     if (int.TryParse(tokens[2], out integer_junk))
@@ -419,12 +421,12 @@ namespace EmuX
 
                     // check if it refers to binary
                     if (tokens[2].ToUpper().EndsWith('B'))
-                        if (new HexConverter().IsBinary(tokens[2].ToUpper().TrimEnd('B')))
+                        if (hex_converter.IsBinary(tokens[2].ToUpper().TrimEnd('B')))
                             return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if it refers to hex
                     if (tokens[2].ToUpper().EndsWith('H'))
-                        if (new HexConverter().IsHex(tokens[2].ToUpper().TrimEnd('H')))
+                        if (hex_converter.IsHex(tokens[2].ToUpper().TrimEnd('H')))
                             return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // Check if it refers to an ASCII character
@@ -433,15 +435,15 @@ namespace EmuX
                             return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if the destination is a register and the source is a value from memory
-                    if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
+                    if (this.GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
                         if (tokens[2].StartsWith('[') && tokens[2].EndsWith(']'))
-                            if (GetCharOccurrences(tokens[2], '[') == 1 && GetCharOccurrences(tokens[2], ']') == 1)
+                            if (string_handler.GetCharOccurrences(tokens[2], '[') == 1 && string_handler.GetCharOccurrences(tokens[2], ']') == 1)
                                 return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
 
                     // check if the destination is a location in memory and the source is a register
                     if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
-                        if (GetCharOccurrences(tokens[1], '[') == 1 && GetCharOccurrences(tokens[1], ']') == 1)
-                            if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
+                        if (string_handler.GetCharOccurrences(tokens[1], '[') == 1 && string_handler.GetCharOccurrences(tokens[1], ']') == 1)
+                            if (this.GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
                                 return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
                 }
             }
@@ -511,23 +513,6 @@ namespace EmuX
         }
 
         /// <summary>
-        /// Gets the total number of a character occurrence inside a string
-        /// </summary>
-        /// <param name="string_to_check">The string to analyze</param>
-        /// <param name="char_to_check">The character to check</param>
-        /// <returns>An integer of the total occurrences of said char</returns>
-        private int GetCharOccurrences(string string_to_check, char char_to_check)
-        {
-            int toReturn = 0;
-
-            for (int i = 0; i < string_to_check.Length; i++)
-                if (string_to_check[i] == char_to_check)
-                    toReturn++;
-
-            return toReturn;
-        }
-
-        /// <summary>
         /// Removes the comments from the code, for example if the code is <c>mov rax, 60 ; sets rax to 60</c> then the return value will be <c>mov rax, 60</c>
         /// </summary>
         /// <param name="to_remove_from">A string array to remove the comments from</param>
@@ -543,22 +528,6 @@ namespace EmuX
                 else
                     toReturn.Add(to_remove_from[i]);
             }
-
-            return toReturn.ToArray();
-        }
-
-        /// <summary>
-        /// Removes the empty lines
-        /// </summary>
-        /// <param name="to_remove_from">A string array</param>
-        /// <returns>A string array</returns>
-        private string[] RemoveEmptyLines(string[] to_remove_from)
-        {
-            List<string> toReturn = new List<string>();
-
-            for (int i = 0; i < to_remove_from.Length; i++)
-                if (to_remove_from[i].Trim().Length != 0)
-                    toReturn.Add(to_remove_from[i]);
 
             return toReturn.ToArray();
         }

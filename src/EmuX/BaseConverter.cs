@@ -12,7 +12,7 @@
             int toReturn = 0;
             int multiplier = 1;
 
-            binary_value = ReverseString(binary_value);
+            binary_value = new StringHandler().ReverseString(binary_value);
 
             for (int i = 0; i < binary_value.Length; i++)
             {
@@ -63,7 +63,7 @@
             string toReturn = "";
 
             hex_value = hex_value.ToUpper();
-            hex_value = ReverseString(hex_value);
+            hex_value = new StringHandler().ReverseString(hex_value);
 
             for (int i = 0; i < hex_value.Length; i++)
             {
@@ -87,21 +87,6 @@
                     case 'F': toReturn += "1111"; break;
                 }
             }
-
-            return toReturn;
-        }
-
-        /// <summary>
-        /// Reverses a string
-        /// </summary>
-        /// <param name="string_to_reverse">The string to reverse</param>
-        /// <returns>The same string but in reverse</returns>
-        private string ReverseString(string string_to_reverse)
-        {
-            string toReturn = "";
-
-            for (int i = string_to_reverse.Length - 1; i > -1; i--)
-                toReturn += string_to_reverse[i];
 
             return toReturn;
         }

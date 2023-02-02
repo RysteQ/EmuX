@@ -81,10 +81,7 @@
         /// <returns></returns>
         public bool HasInstructions()
         {
-            if (this.instructions.Count != 0)
-                return true;
-
-            return false;
+            return this.instructions.Count != 0;
         }
 
         /// <summary>
