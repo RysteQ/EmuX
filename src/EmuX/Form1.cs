@@ -151,6 +151,7 @@ namespace EmuX
 
             // get the values to set + the textboxes to set the values with
             ulong[] values_to_display = virtual_system.GetAllRegisterValues();
+
             TextBox[] textbox_to_update = new TextBox[]
             {
                 TextBoxRAX,

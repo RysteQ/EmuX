@@ -160,14 +160,13 @@
                     this.SetValue(instruction_to_execute, destination_memory_index, actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()));
                     break;
 
-                // TODO LATER
                 case Instruction_Data.Instruction_ENUM.ADD:
-
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.ADD(destination_value, source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.AND:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.AND(destination_value, source_value));
                     break;
-                // --
 
                 case Instruction_Data.Instruction_ENUM.CALL:
                     (bool, int) to_go_to = actions.CALL(labels, instruction_to_execute.destination_memory_name);
@@ -176,11 +175,10 @@
                     {
                         this.virtual_system.PushCall(this.current_instruction_index);
                         this.current_instruction_index = to_go_to.Item2;
-                    } else
-                    {
-                        this.error = true;
+                        break;
                     }
-
+                    
+                    this.error = true;
                     break;
 
                 case Instruction_Data.Instruction_ENUM.RET:
@@ -194,7 +192,6 @@
 
                     // pop the value from the call stack
                     this.current_instruction_index = to_return_to;
-
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CBW:
@@ -243,53 +240,7 @@
                     break;
 
                 case Instruction_Data.Instruction_ENUM.DEC:
-                    switch (instruction_to_execute.variant)
-                    {
-                        case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
-                            switch (instruction_to_execute.bit_mode)
-                            {
-                                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                                    this.virtual_system.SetRegisterByte(instruction_to_execute.destination_register, (byte) actions.DEC(destination_value, instruction_to_execute.bit_mode), instruction_to_execute.high_or_low);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetRegisterWord(instruction_to_execute.destination_register, (ushort) actions.DEC(destination_value, instruction_to_execute.bit_mode));
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                                    this.virtual_system.SetRegisterDouble(instruction_to_execute.destination_register, (uint) actions.DEC(destination_value, instruction_to_execute.bit_mode));
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                                    this.virtual_system.SetRegisterQuad(instruction_to_execute.destination_register, actions.DEC(destination_value, instruction_to_execute.bit_mode));
-                                    break;
-                            }
-
-                            break;
-
-                        case Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
-                            switch (instruction_to_execute.bit_mode)
-                            {
-                                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                                    this.virtual_system.SetByteMemory(destination_memory_index, (byte) actions.DEC(destination_value, Instruction_Data.Bit_Mode_ENUM._8_BIT));
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetWordMemory(destination_memory_index, (ushort) actions.DEC(destination_value, Instruction_Data.Bit_Mode_ENUM._16_BIT));
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                                    this.virtual_system.SetDoubleMemory(destination_memory_index, (uint) actions.DEC(destination_value, Instruction_Data.Bit_Mode_ENUM._32_BIT));
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                                    this.virtual_system.SetQuadMemory(destination_memory_index, actions.DEC(destination_value, Instruction_Data.Bit_Mode_ENUM._64_BIT));
-                                    break;
-                            }
-
-                            break;
-                    }
-
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.DEC(destination_value, instruction_to_execute.bit_mode));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.MOV:
@@ -561,6 +512,9 @@
         private ulong AnalyzeInstructionSource(Instruction instruction, VirtualSystem virtual_system)
         {
             ulong toReturn = 0;
+
+            if (instruction.source_register == Instruction_Data.Registers_ENUM.NoN || instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.NoN)
+                return 0;
 
             if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER || instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER)
             {

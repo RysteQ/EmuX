@@ -250,27 +250,34 @@ class VirtualSystem
     }
 
     // register setters
-
     public void SetRegisterByte(Instruction_Data.Registers_ENUM register_to_get, byte value, bool high_or_low)
     {
-        ushort value_to_set = value;
+        ulong value_to_set;
 
         if (high_or_low == new Instruction_Data().HIGH)
-            value_to_set = (ushort) (value_to_set << 8);
+        {
+            value_to_set = this.registers[(int)register_to_get] & 0xFFFFFFFFFFFF00FF;
+            value_to_set += (ushort) (value << 8);
+        }
+        else
+        {
+            value_to_set = this.registers[(int)register_to_get] & 0xFFFFFFFFFFFFFF00;
+            value_to_set += value;
+        }
 
         this.registers[(int) register_to_get] = value_to_set;
     }
 
     public void SetRegisterWord(Instruction_Data.Registers_ENUM register_to_get, ushort value)
     {
-        this.SetRegisterByte(register_to_get, (byte) value, new Instruction_Data().HIGH);
-        this.SetRegisterByte(register_to_get, (byte) value, new Instruction_Data().LOW);
+        ulong value_to_set = this.registers[(int) register_to_get] & 0xFFFFFFFFFFFF0000;
+        this.registers[(int) register_to_get] = value_to_set + value;
     }
 
     public void SetRegisterDouble(Instruction_Data.Registers_ENUM register_to_get, uint value)
     {
-        this.SetRegisterWord(register_to_get, (ushort) (value & 0xFFFF0000));
-        this.SetRegisterWord(register_to_get, (ushort) (value & 0x0000FFFF));
+        ulong value_to_set = this.registers[(int) register_to_get] & 0xFFFFFFFF00000000;
+        this.registers[(int) register_to_get] = value_to_set + value;
     }
 
     /// <summary>
@@ -280,8 +287,7 @@ class VirtualSystem
     /// <param name="value">The unsigned long value to set the register at</param>
     public void SetRegisterQuad(Instruction_Data.Registers_ENUM register_to_get, ulong value)
     {
-        this.SetRegisterDouble(register_to_get, (uint) (value & 0xFFFFFFFF00000000));
-        this.SetRegisterDouble(register_to_get, (uint) (value & 0x00000000FFFFFFFF));
+        this.registers[(int)register_to_get] = value;
     }
 
     /// <summary>

@@ -895,7 +895,8 @@ namespace EmuX
         {
             Instruction_Data.Bit_Mode_ENUM._8_BIT,
             Instruction_Data.Bit_Mode_ENUM._16_BIT,
-            Instruction_Data.Bit_Mode_ENUM._32_BIT
+            Instruction_Data.Bit_Mode_ENUM._32_BIT,
+            Instruction_Data.Bit_Mode_ENUM._64_BIT
         };
 
         public readonly Instruction_Data.Bit_Mode_ENUM[] ADD_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
