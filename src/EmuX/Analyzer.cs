@@ -357,6 +357,7 @@ namespace EmuX
         private Instruction_Variant_ENUM GetVariant(Instruction_ENUM instruction, string[] tokens)
         {
             Instruction_Groups instruction_groups = new Instruction_Groups();
+            int integer_junk;
 
             // check if the instruction has no operands
             if (instruction_groups.no_operands.Contains(instruction) && tokens.Length == 1)
@@ -369,8 +370,6 @@ namespace EmuX
             // check if the Instruction_Data has one operand
             if (instruction_groups.one_operands.Contains(instruction) && tokens.Length == 2)
             {
-                int integer_junk;
-
                 // check if it points to a value in memory
                 if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
                     if (GetCharOccurrences(tokens[1], '[') == 1 && GetCharOccurrences(tokens[1], ']') == 1)
@@ -406,8 +405,6 @@ namespace EmuX
             // check if the instruction has two operands
             if (instruction_groups.two_operands.Contains(instruction) && tokens.Length == 3)
             {
-                int integer_junk;
-
                 // check if the destination and source are both registers
                 if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
                     if (GetRegister(tokens[2]) != Registers_ENUM.NoN)
@@ -722,7 +719,6 @@ namespace EmuX
                 Instruction_ENUM.JPO,
                 Instruction_ENUM.JS,
                 Instruction_ENUM.JZ,
-                Instruction_ENUM.JCXZ,
                 Instruction_ENUM.JMP,
             };
 

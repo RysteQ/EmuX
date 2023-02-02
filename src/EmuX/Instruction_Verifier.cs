@@ -77,11 +77,7 @@ namespace EmuX
         /// <returns>A string value</returns>
         public string GetErrorMessage()
         {
-            string toReturn = "";
-
-            // TODO
-
-            return toReturn;
+            return this.error_message;
         }
 
         /// <summary>
@@ -91,12 +87,13 @@ namespace EmuX
         /// <returns>Returns true if the instruction has the correct variant, false if it doesn't</returns>
         private bool ContainsVariant(Instruction instruction)
         {
+            // check if the instruction is a label or not
+            if (instruction.instruction == Instruction_ENUM.LABEL)
+                return true;
+
             Instruction_Data.Instruction_Variant_ENUM[] specific_instruction_variants = allowed_variants.AllInstructionVariants()[(int) instruction.instruction];
 
-            if (specific_instruction_variants.Contains<Instruction_Data.Instruction_Variant_ENUM>(instruction.variant))
-                return false;
-
-            return true;
+            return specific_instruction_variants.Contains<Instruction_Data.Instruction_Variant_ENUM>(instruction.variant);
         }
 
         /// <summary>
@@ -106,12 +103,13 @@ namespace EmuX
         /// <returns>Returns true if the instruction has the correct bitmode, false if it doesn't</returns>
         private bool ContainsBitmode(Instruction instruction)
         {
-            Instruction_Data.Bit_Mode_ENUM[] specific_instruction_bitmodes = allowed_bitmodes.AllAllowedBitmodes()[(int)instruction.instruction];
+            // check if the instruction is a label or not
+            if (instruction.instruction == Instruction_ENUM.LABEL)
+                return true;
 
-            if (specific_instruction_bitmodes.Contains<Instruction_Data.Bit_Mode_ENUM>(instruction.bit_mode))
-                return false;
+            Instruction_Data.Bit_Mode_ENUM[] specific_instruction_bitmodes = allowed_bitmodes.AllAllowedBitmodes()[(int) instruction.instruction];
 
-            return true;
+            return specific_instruction_bitmodes.Contains<Instruction_Data.Bit_Mode_ENUM>(instruction.bit_mode);
         }
 
         private Allowed_Instruction_Variants allowed_variants = new Allowed_Instruction_Variants();
@@ -119,9 +117,9 @@ namespace EmuX
         private List<Instruction> instructions = new List<Instruction>();
         private bool valid_instructions = true;
         private int instruction_index_error = 0;
+        private string error_message = "";
     }
 
-    // TODO
     class Allowed_Instruction_Variants
     {
         public Instruction_Data.Instruction_Variant_ENUM[][] AllInstructionVariants()
@@ -142,8 +140,6 @@ namespace EmuX
                 CLI_ALLOWED_VARIANTS,
                 CMC_ALLOWED_VARIANTS,
                 CMP_ALLOWED_VARIANTS,
-                // CMPSB_ALLOWED_VARIANTS,
-                // CMPSW_ALLOWED_VARIANTS,
                 CWD_ALLOWED_VARIANTS,
                 DAA_ALLOWED_VARIANTS,
                 DAS_ALLOWED_VARIANTS,
@@ -155,7 +151,36 @@ namespace EmuX
                 INC_ALLOWED_VARIANTS,
                 INT_ALLOWED_VARIANTS,
                 IRET_ALLOWED_VARIANTS,
-                JCXZ_ALLOWED_VARIANTS,
+                JA_ALLOWED_VARIANTS,
+                JAE_ALLOWED_VARIANTS,
+                JB_ALLOWED_VARIANTS,
+                JBE_ALLOWED_VARIANTS,
+                JC_ALLOWED_VARIANTS,
+                JE_ALLOWED_VARIANTS,
+                JG_ALLOWED_VARIANTS,
+                JGE_ALLOWED_VARIANTS,
+                JL_ALLOWED_VARIANTS,
+                JLE_ALLOWED_VARIANTS,
+                JNA_ALLOWED_VARIANTS,
+                JNAE_ALLOWED_VARIANTS,
+                JNB_ALLOWED_VARIANTS,
+                JNBE_ALLOWED_VARIANTS,
+                JNC_ALLOWED_VARIANTS,
+                JNE_ALLOWED_VARIANTS,
+                JNG_ALLOWED_VARIANTS,
+                JNGE_ALLOWED_VARIANTS,
+                JNL_ALLOWED_VARIANTS,
+                JNLE_ALLOWED_VARIANTS,
+                JNO_ALLOWED_VARIANTS,
+                JNP_ALLOWED_VARIANTS,
+                JNS_ALLOWED_VARIANTS,
+                JNZ_ALLOWED_VARIANTS,
+                JO_ALLOWED_VARIANTS,
+                JP_ALLOWED_VARIANTS,
+                JPE_ALLOWED_VARIANTS,
+                JPO_ALLOWED_VARIANTS,
+                JS_ALLOWED_VARIANTS,
+                JZ_ALLOWED_VARIANTS,
                 JMP_ALLOWED_VARIANTS,
                 LAHF_ALLOWED_VARIANTS,
                 LDS_ALLOWED_VARIANTS,

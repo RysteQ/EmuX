@@ -107,7 +107,9 @@ namespace EmuX
             {
                 instruction_index = verifier.GetInstructionIndexError() + 1;
                 string error_message = verifier.GetErrorMessage();
+                
                 MessageBox.Show("There was an error at line " + instruction_index.ToString() + "\nMessage: " + error_message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
             }
 
             // clear the previous values and prepare all the data the emulator needs
