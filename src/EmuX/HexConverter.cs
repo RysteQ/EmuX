@@ -23,7 +23,7 @@ namespace EmuX
                 (byte) to_convert
             };
 
-            return ConvertByteToHex(bytes[3]) + ConvertByteToHex(bytes[2]) + ConvertByteToHex(bytes[1]) + ConvertByteToHex(bytes[0]);
+            return this.ConvertByteToHex(bytes[3]) + this.ConvertByteToHex(bytes[2]) + this.ConvertByteToHex(bytes[1]) + this.ConvertByteToHex(bytes[0]);
         }
 
         /// <summary>
@@ -42,12 +42,12 @@ namespace EmuX
             if (first_half < 10)
                 toReturn += first_half.ToString();
             else
-                toReturn += ConvertByteOverTenToHex(first_half).ToString();
+                toReturn += this.ConvertByteOverTenToHex(first_half).ToString();
 
             if (second_half < 10)
                 toReturn += second_half.ToString();
             else
-                toReturn += ConvertByteOverTenToHex(second_half).ToString();
+                toReturn += this.ConvertByteOverTenToHex(second_half).ToString();
 
             return toReturn;
         }

@@ -98,7 +98,7 @@
                         break;
 
                     case StaticData.SIZE._16_BIT:
-                        this.virtual_system.SetShortMemory(this.static_data[i].memory_location, (ushort) this.static_data[i].value);
+                        this.virtual_system.SetWordMemory(this.static_data[i].memory_location, (ushort) this.static_data[i].value);
                         break;
 
                     case StaticData.SIZE._32_BIT:
@@ -144,16 +144,16 @@
             switch (instruction_to_execute.instruction)
             {
                 case Instruction_Data.Instruction_ENUM.AAA:
-                    this.virtual_system.SetRegisterShort(Instruction_Data.Registers_ENUM.RAX, actions.AAA((ushort) destination_value, this.virtual_system.GetEFLAGS()).Item1);
+                    this.virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, actions.AAA((ushort) destination_value, this.virtual_system.GetEFLAGS()).Item1);
                     this.virtual_system.SetEflags(actions.AAA((ushort) destination_value, this.virtual_system.GetEFLAGS()).Item2);
                     break;
 
                 case Instruction_Data.Instruction_ENUM.AAD:
-                    this.virtual_system.SetRegisterShort(Instruction_Data.Registers_ENUM.RAX, actions.AAD((ushort) destination_value));
+                    this.virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, actions.AAD((ushort) destination_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.AAM:
-                    this.virtual_system.SetRegisterShort(Instruction_Data.Registers_ENUM.RAX, actions.AAM((ushort)destination_value));
+                    this.virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, actions.AAM((ushort)destination_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.ADC:
@@ -253,7 +253,7 @@
                                     break;
 
                                 case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetRegisterShort(instruction_to_execute.destination_register, (ushort) actions.DEC(destination_value, instruction_to_execute.bit_mode));
+                                    this.virtual_system.SetRegisterWord(instruction_to_execute.destination_register, (ushort) actions.DEC(destination_value, instruction_to_execute.bit_mode));
                                     break;
 
                                 case Instruction_Data.Bit_Mode_ENUM._32_BIT:
@@ -275,7 +275,7 @@
                                     break;
 
                                 case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetShortMemory(destination_memory_index, (ushort) actions.DEC(destination_value, Instruction_Data.Bit_Mode_ENUM._16_BIT));
+                                    this.virtual_system.SetWordMemory(destination_memory_index, (ushort) actions.DEC(destination_value, Instruction_Data.Bit_Mode_ENUM._16_BIT));
                                     break;
 
                                 case Instruction_Data.Bit_Mode_ENUM._32_BIT:
@@ -325,7 +325,7 @@
                                     break;
 
                                 case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetRegisterShort(instruction_to_execute.destination_register, (ushort) source_value);
+                                    this.virtual_system.SetRegisterWord(instruction_to_execute.destination_register, (ushort) source_value);
                                     break;
 
                                 case Instruction_Data.Bit_Mode_ENUM._32_BIT:
@@ -347,7 +347,7 @@
                                     break;
 
                                 case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetRegisterShort(instruction_to_execute.destination_register, (ushort) source_value);
+                                    this.virtual_system.SetRegisterWord(instruction_to_execute.destination_register, (ushort) source_value);
                                     break;
 
                                 case Instruction_Data.Bit_Mode_ENUM._32_BIT:
@@ -369,7 +369,7 @@
                                     break;
 
                                 case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetRegisterShort(instruction_to_execute.destination_register, (ushort) source_value);
+                                    this.virtual_system.SetRegisterWord(instruction_to_execute.destination_register, (ushort) source_value);
                                     break;
 
                                 case Instruction_Data.Bit_Mode_ENUM._32_BIT:
@@ -465,7 +465,7 @@
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        this.virtual_system.SetRegisterShort(instruction.destination_register, (ushort) value_to_set);
+                        this.virtual_system.SetRegisterWord(instruction.destination_register, (ushort) value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
@@ -485,7 +485,7 @@
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        this.virtual_system.SetShortMemory(memory_index, (ushort) value_to_set);
+                        this.virtual_system.SetWordMemory(memory_index, (ushort) value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
@@ -513,7 +513,7 @@
             switch (instruction.variant)
             {
                 case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
-                    toReturn = virtual_system.GetRegisterQuad(instruction.destination_register);
+                    toReturn = this.virtual_system.GetRegisterQuad(instruction.destination_register);
                     break;
 
                 case Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE:
@@ -529,11 +529,11 @@
                     break;
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
-                    toReturn = virtual_system.GetRegisterQuad(instruction.destination_register);
+                    toReturn = this.virtual_system.GetRegisterQuad(instruction.destination_register);
                     break;
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
-                    toReturn = virtual_system.GetRegisterQuad(instruction.destination_register);
+                    toReturn = this.virtual_system.GetRegisterQuad(instruction.destination_register);
                     break;
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
@@ -567,19 +567,19 @@
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        toReturn = virtual_system.GetRegisterByte(instruction.source_register, instruction.high_or_low);
+                        toReturn = this.virtual_system.GetRegisterByte(instruction.source_register, instruction.high_or_low);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        toReturn = virtual_system.GetRegisterShort(instruction.source_register);
+                        toReturn = this.virtual_system.GetRegisterWord(instruction.source_register);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                        toReturn = virtual_system.GetRegisterDouble(instruction.source_register);
+                        toReturn = this.virtual_system.GetRegisterDouble(instruction.source_register);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                        toReturn = virtual_system.GetRegisterQuad(instruction.source_register);
+                        toReturn = this.virtual_system.GetRegisterQuad(instruction.source_register);
                         break;
                 }
 

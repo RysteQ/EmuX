@@ -34,9 +34,9 @@ class VirtualSystem
     /// </summary>
     /// <param name="index">The index to get the value from memory</param>
     /// <returns>An unsigned short value</returns>
-    public ushort GetShortMemory(int index)
+    public ushort GetWordMemory(int index)
     {
-        return (ushort) ((GetByteMemory(index) << 8) + GetByteMemory(index + 1));
+        return (ushort) ((this.GetByteMemory(index) << 8) + this.GetByteMemory(index + 1));
     }
 
     /// <summary>
@@ -46,7 +46,7 @@ class VirtualSystem
     /// <returns>An unsigned integer value</returns>
     public uint GetDoubleMemory(int index)
     {
-        return (uint) ((GetShortMemory(index) << 16) + GetShortMemory(index + 2));
+        return (uint) ((this.GetWordMemory(index) << 16) + this.GetWordMemory(index + 2));
     }
 
     /// <summary>
@@ -56,7 +56,7 @@ class VirtualSystem
     /// <returns>An unsigned long value</returns>
     public ulong GetQuadMemory(int index)
     {
-        return (ulong) ((GetDoubleMemory(index) << 32) + GetDoubleMemory(index + 4));
+        return (ulong) ((this.GetDoubleMemory(index) << 32) + this.GetDoubleMemory(index + 4));
     }
 
     // memory setters
@@ -85,10 +85,10 @@ class VirtualSystem
     /// </summary>
     /// <param name="index">The index of said bytes</param>
     /// <param name="value">The new value of said bytes</param>
-    public void SetShortMemory(int index, ushort value)
+    public void SetWordMemory(int index, ushort value)
     {
-        SetByteMemory(index, (byte) (value & 0xFF00));
-        SetByteMemory(index + 1, (byte) (value & 0x00FF));
+        this.SetByteMemory(index, (byte) (value & 0xFF00));
+        this.SetByteMemory(index + 1, (byte) (value & 0x00FF));
     }
 
     /// <summary>
@@ -98,8 +98,8 @@ class VirtualSystem
     /// <param name="value">The new value of said bytes</param>
     public void SetDoubleMemory(int index, uint value)
     {
-        SetShortMemory(index, (ushort) (value & 0xFFFF0000));
-        SetShortMemory(index + 2, (ushort) (value & 0x0000FFFF));
+        this.SetWordMemory(index, (ushort) (value & 0xFFFF0000));
+        this.SetWordMemory(index + 2, (ushort) (value & 0x0000FFFF));
     }
 
     /// <summary>
@@ -109,8 +109,8 @@ class VirtualSystem
     /// <param name="value">The new value of said bytes</param>
     public void SetQuadMemory(int index, ulong value)
     {
-        SetDoubleMemory(index, (uint) (value & 0xFFFFFFFF00000000));
-        SetDoubleMemory(index + 4, (uint) (value & 0x00000000FFFFFFFF));
+        this.SetDoubleMemory(index, (uint) (value & 0xFFFFFFFF00000000));
+        this.SetDoubleMemory(index + 4, (uint) (value & 0x00000000FFFFFFFF));
     }
 
     // stack getters
@@ -129,10 +129,10 @@ class VirtualSystem
     /// Pushes two bytes into the stack
     /// </summary>
     /// <param name="value_to_push">The value to push into the stack</param>
-    public void PushShort(ushort value_to_push)
+    public void PushWord(ushort value_to_push)
     {
-        PushByte((byte) (value_to_push & 0xFF00));
-        PushByte((byte) (value_to_push & 0x00FF));
+        this.PushByte((byte) (value_to_push & 0xFF00));
+        this.PushByte((byte) (value_to_push & 0x00FF));
     }
 
     /// <summary>
@@ -141,8 +141,8 @@ class VirtualSystem
     /// <param name="value_to_push">The value to push into the stack</param>
     public void PushDouble(uint value_to_push)
     {
-        PushShort((ushort) (value_to_push & 0xFFFF0000));
-        PushShort((ushort) (value_to_push & 0x0000FFFF));
+        this.PushWord((ushort) (value_to_push & 0xFFFF0000));
+        this.PushWord((ushort) (value_to_push & 0x0000FFFF));
     }
 
     /// <summary>
@@ -151,8 +151,8 @@ class VirtualSystem
     /// <param name="value_to_push">The value to push into the stack</param>
     public void PushQuad(ulong value_to_push)
     {
-        PushDouble((uint) (value_to_push & 0xFFFFFFFF00000000));
-        PushDouble((uint) (value_to_push & 0x00000000FFFFFFFF));
+        this.PushDouble((uint) (value_to_push & 0xFFFFFFFF00000000));
+        this.PushDouble((uint) (value_to_push & 0x00000000FFFFFFFF));
     }
 
     // stack setters
@@ -171,9 +171,9 @@ class VirtualSystem
     /// Pops two bytes from the stack
     /// </summary>
     /// <returns>The popped bytes</returns>
-    public ushort PopShort()
+    public ushort PopWord()
     {
-        return (ushort) ((PopByte() << 8) + PopByte());
+        return (ushort) ((this.PopByte() << 8) + this.PopByte());
     }
 
     /// <summary>
@@ -182,7 +182,7 @@ class VirtualSystem
     /// <returns>The popped bytes</returns>
     public uint PopDouble()
     {
-        return (uint) ((PopShort() << 16) + PopShort());
+        return (uint) ((this.PopWord() << 16) + this.PopWord());
     }
 
     /// <summary>
@@ -191,7 +191,7 @@ class VirtualSystem
     /// <returns>The popped bytes</returns>
     public ulong PopQuad()
     {
-        return (ulong) ((PopDouble() << 32) + PopDouble());
+        return (ulong) ((this.PopDouble() << 32) + this.PopDouble());
     }
 
     // register getters
@@ -215,7 +215,7 @@ class VirtualSystem
     /// </summary>
     /// <param name="register_to_get">The register enum value to get the value from</param>
     /// <returns>The said register value</returns>
-    public ushort GetRegisterShort(Instruction_Data.Registers_ENUM register_to_get)
+    public ushort GetRegisterWord(Instruction_Data.Registers_ENUM register_to_get)
     {
         return (ushort) this.registers[(int) register_to_get];
     }
@@ -261,16 +261,16 @@ class VirtualSystem
         this.registers[(int) register_to_get] = value_to_set;
     }
 
-    public void SetRegisterShort(Instruction_Data.Registers_ENUM register_to_get, ushort value)
+    public void SetRegisterWord(Instruction_Data.Registers_ENUM register_to_get, ushort value)
     {
-        SetRegisterByte(register_to_get, (byte) value, new Instruction_Data().HIGH);
-        SetRegisterByte(register_to_get, (byte) value, new Instruction_Data().LOW);
+        this.SetRegisterByte(register_to_get, (byte) value, new Instruction_Data().HIGH);
+        this.SetRegisterByte(register_to_get, (byte) value, new Instruction_Data().LOW);
     }
 
     public void SetRegisterDouble(Instruction_Data.Registers_ENUM register_to_get, uint value)
     {
-        SetRegisterShort(register_to_get, (ushort) (value & 0xFFFF0000));
-        SetRegisterShort(register_to_get, (ushort) (value & 0x0000FFFF));
+        this.SetRegisterWord(register_to_get, (ushort) (value & 0xFFFF0000));
+        this.SetRegisterWord(register_to_get, (ushort) (value & 0x0000FFFF));
     }
 
     /// <summary>
@@ -280,8 +280,8 @@ class VirtualSystem
     /// <param name="value">The unsigned long value to set the register at</param>
     public void SetRegisterQuad(Instruction_Data.Registers_ENUM register_to_get, ulong value)
     {
-        SetRegisterDouble(register_to_get, (uint) (value & 0xFFFFFFFF00000000));
-        SetRegisterDouble(register_to_get, (uint) (value & 0x00000000FFFFFFFF));
+        this.SetRegisterDouble(register_to_get, (uint) (value & 0xFFFFFFFF00000000));
+        this.SetRegisterDouble(register_to_get, (uint) (value & 0x00000000FFFFFFFF));
     }
 
     /// <summary>

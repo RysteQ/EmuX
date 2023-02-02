@@ -32,7 +32,7 @@
         /// <returns>The integer value</returns>
         public int ConvertHexToInt(string hex_value)
         {
-            return ConvertBinaryToInt(ConvertHexToBinary(hex_value));
+            return this.ConvertBinaryToInt(this.ConvertHexToBinary(hex_value));
         }
 
         /// <summary>
