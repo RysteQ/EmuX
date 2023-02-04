@@ -8,6 +8,27 @@ class VirtualSystem
             this.registers[i] = 0;
     }
 
+    /// <summary>
+    /// Setter - Sets all the virtual system values with the new virtual system provided
+    /// </summary>
+    /// <param name="virtual_system">The new virtual system state</param>
+    public void SetVirtualSystem(VirtualSystem virtual_system)
+    {
+        this.registers = virtual_system.GetAllRegisterValues();
+        this.memory = virtual_system.GetAllMemory();
+        this.call_stack = virtual_system.GetCallStack();
+        this.EFLAGS = virtual_system.GetEFLAGS();
+    }
+
+    /// <summary>
+    /// Getter - Gets the call stack
+    /// </summary>
+    /// <returns>A List<int> with all the indexes on where to return after a call (FIFO)</returns>
+    public List<int> GetCallStack()
+    {
+        return this.call_stack;
+    }
+
     // memory getters
 
     /// <summary>
@@ -200,7 +221,7 @@ class VirtualSystem
     /// Gets a single byte from said register, must provide the 64bit variant of the register, not the 8bit one
     /// </summary>
     /// <param name="register_to_get">The register enum value to get the value from</param>
-    /// <param name="high_or_low">The high or low byte to get the value from</param>
+    /// <param name="high_or_low">True for the high register and false for the low register</param>
     /// <returns>The said register value</returns>
     public byte GetRegisterByte(Instruction_Data.Registers_ENUM register_to_get, bool high_or_low)
     {
@@ -250,6 +271,13 @@ class VirtualSystem
     }
 
     // register setters
+
+    /// <summary>
+    /// Sets the new value for the said register, either high or low
+    /// </summary>
+    /// <param name="register_to_get">The register to modify</param>
+    /// <param name="value">The value to save to said register</param>
+    /// <param name="high_or_low">True for high and false for low</param>
     public void SetRegisterByte(Instruction_Data.Registers_ENUM register_to_get, byte value, bool high_or_low)
     {
         ulong value_to_set;

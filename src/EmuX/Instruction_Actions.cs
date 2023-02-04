@@ -45,6 +45,31 @@
         }
 
         /// <summary>
+        /// Because this instruction can modify the EFLAGS register and the accumulator at the same time it will return
+        /// a virtual system instead of a value
+        /// </summary>
+        /// <param name="virtual_system">The current state of the virtiual systyem</param>
+        /// <returns>The modified virtual system</returns>
+        public VirtualSystem AAS(VirtualSystem virtual_system)
+        {
+            int low_nibble_al = virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, false) & 0x0F;
+            bool af_status_flag = (virtual_system.GetEFLAGS() & virtual_system.GetEFLAGSMasks()[2]) == 1;
+            uint af_cf_status_flag_mask = virtual_system.GetEFLAGSMasks()[2] + virtual_system.GetEFLAGSMasks()[0];
+
+            if (low_nibble_al > 9 || af_status_flag)
+            {
+                virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte) (low_nibble_al - 6), false);
+                virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte) (virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, true) - 1), true);
+                virtual_system.SetEflags(virtual_system.GetEFLAGS() | af_cf_status_flag_mask);
+            } else
+            {
+                virtual_system.SetEflags(virtual_system.GetEFLAGS() ^ af_cf_status_flag_mask);
+            }
+
+            return virtual_system;
+        }
+
+        /// <summary>
         /// The ADC (ADd with Carry) instruction
         /// </summary>
         /// <param name="destination">The destination value</param>
@@ -106,14 +131,14 @@
         /// <summary>
         /// The CBW (Convert Byte to Word) instruction
         /// </summary>
-        /// <param name="source">The source value</param>
-        /// <returns>The shifter left value of source + source (return -> (source << 8) + source)</returns>
-        public ulong CBW(ulong source)
+        /// <param name="source">The value of the AL register</param>
+        /// <returns>The new value of the AH register</returns>
+        public byte CBW(byte al_register_value)
         {
-            ulong toReturn = (byte) source;
-            toReturn = (toReturn << 8) + toReturn;
+            if (al_register_value < 128)
+                return 0;
 
-            return toReturn;
+            return byte.MaxValue;
         }
 
         /// <summary>
@@ -200,11 +225,46 @@
         /// <summary>
         /// The CWD instruction
         /// </summary>
-        /// <param name="value">The RDX value</param>
-        /// <returns>The upmost 48bit of the register</returns>
-        public ulong CWD(ulong value)
+        /// <param name="ax_register_value">The value of the AX register</param>
+        /// <returns>The new value for the DX register</returns>
+        public ushort CWD(ushort ax_register_value)
         {
-            return value & 0xFFFFFFFFFFFF0000;
+            if (ax_register_value < 32768)
+                return 0;
+
+            return ushort.MaxValue;
+        }
+
+        /// <summary>
+        /// The DAA instruction, just look at the wikidev what it does, that's how I found out
+        /// </summary>
+        /// <param name="value">The value of the AL register</param>
+        /// <param name="flags">The EFLAGS register</param>
+        /// <returns>The adjusted value if applicabble</returns>
+        public byte DAA(byte value, uint flags)
+        {
+            if ((value & 0x0F) > 9 || (flags & 0x00000010) == 1)
+                return (byte) (value + 6);
+            else if (value > 0x9F || (flags & 0x00000001) == 1)
+                return (byte) (value + 96);
+
+            return value;
+        }
+
+        /// <summary>
+        /// The DAS instruction, same as the DAA instruction but it does subtraction instead of addition to the value
+        /// </summary>
+        /// <param name="value">The value of the AL register</param>
+        /// <param name="flags">The EFLAGS register</param>
+        /// <returns>The adjusted value if applicabble</returns>
+        public byte DAS(byte value, uint flags)
+        {
+            if ((value & 0x0F) > 9 || (flags & 0x00000010) == 1)
+                return (byte) (value - 6);
+            else if (value > 0x9F || (flags & 0x00000001) == 1)
+                return (byte) (value - 96);
+
+            return value;
         }
 
         /// <summary>
@@ -245,36 +305,10 @@
             return value - 1;
         }
 
-        /// <summary>
-        /// The DAA instruction, just look at the wikidev what it does, that's how I found out
-        /// </summary>
-        /// <param name="value">The value of the AL register</param>
-        /// <param name="flags">The EFLAGS register</param>
-        /// <returns>The adjusted value if applicabble</returns>
-        public byte DAA(byte value, uint flags)
+        // TODO
+        public VirtualSystem DIV(VirtualSystem virtual_system, Instruction_Data.Bit_Mode_ENUM bit_mode)
         {
-            if ((value & 0x0F) > 9 || (flags & 0x00000010) == 1)
-                return (byte) (value + 6);
-            else if (value > 0x9F || (flags & 0x00000001) == 1)
-                return (byte) (value + 96);
-
-            return value;
-        }
-
-        /// <summary>
-        /// The DAS instruction, same as the DAA instruction but it does subtraction instead of addition to the value
-        /// </summary>
-        /// <param name="value">The value of the AL register</param>
-        /// <param name="flags">The EFLAGS register</param>
-        /// <returns>The adjusted value if applicabble</returns>
-        public byte DAS(byte value, uint flags)
-        {
-            if ((value & 0x0F) > 9 || (flags & 0x00000010) == 1)
-                return (byte) (value - 6);
-            else if (value > 0x9F || (flags & 0x00000001) == 1)
-                return (byte) (value - 96);
-
-            return value;
+            return virtual_system;
         }
 
         /// <summary>
@@ -282,5 +316,15 @@
         /// lol no
         /// </summary>
         public void NOP() { }
+
+        /// <summary>
+        /// This seems useless but I want all instructions to be in this file and class
+        /// </summary>
+        /// <param name="value">The value to return</param>
+        /// <returns>The value</returns>
+        public ulong MOV(ulong value)
+        {
+            return value;
+        }
     }
 }

@@ -156,6 +156,10 @@
                     this.virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, actions.AAM((ushort)destination_value));
                     break;
 
+                case Instruction_Data.Instruction_ENUM.AAS:
+                    this.virtual_system.SetVirtualSystem(actions.AAS(this.virtual_system));
+                    break;
+
                 case Instruction_Data.Instruction_ENUM.ADC:
                     this.SetValue(instruction_to_execute, destination_memory_index, actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()));
                     break;
@@ -195,6 +199,7 @@
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CBW:
+                    this.virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, actions.CBW(this.virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, false)), true);
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CLC:
@@ -228,7 +233,7 @@
                     */
 
                 case Instruction_Data.Instruction_ENUM.CWD:
-                    this.virtual_system.SetRegisterQuad(Instruction_Data.Registers_ENUM.RDX, actions.CWD(destination_value));
+                    this.virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RDX, actions.CWD(this.virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX)));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.DAA:
@@ -244,97 +249,7 @@
                     break;
 
                 case Instruction_Data.Instruction_ENUM.MOV:
-                    switch (instruction_to_execute.variant)
-                    {
-                        case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
-                            switch (instruction_to_execute.bit_mode)
-                            {
-                                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                                    this.virtual_system.SetByteMemory(destination_memory_index, (byte) source_value);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetDoubleMemory(destination_memory_index, (ushort) source_value);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                                    this.virtual_system.SetDoubleMemory(destination_memory_index, (uint) source_value);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                                    this.virtual_system.SetQuadMemory(destination_memory_index, source_value);
-                                    break;
-                            }
-
-                            break;
-
-                        case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
-                            switch (instruction_to_execute.bit_mode)
-                            {
-                                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                                    this.virtual_system.SetRegisterByte(instruction_to_execute.destination_register, (byte) source_value, instruction_to_execute.high_or_low);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetRegisterWord(instruction_to_execute.destination_register, (ushort) source_value);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                                    this.virtual_system.SetRegisterDouble(instruction_to_execute.destination_register, (uint) source_value);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                                    this.virtual_system.SetRegisterQuad(instruction_to_execute.destination_register, source_value);
-                                    break;
-                            }
-
-                            break;
-
-                        case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
-                            switch (instruction_to_execute.bit_mode)
-                            {
-                                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                                    this.virtual_system.SetRegisterByte(instruction_to_execute.destination_register, (byte) source_value, instruction_to_execute.high_or_low);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetRegisterWord(instruction_to_execute.destination_register, (ushort) source_value);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                                    this.virtual_system.SetRegisterDouble(instruction_to_execute.destination_register, (uint) source_value);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                                    this.virtual_system.SetRegisterQuad(instruction_to_execute.destination_register, source_value);
-                                    break;
-                            }
-
-                            break;
-
-                        case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
-                            switch (instruction_to_execute.bit_mode)
-                            {
-                                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                                    this.virtual_system.SetRegisterByte(instruction_to_execute.destination_register, (byte) source_value, instruction_to_execute.high_or_low);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                    this.virtual_system.SetRegisterWord(instruction_to_execute.destination_register, (ushort) source_value);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                                    this.virtual_system.SetRegisterDouble(instruction_to_execute.destination_register, (uint) source_value);
-                                    break;
-
-                                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                                    this.virtual_system.SetRegisterQuad(instruction_to_execute.destination_register, source_value);
-                                    break;
-                            }
-
-                            break;
-                    }
-
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.MOV(source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.EXIT:
@@ -513,7 +428,7 @@
         {
             ulong toReturn = 0;
 
-            if (instruction.source_register == Instruction_Data.Registers_ENUM.NoN || instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.NoN)
+            if (instruction.source_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.NoN)
                 return 0;
 
             if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER || instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER)
