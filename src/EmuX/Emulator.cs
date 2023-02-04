@@ -118,7 +118,7 @@
         public void Execute()
         {
             // make sure there are instructions to run in the first place / the instruction is not the special EXIT instruction
-            if (this.instructions.Count == 0 || this.instructions[this.current_instruction_index].instruction == Instruction_Data.Instruction_ENUM.EXIT)
+            if (this.instructions.Count == 0 || this.instructions[this.current_instruction_index].instruction == Instruction_Data.Instruction_ENUM.HLT)
                 return;
 
             Instruction_Actions actions = new Instruction_Actions();
@@ -136,6 +136,7 @@
             int to_return_to = 0;
             int destination_memory_index = GetLabelMemoryIndex(this.labels, instruction_to_execute.destination_memory_name);
             int source_memory_index = GetLabelMemoryIndex(this.labels, instruction_to_execute.source_memory_name);
+            int index_to_jump_to = 0;
             // ---
 
             if (this.error)
@@ -248,12 +249,56 @@
                     this.SetValue(instruction_to_execute, destination_memory_index, actions.DEC(destination_value, instruction_to_execute.bit_mode));
                     break;
 
-                case Instruction_Data.Instruction_ENUM.MOV:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.MOV(source_value));
+                case Instruction_Data.Instruction_ENUM.DIV:
+                    this.virtual_system.SetVirtualSystem(actions.DIV(this.virtual_system, instruction_to_execute.bit_mode, destination_value));
                     break;
 
-                case Instruction_Data.Instruction_ENUM.EXIT:
+                case Instruction_Data.Instruction_ENUM.HLT:
                     this.exit_found = true;
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.INC:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.INC(destination_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.INT:
+                    // TODO
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JA:
+                    index_to_jump_to = actions.JA(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[0]) == 1, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[3]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+                    
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JAE:
+                    index_to_jump_to = actions.JAE(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[0]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JB:
+                    index_to_jump_to = actions.JB(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[0]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JBE:
+                    index_to_jump_to = actions.JBE(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[0]) == 1, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[3]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.MOV:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.MOV(source_value));
                     break;
 
                 default:

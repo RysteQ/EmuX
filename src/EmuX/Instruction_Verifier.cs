@@ -146,11 +146,8 @@ namespace EmuX
                 DEC_ALLOWED_VARIANTS,
                 DIV_ALLOWED_VARIANTS,
                 HLT_ALLOWED_VARIANTS,
-                IDIV_ALLOWED_VARIANTS,
-                IMUL_ALLOWED_VARIANTS,
                 INC_ALLOWED_VARIANTS,
                 INT_ALLOWED_VARIANTS,
-                IRET_ALLOWED_VARIANTS,
                 JA_ALLOWED_VARIANTS,
                 JAE_ALLOWED_VARIANTS,
                 JB_ALLOWED_VARIANTS,
@@ -353,18 +350,6 @@ namespace EmuX
             Instruction_Data.Instruction_Variant_ENUM.SINGLE
         };
 
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] IDIV_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE,
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER
-        };
-
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] IMUL_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE,
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER
-        };
-
         public readonly Instruction_Data.Instruction_Variant_ENUM[] INC_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
             Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE,
@@ -374,11 +359,6 @@ namespace EmuX
         public readonly Instruction_Data.Instruction_Variant_ENUM[] INT_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
             Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE
-        };
-
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] IRET_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE
         };
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] JCXZ_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
@@ -793,11 +773,8 @@ namespace EmuX
                 DEC_ALLOWED_BITMODES,
                 DIV_ALLOWED_BITMODES,
                 HLT_ALLOWED_BITMODES,
-                IDIV_ALLOWED_BITMODES,
-                IMUL_ALLOWED_BITMODES,
                 INC_ALLOWED_BITMODES,
                 INT_ALLOWED_BITMODES,
-                IRET_ALLOWED_BITMODES,
                 JA_ALLOWED_BITMODES,
                 JAE_ALLOWED_BITMODES,
                 JB_ALLOWED_BITMODES,
@@ -992,29 +969,12 @@ namespace EmuX
         {
             Instruction_Data.Bit_Mode_ENUM._8_BIT,
             Instruction_Data.Bit_Mode_ENUM._16_BIT,
-            Instruction_Data.Bit_Mode_ENUM._32_BIT,
-            Instruction_Data.Bit_Mode_ENUM._64_BIT
+            Instruction_Data.Bit_Mode_ENUM._32_BIT
         };
 
         public readonly Instruction_Data.Bit_Mode_ENUM[] HLT_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
         {
             Instruction_Data.Bit_Mode_ENUM.NoN
-        };
-
-        public readonly Instruction_Data.Bit_Mode_ENUM[] IDIV_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM._8_BIT,
-            Instruction_Data.Bit_Mode_ENUM._16_BIT,
-            Instruction_Data.Bit_Mode_ENUM._32_BIT,
-            Instruction_Data.Bit_Mode_ENUM._64_BIT
-        };
-
-        public readonly Instruction_Data.Bit_Mode_ENUM[] IMUL_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM._8_BIT,
-            Instruction_Data.Bit_Mode_ENUM._16_BIT,
-            Instruction_Data.Bit_Mode_ENUM._32_BIT,
-            Instruction_Data.Bit_Mode_ENUM._64_BIT
         };
 
         public readonly Instruction_Data.Bit_Mode_ENUM[] INC_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
@@ -1028,11 +988,6 @@ namespace EmuX
         public readonly Instruction_Data.Bit_Mode_ENUM[] INT_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
         {
             Instruction_Data.Bit_Mode_ENUM._8_BIT
-        };
-
-        public readonly Instruction_Data.Bit_Mode_ENUM[] IRET_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM.NoN
         };
 
         public readonly Instruction_Data.Bit_Mode_ENUM[] JA_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]

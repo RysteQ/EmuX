@@ -306,9 +306,101 @@
         }
 
         // TODO
-        public VirtualSystem DIV(VirtualSystem virtual_system, Instruction_Data.Bit_Mode_ENUM bit_mode)
+        public VirtualSystem DIV(VirtualSystem virtual_system, Instruction_Data.Bit_Mode_ENUM bit_mode, ulong destination_value)
         {
+            ulong quotient = 0;
+            ulong remainder = 0;
+            ulong divident = 0;
+
+            switch (bit_mode)
+            {
+                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                    divident = virtual_system.GetRegisterQuad(Instruction_Data.Registers_ENUM.RAX);
+                    quotient = divident / destination_value;
+                    remainder = divident % destination_value;
+
+                    virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte) quotient, false);
+                    virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte) remainder, true);
+
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                    divident = (ulong) ((virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RDX) << 16) + virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX));
+
+                    quotient = divident / destination_value;
+                    remainder = divident % destination_value;
+
+                    virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, (ushort) quotient);
+                    virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RDX, (ushort) remainder);
+
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                    divident = (ulong) ((virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RDX) << 32) + virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RAX));
+
+                    quotient = divident / destination_value;
+                    remainder = divident % destination_value;
+
+                    virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RAX, (uint) quotient);
+                    virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RDX, (uint) remainder);
+
+                    break;
+            }
+
             return virtual_system;
+        }
+
+        public ulong INC(ulong value_to_increment)
+        {
+            return value_to_increment + 1;
+        }
+
+        public int JA(List<(string, int)> labels, string label_to_jump_to, bool cf_flag_status, bool zf_flag_status)
+        {
+            if (cf_flag_status || zf_flag_status)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+        
+        public int JAE(List<(string, int)> labels, string label_to_jump_to, bool cf_flag_status)
+        {
+            if (cf_flag_status)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JB(List<(string, int)> labels, string label_to_jump_to, bool cf_flag_status)
+        {
+            if (cf_flag_status == false)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JBE(List<(string, int)> labels, string label_to_jump_to, bool cf_flag_status, bool zf_flag_status)
+        {
+            if (cf_flag_status == false || zf_flag_status == false)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
         }
 
         /// <summary>

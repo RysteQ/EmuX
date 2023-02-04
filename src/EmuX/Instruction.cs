@@ -41,11 +41,8 @@
             DEC,
             DIV,
             HLT,
-            IDIV,
-            IMUL,
             INC,
             INT,
-            IRET,
             JA, 
             JAE, 
             JB, 
@@ -117,7 +114,6 @@
             XOR,
 
             LABEL,
-            EXIT, // <-- Special instruction, this will just exit from the emulator loop if called
             NoN
         }
 

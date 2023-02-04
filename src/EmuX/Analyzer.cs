@@ -630,7 +630,6 @@ namespace EmuX
         {
             public Instruction_ENUM[] no_operands = new Instruction_ENUM[]
             {
-                Instruction_ENUM.EXIT,
                 Instruction_ENUM.AAA,
                 Instruction_ENUM.AAD,
                 Instruction_ENUM.AAM,
@@ -642,7 +641,6 @@ namespace EmuX
                 Instruction_ENUM.CWD,
                 Instruction_ENUM.DAA,
                 Instruction_ENUM.DAS,
-                Instruction_ENUM.IRET,
                 Instruction_ENUM.LAHF,
                 Instruction_ENUM.NOP,
                 Instruction_ENUM.POPF,
@@ -711,8 +709,6 @@ namespace EmuX
                 // Instruction_ENUM.CMPSB,
                 // Instruction_ENUM.CMPSW,
                 Instruction_ENUM.DIV,
-                Instruction_ENUM.IDIV,
-                Instruction_ENUM.IMUL,
                 Instruction_ENUM.LEA,
                 Instruction_ENUM.LODSB,
                 Instruction_ENUM.LODSW,
