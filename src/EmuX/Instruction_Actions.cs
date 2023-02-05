@@ -1,4 +1,6 @@
-﻿namespace EmuX
+﻿using System.Security.Cryptography.X509Certificates;
+
+namespace EmuX
 {
     internal class Instruction_Actions
     {
@@ -533,6 +535,188 @@
                     return labels[i].Item2;
 
             return -1;
+        }
+
+        public int JNG(List<(string, int)> labels, string label_to_jump_to, bool zf_flag_status, bool sf_flag_status, bool of_flag_status)
+        {
+            if (zf_flag_status == false && (sf_flag_status == of_flag_status))
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JNGE(List<(string, int)> labels, string label_to_jump_to, bool sf_flag_status, bool of_flag_status)
+        {
+            if (sf_flag_status == of_flag_status)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JNL(List<(string, int)> labels, string label_to_jump_to, bool sf_flag_status, bool of_flag_status)
+        {
+            if (sf_flag_status != of_flag_status)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JNLE(List<(string, int)> labels, string label_to_jump_to, bool zf_status_flag, bool sf_flag_status, bool of_flag_status)
+        {
+            if (zf_status_flag || (sf_flag_status != of_flag_status))
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JNO(List<(string, int)> labels, string label_to_jump_to, bool of_flag_status)
+        {
+            if (of_flag_status)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JNP(List<(string, int)> labels, string label_to_jump_to, bool pf_flag_status)
+        {
+            if (pf_flag_status)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JNS(List<(string, int)> labels, string label_to_jump_to, bool sf_flag_status)
+        {
+            if (sf_flag_status)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JNZ(List<(string, int)> labels, string label_to_jump_to, bool zf_flag_status)
+        {
+            if (zf_flag_status)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JO(List<(string, int)> labels, string label_to_jump_to, bool of_flag_status)
+        {
+            if (of_flag_status == false)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JP(List<(string, int)> labels, string label_to_jump_to, bool pf_flag_status)
+        {
+            if (pf_flag_status == false)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JPE(List<(string, int)> labels, string label_to_jump_to, bool pf_flag_status)
+        {
+            if (pf_flag_status == false)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JPO(List<(string, int)> labels, string label_to_jump_to, bool pf_flag_status)
+        {
+            if (pf_flag_status)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JS(List<(string, int)> labels, string label_to_jump_to, bool sf_flag_status)
+        {
+            if (sf_flag_status == false)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JZ(List<(string, int)> labels, string label_to_jump_to, bool zf_flag_status)
+        {
+            if (zf_flag_status == false)
+                return -1;
+
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public int JMP(List<(string, int)> labels, string label_to_jump_to)
+        {
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label_to_jump_to)
+                    return labels[i].Item2;
+
+            return -1;
+        }
+
+        public byte LAHF(uint EFLAGS_register_value)
+        {
+            return (byte) (EFLAGS_register_value & 0x000000FF);
         }
 
         /// <summary>

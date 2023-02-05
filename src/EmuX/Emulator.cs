@@ -385,6 +385,126 @@
 
                     break;
 
+                case Instruction_Data.Instruction_ENUM.JNG:
+                    index_to_jump_to = actions.JNG(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[3]) == 1, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[4]) == 1, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[8]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JNGE:
+                    index_to_jump_to = actions.JNGE(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[4]) == 1, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[8]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JNL:
+                    index_to_jump_to = actions.JNL(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[4]) == 1, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[8]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JNLE:
+                    index_to_jump_to = actions.JNLE(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[3]) == 1, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[4]) == 1, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[8]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JNO:
+                    index_to_jump_to = actions.JNO(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[8]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JNP:
+                    index_to_jump_to = actions.JNP(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[1]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JNS:
+                    index_to_jump_to = actions.JNS(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[4]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JNZ:
+                    index_to_jump_to = actions.JNZ(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[3]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JO:
+                    index_to_jump_to = actions.JO(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[8]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JP:
+                    index_to_jump_to = actions.JP(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[1]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JPO:
+                    index_to_jump_to = actions.JPO(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[1]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JPE:
+                    index_to_jump_to = actions.JPE(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[1]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JS:
+                    index_to_jump_to = actions.JS(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[4]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JZ:
+                    index_to_jump_to = actions.JZ(this.labels, instruction_to_execute.destination_memory_name, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[3]) == 1);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.JMP:
+                    index_to_jump_to = actions.JMP(this.labels, instruction_to_execute.destination_memory_name);
+
+                    if (index_to_jump_to != -1)
+                        this.current_instruction_index = index_to_jump_to;
+
+                    break;
+
                 case Instruction_Data.Instruction_ENUM.MOV:
                     this.SetValue(instruction_to_execute, destination_memory_index, actions.MOV(source_value));
                     break;
