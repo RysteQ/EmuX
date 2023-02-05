@@ -52,7 +52,8 @@ namespace EmuX
                         int label_line = i;
 
                         this.labels.Add((label_name, label_line));
-                    } else if (tokens.Length == 3)
+                    }
+                    else if (tokens.Length == 3)
                     {
                         StaticData new_static_data = new StaticData();
 
@@ -107,7 +108,8 @@ namespace EmuX
                         new_static_data.value = value_in_memory;
 
                         static_data.Add(new_static_data);
-                    } else
+                    }
+                    else
                     {
                         this.AnalyzerError(i);
                         return;
@@ -122,7 +124,7 @@ namespace EmuX
                     this.instructions.Add(instruction_to_add);
 
                     continue;
-                } 
+                }
 
                 instruction_to_add.instruction = this.GetInstruction(tokens[0]);
 
@@ -146,7 +148,7 @@ namespace EmuX
                 Registers_ENUM destination_register;
                 Registers_ENUM source_register;
                 int value;
-                
+
                 switch (instruction_to_add.variant)
                 {
                     case Instruction_Variant_ENUM.SINGLE:
@@ -188,7 +190,7 @@ namespace EmuX
                             else
                                 value = base_converter.ConvertHexToInt(tokens[1]);
                         }
-                            
+
                         instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
                         instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.VALUE, Memory_Type_ENUM.NoN);
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, value.ToString(), "");
@@ -459,7 +461,7 @@ namespace EmuX
         private Registers_ENUM GetRegister(string register_name)
         {
             // the register types
-            Registers_ENUM[] register_type= new Registers_ENUM[] {
+            Registers_ENUM[] register_type = new Registers_ENUM[] {
                 Registers_ENUM.RAX,
                 Registers_ENUM.RBX,
                 Registers_ENUM.RCX,

@@ -91,7 +91,7 @@ namespace EmuX
             if (instruction.instruction == Instruction_ENUM.LABEL)
                 return true;
 
-            Instruction_Data.Instruction_Variant_ENUM[] specific_instruction_variants = allowed_variants.AllInstructionVariants()[(int) instruction.instruction];
+            Instruction_Data.Instruction_Variant_ENUM[] specific_instruction_variants = allowed_variants.AllInstructionVariants()[(int)instruction.instruction];
 
             return specific_instruction_variants.Contains<Instruction_Data.Instruction_Variant_ENUM>(instruction.variant);
         }
@@ -107,7 +107,7 @@ namespace EmuX
             if (instruction.instruction == Instruction_ENUM.LABEL)
                 return true;
 
-            Instruction_Data.Bit_Mode_ENUM[] specific_instruction_bitmodes = allowed_bitmodes.AllAllowedBitmodes()[(int) instruction.instruction];
+            Instruction_Data.Bit_Mode_ENUM[] specific_instruction_bitmodes = allowed_bitmodes.AllAllowedBitmodes()[(int)instruction.instruction];
 
             return specific_instruction_bitmodes.Contains<Instruction_Data.Bit_Mode_ENUM>(instruction.bit_mode);
         }
@@ -545,7 +545,7 @@ namespace EmuX
         {
             Instruction_Data.Instruction_Variant_ENUM.SINGLE
         };
-        
+
         public readonly Instruction_Data.Instruction_Variant_ENUM[] LODSW_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
             Instruction_Data.Instruction_Variant_ENUM.SINGLE
