@@ -299,7 +299,9 @@ namespace EmuX
                         return offset;
                     }
 
-                    static_data_to_add.characters.Add(static_data_tokens[i].Trim(' ').Trim(',').Trim('\'').ToCharArray()[0]); ;
+                    // add the character and update the offset
+                    static_data_to_add.characters.Add(static_data_tokens[i].Trim(' ').Trim(',').Trim('\'').ToCharArray()[0]);
+                    offset++;
                 }
             }
 
