@@ -44,7 +44,8 @@ namespace EmuX
                 Instruction instruction_to_add = new Instruction();
                 string instruction_to_analyze = this.instructions_to_analyze[i];
 
-                if (instruction_to_analyze.Contains(','))
+                // make sure the comma is outside of the ' character before removing it
+                if (instruction_to_analyze.Contains(',') && ((instruction_to_analyze.Split(',')[0].IndexOf('\'') != instruction_to_analyze.IndexOf(',') - 1) && (instruction_to_analyze.Split(',')[1].IndexOf('\'') != instruction_to_analyze.IndexOf(',') + 1)))
                     instruction_to_analyze = instruction_to_analyze.Remove(instruction_to_analyze.IndexOf(','), 1);
 
                 string[] tokens = instruction_to_analyze.Split(' ');
@@ -58,67 +59,9 @@ namespace EmuX
                         int label_line = i;
 
                         this.labels.Add((label_name, label_line));
-                    }
-                    else if (tokens.Length == 3)
+                    } else
                     {
-                        StaticData new_static_data = new StaticData();
-
-                        // fill in the necessary information
-                        new_static_data.name = tokens[0].TrimEnd(':');
-                        ulong value_in_memory;
-
-                        // find out the bit size
-                        switch (tokens[1].ToUpper())
-                        {
-                            case "DB":
-                                new_static_data.size_in_bits = StaticData.SIZE._8_BIT;
-                                new_static_data.memory_location = offset;
-                                offset++;
-
-                                break;
-
-                            case "DW":
-                                new_static_data.size_in_bits = StaticData.SIZE._16_BIT;
-                                new_static_data.memory_location = offset;
-                                offset += 2;
-
-                                break;
-
-                            case "DD":
-                                new_static_data.size_in_bits = StaticData.SIZE._32_BIT;
-                                new_static_data.memory_location = offset;
-                                offset += 4;
-
-                                break;
-
-                            case "DQ":
-                                new_static_data.size_in_bits = StaticData.SIZE._64_BIT;
-                                new_static_data.memory_location = offset;
-                                offset += 8;
-
-                                break;
-
-                            default:
-                                this.AnalyzerError(i);
-                                return;
-                        }
-
-                        // check if the value is an integer or not and parse it
-                        if (ulong.TryParse(tokens[2], out value_in_memory) == false)
-                        {
-                            this.AnalyzerError(i);
-                            return;
-                        }
-
-                        // save the value
-                        new_static_data.value = value_in_memory;
-
-                        static_data.Add(new_static_data);
-                    }
-                    else
-                    {
-                        this.AnalyzerError(i);
-                        return;
+                        offset = AnalyzeStaticData(instruction_to_analyze, offset, i);
                     }
 
                     // add to the instruction the label
@@ -280,6 +223,90 @@ namespace EmuX
 
                 this.instructions.Add(instruction_to_add);
             }
+        }
+
+        /// <summary>
+        /// Analyzes and saves the static data
+        /// If an error was encountered then it throws an error at the current line
+        /// </summary>
+        private int AnalyzeStaticData(string static_data_to_analyze, int offset, int line)
+        {
+            string[] static_data_tokens = static_data_to_analyze.Split(' ');
+            ulong static_data_value = 0;
+
+            StaticData static_data_to_add = new StaticData();
+
+            // check if the static data is a number or a character / list of characters (aka string)
+            if (static_data_tokens.Length == 3 && ulong.TryParse(static_data_tokens[2].Trim().Trim('\''), out static_data_value))
+            {
+                // fill in the necessary information
+                static_data_to_add.name = static_data_tokens[0].TrimEnd(':').Trim();
+                static_data_to_add.value = static_data_value;
+
+                // find out the bit size
+                switch (static_data_tokens[1].ToUpper().Trim())
+                {
+                    case "DB":
+                        static_data_to_add.size_in_bits = StaticData.SIZE._8_BIT;
+                        static_data_to_add.memory_location = offset;
+                        offset++;
+                        break;
+
+                    case "DW":
+                        static_data_to_add.size_in_bits = StaticData.SIZE._16_BIT;
+                        static_data_to_add.memory_location = offset;
+                        offset += 2;
+                        break;
+
+                    case "DD":
+                        static_data_to_add.size_in_bits = StaticData.SIZE._32_BIT;
+                        static_data_to_add.memory_location = offset;
+                        offset += 4;
+                        break;
+
+                    case "DQ":
+                        static_data_to_add.size_in_bits = StaticData.SIZE._64_BIT;
+                        static_data_to_add.memory_location = offset;
+                        offset += 8;
+                        break;
+
+                    default:
+                        this.AnalyzerError(line);
+                        break;
+                }
+            } else
+            {
+                // check if the user made a mistake
+                if (static_data_tokens[1].ToUpper().Trim() != "DB")
+                {
+                    this.AnalyzerError(line);
+                    return offset;
+                }
+
+                // fill in the necessary information
+                static_data_to_add.name = static_data_tokens[0].TrimEnd(':').Trim();
+                static_data_to_add.is_string_array = true;
+
+                // append every character after the DB to the List<char> in StaticData
+                for (int i = 2; i < static_data_tokens.Length; i++)
+                {
+                    static_data_tokens[i] = static_data_tokens[i].Trim(',');
+
+                    // make sure the user entered the ' character on the start and end of the token
+                    if (static_data_tokens[i].Trim().StartsWith('\'') == false || static_data_tokens[i].Trim().EndsWith('\'') == false || static_data_tokens[i].Trim().Length != 3)
+                    {
+                        this.AnalyzerError(line);
+                        return offset;
+                    }
+
+                    static_data_to_add.characters.Add(static_data_tokens[i].Trim(' ').Trim(',').Trim('\'').ToCharArray()[0]); ;
+                }
+            }
+
+            // add the new static data to the list
+            this.static_data.Add(static_data_to_add);
+
+            return offset;
         }
 
         /// <summary>
