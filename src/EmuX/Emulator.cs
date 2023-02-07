@@ -23,15 +23,20 @@
                 switch (this.static_data[i].size_in_bits)
                 {
                     case StaticData.SIZE._8_BIT:
-                        this.virtual_system.SetByteMemory(this.static_data[i].memory_location, (byte)this.static_data[i].value);
+                        if (static_data[i].is_string_array)
+                            for (int char_index = 0; char_index < static_data[i].characters.Count; char_index++)
+                                this.virtual_system.SetByteMemory(this.static_data[i].memory_location + char_index, (byte)static_data[i].characters[char_index]);
+                        else
+                            this.virtual_system.SetByteMemory(this.static_data[i].memory_location, (byte)this.static_data[i].value);
+
                         break;
 
                     case StaticData.SIZE._16_BIT:
-                        this.virtual_system.SetWordMemory(this.static_data[i].memory_location, (ushort)this.static_data[i].value);
+                        this.virtual_system.SetWordMemory(this.static_data[i].memory_location, (ushort) this.static_data[i].value);
                         break;
 
                     case StaticData.SIZE._32_BIT:
-                        this.virtual_system.SetDoubleMemory(this.static_data[i].memory_location, (uint)this.static_data[i].value);
+                        this.virtual_system.SetDoubleMemory(this.static_data[i].memory_location, (uint) this.static_data[i].value);
                         break;
 
                     case StaticData.SIZE._64_BIT:

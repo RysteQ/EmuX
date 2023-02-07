@@ -1306,7 +1306,6 @@
             this.MinimumSize = new System.Drawing.Size(657, 350);
             this.Name = "mainForm";
             this.Text = "EmuX";
-            this.Load += new System.EventHandler(this.mainForm_Load);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
             this.GroupboxInput.ResumeLayout(false);

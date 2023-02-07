@@ -237,7 +237,7 @@ namespace EmuX
             StaticData static_data_to_add = new StaticData();
 
             // check if the static data is a number or a character / list of characters (aka string)
-            if (static_data_tokens.Length == 3 && ulong.TryParse(static_data_tokens[2].Trim().Trim('\''), out static_data_value))
+            if (static_data_tokens.Length == 3 && ulong.TryParse(static_data_tokens[2].Trim(), out static_data_value))
             {
                 // fill in the necessary information
                 static_data_to_add.name = static_data_tokens[0].TrimEnd(':').Trim();
@@ -285,6 +285,7 @@ namespace EmuX
 
                 // fill in the necessary information
                 static_data_to_add.name = static_data_tokens[0].TrimEnd(':').Trim();
+                static_data_to_add.memory_location = offset;
                 static_data_to_add.is_string_array = true;
 
                 // append every character after the DB to the List<char> in StaticData

@@ -68,12 +68,6 @@ namespace EmuX
             this.Close();
         }
 
-        private void mainForm_Load(object sender, EventArgs e)
-        {
-            this.virtual_system = new VirtualSystem();
-        }
-
-        private VirtualSystem virtual_system;
 
         private void ButtonExecute_Click(object sender, EventArgs e)
         {
@@ -510,6 +504,7 @@ namespace EmuX
             }
         }
 
+        private VirtualSystem virtual_system = new VirtualSystem();
         private Analyzer analyzer = new Analyzer();
         private Emulator emulator = new Emulator();
         private Verifier verifier = new Verifier();
