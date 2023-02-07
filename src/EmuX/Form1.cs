@@ -80,6 +80,7 @@ namespace EmuX
             string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
             int instruction_index = 0;
 
+            this.analyzer.Flush();
             this.analyzer.SetInstructions(code_to_analyze);
             this.analyzer.AnalyzeInstructions();
 
@@ -119,7 +120,6 @@ namespace EmuX
             this.emulator.SetInstructions(instructions);
             this.emulator.SetStaticData(static_data);
             this.emulator.SetLabelData(labels);
-            this.emulator.InitStaticData();
             this.emulator.Reset();
 
             // get the instruction count

@@ -7,6 +7,14 @@ namespace EmuX
     /// </summary>
     internal class Analyzer
     {
+        public void Flush()
+        {
+            this.static_data = new List<StaticData>();
+            this.instructions = new List<Instruction>();
+            this.labels = new List<(string, int)>();
+            this.successful = true;
+        }
+
         /// <summary>
         /// Setter - Sets the instructions data to analyze with <c>AnalyzeInstructions()</c>
         /// </summary>
@@ -14,7 +22,6 @@ namespace EmuX
         public void SetInstructions(string instructions_to_analyze)
         {
             this.instructions_data = instructions_to_analyze;
-            this.successful = true;
         }
 
         /// <summary>
@@ -250,6 +257,9 @@ namespace EmuX
                         instruction_to_add = this.AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
                         instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", tokens[2].Trim('[', ']'));
+                        instruction_to_add = this.AssignMemoryBitmode(instruction_to_add, tokens[2].Trim('[', ']'));
+
+                        static_data = static_data;
 
                         // check if the register is 8 bit or not
                         if (tokens[1].ToUpper().EndsWith('H'))
@@ -442,6 +452,12 @@ namespace EmuX
                             if (string_handler.GetCharOccurrences(tokens[2], '[') == 1 && string_handler.GetCharOccurrences(tokens[2], ']') == 1)
                                 return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
 
+                    // check if the destination is a register and the source is a location in memory
+                    if (this.GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
+                        for (int i = 0; i < this.static_data.Count; i++)
+                            if (static_data[i].name == tokens[2])
+                                return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
+
                     // check if the destination is a location in memory and the source is a register
                     if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
                         if (string_handler.GetCharOccurrences(tokens[1], '[') == 1 && string_handler.GetCharOccurrences(tokens[1], ']') == 1)
@@ -575,6 +591,36 @@ namespace EmuX
         {
             instruction.destination_memory_name = destination_memory_name;
             instruction.source_memory_name = source_memory_name;
+
+            return instruction;
+        }
+
+        private Instruction AssignMemoryBitmode(Instruction instruction, string static_data_name)
+        {
+            StaticData.SIZE size_of_static_data = StaticData.SIZE._8_BIT;
+
+            for (int i = 0; i < this.static_data.Count; i++)
+                if (static_data[i].name == static_data_name)
+                    size_of_static_data = static_data[i].size_in_bits;
+
+            switch (size_of_static_data)
+            {
+                case StaticData.SIZE._8_BIT:
+                    instruction.bit_mode = Bit_Mode_ENUM._8_BIT;
+                    break;
+
+                case StaticData.SIZE._16_BIT:
+                    instruction.bit_mode = Bit_Mode_ENUM._16_BIT;
+                    break;
+
+                case StaticData.SIZE._32_BIT:
+                    instruction.bit_mode = Bit_Mode_ENUM._32_BIT;
+                    break;
+
+                case StaticData.SIZE._64_BIT:
+                    instruction.bit_mode = Bit_Mode_ENUM._64_BIT;
+                    break;
+            }
 
             return instruction;
         }

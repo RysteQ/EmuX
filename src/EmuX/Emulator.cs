@@ -19,6 +19,28 @@
         public void SetStaticData(List<StaticData> static_data)
         {
             this.static_data = static_data;
+
+            for (int i = 0; i < this.static_data.Count; i++)
+            {
+                switch (this.static_data[i].size_in_bits)
+                {
+                    case StaticData.SIZE._8_BIT:
+                        this.virtual_system.SetByteMemory(this.static_data[i].memory_location, (byte)this.static_data[i].value);
+                        break;
+
+                    case StaticData.SIZE._16_BIT:
+                        this.virtual_system.SetWordMemory(this.static_data[i].memory_location, (ushort)this.static_data[i].value);
+                        break;
+
+                    case StaticData.SIZE._32_BIT:
+                        this.virtual_system.SetDoubleMemory(this.static_data[i].memory_location, (uint)this.static_data[i].value);
+                        break;
+
+                    case StaticData.SIZE._64_BIT:
+                        this.virtual_system.SetQuadMemory(this.static_data[i].memory_location, this.static_data[i].value);
+                        break;
+                }
+            }
         }
 
         /// <summary>
@@ -82,34 +104,6 @@
         public bool HasInstructions()
         {
             return this.instructions.Count != 0;
-        }
-
-        /// <summary>
-        /// Initializes the static data segment, all of it at once, must be run before the execute function
-        /// </summary>
-        public void InitStaticData()
-        {
-            for (int i = 0; i < this.static_data.Count; i++)
-            {
-                switch (this.static_data[i].size_in_bits)
-                {
-                    case StaticData.SIZE._8_BIT:
-                        this.virtual_system.SetByteMemory(this.static_data[i].memory_location, (byte) this.static_data[i].value);
-                        break;
-
-                    case StaticData.SIZE._16_BIT:
-                        this.virtual_system.SetWordMemory(this.static_data[i].memory_location, (ushort) this.static_data[i].value);
-                        break;
-
-                    case StaticData.SIZE._32_BIT:
-                        this.virtual_system.SetDoubleMemory(this.static_data[i].memory_location, (uint) this.static_data[i].value);
-                        break;
-
-                    case StaticData.SIZE._64_BIT:
-                        this.virtual_system.SetQuadMemory(this.static_data[i].memory_location, this.static_data[i].value);
-                        break;
-                }
-            }
         }
 
         /// <summary>
@@ -503,6 +497,14 @@
                     if (index_to_jump_to != -1)
                         this.current_instruction_index = index_to_jump_to;
 
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.LAHF:
+                    this.virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, actions.LAHF(this.virtual_system.GetEFLAGS()), true);
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.LEA:
+                    this.SetValue(instruction_to_execute, destination_memory_index, (ulong) actions.LEA(this.static_data, instruction_to_execute.source_memory_name));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.MOV:

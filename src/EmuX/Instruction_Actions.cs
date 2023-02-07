@@ -719,6 +719,15 @@ namespace EmuX
             return (byte) (EFLAGS_register_value & 0x000000FF);
         }
 
+        public int LEA(List<StaticData> static_data, string static_data_to_find)
+        {
+            for (int i = 0; i < static_data.Count; i++)
+                if (static_data[i].name == static_data_to_find)
+                    return static_data[i].memory_location;
+
+            return 0;
+        }
+
         /// <summary>
         /// The NOP instruction, do I need to explain it ?
         /// lol no

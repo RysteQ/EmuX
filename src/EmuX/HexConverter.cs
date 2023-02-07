@@ -103,6 +103,9 @@ namespace EmuX
         /// <returns>A boolean value on whether the input is a binary string or not</returns>
         public bool IsBinary(string binary_string)
         {
+            if (binary_string.Length == 0)
+                return false;
+
             for (int i = 0; i < binary_string.Length; i++)
                 if (binary_string[i] != '1' && binary_string[i] != '0')
                     return false;

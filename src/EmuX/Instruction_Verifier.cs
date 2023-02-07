@@ -180,9 +180,7 @@ namespace EmuX
                 JZ_ALLOWED_VARIANTS,
                 JMP_ALLOWED_VARIANTS,
                 LAHF_ALLOWED_VARIANTS,
-                LDS_ALLOWED_VARIANTS,
                 LEA_ALLOWED_VARIANTS,
-                LES_ALLOWED_VARIANTS,
                 LODSB_ALLOWED_VARIANTS,
                 LODSW_ALLOWED_VARIANTS,
                 MOV_ALLOWED_VARIANTS,
@@ -526,17 +524,7 @@ namespace EmuX
             Instruction_Data.Instruction_Variant_ENUM.SINGLE
         };
 
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] LDS_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS
-        };
-
         public readonly Instruction_Data.Instruction_Variant_ENUM[] LEA_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS
-        };
-
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] LES_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
             Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS
         };
@@ -805,6 +793,7 @@ namespace EmuX
                 JPO_ALLOWED_BITMODES,
                 JS_ALLOWED_BITMODES,
                 JZ_ALLOWED_BITMODES,
+                JMP_ALLOWED_BITMODES,
                 LAHF_ALLOWED_BITMODES,
                 LEA_ALLOWED_BITMODES,
                 LODSB_ALLOWED_BITMODES,
@@ -1136,6 +1125,11 @@ namespace EmuX
         };
 
         public readonly Instruction_Data.Bit_Mode_ENUM[] JZ_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
+        {
+            Instruction_Data.Bit_Mode_ENUM.NoN
+        };
+
+        public readonly Instruction_Data.Bit_Mode_ENUM[] JMP_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
         {
             Instruction_Data.Bit_Mode_ENUM.NoN
         };
