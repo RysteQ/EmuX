@@ -20,7 +20,6 @@ namespace EmuX
         /// <summary>
         /// Setter - Sets the instructions to verify
         /// </summary>
-        /// <param name="instructions">The instructions to verify</param>
         public void SetInstructionData(List<Instruction> instructions)
         {
             this.instructions = instructions;
@@ -56,7 +55,6 @@ namespace EmuX
         /// <summary>
         /// Getter
         /// </summary>
-        /// <returns>A true value if the instructions are valid, a false value if they are not</returns>
         public bool AreInstructionsValid()
         {
             return this.valid_instructions;
@@ -65,7 +63,6 @@ namespace EmuX
         /// <summary>
         /// Getter - Returns the instruction index the error was found
         /// </summary>
-        /// <returns>An integer value</returns>
         public int GetInstructionIndexError()
         {
             return this.instruction_index_error;
@@ -74,7 +71,6 @@ namespace EmuX
         /// <summary>
         /// Getter - Returns a message that shows the instruction parameters and the allowed values of said instruction
         /// </summary>
-        /// <returns>A string value</returns>
         public string GetErrorMessage()
         {
             return this.error_message;
@@ -83,8 +79,6 @@ namespace EmuX
         /// <summary>
         /// Checks if the variant of the instruction is acceptable or not
         /// </summary>
-        /// <param name="instruction">The instruction to analyze</param>
-        /// <returns>Returns true if the instruction has the correct variant, false if it doesn't</returns>
         private bool ContainsVariant(Instruction instruction)
         {
             // check if the instruction is a label or not
@@ -99,8 +93,6 @@ namespace EmuX
         /// <summary>
         /// Checks if the bitmode of the instruction is acceptable or not
         /// </summary>
-        /// <param name="instruction">The instruction to analyze</param>
-        /// <returns>Returns true if the instruction has the correct bitmode, false if it doesn't</returns>
         private bool ContainsBitmode(Instruction instruction)
         {
             // check if the instruction is a label or not

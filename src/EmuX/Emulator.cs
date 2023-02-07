@@ -5,7 +5,6 @@
         /// <summary>
         /// Sets the instruction data to execute but does not execute it, use the <c>Execute()</c> function to do that
         /// </summary>
-        /// <param name="instructions">The instruction data to execute</param>
         public void SetInstructions(List<Instruction> instructions)
         {
             this.instructions = instructions;
@@ -15,7 +14,6 @@
         /// <summary>
         /// Sets the static data list
         /// </summary>
-        /// <param name="instructions">A list of StaticData</param>
         public void SetStaticData(List<StaticData> static_data)
         {
             this.static_data = static_data;
@@ -46,7 +44,7 @@
         /// <summary>
         /// Sets the label data
         /// </summary>
-        /// <param name="label_data">A list tuple of (string, int)</param>
+        /// <param name="label_data">A list tuple of (string, int) for the label names and their lines</param>
         public void SetLabelData(List<(string, int)> label_data)
         {
             this.labels = label_data;
@@ -73,7 +71,6 @@
         /// <summary>
         /// Getter - Gets the instruction index
         /// </summary>
-        /// <returns>The instruction index</returns>
         public int GetIndex()
         {
             return this.current_instruction_index;
@@ -82,7 +79,6 @@
         /// <summary>
         /// Getter - Gets the exit_found boolean
         /// </summary>
-        /// <returns>A value of true if an exit was found and false if it wasn't</returns>
         public bool GetExit()
         {
             return this.exit_found;
@@ -91,7 +87,6 @@
         /// <summary>
         /// Getter - Gets the count of the instructions list
         /// </summary>
-        /// <returns>The count of the instructions</returns>
         public int GetInstructionCount()
         {
             return this.instructions.Count;
@@ -100,7 +95,6 @@
         /// <summary>
         /// Getter - Checks if there are any instructions to execute
         /// </summary>
-        /// <returns></returns>
         public bool HasInstructions()
         {
             return this.instructions.Count != 0;
@@ -519,7 +513,6 @@
         /// <summary>
         /// Getter - Gets the error variable
         /// </summary>
-        /// <returns>A boolean value, true if an error was encountered</returns>
         public bool ErrorEncountered()
         {
             return this.error;
@@ -537,7 +530,6 @@
         /// <summary>
         /// Getter
         /// </summary>
-        /// <returns>The Virtual System currently in use</returns>
         public VirtualSystem GetVirtualSystem()
         {
             return this.virtual_system;
@@ -546,7 +538,6 @@
         /// <summary>
         /// Setter
         /// </summary>
-        /// <param name="virtual_system">The virtual system to set to</param>
         public void SetVirtualSystem(VirtualSystem virtual_system)
         {
             this.virtual_system = virtual_system;
@@ -555,8 +546,6 @@
         /// <summary>
         /// Finds the memory index of said label
         /// </summary>
-        /// <param name="labels">The label data</param>
-        /// <param name="label_name_to_find">The label name to find</param>
         /// <returns>The memory index of the label, if the label is not found it returns -1</returns>
         private int GetLabelMemoryIndex(List<(string, int)> labels, string label_name_to_find)
         {
@@ -571,9 +560,6 @@
         /// <summary>
         /// This is just a shortcut to set a value in a register or memory location so that extensive switch statements are avoided
         /// </summary>
-        /// <param name="instruction">The current instruction that is being executed</param>
-        /// <param name="memory_index">The memory index to set said value if any</param>
-        /// <param name="value_to_set">The value to set the register / memory</param>
         private void SetValue(Instruction instruction, int memory_index, ulong value_to_set)
         {
             // check if the value needs to be saved in a register or memory location
@@ -623,8 +609,6 @@
         /// <summary>
         /// Analyzes the instruction variant and returns the destination value as a ulong
         /// </summary>
-        /// <param name="instruction">The instruction to analyze</param>
-        /// <param name="virtual_system"></param>
         /// <returns>An unsigned long value of its destination value</returns>
         private ulong AnalyzeInstructionDestination(Instruction instruction, VirtualSystem virtual_system)
         {
@@ -676,8 +660,6 @@
         /// <summary>
         /// Analyzes the instruction and return the appropriate source value
         /// </summary>
-        /// <param name="instruction">The current instruction</param>
-        /// <param name="virtual_system">The current virtual system</param>
         /// <returns>The ulong value of the source</returns>
         private ulong AnalyzeInstructionSource(Instruction instruction, VirtualSystem virtual_system)
         {
@@ -734,8 +716,6 @@
         /// <summary>
         /// Gets the flag from the int EFLAG register value
         /// </summary>
-        /// <param name="EFLAGS">The EFLAG register value</param>
-        /// <param name="mask">The mask to use for the bitwise operation</param>
         /// <returns>The bool value for the flag result</returns>
         private bool GetFlag(uint EFLAGS, uint mask)
         {

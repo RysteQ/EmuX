@@ -11,7 +11,6 @@ namespace EmuX
         /// <summary>
         /// Converts an integer to a hex string
         /// </summary>
-        /// <param name="to_convert">The unsigned integer to convert</param>
         /// <returns>The hexadecimal value of the unsigned integer</returns>
         public string ConvertIntToHex(uint to_convert)
         {
@@ -29,8 +28,6 @@ namespace EmuX
         /// <summary>
         /// Gets a byte value and returns the hexadecimal value of said byte
         /// </summary>
-        /// <param name="to_convert">The byte to convert to its hex form</param>
-        /// <returns>The hex value of the byte</returns>
         public string ConvertByteToHex(byte to_convert)
         {
             // get the first and last four bits of a byte
@@ -55,8 +52,6 @@ namespace EmuX
         /// <summary>
         /// Converts a byte that's over the value of ten to its hexadecimal value
         /// </summary>
-        /// <param name="to_convert">The byte value to convert to its hex form</param>
-        /// <returns>The byte value in hex form, ranges from A to F</returns>
         private char ConvertByteOverTenToHex(byte to_convert)
         {
             // I know I can write something better but I am just bored fam
@@ -76,8 +71,6 @@ namespace EmuX
         /// <summary>
         /// Checks if the given string is in hexadecimal or not
         /// </summary>
-        /// <param name="hex_string">The string to check if it is in a hexadecimal format or not</param>
-        /// <returns>A boolean value of whether the input is indeed hex or not</returns>
         public bool IsHex(string hex_string)
         {
             char[] acceptable_characters = new char[]
@@ -99,8 +92,6 @@ namespace EmuX
         /// <summary>
         /// Checks if the string is in binary or not
         /// </summary>
-        /// <param name="binary_string">The string to check if it is in binary or not</param>
-        /// <returns>A boolean value on whether the input is a binary string or not</returns>
         public bool IsBinary(string binary_string)
         {
             if (binary_string.Length == 0)

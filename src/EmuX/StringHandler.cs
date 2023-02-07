@@ -5,8 +5,6 @@
         /// <summary>
         /// Removes all empty lines from the string array
         /// </summary>
-        /// <param name="lines_to_remove_from">The string array to remove the empty lines from</param>
-        /// <returns>All of the non empty lines</returns>
         public string[] RemoveEmptyLines(string[] lines_to_remove_from)
         {
             List<string> toReturn = new List<string>();
@@ -21,9 +19,6 @@
         /// <summary>
         /// Scans the string and count all of the occurrences of the given character
         /// </summary>
-        /// <param name="string_to_check">The string to scan</param>
-        /// <param name="char_to_scan_for">The character to scan</param>
-        /// <returns>The total occurrences of said character</returns>
         public int GetCharOccurrences(string string_to_check, char char_to_scan_for)
         {
             int toReturn = 0;
@@ -38,8 +33,6 @@
         /// <summary>
         /// Reverses a string
         /// </summary>
-        /// <param name="string_to_reverse">The string to reverse</param>
-        /// <returns>The reversed string</returns>
         public string ReverseString(string string_to_reverse)
         {
             string toReturn = "";

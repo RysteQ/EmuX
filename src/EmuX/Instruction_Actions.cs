@@ -7,9 +7,6 @@ namespace EmuX
         /// <summary>
         /// The AAA instruction
         /// </summary>
-        /// <param name="ax_register_value">The value of the AX register</param>
-        /// <param name="flags">The EFLAGS register value</param>
-        /// <returns>The adjusted value of the AX register and the adjusted value of the EFLAGS register</returns>
         public (ushort, uint) AAA(ushort ax_register_value, uint flags)
         {
             if (((ax_register_value) & 0x000F) > 9 || (flags & 0x00000010) == 1)
@@ -29,8 +26,6 @@ namespace EmuX
         /// <summary>
         /// The AAD instruction
         /// </summary>
-        /// <param name="ax_register_value">The current value of the AX register</param>
-        /// <returns>The sum of AH and AL</returns>
         public ushort AAD(ushort ax_register_value)
         {
             return (ushort) ((ax_register_value & 0xFF00) + (ax_register_value & 0x00FF));
@@ -39,8 +34,6 @@ namespace EmuX
         /// <summary>
         /// The AAM instruction
         /// </summary>
-        /// <param name="ax_register_value">The current value of the AX register</param>
-        /// <returns>The sum of AH / 10 plus the remainder of the division</returns>
         public ushort AAM(ushort ax_register_value)
         {
             return (ushort) ((((ax_register_value & 0xFF00) / 10) << 8) + (ax_register_value & 0xFF00) % 10);
@@ -48,10 +41,8 @@ namespace EmuX
 
         /// <summary>
         /// Because this instruction can modify the EFLAGS register and the accumulator at the same time it will return
-        /// a virtual system instead of a value
+        /// a virtual system instead of just a single value
         /// </summary>
-        /// <param name="virtual_system">The current state of the virtiual systyem</param>
-        /// <returns>The modified virtual system</returns>
         public VirtualSystem AAS(VirtualSystem virtual_system)
         {
             int low_nibble_al = virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, false) & 0x0F;
@@ -74,10 +65,6 @@ namespace EmuX
         /// <summary>
         /// The ADC (ADd with Carry) instruction
         /// </summary>
-        /// <param name="destination">The destination value</param>
-        /// <param name="source">The source value</param>
-        /// <param name="flags">The EFLAGS register value</param>
-        /// <returns>A ulong value of the result of destination + source + CF</returns>
         public ulong ADC(ulong destination, ulong source, uint flags)
         {
             ulong toReturn = destination + source;
@@ -91,9 +78,6 @@ namespace EmuX
         /// <summary>
         /// The ADD instruction
         /// </summary>
-        /// <param name="destination">The destination value</param>
-        /// <param name="source">The source value</param>
-        /// <returns>The ulong value of the destination + source</returns>
         public ulong ADD(ulong destination, ulong source)
         {
             return destination + source;
@@ -102,9 +86,6 @@ namespace EmuX
         /// <summary>
         /// The AND instruction
         /// </summary>
-        /// <param name="destination">The destination value</param>
-        /// <param name="source">The source value</param>
-        /// <returns>The bitwise AND operation of destination & source</returns>
         public ulong AND(ulong destination, ulong source)
         {
             ulong toReturn = destination;
@@ -116,8 +97,6 @@ namespace EmuX
         /// <summary>
         /// The CALL instruction, it jumps to the specified label and then returns back once it finds the RET instruction
         /// </summary>
-        /// <param name="labels">The labels (string, int), the string is the label name and the int is the line of the label</param>
-        /// <param name="label_to_find">The label to go to</param>
         /// <returns>A touple (bool, int) that specified if the label was found and the line the label was found</returns>
         public (bool, int) CALL(List<(string, int)> labels, string label_to_find)
         {
@@ -133,8 +112,6 @@ namespace EmuX
         /// <summary>
         /// The CBW (Convert Byte to Word) instruction
         /// </summary>
-        /// <param name="source">The value of the AL register</param>
-        /// <returns>The new value of the AH register</returns>
         public byte CBW(byte al_register_value)
         {
             if (al_register_value < 128)
@@ -146,8 +123,6 @@ namespace EmuX
         /// <summary>
         /// The CLC instruction, if the carry flag is true then set it to false
         /// </summary>
-        /// <param name="flags">The EFLAGS value</param>
-        /// <returns>The new EFLAGS value</returns>
         public uint CLC(uint flags)
         {
             if (flags % 2 == 1)
@@ -159,8 +134,6 @@ namespace EmuX
         /// <summary>
         /// The CLD instruction, if the destination flag is set to true then set it to false
         /// </summary>
-        /// <param name="flags">The EFLAGS value</param>
-        /// <returns>The new EFLAGS value</returns>
         public uint CLD(uint flags)
         {
             return flags & 0xFFFFFBFF;
@@ -169,8 +142,6 @@ namespace EmuX
         /// <summary>
         /// The CLI instruction, if the interrupt flag is set to true then set it to false
         /// </summary>
-        /// <param name="flags">The EFLAGS value</param>
-        /// <returns>The new EFLAGS value</returns>
         public uint CLI(uint flags)
         {
             return flags & 0xFFFFFDFF;
@@ -179,8 +150,6 @@ namespace EmuX
         /// <summary>
         /// The CMC instruction, executes a not operation to the carry flag
         /// </summary>
-        /// <param name="flags">The EFLAGS value</param>
-        /// <returns>The new EFLAGS value</returns>
         public uint CMC(uint flags)
         {
             if (flags % 2 == 0)
@@ -192,7 +161,6 @@ namespace EmuX
         /// <summary>
         /// The CMP instruction, it compares to values and then modifies the EFLAGS register
         /// </summary>
-        /// <param name="flags">The current EFLAGS value</param>
         /// <returns>The new EFLAGS value</returns>
         public uint CMP(ulong operand_one, ulong operand_two, uint flags)
         {
@@ -227,7 +195,6 @@ namespace EmuX
         /// <summary>
         /// The CWD instruction
         /// </summary>
-        /// <param name="ax_register_value">The value of the AX register</param>
         /// <returns>The new value for the DX register</returns>
         public ushort CWD(ushort ax_register_value)
         {
@@ -241,7 +208,6 @@ namespace EmuX
         /// The DAA instruction, just look at the wikidev what it does, that's how I found out
         /// </summary>
         /// <param name="value">The value of the AL register</param>
-        /// <param name="flags">The EFLAGS register</param>
         /// <returns>The adjusted value if applicabble</returns>
         public byte DAA(byte value, uint flags)
         {
@@ -257,7 +223,6 @@ namespace EmuX
         /// The DAS instruction, same as the DAA instruction but it does subtraction instead of addition to the value
         /// </summary>
         /// <param name="value">The value of the AL register</param>
-        /// <param name="flags">The EFLAGS register</param>
         /// <returns>The adjusted value if applicabble</returns>
         public byte DAS(byte value, uint flags)
         {
@@ -272,9 +237,7 @@ namespace EmuX
         /// <summary>
         /// The DEC instruction, it does not protect from underflow
         /// </summary>
-        /// <param name="value">The value to decrement</param>
         /// <param name="bit_mode">The bitmode of the instruction, 8 / 16 / 32 bit, if a 64bit argument is provided the code will not check for underflow</param>
-        /// <returns>The original value - 1</returns>
         public ulong DEC(ulong value, Instruction_Data.Bit_Mode_ENUM bit_mode)
         {
             switch (bit_mode)
@@ -307,7 +270,10 @@ namespace EmuX
             return value - 1;
         }
 
-        // TODO
+        /// <summary>
+        /// The DIV instruction, because it return more than one value I just made it that it does all the work and then returns
+        /// the virtual_system back after it modifies some values
+        /// </summary>
         public VirtualSystem DIV(VirtualSystem virtual_system, Instruction_Data.Bit_Mode_ENUM bit_mode, ulong destination_value)
         {
             ulong quotient = 0;
@@ -737,8 +703,6 @@ namespace EmuX
         /// <summary>
         /// This seems useless but I want all instructions to be in this file and class
         /// </summary>
-        /// <param name="value">The value to return</param>
-        /// <returns>The value</returns>
         public ulong MOV(ulong value)
         {
             return value;

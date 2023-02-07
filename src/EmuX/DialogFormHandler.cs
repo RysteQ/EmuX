@@ -5,8 +5,7 @@
         /// <summary>
         /// Handles the open file dialog and returns the file the user specified or returns null if the user did not select a file
         /// </summary>
-        /// <param name="openFD"></param>
-        /// <returns>The source path the user entered / selected</returns>
+        /// <returns>The source path the user selected, if the user did not select a path then return an empty string</returns>
         public string openFileDialog(OpenFileDialog openFD)
         {
             openFD.FileName = "";
@@ -21,8 +20,7 @@
         /// <summary>
         /// Handles the save file dialog and returns the filename the user specified or returns null if the user did not select a filename
         /// </summary>
-        /// <param name="saveFD"></param>
-        /// <returns>The save path the user entered / selected</returns>
+        /// <returns>The save path the user selected, if the user did not select a path then return an empty string</returns>
         public string saveFileDialog(SaveFileDialog saveFD)
         {
             saveFD.FileName = "";

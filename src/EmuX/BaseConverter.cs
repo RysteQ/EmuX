@@ -5,8 +5,6 @@
         /// <summary>
         /// Converts a binary value to its integer form
         /// </summary>
-        /// <param name="binary_value">The binary string</param>
-        /// <returns>The integer value of the binary string</returns>
         public int ConvertBinaryToInt(string binary_value)
         {
             int toReturn = 0;
@@ -28,8 +26,6 @@
         /// <summary>
         /// Converts a hexadecimal value to an integer
         /// </summary>
-        /// <param name="hex_value">The hex value to convert</param>
-        /// <returns>The integer value</returns>
         public int ConvertHexToInt(string hex_value)
         {
             return this.ConvertBinaryToInt(this.ConvertHexToBinary(hex_value));
@@ -38,8 +34,6 @@
         /// <summary>
         /// Converts and int value to a binary string
         /// </summary>
-        /// <param name="value">The value to convert</param>
-        /// <returns>The converted string binary value</returns>
         public string ConvertIntToBinaryString(int value)
         {
             string toReturn = "";
@@ -56,8 +50,6 @@
         /// <summary>
         /// Converts a hex string to a binary string
         /// </summary>
-        /// <param name="hex_value">A hexadecimal value</param>
-        /// <returns>The binary representation of the hex input</returns>
         private string ConvertHexToBinary(string hex_value)
         {
             string toReturn = "";
