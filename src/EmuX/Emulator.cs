@@ -127,8 +127,8 @@
             ulong source_value = AnalyzeInstructionSource(instruction_to_execute, this.virtual_system);
             string memory_destination = instruction_to_execute.destination_memory_name;
             int to_return_to = 0;
-            int destination_memory_index = GetLabelMemoryIndex(this.labels, instruction_to_execute.destination_memory_name);
-            int source_memory_index = GetLabelMemoryIndex(this.labels, instruction_to_execute.source_memory_name);
+            int destination_memory_index = GetMemoryIndex(instruction_to_execute, this.labels, instruction_to_execute.destination_memory_name);
+            int source_memory_index = GetMemoryIndex(instruction_to_execute, this.labels, instruction_to_execute.source_memory_name);
             int index_to_jump_to = 0;
             // ---
 
@@ -552,8 +552,12 @@
         /// Finds the memory index of said label
         /// </summary>
         /// <returns>The memory index of the label, if the label is not found it returns -1</returns>
-        private int GetLabelMemoryIndex(List<(string, int)> labels, string label_name_to_find)
+        private int GetMemoryIndex(Instruction instruction, List<(string, int)> labels, string label_name_to_find)
         {
+            // check if the destination is a register pointer
+            if (instruction.destination_register_pointer)
+                return (int) this.virtual_system.GetRegisterQuad(instruction.destination_register);
+
             if (label_name_to_find != "")
                 for (int i = 0; i < labels.Count; i++)
                     if (labels[i].Item1 == label_name_to_find)
@@ -568,7 +572,7 @@
         private void SetValue(Instruction instruction, int memory_index, ulong value_to_set)
         {
             // check if the value needs to be saved in a register or memory location
-            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN)
+            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
             {
                 switch (instruction.bit_mode)
                 {
@@ -617,49 +621,61 @@
         /// <returns>An unsigned long value of its destination value</returns>
         private ulong AnalyzeInstructionDestination(Instruction instruction, VirtualSystem virtual_system)
         {
-            ulong toReturn = 0;
-
             // This might be expanded upon in the future so I am keeping it for now
             switch (instruction.variant)
             {
                 case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
-                    toReturn = this.virtual_system.GetRegisterQuad(instruction.destination_register);
-                    break;
+                    return this.virtual_system.GetRegisterQuad(instruction.destination_register);
 
                 case Instruction_Data.Instruction_Variant_ENUM.SINGLE_VALUE:
-                    toReturn = ulong.Parse(instruction.destination_memory_name);
-                    break;
+                    return ulong.Parse(instruction.destination_memory_name);
 
                 case Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
                     // get the static data value
                     for (int i = 0; i < static_data.Count; i++)
                         if (static_data[i].name == instruction.destination_memory_name)
-                            toReturn = static_data[i].value;
+                            return static_data[i].value;
 
-                    break;
+                    return 0;
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
-                    toReturn = this.virtual_system.GetRegisterQuad(instruction.destination_register);
-                    break;
+                    return this.virtual_system.GetRegisterQuad(instruction.destination_register);
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
-                    toReturn = this.virtual_system.GetRegisterQuad(instruction.destination_register);
-                    break;
+                    return this.virtual_system.GetRegisterQuad(instruction.destination_register);
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
-                    toReturn = this.virtual_system.GetRegisterQuad(instruction.destination_register);
-                    break;
+                    return this.virtual_system.GetRegisterQuad(instruction.destination_register);
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
                     // get the static data value
                     for (int i = 0; i < static_data.Count; i++)
                         if (static_data[i].name == instruction.destination_memory_name)
-                            toReturn = static_data[i].value;
+                            return static_data[i].value;
 
-                    break;
+                    // check if the destination is a register pointer
+                    if (instruction.destination_register_pointer)
+                    {
+                        switch (instruction.bit_mode)
+                        {
+                            case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                                return (ulong) this.virtual_system.GetRegisterByte(instruction.destination_register, false);
+
+                            case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                                return (ulong) this.virtual_system.GetRegisterWord(instruction.destination_register);
+
+                            case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                                return (ulong) this.virtual_system.GetRegisterDouble(instruction.destination_register);
+
+                            case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                                return this.virtual_system.GetRegisterQuad(instruction.destination_register);
+                        }
+                    }
+
+                    return 0;
             }
 
-            return toReturn;
+            return 0;
         }
 
         /// <summary>
@@ -668,9 +684,7 @@
         /// <returns>The ulong value of the source</returns>
         private ulong AnalyzeInstructionSource(Instruction instruction, VirtualSystem virtual_system)
         {
-            ulong toReturn = 0;
-
-            if (instruction.source_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.NoN)
+            if (instruction.source_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.NoN && instruction.source_register_pointer == false && instruction.destination_register_pointer == false)
                 return 0;
 
             if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER || instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER)
@@ -678,29 +692,52 @@
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        toReturn = this.virtual_system.GetRegisterByte(instruction.source_register, instruction.high_or_low);
-                        break;
+                        return this.virtual_system.GetRegisterByte(instruction.source_register, instruction.high_or_low);
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        toReturn = this.virtual_system.GetRegisterWord(instruction.source_register);
-                        break;
+                        return this.virtual_system.GetRegisterWord(instruction.source_register);
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                        toReturn = this.virtual_system.GetRegisterDouble(instruction.source_register);
-                        break;
+                        return this.virtual_system.GetRegisterDouble(instruction.source_register);
 
                     case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                        toReturn = this.virtual_system.GetRegisterQuad(instruction.source_register);
-                        break;
+                        return this.virtual_system.GetRegisterQuad(instruction.source_register);
                 }
-
-                return toReturn;
             } else if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS)
             {
+                Instruction_Data register_name_lookup = new Instruction_Data();
+
                 // return the value of the static data
                 for (int i = 0; i < static_data.Count; i++)
                     if (static_data[i].name == instruction.source_memory_name)
                         return static_data[i].value;
+
+                // check if it is referring to a memory location pointed by a register
+                if (instruction.source_register_pointer)
+                {
+                    int memory_index = (int) this.virtual_system.GetRegisterDouble(instruction.source_register);
+
+                    switch (instruction.bit_mode)
+                    {
+                        case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                            return (ulong) this.virtual_system.GetByteMemory(memory_index);
+
+                        case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                            return (ulong) this.virtual_system.GetWordMemory(memory_index);
+
+                        case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                            return (ulong) this.virtual_system.GetDoubleMemory(memory_index);
+
+                        case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                            return this.virtual_system.GetQuadMemory(memory_index);
+
+                        default:
+                            return 0;
+                    }
+                }
+            } else if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE)
+            {
+                return uint.Parse(instruction.source_memory_name);
             } else
             {
                 if (instruction.source_memory_name.StartsWith('-'))

@@ -9,6 +9,8 @@
         public Instruction_Data.Memory_Type_ENUM destination_memory_type;
         public Instruction_Data.Memory_Type_ENUM source_memory_type;
         public Instruction_Data.Bit_Mode_ENUM bit_mode;
+        public bool destination_register_pointer;
+        public bool source_register_pointer;
         public string destination_memory_name = "";
         public string source_memory_name = "";
         public bool high_or_low = false;

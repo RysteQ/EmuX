@@ -200,6 +200,7 @@ namespace EmuX
                         instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", tokens[2].Trim('[', ']'));
                         instruction_to_add = this.AssignMemoryBitmode(instruction_to_add, tokens[2].Trim('[', ']'));
+                        instruction_to_add = this.AssignRegisterPointers(instruction_to_add, "", tokens[2].Trim('[', ']'));
 
                         // check if the register is 8 bit or not
                         if (tokens[1].ToUpper().EndsWith('H'))
@@ -213,10 +214,30 @@ namespace EmuX
                         instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, source_register);
                         instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
+                        instruction_to_add = this.AssignRegisterPointers(instruction_to_add, tokens[1].Trim('[', ']'), "");
 
                         // check if the register is 8 bit or not
                         if (tokens[2].ToUpper().EndsWith('H'))
                             instruction_to_add.high_or_low = true;
+
+                        break;
+
+                    case Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE:
+                        // convert the number from base 10 / binary / hex to an integer
+                        if (int.TryParse(tokens[2], out value) == false)
+                        {
+                            BaseConverter base_converter = new BaseConverter();
+
+                            if (tokens[1].ToUpper().EndsWith('B'))
+                                value = base_converter.ConvertBinaryToInt(tokens[1]);
+                            else
+                                value = base_converter.ConvertHexToInt(tokens[1]);
+                        }
+
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
+                        instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", value.ToString());
+                        instruction_to_add = this.AssignRegisterPointers(instruction_to_add, tokens[1].Trim('[', ']'), "");
 
                         break;
                 }
@@ -238,13 +259,13 @@ namespace EmuX
             static_data_tokens[0] = static_data_tokens[0].TrimEnd(':').Trim();
 
             StaticData static_data_to_add = new StaticData();
-            Instruction_Data register_names_lookup = new Instruction_Data();
+            Instruction_Data register_name_lookup = new Instruction_Data();
 
             // check if the static data name is valid or not aka if the static data name is a register name or not
-            if (register_names_lookup._8_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()) 
-            || register_names_lookup._16_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()) 
-            || register_names_lookup._32_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()) 
-            || register_names_lookup._64_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()))
+            if (register_name_lookup._8_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()) 
+            || register_name_lookup._16_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()) 
+            || register_name_lookup._32_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()) 
+            || register_name_lookup._64_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()))
             {
                 this.AnalyzerError(line);
                 return offset;
@@ -496,6 +517,35 @@ namespace EmuX
                             if (this.GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
                                 return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
                 }
+
+                // check if the destination register is a pointer
+                if (this.GetRegister(tokens[1].Trim('[', ']')) != Registers_ENUM.NoN)
+                {
+                    // check if it refers to an int
+                    if (int.TryParse(tokens[2], out integer_junk))
+                        return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE;
+
+                    // check if it refers to binary
+                    if (tokens[2].ToUpper().EndsWith('B'))
+                        if (hex_converter.IsBinary(tokens[2].ToUpper().TrimEnd('B')))
+                            return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE;
+
+                    // check if it refers to hex
+                    if (tokens[2].ToUpper().EndsWith('H'))
+                        if (hex_converter.IsHex(tokens[2].ToUpper().TrimEnd('H')))
+                            return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE;
+
+                    // Check if it refers to an ASCII character
+                    if (tokens[2].EndsWith('\'') && tokens[2].StartsWith('\''))
+                        if (tokens[2].Length == 3)
+                            return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE;
+
+                    // check if the destination is a register and the source is a value from memory
+                    if (this.GetRegister(tokens[2].ToUpper()) != Registers_ENUM.NoN)
+                        if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
+                            if (string_handler.GetCharOccurrences(tokens[1], '[') == 1 && string_handler.GetCharOccurrences(tokens[1], ']') == 1)
+                                return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
+                }
             }
 
             return Instruction_Variant_ENUM.NoN;
@@ -664,6 +714,76 @@ namespace EmuX
                 instruction.bit_mode = Bit_Mode_ENUM._16_BIT;
             else
                 instruction.bit_mode = Bit_Mode_ENUM._8_BIT;
+
+            return instruction;
+        }
+
+        /// <summary>
+        /// Returns the modified version of the current instruction with the boolean values for register pointers
+        /// modified if applicable, it also modifies the destination register and source register if a pointer
+        /// and at last it also modifies the bit mode, again, if applicable
+        /// was found
+        /// </summary>
+        private Instruction AssignRegisterPointers(Instruction instruction, string destination_register_token, string source_register_token)
+        {
+            Instruction_Data instruction_object = new Instruction_Data();
+
+            Instruction_Data.Registers_ENUM destination_register = Registers_ENUM.NoN;
+            Instruction_Data.Registers_ENUM source_register = Registers_ENUM.NoN;
+            bool destination_register_pointer = false;
+            bool source_register_pointer = false;
+
+            destination_register_token = destination_register_token.ToUpper();
+            source_register_token = source_register_token.ToUpper();
+
+            // check if the value is an actual register or not
+            destination_register_pointer = instruction_object._64_bit_registers.Contains(destination_register_token)
+                                             || instruction_object._32_bit_registers.Contains(destination_register_token)
+                                             || instruction_object._16_bit_registers.Contains(destination_register_token)
+                                             || instruction_object._8_bit_registers.Contains(destination_register_token);
+
+            // check if the value is an actual register or not
+            source_register_pointer = instruction_object._64_bit_registers.Contains(source_register_token)
+                                        || instruction_object._32_bit_registers.Contains(source_register_token)
+                                        || instruction_object._16_bit_registers.Contains(source_register_token)
+                                        || instruction_object._8_bit_registers.Contains(source_register_token);
+
+            instruction.destination_register_pointer = destination_register_pointer;
+            instruction.source_register_pointer = source_register_pointer;
+
+            // modify the destination / source register enums if applicable
+            if (destination_register_pointer)
+                if (Enum.TryParse<Instruction_Data.Registers_ENUM>(destination_register_token, out destination_register))
+                    instruction.destination_register = destination_register;
+
+            if (source_register_pointer)
+                if (Enum.TryParse<Instruction_Data.Registers_ENUM>(source_register_token, out source_register))
+                    instruction.source_register = source_register;
+
+            // modify the instruction bit mode if applicable
+            if (destination_register_pointer)
+            {
+                if (instruction_object._64_bit_registers.Contains(destination_register_token))
+                    instruction.bit_mode = Bit_Mode_ENUM._64_BIT;
+                else if (instruction_object._32_bit_registers.Contains(destination_register_token))
+                    instruction.bit_mode = Bit_Mode_ENUM._32_BIT;
+                else if (instruction_object._16_bit_registers.Contains(destination_register_token))
+                    instruction.bit_mode = Bit_Mode_ENUM._16_BIT;
+                else
+                    instruction.bit_mode = Bit_Mode_ENUM._8_BIT;
+            }
+
+            if (source_register_pointer)
+            {
+                if (instruction_object._64_bit_registers.Contains(source_register_token))
+                    instruction.bit_mode = Bit_Mode_ENUM._64_BIT;
+                else if (instruction_object._32_bit_registers.Contains(source_register_token))
+                    instruction.bit_mode = Bit_Mode_ENUM._32_BIT;
+                else if (instruction_object._16_bit_registers.Contains(source_register_token))
+                    instruction.bit_mode = Bit_Mode_ENUM._16_BIT;
+                else
+                    instruction.bit_mode = Bit_Mode_ENUM._8_BIT;
+            }
 
             return instruction;
         }

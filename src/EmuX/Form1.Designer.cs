@@ -171,7 +171,7 @@
             this.aboutToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
-            this.mainMenuStrip.Size = new System.Drawing.Size(644, 24);
+            this.mainMenuStrip.Size = new System.Drawing.Size(949, 24);
             this.mainMenuStrip.TabIndex = 0;
             this.mainMenuStrip.Text = "mainMenuStrip";
             // 
@@ -302,7 +302,7 @@
             this.GroupboxInput.Controls.Add(this.RichTextboxAssemblyCode);
             this.GroupboxInput.Location = new System.Drawing.Point(6, 6);
             this.GroupboxInput.Name = "GroupboxInput";
-            this.GroupboxInput.Size = new System.Drawing.Size(396, 244);
+            this.GroupboxInput.Size = new System.Drawing.Size(701, 244);
             this.GroupboxInput.TabIndex = 1;
             this.GroupboxInput.TabStop = false;
             this.GroupboxInput.Text = "Assembly";
@@ -314,7 +314,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RichTextboxAssemblyCode.Location = new System.Drawing.Point(6, 22);
             this.RichTextboxAssemblyCode.Name = "RichTextboxAssemblyCode";
-            this.RichTextboxAssemblyCode.Size = new System.Drawing.Size(384, 214);
+            this.RichTextboxAssemblyCode.Size = new System.Drawing.Size(689, 214);
             this.RichTextboxAssemblyCode.TabIndex = 0;
             this.RichTextboxAssemblyCode.Text = "";
             // 
@@ -325,7 +325,7 @@
             this.GroupboxControls.Controls.Add(this.GroupboxExecutionProgress);
             this.GroupboxControls.Controls.Add(this.LabelCurrentInstruction);
             this.GroupboxControls.Controls.Add(this.GroupboxExecution);
-            this.GroupboxControls.Location = new System.Drawing.Point(408, 10);
+            this.GroupboxControls.Location = new System.Drawing.Point(713, 6);
             this.GroupboxControls.Name = "GroupboxControls";
             this.GroupboxControls.Size = new System.Drawing.Size(220, 244);
             this.GroupboxControls.TabIndex = 2;
@@ -415,7 +415,7 @@
             this.EmuXTabControl.Location = new System.Drawing.Point(0, 27);
             this.EmuXTabControl.Name = "EmuXTabControl";
             this.EmuXTabControl.SelectedIndex = 0;
-            this.EmuXTabControl.Size = new System.Drawing.Size(646, 285);
+            this.EmuXTabControl.Size = new System.Drawing.Size(951, 285);
             this.EmuXTabControl.TabIndex = 1;
             this.EmuXTabControl.SelectedIndexChanged += new System.EventHandler(this.EmuXTabControl_SelectedIndexChanged);
             // 
@@ -426,7 +426,7 @@
             this.Assembly.Location = new System.Drawing.Point(4, 24);
             this.Assembly.Name = "Assembly";
             this.Assembly.Padding = new System.Windows.Forms.Padding(3);
-            this.Assembly.Size = new System.Drawing.Size(638, 257);
+            this.Assembly.Size = new System.Drawing.Size(943, 257);
             this.Assembly.TabIndex = 0;
             this.Assembly.Text = "Assembly";
             this.Assembly.UseVisualStyleBackColor = true;
@@ -438,7 +438,7 @@
             this.Memory.Location = new System.Drawing.Point(4, 24);
             this.Memory.Name = "Memory";
             this.Memory.Padding = new System.Windows.Forms.Padding(3);
-            this.Memory.Size = new System.Drawing.Size(638, 257);
+            this.Memory.Size = new System.Drawing.Size(943, 257);
             this.Memory.TabIndex = 1;
             this.Memory.Text = "Memory";
             this.Memory.UseVisualStyleBackColor = true;
@@ -459,7 +459,7 @@
             this.GroupBoxMemoryControls.Controls.Add(this.ComboBoxMemoryRepresentation);
             this.GroupBoxMemoryControls.Location = new System.Drawing.Point(8, 6);
             this.GroupBoxMemoryControls.Name = "GroupBoxMemoryControls";
-            this.GroupBoxMemoryControls.Size = new System.Drawing.Size(742, 112);
+            this.GroupBoxMemoryControls.Size = new System.Drawing.Size(929, 112);
             this.GroupBoxMemoryControls.TabIndex = 1;
             this.GroupBoxMemoryControls.TabStop = false;
             this.GroupBoxMemoryControls.Text = "Controls";
@@ -467,7 +467,7 @@
             // ButtonClearMemoryTable
             // 
             this.ButtonClearMemoryTable.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonClearMemoryTable.Location = new System.Drawing.Point(397, 50);
+            this.ButtonClearMemoryTable.Location = new System.Drawing.Point(696, 50);
             this.ButtonClearMemoryTable.Name = "ButtonClearMemoryTable";
             this.ButtonClearMemoryTable.Size = new System.Drawing.Size(227, 23);
             this.ButtonClearMemoryTable.TabIndex = 9;
@@ -505,7 +505,7 @@
             // ButtonSetMemoryValue
             // 
             this.ButtonSetMemoryValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonSetMemoryValue.Location = new System.Drawing.Point(397, 80);
+            this.ButtonSetMemoryValue.Location = new System.Drawing.Point(696, 80);
             this.ButtonSetMemoryValue.Name = "ButtonSetMemoryValue";
             this.ButtonSetMemoryValue.Size = new System.Drawing.Size(227, 23);
             this.ButtonSetMemoryValue.TabIndex = 5;
@@ -516,7 +516,7 @@
             // ButtonSearchMemoryRange
             // 
             this.ButtonSearchMemoryRange.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonSearchMemoryRange.Location = new System.Drawing.Point(397, 22);
+            this.ButtonSearchMemoryRange.Location = new System.Drawing.Point(696, 22);
             this.ButtonSearchMemoryRange.Name = "ButtonSearchMemoryRange";
             this.ButtonSearchMemoryRange.Size = new System.Drawing.Size(227, 23);
             this.ButtonSearchMemoryRange.TabIndex = 4;
@@ -527,25 +527,25 @@
             // TextBoxMemoryValue
             // 
             this.TextBoxMemoryValue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBoxMemoryValue.Location = new System.Drawing.Point(189, 80);
+            this.TextBoxMemoryValue.Location = new System.Drawing.Point(450, 81);
             this.TextBoxMemoryValue.Name = "TextBoxMemoryValue";
-            this.TextBoxMemoryValue.Size = new System.Drawing.Size(202, 23);
+            this.TextBoxMemoryValue.Size = new System.Drawing.Size(240, 23);
             this.TextBoxMemoryValue.TabIndex = 3;
             // 
             // TextBoxMemoryRangeEnd
             // 
             this.TextBoxMemoryRangeEnd.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBoxMemoryRangeEnd.Location = new System.Drawing.Point(291, 22);
+            this.TextBoxMemoryRangeEnd.Location = new System.Drawing.Point(575, 23);
             this.TextBoxMemoryRangeEnd.Name = "TextBoxMemoryRangeEnd";
-            this.TextBoxMemoryRangeEnd.Size = new System.Drawing.Size(100, 23);
+            this.TextBoxMemoryRangeEnd.Size = new System.Drawing.Size(115, 23);
             this.TextBoxMemoryRangeEnd.TabIndex = 2;
             // 
             // TextBoxMemoryRangeStart
             // 
             this.TextBoxMemoryRangeStart.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBoxMemoryRangeStart.Location = new System.Drawing.Point(189, 22);
+            this.TextBoxMemoryRangeStart.Location = new System.Drawing.Point(450, 23);
             this.TextBoxMemoryRangeStart.Name = "TextBoxMemoryRangeStart";
-            this.TextBoxMemoryRangeStart.Size = new System.Drawing.Size(100, 23);
+            this.TextBoxMemoryRangeStart.Size = new System.Drawing.Size(115, 23);
             this.TextBoxMemoryRangeStart.TabIndex = 1;
             // 
             // ComboBoxMemoryRepresentation
@@ -556,9 +556,9 @@
             "Decimal",
             "Binary",
             "Hexadecimal"});
-            this.ComboBoxMemoryRepresentation.Location = new System.Drawing.Point(189, 51);
+            this.ComboBoxMemoryRepresentation.Location = new System.Drawing.Point(450, 52);
             this.ComboBoxMemoryRepresentation.Name = "ComboBoxMemoryRepresentation";
-            this.ComboBoxMemoryRepresentation.Size = new System.Drawing.Size(202, 23);
+            this.ComboBoxMemoryRepresentation.Size = new System.Drawing.Size(240, 23);
             this.ComboBoxMemoryRepresentation.TabIndex = 0;
             // 
             // DataGridViewMemory
@@ -577,7 +577,7 @@
             this.DataGridViewMemory.Name = "DataGridViewMemory";
             this.DataGridViewMemory.ReadOnly = true;
             this.DataGridViewMemory.RowTemplate.Height = 25;
-            this.DataGridViewMemory.Size = new System.Drawing.Size(624, 124);
+            this.DataGridViewMemory.Size = new System.Drawing.Size(929, 124);
             this.DataGridViewMemory.TabIndex = 0;
             // 
             // Registers
@@ -587,7 +587,7 @@
             this.Registers.Controls.Add(this.GroupBoxGeneralPurposeRegisters);
             this.Registers.Location = new System.Drawing.Point(4, 24);
             this.Registers.Name = "Registers";
-            this.Registers.Size = new System.Drawing.Size(638, 257);
+            this.Registers.Size = new System.Drawing.Size(943, 257);
             this.Registers.TabIndex = 2;
             this.Registers.Text = "Registers";
             this.Registers.UseVisualStyleBackColor = true;
@@ -1278,7 +1278,7 @@
             this.Output.Controls.Add(this.RichtextBoxOutput);
             this.Output.Location = new System.Drawing.Point(4, 24);
             this.Output.Name = "Output";
-            this.Output.Size = new System.Drawing.Size(638, 257);
+            this.Output.Size = new System.Drawing.Size(943, 257);
             this.Output.TabIndex = 3;
             this.Output.Text = "Output";
             this.Output.UseVisualStyleBackColor = true;
@@ -1299,11 +1299,11 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(644, 311);
+            this.ClientSize = new System.Drawing.Size(949, 311);
             this.Controls.Add(this.EmuXTabControl);
             this.Controls.Add(this.mainMenuStrip);
             this.MainMenuStrip = this.mainMenuStrip;
-            this.MinimumSize = new System.Drawing.Size(657, 350);
+            this.MinimumSize = new System.Drawing.Size(965, 350);
             this.Name = "mainForm";
             this.Text = "EmuX";
             this.mainMenuStrip.ResumeLayout(false);
