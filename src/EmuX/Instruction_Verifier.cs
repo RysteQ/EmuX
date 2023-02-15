@@ -173,11 +173,7 @@ namespace EmuX
                 JMP_ALLOWED_VARIANTS,
                 LAHF_ALLOWED_VARIANTS,
                 LEA_ALLOWED_VARIANTS,
-                LODSB_ALLOWED_VARIANTS,
-                LODSW_ALLOWED_VARIANTS,
                 MOV_ALLOWED_VARIANTS,
-                MOVSB_ALLOWED_VARIANTS,
-                MOVSW_ALLOWED_VARIANTS,
                 MUL_ALLOWED_VARIANTS,
                 NEG_ALLOWED_VARIANTS,
                 NOP_ALLOWED_VARIANTS,
@@ -521,16 +517,6 @@ namespace EmuX
             Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS
         };
 
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] LODSB_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE
-        };
-
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] LODSW_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE
-        };
-
         public readonly Instruction_Data.Instruction_Variant_ENUM[] MOV_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
             Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
@@ -538,16 +524,6 @@ namespace EmuX
             Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
             Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
             Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
-        };
-
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] MOVSB_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE
-        };
-
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] MOVSW_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE
         };
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] MUL_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
@@ -788,11 +764,7 @@ namespace EmuX
                 JMP_ALLOWED_BITMODES,
                 LAHF_ALLOWED_BITMODES,
                 LEA_ALLOWED_BITMODES,
-                LODSB_ALLOWED_BITMODES,
-                LODSW_ALLOWED_BITMODES,
                 MOV_ALLOWED_BITMODES,
-                MOVSB_ALLOWED_BITMODES,
-                MOVSW_ALLOWED_BITMODES,
                 MUL_ALLOWED_BITMODES,
                 NEG_ALLOWED_BITMODES,
                 NOP_ALLOWED_BITMODES,
@@ -1138,32 +1110,12 @@ namespace EmuX
             Instruction_Data.Bit_Mode_ENUM._64_BIT
         };
 
-        public readonly Instruction_Data.Bit_Mode_ENUM[] LODSB_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM.NoN
-        };
-
-        public readonly Instruction_Data.Bit_Mode_ENUM[] LODSW_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM.NoN
-        };
-
         public readonly Instruction_Data.Bit_Mode_ENUM[] MOV_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
         {
             Instruction_Data.Bit_Mode_ENUM._8_BIT,
             Instruction_Data.Bit_Mode_ENUM._16_BIT,
             Instruction_Data.Bit_Mode_ENUM._32_BIT,
             Instruction_Data.Bit_Mode_ENUM._64_BIT
-        };
-
-        public readonly Instruction_Data.Bit_Mode_ENUM[] MOVSB_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM.NoN
-        };
-
-        public readonly Instruction_Data.Bit_Mode_ENUM[] MOVSW_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM.NoN
         };
 
         public readonly Instruction_Data.Bit_Mode_ENUM[] MUL_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]

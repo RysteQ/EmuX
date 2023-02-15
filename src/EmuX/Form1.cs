@@ -205,9 +205,6 @@ namespace EmuX
 
         private void ButtonSearchMemoryRange_Click(object sender, EventArgs e)
         {
-            if ((TextBoxMemoryRangeStart.Text.Trim() == "" && TextBoxMemoryRangeEnd.Text.Trim() == "") || ComboBoxMemoryRepresentation.SelectedIndex == -1)
-                return;
-
             HexConverter hex_converter = new HexConverter();
             BaseConverter base_converter = new BaseConverter();
             List<byte> bytes_to_show = new List<byte>();
@@ -215,24 +212,15 @@ namespace EmuX
             int start = 0;
             int end = 0;
 
-            // get and test the memory range start
-            if (TextBoxMemoryRangeStart.Text.Trim().Length != 0)
-            {
-                if (int.TryParse(TextBoxMemoryRangeStart.Text, out start) == false)
-                {
-                    MessageBox.Show("Error converting memory range start to int", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    TextBoxMemoryRangeStart.BackColor = Color.Red;
-                    return;
-                }
-            }
+            if ((TextBoxMemoryRangeStart.Text.Trim() == "" && TextBoxMemoryRangeEnd.Text.Trim() == "") || ComboBoxMemoryRepresentation.SelectedIndex == -1)
+                return;
 
-            // get and test the memory range and 
-            if (TextBoxMemoryRangeEnd.Text.Trim().Length != 0)
+            // get and test the memory range start / end 
+            if (TextBoxMemoryRangeEnd.Text.Trim().Length != 0 && TextBoxMemoryRangeStart.Text.Trim().Length != 0)
             {
-                if (int.TryParse(TextBoxMemoryRangeEnd.Text, out end) == false)
+                if (int.TryParse(TextBoxMemoryRangeEnd.Text, out end) == false || int.TryParse(TextBoxMemoryRangeStart.Text, out start) == false)
                 {
                     MessageBox.Show("Error converting memory range end to int", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    TextBoxMemoryRangeEnd.BackColor = Color.Red;
                     return;
                 }
             }
@@ -253,7 +241,7 @@ namespace EmuX
             DataGridViewMemory.Columns.Add("empty", "");
 
             for (int i = 0; i < 8; i++)
-                DataGridViewMemory.Columns.Add("+" + (i + 1).ToString(), "+" + (i + 1).ToString());
+                DataGridViewMemory.Columns.Add("+" + i.ToString(), "+" + i.ToString());
 
             // add the bytes to the data grid view
             for (int row = 0; row < (end - start) / 8; row++)
