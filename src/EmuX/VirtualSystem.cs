@@ -19,6 +19,18 @@ class VirtualSystem
         this.EFLAGS = virtual_system.GetEFLAGS();
     }
 
+    public void ResetVirtualSystem()
+    {
+        for (int i = 0; i < this.registers.Length; i++)
+            this.registers[i] = 0;
+
+        for (int i = 0; i < this.memory.Length; i++)
+            this.memory[i] = 0;
+
+        this.call_stack.Clear();
+        this.EFLAGS = 0;
+    }
+
     /// <summary>
     /// Getter - Gets the call stack
     /// </summary>

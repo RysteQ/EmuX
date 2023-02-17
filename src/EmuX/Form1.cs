@@ -51,7 +51,7 @@ namespace EmuX
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // make sure the user enter a path previously with save as
-            if (save_path == null)
+            if (save_path == "")
             {
                 saveAsToolStripMenuItem_Click(null, null);
                 return;
@@ -72,20 +72,22 @@ namespace EmuX
         private void ButtonExecute_Click(object sender, EventArgs e)
         {
             string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
-            int instruction_index = 0;
+
+            // reset the virtual system if the user checked the checkbox in the register view menu
+            if (resetVirtualSystemAfterExecutionCheckbox.Checked)
+                this.virtual_system.ResetVirtualSystem();
 
             this.analyzer.Flush();
             this.analyzer.SetInstructions(code_to_analyze);
             this.analyzer.AnalyzeInstructions();
 
             // check if there was an error while analyzing the code
-            if (analyzer.AnalyzingSuccessful() == false)
+            if (this.analyzer.AnalyzingSuccessful() == false)
             {
                 // get the error line and the line that cause the error
-                instruction_index = this.analyzer.GetErrorLine() + 1;
                 string error_line_text = this.analyzer.GetErrorLineData();
 
-                MessageBox.Show("There was an error at line " + instruction_index.ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error at line " + (this.analyzer.GetErrorLine() + 1).ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -95,15 +97,14 @@ namespace EmuX
             List<(string, int)> labels = this.analyzer.GetLabelData();
 
             // make sure the instructions are of the correct variant and bitmode
-            verifier.SetInstructionData(instructions);
-            verifier.VerifyInstructions();
+            this.verifier.SetInstructionData(instructions);
+            this.verifier.VerifyInstructions();
 
-            if (verifier.AreInstructionsValid() == false)
+            if (this.verifier.AreInstructionsValid() == false)
             {
-                instruction_index = verifier.GetInstructionIndexError() + 1;
                 string error_message = verifier.GetErrorMessage();
                 
-                MessageBox.Show("There was an error at line " + instruction_index.ToString() + "\nMessage: " + error_message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error at line " + (this.verifier.GetInstructionIndexError() + 1).ToString() + "\nMessage: " + error_message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 

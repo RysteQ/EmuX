@@ -875,6 +875,7 @@ namespace EmuX
                 Instruction_ENUM.DEC,
                 Instruction_ENUM.INC,
                 Instruction_ENUM.INT,
+                Instruction_ENUM.MUL,
                 Instruction_ENUM.NEG,
                 Instruction_ENUM.NOT,
                 Instruction_ENUM.POP,

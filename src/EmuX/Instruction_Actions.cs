@@ -694,11 +694,44 @@ namespace EmuX
             return 0;
         }
 
+        public VirtualSystem MUL(VirtualSystem virtual_system, ulong destination_value, Instruction_Data.Bit_Mode_ENUM bit_mode)
+        {
+            if (bit_mode == Instruction_Data.Bit_Mode_ENUM._8_BIT)
+            {
+                virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, (ushort) (virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, false) * destination_value));
+            } else if (bit_mode == Instruction_Data.Bit_Mode_ENUM._16_BIT)
+            {
+                virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RDX, (ushort) ((virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX) * destination_value) & 0xFFFF0000));
+                virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, (ushort) ((virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX) * destination_value) & 0x0000FFFF));
+            } else
+            {
+                virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RDX, (uint) ((virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RAX) * destination_value) & 0xFFFFFFFF00000000));
+                virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RAX, (uint) ((virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RAX) * destination_value) & 0x00000000FFFFFFFF));
+            }
+
+            return virtual_system;
+        }
+
+        public ulong NEG(ulong value)
+        {
+            return (~value) + 1;
+        }
+
         /// <summary>
         /// The NOP instruction, do I need to explain it ?
         /// lol no
         /// </summary>
         public void NOP() { }
+
+        public ulong NOT(ulong value)
+        {
+            return ~value;
+        }
+
+        public ulong OR(ulong destination_value, ulong source_value)
+        {
+            return destination_value | source_value;
+        }
 
         /// <summary>
         /// This seems useless but I want all instructions to be in this file and class

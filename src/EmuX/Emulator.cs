@@ -510,6 +510,26 @@
                     this.SetValue(instruction_to_execute, destination_memory_index, actions.MOV(source_value));
                     break;
 
+                case Instruction_Data.Instruction_ENUM.MUL:
+                    this.virtual_system.SetVirtualSystem(actions.MUL(this.virtual_system, destination_value, instruction_to_execute.bit_mode));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.NEG:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.NEG(destination_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.NOP:
+                    actions.NOP();
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.NOT:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.NOT(destination_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.OR:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.OR(destination_value, source_value));
+                    break;
+
                 default:
                     break;
             }
