@@ -192,15 +192,11 @@ namespace EmuX
                 SAL_ALLOWED_VARIANTS,
                 SAR_ALLOWED_VARIANTS,
                 SBB_ALLOWED_VARIANTS,
-                SCASB_ALLOWED_VARIANTS,
-                SCASW_ALLOWED_VARIANTS,
                 SHL_ALLOWED_VARIANTS,
                 SHR_ALLOWED_VARIANTS,
                 STC_ALLOWED_VARIANTS,
                 STD_ALLOWED_VARIANTS,
                 STI_ALLOWED_VARIANTS,
-                STOSB_ALLOWED_VARIANTS,
-                STOSW_ALLOWED_VARIANTS,
                 SUB_ALLOWED_VARIANTS,
                 XOR_ALLOWED_VARIANTS
             };
@@ -628,14 +624,20 @@ namespace EmuX
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] SAL_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] SAR_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] SBB_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
@@ -645,16 +647,6 @@ namespace EmuX
             Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
             Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
             Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
-        };
-
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] SCASB_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE
-        };
-
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] SCASW_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE
         };
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] SHL_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
@@ -680,16 +672,6 @@ namespace EmuX
         };
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] STI_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE
-        };
-
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] STOSB_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
-        {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE
-        };
-
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] STOSW_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
             Instruction_Data.Instruction_Variant_ENUM.SINGLE
         };
@@ -793,15 +775,11 @@ namespace EmuX
                 SAL_ALLOWED_BITMODES,
                 SAR_ALLOWED_BITMODES,
                 SBB_ALLOWED_BITMODES,
-                SCASB_ALLOWED_BITMODES,
-                SCASW_ALLOWED_BITMODES,
                 SHL_ALLOWED_BITMODES,
                 SHR_ALLOWED_BITMODES,
                 STC_ALLOWED_BITMODES,
                 STD_ALLOWED_BITMODES,
                 STI_ALLOWED_BITMODES,
-                STOSB_ALLOWED_BITMODES,
-                STOSW_ALLOWED_BITMODES,
                 SUB_ALLOWED_BITMODES,
                 WAIT_ALLOWED_BITMODES,
                 XCHG_ALLOWED_BITMODES,
@@ -1258,16 +1236,6 @@ namespace EmuX
             Instruction_Data.Bit_Mode_ENUM._64_BIT
         };
 
-        public readonly Instruction_Data.Bit_Mode_ENUM[] SCASB_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM.NoN
-        };
-
-        public readonly Instruction_Data.Bit_Mode_ENUM[] SCASW_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM.NoN
-        };
-
         public readonly Instruction_Data.Bit_Mode_ENUM[] SHL_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
         {
             Instruction_Data.Bit_Mode_ENUM._8_BIT,
@@ -1295,16 +1263,6 @@ namespace EmuX
         };
 
         public readonly Instruction_Data.Bit_Mode_ENUM[] STI_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM.NoN
-        };
-
-        public readonly Instruction_Data.Bit_Mode_ENUM[] STOSB_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
-        {
-            Instruction_Data.Bit_Mode_ENUM.NoN
-        };
-
-        public readonly Instruction_Data.Bit_Mode_ENUM[] STOSW_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
         {
             Instruction_Data.Bit_Mode_ENUM.NoN
         };

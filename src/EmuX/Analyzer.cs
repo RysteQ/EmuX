@@ -904,12 +904,8 @@ namespace EmuX
                 Instruction_ENUM.SAL,
                 Instruction_ENUM.SAR,
                 Instruction_ENUM.SBB,
-                Instruction_ENUM.SCASB,
-                Instruction_ENUM.SCASW,
                 Instruction_ENUM.SHL,
                 Instruction_ENUM.SHR,
-                Instruction_ENUM.STOSB,
-                Instruction_ENUM.STOSW,
                 Instruction_ENUM.SUB,
                 Instruction_ENUM.XOR
             };

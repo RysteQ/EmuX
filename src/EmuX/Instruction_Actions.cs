@@ -1184,5 +1184,23 @@ namespace EmuX
 
             return toReturn;
         }
+
+        public ulong SAL(ulong value, int bits_to_shift)
+        {
+            return value << bits_to_shift;
+        }
+
+        public ulong SAR(ulong value, int bits_to_shift)
+        {
+            return value >> bits_to_shift;
+        }
+
+        public ulong SBB(ulong destination_value, ulong source_value, bool CF)
+        {
+            if (CF)
+                return destination_value - (source_value + 1);
+
+            return destination_value - source_value;
+        }
     }
 }

@@ -43,6 +43,9 @@
             this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.convertToUppercaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.convertToLowercaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.converterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aSCIITableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupboxInput = new System.Windows.Forms.GroupBox();
             this.RichTextboxAssemblyCode = new System.Windows.Forms.RichTextBox();
@@ -147,9 +150,7 @@
             this.Output = new System.Windows.Forms.TabPage();
             this.RichtextBoxOutput = new System.Windows.Forms.RichTextBox();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.converterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aSCIITableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ButtonExecuteOnAnotherTab = new System.Windows.Forms.Button();
             this.mainMenuStrip.SuspendLayout();
             this.GroupboxInput.SuspendLayout();
             this.GroupboxControls.SuspendLayout();
@@ -291,6 +292,27 @@
             this.convertToLowercaseToolStripMenuItem.Size = new System.Drawing.Size(231, 22);
             this.convertToLowercaseToolStripMenuItem.Text = "Convert To Lowercase";
             this.convertToLowercaseToolStripMenuItem.Click += new System.EventHandler(this.convertToLowercaseToolStripMenuItem_Click);
+            // 
+            // toolsToolStripMenuItem
+            // 
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.converterToolStripMenuItem,
+            this.aSCIITableToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // converterToolStripMenuItem
+            // 
+            this.converterToolStripMenuItem.Name = "converterToolStripMenuItem";
+            this.converterToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.converterToolStripMenuItem.Text = "Converter";
+            // 
+            // aSCIITableToolStripMenuItem
+            // 
+            this.aSCIITableToolStripMenuItem.Name = "aSCIITableToolStripMenuItem";
+            this.aSCIITableToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.aSCIITableToolStripMenuItem.Text = "ASCII Table";
             // 
             // aboutToolStripMenuItem
             // 
@@ -1311,32 +1333,23 @@
             this.RichtextBoxOutput.TabIndex = 0;
             this.RichtextBoxOutput.Text = "";
             // 
-            // toolsToolStripMenuItem
+            // ButtonExecuteOnAnotherTab
             // 
-            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.converterToolStripMenuItem,
-            this.aSCIITableToolStripMenuItem});
-            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
-            this.toolsToolStripMenuItem.Text = "Tools";
-            // 
-            // converterToolStripMenuItem
-            // 
-            this.converterToolStripMenuItem.Name = "converterToolStripMenuItem";
-            this.converterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.converterToolStripMenuItem.Text = "Converter";
-            // 
-            // aSCIITableToolStripMenuItem
-            // 
-            this.aSCIITableToolStripMenuItem.Name = "aSCIITableToolStripMenuItem";
-            this.aSCIITableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.aSCIITableToolStripMenuItem.Text = "ASCII Table";
+            this.ButtonExecuteOnAnotherTab.Location = new System.Drawing.Point(542, 0);
+            this.ButtonExecuteOnAnotherTab.Name = "ButtonExecuteOnAnotherTab";
+            this.ButtonExecuteOnAnotherTab.Size = new System.Drawing.Size(100, 23);
+            this.ButtonExecuteOnAnotherTab.TabIndex = 2;
+            this.ButtonExecuteOnAnotherTab.Text = "Execute";
+            this.ButtonExecuteOnAnotherTab.UseVisualStyleBackColor = true;
+            this.ButtonExecuteOnAnotherTab.Visible = false;
+            this.ButtonExecuteOnAnotherTab.Click += new System.EventHandler(this.ButtonExecuteOnAnotherTab_Click);
             // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(644, 311);
+            this.Controls.Add(this.ButtonExecuteOnAnotherTab);
             this.Controls.Add(this.EmuXTabControl);
             this.Controls.Add(this.mainMenuStrip);
             this.MainMenuStrip = this.mainMenuStrip;
@@ -1491,5 +1504,6 @@
         private ToolStripMenuItem toolsToolStripMenuItem;
         private ToolStripMenuItem converterToolStripMenuItem;
         private ToolStripMenuItem aSCIITableToolStripMenuItem;
+        private Button ButtonExecuteOnAnotherTab;
     }
 }

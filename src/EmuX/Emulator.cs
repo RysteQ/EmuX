@@ -566,6 +566,18 @@
                     this.virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, actions.SAHF(this.virtual_system.GetEFLAGS(), this.virtual_system.GetEFLAGSMasks()), true);
                     break;
 
+                case Instruction_Data.Instruction_ENUM.SAL:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SAL(destination_value, (int) source_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.SAR:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SAR(destination_value, (int) source_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.SBB:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SBB(destination_value, source_value, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[0]) == 1));
+                    break;
+
                 default:
                     break;
             }
@@ -695,7 +707,22 @@
                     return 0;
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
-                    return this.virtual_system.GetRegisterQuad(instruction.destination_register);
+                    switch (instruction.bit_mode)
+                    {
+                        case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                            return this.virtual_system.GetRegisterByte(instruction.destination_register, instruction.destination_high_or_low);
+
+                        case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                            return this.virtual_system.GetRegisterWord(instruction.destination_register);
+
+                        case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                            return this.virtual_system.GetRegisterDouble(instruction.destination_register);
+
+                        case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                            return this.virtual_system.GetRegisterQuad(instruction.destination_register);
+                    }
+
+                    return 0;
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
                     return this.virtual_system.GetRegisterQuad(instruction.destination_register);
@@ -715,13 +742,14 @@
                         switch (instruction.bit_mode)
                         {
                             case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                                return (ulong) this.virtual_system.GetRegisterByte(instruction.destination_register, false);
+                                return this.virtual_system.GetRegisterByte(instruction.destination_register, instruction.destination_high_or_low);
+
 
                             case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                                return (ulong) this.virtual_system.GetRegisterWord(instruction.destination_register);
+                                return this.virtual_system.GetRegisterWord(instruction.destination_register);
 
                             case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                                return (ulong) this.virtual_system.GetRegisterDouble(instruction.destination_register);
+                                return this.virtual_system.GetRegisterDouble(instruction.destination_register);
 
                             case Instruction_Data.Bit_Mode_ENUM._64_BIT:
                                 return this.virtual_system.GetRegisterQuad(instruction.destination_register);

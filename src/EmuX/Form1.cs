@@ -137,6 +137,12 @@ namespace EmuX
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // check if the user is at the main tab, if not then show the secondary execute button
+            if (EmuXTabControl.SelectedIndex != 0)
+                ButtonExecuteOnAnotherTab.Visible = true;
+            else
+                ButtonExecuteOnAnotherTab.Visible = false;
+
             // this section is focused solely on the registers tab
             if (EmuXTabControl.SelectedIndex != 2)
                 return;
@@ -498,5 +504,14 @@ namespace EmuX
         private Emulator emulator = new Emulator();
         private Verifier verifier = new Verifier();
         private string save_path = "";
+
+        private void ButtonExecuteOnAnotherTab_Click(object sender, EventArgs e)
+        {
+            ButtonExecute_Click(null, null);
+
+            // check if the user is at the register view tab, if so refresh the data
+            if (EmuXTabControl.SelectedIndex == 2)
+                EmuXTabControl_SelectedIndexChanged(null, null);
+        }
     }
 }
