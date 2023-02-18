@@ -109,6 +109,7 @@
             this.LabelCF = new System.Windows.Forms.Label();
             this.ButtonSetRegisterValues = new System.Windows.Forms.Button();
             this.GroupBoxGeneralPurposeRegisters = new System.Windows.Forms.GroupBox();
+            this.resetVirtualSystemAfterExecutionCheckbox = new System.Windows.Forms.CheckBox();
             this.TextBoxR15 = new System.Windows.Forms.TextBox();
             this.LabelR15 = new System.Windows.Forms.Label();
             this.TextBoxR14 = new System.Windows.Forms.TextBox();
@@ -146,7 +147,9 @@
             this.Output = new System.Windows.Forms.TabPage();
             this.RichtextBoxOutput = new System.Windows.Forms.RichTextBox();
             this.fontDialog = new System.Windows.Forms.FontDialog();
-            this.resetVirtualSystemAfterExecutionCheckbox = new System.Windows.Forms.CheckBox();
+            this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.converterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aSCIITableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.GroupboxInput.SuspendLayout();
             this.GroupboxControls.SuspendLayout();
@@ -169,6 +172,7 @@
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
             this.textToolStripMenuItem,
+            this.toolsToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
             this.mainMenuStrip.Name = "mainMenuStrip";
@@ -1003,6 +1007,16 @@
             this.GroupBoxGeneralPurposeRegisters.TabStop = false;
             this.GroupBoxGeneralPurposeRegisters.Text = "General Purpose Register";
             // 
+            // resetVirtualSystemAfterExecutionCheckbox
+            // 
+            this.resetVirtualSystemAfterExecutionCheckbox.AutoSize = true;
+            this.resetVirtualSystemAfterExecutionCheckbox.Location = new System.Drawing.Point(319, 163);
+            this.resetVirtualSystemAfterExecutionCheckbox.Name = "resetVirtualSystemAfterExecutionCheckbox";
+            this.resetVirtualSystemAfterExecutionCheckbox.Size = new System.Drawing.Size(138, 19);
+            this.resetVirtualSystemAfterExecutionCheckbox.TabIndex = 34;
+            this.resetVirtualSystemAfterExecutionCheckbox.Text = "Reset After Execution";
+            this.resetVirtualSystemAfterExecutionCheckbox.UseVisualStyleBackColor = true;
+            // 
             // TextBoxR15
             // 
             this.TextBoxR15.Location = new System.Drawing.Point(357, 132);
@@ -1297,15 +1311,26 @@
             this.RichtextBoxOutput.TabIndex = 0;
             this.RichtextBoxOutput.Text = "";
             // 
-            // resetVirtualSystemAfterExecutionCheckbox
+            // toolsToolStripMenuItem
             // 
-            this.resetVirtualSystemAfterExecutionCheckbox.AutoSize = true;
-            this.resetVirtualSystemAfterExecutionCheckbox.Location = new System.Drawing.Point(319, 163);
-            this.resetVirtualSystemAfterExecutionCheckbox.Name = "resetVirtualSystemAfterExecutionCheckbox";
-            this.resetVirtualSystemAfterExecutionCheckbox.Size = new System.Drawing.Size(138, 19);
-            this.resetVirtualSystemAfterExecutionCheckbox.TabIndex = 34;
-            this.resetVirtualSystemAfterExecutionCheckbox.Text = "Reset After Execution";
-            this.resetVirtualSystemAfterExecutionCheckbox.UseVisualStyleBackColor = true;
+            this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.converterToolStripMenuItem,
+            this.aSCIITableToolStripMenuItem});
+            this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
+            this.toolsToolStripMenuItem.Text = "Tools";
+            // 
+            // converterToolStripMenuItem
+            // 
+            this.converterToolStripMenuItem.Name = "converterToolStripMenuItem";
+            this.converterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.converterToolStripMenuItem.Text = "Converter";
+            // 
+            // aSCIITableToolStripMenuItem
+            // 
+            this.aSCIITableToolStripMenuItem.Name = "aSCIITableToolStripMenuItem";
+            this.aSCIITableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aSCIITableToolStripMenuItem.Text = "ASCII Table";
             // 
             // mainForm
             // 
@@ -1463,5 +1488,8 @@
         private ToolStripMenuItem convertToUppercaseToolStripMenuItem;
         private ToolStripMenuItem convertToLowercaseToolStripMenuItem;
         private CheckBox resetVirtualSystemAfterExecutionCheckbox;
+        private ToolStripMenuItem toolsToolStripMenuItem;
+        private ToolStripMenuItem converterToolStripMenuItem;
+        private ToolStripMenuItem aSCIITableToolStripMenuItem;
     }
 }

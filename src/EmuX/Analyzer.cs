@@ -122,9 +122,9 @@ namespace EmuX
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", "");
                         instruction_to_add = this.AssignBitMode(instruction_to_add, tokens[1].ToUpper());
 
-                        // check if the register is 8 bit or not
+                        // check if the register is 8 bit or not for the destination register
                         if (tokens[1].ToUpper().EndsWith('H'))
-                            instruction_to_add.high_or_low = true;
+                            instruction_to_add.destination_high_or_low = true;
 
                         break;
 
@@ -162,9 +162,13 @@ namespace EmuX
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", "");
                         instruction_to_add = this.AssignBitMode(instruction_to_add, tokens[2].ToUpper());
 
-                        // check if the register is 8 bit or not
+                        // check if the register is 8 bit or not for the destination register
+                        if (tokens[1].ToUpper().EndsWith('H'))
+                            instruction_to_add.destination_high_or_low = true;
+
+                        // check if the register is 8 bit or not for the source register
                         if (tokens[2].ToUpper().EndsWith('H'))
-                            instruction_to_add.high_or_low = true;
+                            instruction_to_add.source_high_or_low = true;
 
                         break;
 
@@ -187,9 +191,9 @@ namespace EmuX
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", value.ToString());
                         instruction_to_add = this.AssignBitMode(instruction_to_add, tokens[1].ToUpper());
 
-                        // check if the register is 8 bit or not
+                        // check if the register is 8 bit or not for the destination register
                         if (tokens[1].ToUpper().EndsWith('H'))
-                            instruction_to_add.high_or_low = true;
+                            instruction_to_add.destination_high_or_low = true;
 
                         break;
 
@@ -202,9 +206,9 @@ namespace EmuX
                         instruction_to_add = this.AssignMemoryBitmode(instruction_to_add, tokens[2].Trim('[', ']'));
                         instruction_to_add = this.AssignRegisterPointers(instruction_to_add, "", tokens[2].Trim('[', ']'));
 
-                        // check if the register is 8 bit or not
+                        // check if the register is 8 bit or not for the destination register
                         if (tokens[1].ToUpper().EndsWith('H'))
-                            instruction_to_add.high_or_low = true;
+                            instruction_to_add.destination_high_or_low = true;
 
                         break;
 
@@ -216,9 +220,9 @@ namespace EmuX
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
                         instruction_to_add = this.AssignRegisterPointers(instruction_to_add, tokens[1].Trim('[', ']'), "");
 
-                        // check if the register is 8 bit or not
+                        // check if the register is 8 bit or not for the source register
                         if (tokens[2].ToUpper().EndsWith('H'))
-                            instruction_to_add.high_or_low = true;
+                            instruction_to_add.source_high_or_low = true;
 
                         break;
 
@@ -888,8 +892,6 @@ namespace EmuX
                 Instruction_ENUM.ADD,
                 Instruction_ENUM.AND,
                 Instruction_ENUM.CMP,
-                // Instruction_ENUM.CMPSB,
-                // Instruction_ENUM.CMPSW,
                 Instruction_ENUM.DIV,
                 Instruction_ENUM.LEA,
                 Instruction_ENUM.MOV,

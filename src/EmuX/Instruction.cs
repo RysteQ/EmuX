@@ -13,7 +13,8 @@
         public bool source_register_pointer;
         public string destination_memory_name = "";
         public string source_memory_name = "";
-        public bool high_or_low = false;
+        public bool destination_high_or_low = false;
+        public bool source_high_or_low = false;
     }
 
     internal class Instruction_Data

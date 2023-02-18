@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography.X509Certificates;
+﻿using System.IO.Compression;
+using System.Security.Cryptography.X509Certificates;
 
 namespace EmuX
 {
@@ -772,7 +773,7 @@ namespace EmuX
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.high_or_low);
+                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.destination_high_or_low);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
@@ -938,7 +939,7 @@ namespace EmuX
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.high_or_low);
+                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.destination_high_or_low);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
@@ -1068,7 +1069,7 @@ namespace EmuX
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.high_or_low);
+                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.destination_high_or_low);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
@@ -1157,6 +1158,31 @@ namespace EmuX
             }
 
             return 0;
+        }
+
+        public byte SAHF(uint EFLAGS, uint[] EFLAGS_masks)
+        {
+            byte toReturn = 0;
+
+            // get the SF
+            toReturn = (byte) ((EFLAGS & EFLAGS_masks[4]) << 7);
+
+            // get the ZF
+            toReturn += (byte) ((EFLAGS & EFLAGS_masks[3]) << 6);
+
+            // get the AF
+            toReturn += (byte) ((EFLAGS & EFLAGS_masks[2]) << 4);
+
+            // get the PF
+            toReturn += (byte) ((EFLAGS & EFLAGS_masks[1]) << 2);
+
+            // set 1 to the second lowest bit
+            toReturn += (byte) (1 << 1);
+
+            // get the CF
+            toReturn += (byte) (EFLAGS & EFLAGS_masks[0]);
+
+            return toReturn;
         }
     }
 }

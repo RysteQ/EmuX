@@ -562,6 +562,10 @@
                     this.SetValue(instruction_to_execute, destination_memory_index, actions.ROR(instruction_to_execute.bit_mode, destination_value, (int) source_value));
                     break;
 
+                case Instruction_Data.Instruction_ENUM.SAHF:
+                    this.virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, actions.SAHF(this.virtual_system.GetEFLAGS(), this.virtual_system.GetEFLAGSMasks()), true);
+                    break;
+
                 default:
                     break;
             }
@@ -629,7 +633,7 @@
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        this.virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.high_or_low);
+                        this.virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.destination_high_or_low);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
@@ -744,7 +748,7 @@
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        return this.virtual_system.GetRegisterByte(instruction.source_register, instruction.high_or_low);
+                        return this.virtual_system.GetRegisterByte(instruction.source_register, instruction.source_high_or_low);
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
                         return this.virtual_system.GetRegisterWord(instruction.source_register);
