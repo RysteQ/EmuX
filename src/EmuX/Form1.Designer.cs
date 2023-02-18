@@ -151,6 +151,7 @@
             this.RichtextBoxOutput = new System.Windows.Forms.RichTextBox();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.ButtonExecuteOnAnotherTab = new System.Windows.Forms.Button();
+            this.instructionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.GroupboxInput.SuspendLayout();
             this.GroupboxControls.SuspendLayout();
@@ -297,7 +298,8 @@
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.converterToolStripMenuItem,
-            this.aSCIITableToolStripMenuItem});
+            this.aSCIITableToolStripMenuItem,
+            this.instructionsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -305,14 +307,16 @@
             // converterToolStripMenuItem
             // 
             this.converterToolStripMenuItem.Name = "converterToolStripMenuItem";
-            this.converterToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.converterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.converterToolStripMenuItem.Text = "Converter";
+            this.converterToolStripMenuItem.Click += new System.EventHandler(this.converterToolStripMenuItem_Click);
             // 
             // aSCIITableToolStripMenuItem
             // 
             this.aSCIITableToolStripMenuItem.Name = "aSCIITableToolStripMenuItem";
-            this.aSCIITableToolStripMenuItem.Size = new System.Drawing.Size(132, 22);
+            this.aSCIITableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aSCIITableToolStripMenuItem.Text = "ASCII Table";
+            this.aSCIITableToolStripMenuItem.Click += new System.EventHandler(this.aSCIITableToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1344,6 +1348,13 @@
             this.ButtonExecuteOnAnotherTab.Visible = false;
             this.ButtonExecuteOnAnotherTab.Click += new System.EventHandler(this.ButtonExecuteOnAnotherTab_Click);
             // 
+            // instructionsToolStripMenuItem
+            // 
+            this.instructionsToolStripMenuItem.Name = "instructionsToolStripMenuItem";
+            this.instructionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.instructionsToolStripMenuItem.Text = "Instructions";
+            this.instructionsToolStripMenuItem.Click += new System.EventHandler(this.instructionsToolStripMenuItem_Click);
+            // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -1505,5 +1516,6 @@
         private ToolStripMenuItem converterToolStripMenuItem;
         private ToolStripMenuItem aSCIITableToolStripMenuItem;
         private Button ButtonExecuteOnAnotherTab;
+        private ToolStripMenuItem instructionsToolStripMenuItem;
     }
 }

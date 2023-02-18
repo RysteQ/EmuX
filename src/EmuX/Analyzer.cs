@@ -43,12 +43,15 @@ namespace EmuX
             {
                 Instruction instruction_to_add = new Instruction();
                 string instruction_to_analyze = this.instructions_to_analyze[i];
+                string[] tokens = instruction_to_analyze.Split(' ');
+
+                Registers_ENUM destination_register;
+                Registers_ENUM source_register;
+                ulong value;
 
                 // make sure the comma is outside of the ' character before removing it
                 if (instruction_to_analyze.Contains(',') && ((instruction_to_analyze.Split(',')[0].IndexOf('\'') != instruction_to_analyze.IndexOf(',') - 1) && (instruction_to_analyze.Split(',')[1].IndexOf('\'') != instruction_to_analyze.IndexOf(',') + 1)))
                     instruction_to_analyze = instruction_to_analyze.Remove(instruction_to_analyze.IndexOf(','), 1);
-
-                string[] tokens = instruction_to_analyze.Split(' ');
 
                 // check if the token is a label or not
                 if (tokens[0].EndsWith(':') && tokens[0].Length > 1 && tokens[0].Contains(' ') == false)
@@ -94,10 +97,6 @@ namespace EmuX
                     return;
                 }
 
-                Registers_ENUM destination_register;
-                Registers_ENUM source_register;
-                int value;
-
                 switch (instruction_to_add.variant)
                 {
                     case Instruction_Variant_ENUM.SINGLE:
@@ -130,14 +129,14 @@ namespace EmuX
 
                     case Instruction_Variant_ENUM.SINGLE_VALUE:
                         // convert the number from base 10 / binary / hex to an integer
-                        if (int.TryParse(tokens[1], out value) == false)
+                        if (ulong.TryParse(tokens[1], out value) == false)
                         {
                             BaseConverter base_converter = new BaseConverter();
 
                             if (tokens[1].ToUpper().EndsWith('B'))
-                                value = base_converter.ConvertBinaryToInt(tokens[1]);
+                                value = base_converter.ConvertBinaryToUnsignedLong(tokens[1]);
                             else
-                                value = base_converter.ConvertHexToInt(tokens[1]);
+                                value = base_converter.ConvertHexToUnsignedLong(tokens[1]);
                         }
 
                         instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);
@@ -176,14 +175,14 @@ namespace EmuX
                         destination_register = this.GetRegister(tokens[1].ToUpper());
 
                         // convert the number from base 10 / binary / hex to an integer
-                        if (int.TryParse(tokens[2], out value) == false)
+                        if (ulong.TryParse(tokens[2], out value) == false)
                         {
                             BaseConverter base_converter = new BaseConverter();
 
                             if (tokens[1].ToUpper().EndsWith('B'))
-                                value = base_converter.ConvertBinaryToInt(tokens[1]);
+                                value = base_converter.ConvertBinaryToUnsignedLong(tokens[1]);
                             else
-                                value = base_converter.ConvertHexToInt(tokens[1]);
+                                value = base_converter.ConvertHexToUnsignedLong(tokens[1]);
                         }
 
                         instruction_to_add = this.AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
@@ -228,14 +227,14 @@ namespace EmuX
 
                     case Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE:
                         // convert the number from base 10 / binary / hex to an integer
-                        if (int.TryParse(tokens[2], out value) == false)
+                        if (ulong.TryParse(tokens[2], out value) == false)
                         {
                             BaseConverter base_converter = new BaseConverter();
 
                             if (tokens[1].ToUpper().EndsWith('B'))
-                                value = base_converter.ConvertBinaryToInt(tokens[1]);
+                                value = base_converter.ConvertBinaryToUnsignedLong(tokens[1]);
                             else
-                                value = base_converter.ConvertHexToInt(tokens[1]);
+                                value = base_converter.ConvertHexToUnsignedLong(tokens[1]);
                         }
 
                         instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, Registers_ENUM.NoN);

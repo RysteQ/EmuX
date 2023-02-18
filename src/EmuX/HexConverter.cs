@@ -12,17 +12,26 @@ namespace EmuX
         /// Converts an integer to a hex string
         /// </summary>
         /// <returns>The hexadecimal value of the unsigned integer</returns>
-        public string ConvertIntToHex(uint to_convert)
+        public string ConvertUnsignedLongToHex(ulong to_convert)
         {
-            byte[] bytes = new byte[4]
+            string toReturn = "";
+
+            byte[] bytes = new byte[8]
             {
-                (byte) (to_convert & 0xFF000000),
-                (byte) (to_convert & 0x00FF0000),
-                (byte) (to_convert & 0x0000FF00),
+                (byte) (to_convert & 0xFF00000000000000),
+                (byte) (to_convert & 0x00FF000000000000),
+                (byte) (to_convert & 0x0000FF0000000000),
+                (byte) (to_convert & 0x000000FF00000000),
+                (byte) (to_convert & 0x00000000FF000000),
+                (byte) (to_convert & 0x0000000000FF0000),
+                (byte) (to_convert & 0x000000000000FF00),
                 (byte) to_convert
             };
 
-            return this.ConvertByteToHex(bytes[3]) + this.ConvertByteToHex(bytes[2]) + this.ConvertByteToHex(bytes[1]) + this.ConvertByteToHex(bytes[0]);
+            for (int i = 7; i > -1; i--)
+                toReturn += this.ConvertByteToHex(bytes[i]);
+
+            return toReturn;
         }
 
         /// <summary>
@@ -80,6 +89,9 @@ namespace EmuX
                 '8', '9', 'A', 'B',
                 'C', 'D', 'E', 'F'
             };
+
+            // make sure the input string is uppercase
+            hex_string = hex_string.ToUpper();
 
             // go through every character and see if the character is a valid hexadecimal character
             for (int i = 0; i < hex_string.Length; i++)

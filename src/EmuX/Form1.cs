@@ -268,7 +268,7 @@ namespace EmuX
 
                     case 1:
                         for (int column = 0; column < 8; column++)
-                            to_add.Add("0b" + base_converter.ConvertIntToBinaryString(bytes_to_show[row * 8 + column]));
+                            to_add.Add("0b" + base_converter.ConvertUnsignedLongToBinaryString(bytes_to_show[row * 8 + column]));
 
                         break;
 
@@ -507,11 +507,36 @@ namespace EmuX
 
         private void ButtonExecuteOnAnotherTab_Click(object sender, EventArgs e)
         {
+            // execute the code
             ButtonExecute_Click(null, null);
 
             // check if the user is at the register view tab, if so refresh the data
             if (EmuXTabControl.SelectedIndex == 2)
                 EmuXTabControl_SelectedIndexChanged(null, null);
+        }
+
+        private void converterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Converter_Form converter_form = new Converter_Form();
+
+            // display the converter form
+            converter_form.Show();
+        }
+
+        private void aSCIITableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ASCII_Table ascii_table = new ASCII_Table();
+
+            // display the ascii table form
+            ascii_table.Show();
+        }
+
+        private void instructionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Instruction_Set instruction_set = new Instruction_Set();
+
+            // display the instruction set form
+            instruction_set.Show();
         }
     }
 }

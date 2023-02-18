@@ -5,10 +5,10 @@
         /// <summary>
         /// Converts a binary value to its integer form
         /// </summary>
-        public int ConvertBinaryToInt(string binary_value)
+        public ulong ConvertBinaryToUnsignedLong(string binary_value)
         {
-            int toReturn = 0;
-            int multiplier = 1;
+            ulong toReturn = 0;
+            ulong multiplier = 1;
 
             binary_value = new StringHandler().ReverseString(binary_value);
 
@@ -26,16 +26,17 @@
         /// <summary>
         /// Converts a hexadecimal value to an integer
         /// </summary>
-        public int ConvertHexToInt(string hex_value)
+        public ulong ConvertHexToUnsignedLong(string hex_value)
         {
-            return this.ConvertBinaryToInt(this.ConvertHexToBinary(hex_value));
+            return this.ConvertBinaryToUnsignedLong(this.ConvertHexToBinary(hex_value));
         }
 
         /// <summary>
         /// Converts and int value to a binary string
         /// </summary>
-        public string ConvertIntToBinaryString(int value)
+        public string ConvertUnsignedLongToBinaryString(ulong value)
         {
+            StringHandler string_handler = new StringHandler();
             string toReturn = "";
 
             do
@@ -44,7 +45,7 @@
                 value = value / 2;
             } while (value != 0);
 
-            return toReturn;
+            return string_handler.ReverseString(toReturn);
         }
 
         /// <summary>
