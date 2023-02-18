@@ -530,6 +530,22 @@
                     this.SetValue(instruction_to_execute, destination_memory_index, actions.OR(destination_value, source_value));
                     break;
 
+                case Instruction_Data.Instruction_ENUM.POP:
+                    this.virtual_system.SetVirtualSystem(actions.POP(this.virtual_system, instruction_to_execute, destination_memory_index));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.POPF:
+                    this.virtual_system.SetVirtualSystem(actions.POPF(this.virtual_system));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.PUSH:
+                    this.virtual_system.SetVirtualSystem(actions.PUSH(this.virtual_system, instruction_to_execute.bit_mode, destination_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.PUSHF:
+                    this.virtual_system.SetVirtualSystem(actions.PUSHF(this.virtual_system, this.virtual_system.GetEFLAGS()));
+                    break;
+
                 default:
                     break;
             }

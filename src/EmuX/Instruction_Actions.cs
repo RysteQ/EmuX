@@ -733,6 +733,113 @@ namespace EmuX
             return destination_value | source_value;
         }
 
+        public VirtualSystem POP(VirtualSystem virtual_system, Instruction instruction, int memory_index)
+        {
+            ulong value_to_set = 0;
+            
+            // pop the right amount of bytes from the stack
+            switch (instruction.bit_mode)
+            {
+                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                    value_to_set = virtual_system.PopByte();
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                    value_to_set = virtual_system.PopWord();
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                    value_to_set = virtual_system.PopDouble();
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                    value_to_set = virtual_system.PopQuad();
+                    break;
+            }
+
+            // check if the value needs to be saved in a register or memory location
+            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
+            {
+                switch (instruction.bit_mode)
+                {
+                    case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.high_or_low);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                        virtual_system.SetRegisterWord(instruction.destination_register, (ushort) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                        virtual_system.SetRegisterDouble(instruction.destination_register, (uint) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                        virtual_system.SetRegisterQuad(instruction.destination_register, value_to_set);
+                        break;
+                }
+            }
+            else
+            {
+                switch (instruction.bit_mode)
+                {
+                    case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                        virtual_system.SetByteMemory(memory_index, (byte) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                        virtual_system.SetWordMemory(memory_index, (ushort) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                        virtual_system.SetDoubleMemory(memory_index, (uint) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                        virtual_system.SetQuadMemory(memory_index, value_to_set);
+                        break;
+                }
+            }
+
+            return virtual_system;
+        }
+
+        public VirtualSystem POPF(VirtualSystem virtual_system)
+        {
+            virtual_system.SetEflags(virtual_system.PopWord());
+            return virtual_system;
+        }
+
+        public VirtualSystem PUSH(VirtualSystem virtual_system, Instruction_Data.Bit_Mode_ENUM bit_mode, ulong value)
+        {
+            switch (bit_mode)
+            {
+                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                    virtual_system.PushByte((byte) value);
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                    virtual_system.PushWord((ushort) value);
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                    virtual_system.PushDouble((uint) value);
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                    virtual_system.PushQuad(value);
+                    break;
+            }
+
+            return virtual_system;
+        }
+
+        public VirtualSystem PUSHF(VirtualSystem virtual_system, uint EFLAGS)
+        {
+            virtual_system.PushWord((ushort) EFLAGS);
+            return virtual_system;
+        }
+
         /// <summary>
         /// This seems useless but I want all instructions to be in this file and class
         /// </summary>

@@ -143,8 +143,8 @@ class VirtualSystem
     /// </summary>
     public void PushWord(ushort value_to_push)
     {
-        this.PushByte((byte) (value_to_push & 0xFF00));
         this.PushByte((byte) (value_to_push & 0x00FF));
+        this.PushByte((byte) ((value_to_push & 0xFF00) >> 8));
     }
 
     /// <summary>
@@ -152,8 +152,8 @@ class VirtualSystem
     /// </summary>
     public void PushDouble(uint value_to_push)
     {
-        this.PushWord((ushort) (value_to_push & 0xFFFF0000));
         this.PushWord((ushort) (value_to_push & 0x0000FFFF));
+        this.PushWord((ushort) ((value_to_push & 0xFFFF0000) >> 16));
     }
 
     /// <summary>
@@ -161,8 +161,8 @@ class VirtualSystem
     /// </summary>
     public void PushQuad(ulong value_to_push)
     {
-        this.PushDouble((uint) (value_to_push & 0xFFFFFFFF00000000));
         this.PushDouble((uint) (value_to_push & 0x00000000FFFFFFFF));
+        this.PushDouble((uint) ((value_to_push & 0xFFFFFFFF00000000) >> 32));
     }
 
     // stack setters
