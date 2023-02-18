@@ -168,7 +168,7 @@ namespace EmuX
                 JP_ALLOWED_VARIANTS,
                 JPE_ALLOWED_VARIANTS,
                 JPO_ALLOWED_VARIANTS,
-                JS_ALLOWED_VARIANTS,
+                JS_ALLOWED_VARIANTS, //
                 JZ_ALLOWED_VARIANTS,
                 JMP_ALLOWED_VARIANTS,
                 LAHF_ALLOWED_VARIANTS,
@@ -582,14 +582,20 @@ namespace EmuX
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] RCL_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] RCR_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] RET_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
@@ -599,14 +605,20 @@ namespace EmuX
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] ROL_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] ROR_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
         {
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
         public readonly Instruction_Data.Instruction_Variant_ENUM[] SAHF_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
@@ -721,8 +733,6 @@ namespace EmuX
                 CLI_ALLOWED_BITMODES,
                 CMC_ALLOWED_BITMODES,
                 CMP_ALLOWED_BITMODES,
-                // CMPSB_ALLOWED_BITMODES,
-                // CMPSW_ALLOWED_BITMODES,
                 CWD_ALLOWED_BITMODES,
                 DAA_ALLOWED_BITMODES,
                 DAS_ALLOWED_BITMODES,
@@ -776,6 +786,7 @@ namespace EmuX
                 PUSHF_ALLOWED_BITMODES,
                 RCL_ALLOWED_BITMODES,
                 RCR_ALLOWED_BITMODES,
+                RET_ALLOWED_BITMODES,
                 ROL_ALLOWED_BITMODES,
                 ROR_ALLOWED_BITMODES,
                 SAHF_ALLOWED_BITMODES,

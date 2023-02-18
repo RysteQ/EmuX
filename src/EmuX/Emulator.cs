@@ -546,6 +546,22 @@
                     this.virtual_system.SetVirtualSystem(actions.PUSHF(this.virtual_system, this.virtual_system.GetEFLAGS()));
                     break;
 
+                case Instruction_Data.Instruction_ENUM.RCL:
+                    this.virtual_system.SetVirtualSystem(actions.RCL(this.virtual_system, instruction_to_execute, destination_memory_index, destination_value, (int) source_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.RCR:
+                    this.virtual_system.SetVirtualSystem(actions.RCR(this.virtual_system, instruction_to_execute, destination_memory_index, destination_value, (int) source_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.ROL:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.ROL(instruction_to_execute.bit_mode, destination_value, (int) source_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.ROR:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.ROR(instruction_to_execute.bit_mode, destination_value, (int) source_value));
+                    break;
+
                 default:
                     break;
             }

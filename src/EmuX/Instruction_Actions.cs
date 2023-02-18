@@ -694,6 +694,14 @@ namespace EmuX
             return 0;
         }
 
+        /// <summary>
+        /// This seems useless but I want all instructions to be in this file and class
+        /// </summary>
+        public ulong MOV(ulong value)
+        {
+            return value;
+        }
+
         public VirtualSystem MUL(VirtualSystem virtual_system, ulong destination_value, Instruction_Data.Bit_Mode_ENUM bit_mode)
         {
             if (bit_mode == Instruction_Data.Bit_Mode_ENUM._8_BIT)
@@ -757,6 +765,7 @@ namespace EmuX
                     break;
             }
 
+            // the set value function taken from Emulator.cs
             // check if the value needs to be saved in a register or memory location
             if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
             {
@@ -840,12 +849,314 @@ namespace EmuX
             return virtual_system;
         }
 
-        /// <summary>
-        /// This seems useless but I want all instructions to be in this file and class
-        /// </summary>
-        public ulong MOV(ulong value)
+        public VirtualSystem RCL(VirtualSystem virtual_system, Instruction instruction, int memory_index, ulong destination_value, int bits_to_shift)
         {
-            return value;
+            byte new_value_byte = (byte) destination_value;
+            ushort new_value_ushort = (ushort) destination_value;
+            uint new_value_uint = (uint) destination_value;
+            ulong new_value_ulong = destination_value;
+
+            ulong value_to_set = 0;
+
+            bool CF_value = false;
+            bool CF_new_value = false;
+
+            for (int i = 0; i < bits_to_shift; i++)
+            {
+                // Get the CF value
+                CF_value = (virtual_system.GetEFLAGS() & virtual_system.GetEFLAGSMasks()[0]) == 1;
+
+                // get the new CF value and rotate all the bits by one bit
+                switch (instruction.bit_mode)
+                {
+                    case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                        CF_new_value = (((byte) destination_value) & 0x80) == 1;
+                        new_value_byte = (byte) (((new_value_byte << 1) | (new_value_byte >> (8 - 1))) ^ 1);
+
+                        if (CF_value)
+                            new_value_byte++;
+
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                        CF_new_value = (((ushort) destination_value) & 0x8000) == 1;
+                        new_value_ushort = (ushort) (((new_value_ushort << 1) | (new_value_ushort >> (16 - 1))) ^ 1);
+
+                        if (CF_value)
+                            new_value_ushort++;
+
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                        CF_new_value = (((uint) destination_value) & 0x80000000) == 1;
+                        new_value_uint = (new_value_uint << 1) | (new_value_uint >> (32 - 1)) ^ 1;
+
+                        if (CF_value)
+                            new_value_uint++;
+
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                        CF_new_value = (destination_value & 0x8000000000000000) == 1;
+                        new_value_ulong = (new_value_ulong << 1) | (new_value_ulong >> (64 - 1)) ^ 1;
+
+                        if (CF_value)
+                            new_value_ulong++;
+
+                        break;
+                }
+
+                if (CF_new_value)
+                    virtual_system.SetEflags(virtual_system.GetEFLAGS() ^ virtual_system.GetEFLAGSMasks()[0] + 1);
+                else
+                    virtual_system.SetEflags(virtual_system.GetEFLAGS() ^ virtual_system.GetEFLAGSMasks()[0]);
+            }
+
+            switch (instruction.bit_mode)
+            {
+                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                    value_to_set = new_value_byte;
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                    value_to_set = new_value_ushort;
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                    value_to_set = new_value_uint;
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                    value_to_set = new_value_ulong;
+                    break;
+            }
+
+            // the set value function taken from Emulator.cs
+            // check if the value needs to be saved in a register or memory location
+            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
+            {
+                switch (instruction.bit_mode)
+                {
+                    case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.high_or_low);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                        virtual_system.SetRegisterWord(instruction.destination_register, (ushort) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                        virtual_system.SetRegisterDouble(instruction.destination_register, (uint) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                        virtual_system.SetRegisterQuad(instruction.destination_register, value_to_set);
+                        break;
+                }
+            }
+            else
+            {
+                switch (instruction.bit_mode)
+                {
+                    case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                        virtual_system.SetByteMemory(memory_index, (byte) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                        virtual_system.SetWordMemory(memory_index, (ushort) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                        virtual_system.SetDoubleMemory(memory_index, (uint) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                        virtual_system.SetQuadMemory(memory_index, value_to_set);
+                        break;
+                }
+            }
+
+            return virtual_system;
+        }
+
+        public VirtualSystem RCR(VirtualSystem virtual_system, Instruction instruction, int memory_index, ulong destination_value, int bits_to_shift)
+        {
+            byte new_value_byte = (byte) destination_value;
+            ushort new_value_ushort = (ushort) destination_value;
+            uint new_value_uint = (uint) destination_value;
+            ulong new_value_ulong = destination_value;
+
+            ulong value_to_set = 0;
+
+            bool CF_value = false;
+            bool CF_new_value = false;
+
+            for (int i = 0; i < bits_to_shift; i++)
+            {
+                // Get the CF value
+                CF_value = (virtual_system.GetEFLAGS() & virtual_system.GetEFLAGSMasks()[0]) == 1;
+
+                // get the new CF value and rotate all the bits by one bit
+                switch (instruction.bit_mode)
+                {
+                    case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                        CF_new_value = (((byte) destination_value) & 0x80) == 1;
+                        new_value_byte = (byte) (((new_value_byte >> 1) | (new_value_byte << (8 - 1))) ^ 1);
+
+                        if (CF_value)
+                            new_value_byte++;
+
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                        CF_new_value = (((ushort) destination_value) & 0x8000) == 1;
+                        new_value_ushort = (ushort) (((new_value_ushort >> 1) | (new_value_ushort << (16 - 1))) ^ 1);
+
+                        if (CF_value)
+                            new_value_ushort++;
+
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                        CF_new_value = (((uint) destination_value) & 0x80000000) == 1;
+                        new_value_uint = (new_value_uint >> 1) | (new_value_uint << (32 - 1)) ^ 1;
+
+                        if (CF_value)
+                            new_value_uint++;
+
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                        CF_new_value = (destination_value & 0x8000000000000000) == 1;
+                        new_value_ulong = (new_value_ulong >> 1) | (new_value_ulong << (64 - 1)) ^ 1;
+
+                        if (CF_value)
+                            new_value_ulong++;
+
+                        break;
+                }
+
+                if (CF_new_value)
+                    virtual_system.SetEflags(virtual_system.GetEFLAGS() ^ virtual_system.GetEFLAGSMasks()[0] + 1);
+                else
+                    virtual_system.SetEflags(virtual_system.GetEFLAGS() ^ virtual_system.GetEFLAGSMasks()[0]);
+            }
+
+            switch (instruction.bit_mode)
+            {
+                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                    value_to_set = new_value_byte;
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                    value_to_set = new_value_ushort;
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                    value_to_set = new_value_uint;
+                    break;
+
+                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                    value_to_set = new_value_ulong;
+                    break;
+            }
+
+            // the set value function taken from Emulator.cs
+            // check if the value needs to be saved in a register or memory location
+            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
+            {
+                switch (instruction.bit_mode)
+                {
+                    case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.high_or_low);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                        virtual_system.SetRegisterWord(instruction.destination_register, (ushort) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                        virtual_system.SetRegisterDouble(instruction.destination_register, (uint) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                        virtual_system.SetRegisterQuad(instruction.destination_register, value_to_set);
+                        break;
+                }
+            }
+            else
+            {
+                switch (instruction.bit_mode)
+                {
+                    case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                        virtual_system.SetByteMemory(memory_index, (byte) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                        virtual_system.SetWordMemory(memory_index, (ushort) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                        virtual_system.SetDoubleMemory(memory_index, (uint) value_to_set);
+                        break;
+
+                    case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                        virtual_system.SetQuadMemory(memory_index, value_to_set);
+                        break;
+                }
+            }
+
+            return virtual_system;
+        }
+
+        public ulong ROL(Instruction_Data.Bit_Mode_ENUM bit_mode, ulong value, int bits_to_shift)
+        {
+            byte new_value_byte = (byte) value;
+            ushort new_value_ushort = (ushort) value;
+            uint new_value_uint = (uint) value;
+            ulong new_value_ulong = value;
+
+            switch (bit_mode)
+            {
+                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                    return (ulong) ((new_value_byte << bits_to_shift) | (new_value_byte >> (8 - bits_to_shift)));
+
+                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                    return (ulong) ((new_value_ushort << bits_to_shift) | (new_value_ushort >> (16 - bits_to_shift)));
+
+                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                    return (new_value_uint << bits_to_shift) | (new_value_uint << (32 - bits_to_shift));
+
+                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                    return (new_value_ulong << bits_to_shift) | (new_value_ulong >> (64 - bits_to_shift));
+            }
+
+            return 0;
+        }
+
+        public ulong ROR(Instruction_Data.Bit_Mode_ENUM bit_mode, ulong value, int bits_to_shift)
+        {
+            byte new_value_byte = (byte)value;
+            ushort new_value_ushort = (ushort)value;
+            uint new_value_uint = (uint)value;
+            ulong new_value_ulong = value;
+
+            switch (bit_mode)
+            {
+                case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                    return (ulong) ((new_value_byte >> bits_to_shift) | (new_value_byte << (8 - bits_to_shift)));
+
+                case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                    return (ulong) ((new_value_ushort >> bits_to_shift) | (new_value_ushort << (16 - bits_to_shift)));
+
+                case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                    return (new_value_uint >> bits_to_shift) | (new_value_uint << (32 - bits_to_shift));
+
+                case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                    return (new_value_ulong >> bits_to_shift) | (new_value_ulong << (64 - bits_to_shift));
+            }
+
+            return 0;
         }
     }
 }
