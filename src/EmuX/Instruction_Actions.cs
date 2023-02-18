@@ -1202,5 +1202,49 @@ namespace EmuX
 
             return destination_value - source_value;
         }
+
+        public ulong SHL(ulong value, int bits_to_shift)
+        {
+            return value << bits_to_shift;
+        }
+
+        public ulong SHR(ulong value, int bits_to_shift)
+        {
+            return value >> bits_to_shift;
+        }
+
+        public uint STC(uint EFLAGS, uint CF_mask)
+        {
+            if ((EFLAGS & CF_mask) == 1)
+                return EFLAGS;
+
+            return EFLAGS + CF_mask;
+        }
+
+        public uint STD(uint EFLAGS, uint DF_mask)
+        {
+            if ((EFLAGS & DF_mask) == 1)
+                return EFLAGS;
+
+            return EFLAGS + DF_mask;
+        }
+
+        public uint STI(uint EFLAGS, uint IF_mask)
+        {
+            if ((EFLAGS & IF_mask) == 1)
+                return EFLAGS;
+
+            return EFLAGS + IF_mask;
+        }
+         
+        public ulong SUB(ulong destination_value, ulong source_value)
+        {
+            return destination_value - source_value;
+        }
+
+        public ulong XOR(ulong destination_value, ulong source_value)
+        {
+            return destination_value ^ source_value;
+        }
     }
 }

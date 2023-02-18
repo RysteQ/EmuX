@@ -578,6 +578,34 @@
                     this.SetValue(instruction_to_execute, destination_memory_index, actions.SBB(destination_value, source_value, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[0]) == 1));
                     break;
 
+                case Instruction_Data.Instruction_ENUM.SHL:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SHL(destination_value, (int) source_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.SHR:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SHR(destination_value, (int) source_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.STC:
+                    this.virtual_system.SetEflags(actions.STC(this.virtual_system.GetEFLAGS(), this.virtual_system.GetEFLAGSMasks()[0]));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.STD:
+                    this.virtual_system.SetEflags(actions.STD(this.virtual_system.GetEFLAGS(), this.virtual_system.GetEFLAGSMasks()[6]));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.STI:
+                    this.virtual_system.SetEflags(actions.STI(this.virtual_system.GetEFLAGS(), this.virtual_system.GetEFLAGSMasks()[7]));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.SUB:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SUB(destination_value, source_value));
+                    break;
+
+                case Instruction_Data.Instruction_ENUM.XOR:
+                    this.SetValue(instruction_to_execute, destination_memory_index, actions.XOR(destination_value, source_value));
+                    break;
+
                 default:
                     break;
             }
