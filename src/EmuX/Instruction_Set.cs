@@ -16,5 +16,11 @@ namespace EmuX
         {
             InitializeComponent();
         }
+
+        private async void Instruction_Set_Load(object sender, EventArgs e)
+        {
+            await WebViewInstructionSet.EnsureCoreWebView2Async(null);
+            WebViewInstructionSet.NavigateToString("<h1>TODO</h1>");
+        }
     }
 }

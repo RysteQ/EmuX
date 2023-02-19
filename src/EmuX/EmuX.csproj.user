@@ -13,5 +13,11 @@
     <Compile Update="Instruction_Set.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="MemoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Registers Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

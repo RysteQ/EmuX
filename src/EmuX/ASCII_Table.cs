@@ -17,10 +17,15 @@ namespace EmuX
             InitializeComponent();
         }
 
-        private void ASCII_Table_MouseClick(object sender, MouseEventArgs e)
+        private async void ASCII_Table_Load(object sender, EventArgs e)
         {
-            // Convert the value of the ASCII characters from decimal to hexadecimal
-            //TODO
+            await WebViewASCIITable.EnsureCoreWebView2Async(null);
+            WebViewASCIITable.NavigateToString("<h1>TODO</h1>");
+        }
+
+        private void WebViewASCIITable_Click(object sender, EventArgs e)
+        {
+            // TODO
         }
     }
 }
