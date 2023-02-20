@@ -52,6 +52,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.WebViewInstructionSet);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "Instruction_Set";
             this.Text = "Instruction_Set";
             this.Load += new System.EventHandler(this.Instruction_Set_Load);

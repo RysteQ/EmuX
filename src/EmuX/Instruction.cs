@@ -36,8 +36,6 @@
             CLI,
             CMC,
             CMP,
-            // CMPSB,
-            // CMPSW,
             CWD,
             DAA,
             DAS,

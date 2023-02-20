@@ -28,40 +28,37 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.WebViewASCIITable = new Microsoft.Web.WebView2.WinForms.WebView2();
-            ((System.ComponentModel.ISupportInitialize)(this.WebViewASCIITable)).BeginInit();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
-            // WebViewASCIITable
+            // pictureBox1
             // 
-            this.WebViewASCIITable.AllowExternalDrop = true;
-            this.WebViewASCIITable.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.WebViewASCIITable.CreationProperties = null;
-            this.WebViewASCIITable.DefaultBackgroundColor = System.Drawing.Color.White;
-            this.WebViewASCIITable.Location = new System.Drawing.Point(0, 0);
-            this.WebViewASCIITable.Name = "WebViewASCIITable";
-            this.WebViewASCIITable.Size = new System.Drawing.Size(800, 450);
-            this.WebViewASCIITable.TabIndex = 0;
-            this.WebViewASCIITable.ZoomFactor = 1D;
+            this.pictureBox1.Image = global::EmuX.Properties.Resources.ASCII_Table_wide_svg;
+            this.pictureBox1.Location = new System.Drawing.Point(0, -2);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(795, 535);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // ASCII_Table
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.WebViewASCIITable);
+            this.ClientSize = new System.Drawing.Size(795, 533);
+            this.Controls.Add(this.pictureBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
             this.Name = "ASCII_Table";
             this.Text = "ASCII Table";
-            this.Load += new System.EventHandler(this.ASCII_Table_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.WebViewASCIITable)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private Microsoft.Web.WebView2.WinForms.WebView2 WebViewASCIITable;
+        private PictureBox pictureBox1;
     }
 }
