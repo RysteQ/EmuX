@@ -73,6 +73,22 @@
                 this.current_instruction_index--;
         }
 
+        public void ResetInterrupt()
+        {
+            this.interrupt = false;
+            this.interrupt_code = 0;
+        }
+
+        public bool GetInterrupt()
+        {
+            return this.interrupt;
+        }
+
+        public Interrupt_Handler.Interrupt_Codes GetInterruptCode() 
+        {
+            return this.interrupt_code;
+        }
+
         /// <summary>
         /// Getter - Gets the instruction index
         /// </summary>
@@ -115,6 +131,7 @@
                 return;
 
             Instruction_Actions actions = new Instruction_Actions();
+            Interrupt_Handler interrupt_handler = new Interrupt_Handler();
             Instruction instruction_to_execute = this.instructions[this.current_instruction_index];
 
             // make sure the instruction is not a label
@@ -215,16 +232,6 @@
                 case Instruction_Data.Instruction_ENUM.CMP:
                     this.virtual_system.SetEflags(actions.CMP(destination_value, source_value, this.virtual_system.GetEFLAGS()));
                     break;
-
-                    /*
-                case Instruction_Data.Instruction_ENUM.CMPSB:
-                    this.virtual_system.SetEflags(actions.CMPSB((byte) destination_value, (byte) source_value, this.virtual_system.GetEFLAGS()));
-                    break;
-
-                case Instruction_Data.Instruction_ENUM.CMPSW:
-                    this.virtual_system.SetEflags(actions.CMPSW((ushort) destination_value, (ushort) source_value, this.virtual_system.GetEFLAGS()));
-                    break;
-                    */
 
                 case Instruction_Data.Instruction_ENUM.CWD:
                     this.virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RDX, actions.CWD(this.virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX)));
@@ -885,8 +892,10 @@
         private List<StaticData> static_data = new List<StaticData>();
         private List<(string, int)> labels = new List<(string, int)>();
         private VirtualSystem virtual_system = new VirtualSystem();
+        private Interrupt_Handler.Interrupt_Codes interrupt_code = Interrupt_Handler.Interrupt_Codes.NoN;
         private int current_instruction_index = 0;
         private bool error = false;
         private bool exit_found = false;
+        private bool interrupt = false;
     }
 }

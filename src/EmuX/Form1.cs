@@ -122,8 +122,50 @@ namespace EmuX
 
             do
             {
+                // execute each instruction individually
                 this.emulator.Execute();
                 this.emulator.NextInstruction();
+
+                // check if an interrupt occured
+                // TODO
+                if (this.emulator.GetInterrupt())
+                {
+                    switch (this.emulator.GetInterruptCode())
+                    {
+                        case Interrupt_Handler.Interrupt_Codes.Set_Video_Mode:
+                            break;
+
+                        case Interrupt_Handler.Interrupt_Codes.Set_Cursor_Position:
+                            break;
+
+                        case Interrupt_Handler.Interrupt_Codes.Get_Cursor_Position:
+                            break;
+
+                        case Interrupt_Handler.Interrupt_Codes.Clear_Screen:
+                            break;
+
+                        case Interrupt_Handler.Interrupt_Codes.Read_Character_At_Cursor_Position:
+                            break;
+
+                        case Interrupt_Handler.Interrupt_Codes.Write_Character_At_Cursor_Position:
+                            break;
+
+                        case Interrupt_Handler.Interrupt_Codes.Write_Pixel_At_Position:
+                            break;
+
+                        case Interrupt_Handler.Interrupt_Codes.Read_From_Disk:
+                            break;
+
+                        case Interrupt_Handler.Interrupt_Codes.Write_To_Disk:
+                            break;
+
+                        case Interrupt_Handler.Interrupt_Codes.Wait_Delay:
+                            break;
+                    }
+
+                    // reset the interrupt flag
+                    this.emulator.ResetInterrupt();
+                }
 
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
             } while (this.emulator.ErrorEncountered() == false && this.emulator.GetExit() == false && this.emulator.GetIndex() != this.emulator.GetInstructionCount());
@@ -499,12 +541,6 @@ namespace EmuX
             }
         }
 
-        private VirtualSystem virtual_system = new VirtualSystem();
-        private Analyzer analyzer = new Analyzer();
-        private Emulator emulator = new Emulator();
-        private Verifier verifier = new Verifier();
-        private string save_path = "";
-
         private void ButtonExecuteOnAnotherTab_Click(object sender, EventArgs e)
         {
             // execute the code
@@ -538,5 +574,11 @@ namespace EmuX
             // display the instruction set form
             instruction_set.Show();
         }
+
+        private VirtualSystem virtual_system = new VirtualSystem();
+        private Analyzer analyzer = new Analyzer();
+        private Emulator emulator = new Emulator();
+        private Verifier verifier = new Verifier();
+        private string save_path = "";
     }
 }

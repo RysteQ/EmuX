@@ -46,6 +46,7 @@
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.converterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aSCIITableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.instructionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.GroupboxInput = new System.Windows.Forms.GroupBox();
             this.RichTextboxAssemblyCode = new System.Windows.Forms.RichTextBox();
@@ -151,7 +152,6 @@
             this.RichtextBoxOutput = new System.Windows.Forms.RichTextBox();
             this.fontDialog = new System.Windows.Forms.FontDialog();
             this.ButtonExecuteOnAnotherTab = new System.Windows.Forms.Button();
-            this.instructionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.GroupboxInput.SuspendLayout();
             this.GroupboxControls.SuspendLayout();
@@ -307,6 +307,7 @@
             // converterToolStripMenuItem
             // 
             this.converterToolStripMenuItem.Name = "converterToolStripMenuItem";
+            this.converterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
             this.converterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.converterToolStripMenuItem.Text = "Converter";
             this.converterToolStripMenuItem.Click += new System.EventHandler(this.converterToolStripMenuItem_Click);
@@ -314,9 +315,18 @@
             // aSCIITableToolStripMenuItem
             // 
             this.aSCIITableToolStripMenuItem.Name = "aSCIITableToolStripMenuItem";
+            this.aSCIITableToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
             this.aSCIITableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aSCIITableToolStripMenuItem.Text = "ASCII Table";
             this.aSCIITableToolStripMenuItem.Click += new System.EventHandler(this.aSCIITableToolStripMenuItem_Click);
+            // 
+            // instructionsToolStripMenuItem
+            // 
+            this.instructionsToolStripMenuItem.Name = "instructionsToolStripMenuItem";
+            this.instructionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.I)));
+            this.instructionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.instructionsToolStripMenuItem.Text = "Instructions";
+            this.instructionsToolStripMenuItem.Click += new System.EventHandler(this.instructionsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -1347,13 +1357,6 @@
             this.ButtonExecuteOnAnotherTab.UseVisualStyleBackColor = true;
             this.ButtonExecuteOnAnotherTab.Visible = false;
             this.ButtonExecuteOnAnotherTab.Click += new System.EventHandler(this.ButtonExecuteOnAnotherTab_Click);
-            // 
-            // instructionsToolStripMenuItem
-            // 
-            this.instructionsToolStripMenuItem.Name = "instructionsToolStripMenuItem";
-            this.instructionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.instructionsToolStripMenuItem.Text = "Instructions";
-            this.instructionsToolStripMenuItem.Click += new System.EventHandler(this.instructionsToolStripMenuItem_Click);
             // 
             // mainForm
             // 
