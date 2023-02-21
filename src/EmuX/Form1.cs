@@ -130,38 +130,7 @@ namespace EmuX
                 // TODO
                 if (this.emulator.GetInterrupt())
                 {
-                    switch (this.emulator.GetInterruptCode())
-                    {
-                        case Interrupt_Handler.Interrupt_Codes.Set_Video_Mode:
-                            break;
-
-                        case Interrupt_Handler.Interrupt_Codes.Set_Cursor_Position:
-                            break;
-
-                        case Interrupt_Handler.Interrupt_Codes.Get_Cursor_Position:
-                            break;
-
-                        case Interrupt_Handler.Interrupt_Codes.Clear_Screen:
-                            break;
-
-                        case Interrupt_Handler.Interrupt_Codes.Read_Character_At_Cursor_Position:
-                            break;
-
-                        case Interrupt_Handler.Interrupt_Codes.Write_Character_At_Cursor_Position:
-                            break;
-
-                        case Interrupt_Handler.Interrupt_Codes.Write_Pixel_At_Position:
-                            break;
-
-                        case Interrupt_Handler.Interrupt_Codes.Read_From_Disk:
-                            break;
-
-                        case Interrupt_Handler.Interrupt_Codes.Write_To_Disk:
-                            break;
-
-                        case Interrupt_Handler.Interrupt_Codes.Wait_Delay:
-                            break;
-                    }
+                    // TODO
 
                     // reset the interrupt flag
                     this.emulator.ResetInterrupt();

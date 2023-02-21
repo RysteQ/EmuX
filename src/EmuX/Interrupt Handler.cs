@@ -1,85 +1,236 @@
-﻿namespace EmuX
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace EmuX
 {
     class Interrupt_Handler
     {
-        /// <summary>
-        /// Translates an integer to its Interrupt_Codes enum value
-        /// </summary>
-        /// <param name="interrupt_int_code"></param>
-        /// <returns></returns>
-        public Interrupt_Codes TranslateInterruptCode(int interrupt_int_code)
+        public VirtualSystem GetVirtualSystem()
         {
-            switch (interrupt_int_code)
+            return this.virtual_system;
+        }
+
+        public Bitmap GetVideoOutput()
+        {
+            return this.video;
+        }
+
+        public void SetVirtualSystem(VirtualSystem virtual_system)
+        {
+            this.virtual_system = virtual_system;
+        }
+
+        public void SetInterrupt(Interrupt interrupt)
+        {
+            this.interrupt = interrupt;
+        }
+
+        public void ResetInterrupt()
+        {
+            this.interrupt = new Interrupt();
+        }
+
+        public void AnalyzeInterrupt()
+        {
+            switch (this.interrupt.GetInterruptCode())
             {
-                case 0:
-                    return Interrupt_Codes.Set_Video_Mode;
+                case Interrupt.Interrupt_Codes.Set_Cursor_Position:
+                    this.SetCursorPosition();
+                    break;
 
-                case 2:
-                    return Interrupt_Codes.Set_Cursor_Position;
+                case Interrupt.Interrupt_Codes.Get_Cursor_Position:
+                    this.GetCursorPosition();
+                    break;
 
-                case 3:
-                    return Interrupt_Codes.Get_Cursor_Position;
+                case Interrupt.Interrupt_Codes.Clear_Screen:
+                    this.ClearScreen();
+                    break;
 
-                case 6:
-                    return Interrupt_Codes.Clear_Screen;
+                case Interrupt.Interrupt_Codes.Read_Character_At_Cursor_Position:
+                    this.ReadCharacterAtCursorPosition();
+                    break;
 
-                case 8:
-                    return Interrupt_Codes.Read_Character_At_Cursor_Position;
+                case Interrupt.Interrupt_Codes.Write_Character_At_Cursor_Position:
+                    this.WriteCharacterAtCursorPosition();
+                    break;
 
-                case 9:
-                    return Interrupt_Codes.Write_Character_At_Cursor_Position;
+                case Interrupt.Interrupt_Codes.Write_Pixel_At_Position:
+                    this.WritePixelAtPosition();
+                    break;
 
-                case 12:
-                    return Interrupt_Codes.Write_Pixel_At_Position;
+                case Interrupt.Interrupt_Codes.Read_From_Disk:
+                    this.ReadFromDisk();
+                    break;
 
-                case 15:
-                    return Interrupt_Codes.Read_From_Disk;
+                case Interrupt.Interrupt_Codes.Write_To_Disk:
+                    this.WriteToDisk();
+                    break;
 
-                case 16:
-                    return Interrupt_Codes.Write_To_Disk;
-
-                case 92:
-                    return Interrupt_Codes.Wait_Delay;
-
-                default:
-                    return Interrupt_Codes.NoN;
+                case Interrupt.Interrupt_Codes.Wait_Delay:
+                    this.WaitDelay();
+                    break;
             }
         }
 
         /// <summary>
-        /// Setter - Sets the new Interrupt Code value
+        /// Sets the cursor position based on the CX and DX register value
         /// </summary>
-        /// <param name="interrupt_code"></param>
-        public void SetInterruptCode(Interrupt_Codes interrupt_code)
+        private void SetCursorPosition()
         {
-            this.interrupt_code = interrupt_code;
+            ushort new_cursor_x = this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER);
+            ushort new_cursor_y = this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER);
+
+            // make sure the new cursor position is within limits
+            this.cursor_x = (ushort) (new_cursor_x % CHAR_WIDTH);
+            this.cursor_y = (ushort) (new_cursor_y % CHAR_HEIGHT);
         }
 
         /// <summary>
-        /// Getter = Gets the Interrupt Code value
+        /// Saves the cursor position in the CX and DX registers
         /// </summary>
-        /// <returns></returns>
-        public Interrupt_Codes GetInterruptCode()
+        private void GetCursorPosition()
         {
-            return interrupt_code;
+            this.virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, this.cursor_x);
+            this.virtual_system.SetRegisterWord(SECOND_ARGUMENT_REGISTER, this.cursor_y);
         }
 
-        private Interrupt_Codes interrupt_code = Interrupt_Codes.NoN;
-
-        public enum Interrupt_Codes
+        /// <summary>
+        /// Clears the screen and makes it all black, also clears the screen character buffer
+        /// </summary>
+        private void ClearScreen()
         {
-            Set_Video_Mode = 0,
-            Set_Cursor_Position = 2,
-            Get_Cursor_Position = 3,
-            Clear_Screen = 6,
-            Read_Character_At_Cursor_Position = 8,
-            Write_Character_At_Cursor_Position = 9,
-            Write_Pixel_At_Position = 12,
-            Read_From_Disk = 15,
-            Write_To_Disk = 16,
-            Wait_Delay = 92,
+            Graphics black_screen = Graphics.FromImage(new Bitmap(CHARACTERS_HORIZONTALY * CHAR_WIDTH, CHARACTERS_VERTICALY * CHAR_HEIGHT));
+            black_screen.Clear(Color.Black);
 
-            NoN
+            this.video = new Bitmap(CHARACTERS_HORIZONTALY * CHAR_WIDTH, CHARACTERS_VERTICALY * CHAR_HEIGHT, black_screen);
+
+            // clear the character buffer
+            for (int x = 0; x < CHAR_WIDTH; x++)
+                for (int y = 0; y < CHAR_HEIGHT; y++)
+                    this.characters[x, y] = (char) 0;
         }
+
+        /// <summary>
+        /// Reads the character buffer and saves the result in the CX register
+        /// </summary>
+        private void ReadCharacterAtCursorPosition()
+        {
+            this.virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, this.characters[cursor_x, cursor_y]);
+        }
+
+        /// <summary>
+        /// Write the character saved in the CX register and updates the cursor position
+        /// </summary>
+        private void WriteCharacterAtCursorPosition()
+        {
+            char character_to_write = (char) this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
+
+            this.characters[cursor_x, cursor_y] = character_to_write;
+
+            // update the cursor position
+            this.cursor_x = (ushort) (this.cursor_x % CHAR_WIDTH);
+            this.cursor_y = (ushort) (this.cursor_y % CHAR_HEIGHT);
+        }
+
+        /// <summary>
+        /// Draws a pixel to the screen based on the CX and DX for it's x and y coordinates
+        /// </summary>
+        private void WritePixelAtPosition()
+        {
+            ushort x_pos = (ushort) this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
+            ushort y_pos = (ushort) this.virtual_system.GetRegisterQuad(SECOND_ARGUMENT_REGISTER);
+
+            this.video.SetPixel(x_pos, y_pos, Color.White);
+        }
+
+        /// <summary>
+        /// Reads from disk the file that has the same name as the data loaded in the CX register
+        /// and saves the result to the memory location pointed of the RSI register
+        /// </summary>
+        private void ReadFromDisk()
+        {
+            ulong RCX_register_backup = this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
+            string name_of_file = "";
+            string file_data = "";
+
+            do
+            {
+                name_of_file += this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER));
+                this.virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, (ushort) (this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + 1));
+            } while (this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER)) != 0);
+
+            // read and save the file data to memory
+            file_data = File.ReadAllText(name_of_file);
+
+            for (int i = 0; i < file_data.Length; i++)
+                this.virtual_system.SetByteMemory((int) (this.virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RSI) + i), (byte) file_data[i]);
+
+            this.virtual_system.SetRegisterQuad(FIRST_ARGUMENT_REGISTER, RCX_register_backup);
+        }
+
+        /// <summary>
+        /// Write to the disk a new file with the name loaded and pointed by the CX register and the contents will
+        /// be loaded by the memory location pointed by the DX register
+        /// </summary>
+        private void WriteToDisk()
+        {
+            ulong RCX_register_backup = this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
+            ulong RDX_register_backup = this.virtual_system.GetRegisterQuad(SECOND_ARGUMENT_REGISTER);
+            string name_of_file = "";
+            string file_data = "";
+
+            // get the name of the file
+            do
+            {
+                name_of_file += this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER));
+                this.virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, (ushort) (this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + 1));
+            } while (this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER)) != 0);
+
+            // get the contents of the file
+            do
+            {
+                file_data += this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER));
+                this.virtual_system.SetRegisterWord(SECOND_ARGUMENT_REGISTER, (ushort) (this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER) + 1));
+            } while (this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER)) != 0);
+
+            // save the file
+            File.WriteAllText(name_of_file, file_data);
+
+            this.virtual_system.SetRegisterQuad(FIRST_ARGUMENT_REGISTER, RCX_register_backup);
+            this.virtual_system.SetRegisterQuad(SECOND_ARGUMENT_REGISTER, RDX_register_backup);
+        }
+
+        /// <summary>
+        /// Sleeps for the amount of miliseconds equal to the value of the ECX register
+        /// </summary>
+        private void WaitDelay()
+        {
+            int miliseconds_to_sleep_for = (int) this.virtual_system.GetRegisterDouble(FIRST_ARGUMENT_REGISTER);
+            Thread.Sleep(miliseconds_to_sleep_for);
+        }
+
+        private Interrupt interrupt = new Interrupt();
+        private VirtualSystem virtual_system = new VirtualSystem();
+
+        // all of the video stuff
+        private Bitmap video = new Bitmap(CHARACTERS_HORIZONTALY * CHAR_WIDTH, CHARACTERS_VERTICALY * CHAR_HEIGHT);
+        private char[,] characters = new char[CHARACTERS_HORIZONTALY, CHARACTERS_VERTICALY];
+        private ushort cursor_x = 0;
+        private ushort cursor_y = 0;
+
+        // the argument registers
+        const Instruction_Data.Registers_ENUM FIRST_ARGUMENT_REGISTER = Instruction_Data.Registers_ENUM.RCX;
+        const Instruction_Data.Registers_ENUM SECOND_ARGUMENT_REGISTER = Instruction_Data.Registers_ENUM.RDX;
+
+        // the screen dimensions
+        const int CHARACTERS_HORIZONTALY = 80;
+        const int CHARACTERS_VERTICALY = 35;
+
+        // the character dimensions
+        const int CHAR_WIDTH = 8;
+        const int CHAR_HEIGHT = 12;
     }
 }

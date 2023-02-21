@@ -75,18 +75,20 @@
 
         public void ResetInterrupt()
         {
-            this.interrupt = false;
-            this.interrupt_code = 0;
+            this.interrupt.SetInterruptCode(Interrupt.Interrupt_Codes.NoN);
         }
 
         public bool GetInterrupt()
         {
-            return this.interrupt;
+            if (this.interrupt.GetInterruptCode() != Interrupt.Interrupt_Codes.NoN)
+                return true;
+
+            return false;
         }
 
-        public Interrupt_Handler.Interrupt_Codes GetInterruptCode() 
+        public Interrupt.Interrupt_Codes GetInterruptCode() 
         {
-            return this.interrupt_code;
+            return this.interrupt.GetInterruptCode();
         }
 
         /// <summary>
@@ -131,7 +133,6 @@
                 return;
 
             Instruction_Actions actions = new Instruction_Actions();
-            Interrupt_Handler interrupt_handler = new Interrupt_Handler();
             Instruction instruction_to_execute = this.instructions[this.current_instruction_index];
 
             // make sure the instruction is not a label
@@ -262,7 +263,12 @@
                     break;
 
                 case Instruction_Data.Instruction_ENUM.INT:
-                    // TODO
+                    this.interrupt.SetInterruptCode(destination_value);
+
+                    // check if the interrupt code is valid or not, if not then throw an error
+                    if (this.interrupt.GetInterruptCode() == Interrupt.Interrupt_Codes.NoN)
+                        this.error = true;
+
                     break;
 
                 case Instruction_Data.Instruction_ENUM.JA:
@@ -892,10 +898,9 @@
         private List<StaticData> static_data = new List<StaticData>();
         private List<(string, int)> labels = new List<(string, int)>();
         private VirtualSystem virtual_system = new VirtualSystem();
-        private Interrupt_Handler.Interrupt_Codes interrupt_code = Interrupt_Handler.Interrupt_Codes.NoN;
+        Interrupt interrupt = new Interrupt();
         private int current_instruction_index = 0;
         private bool error = false;
         private bool exit_found = false;
-        private bool interrupt = false;
     }
 }
