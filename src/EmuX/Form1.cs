@@ -68,14 +68,9 @@ namespace EmuX
             this.Close();
         }
 
-
         private void ButtonExecute_Click(object sender, EventArgs e)
         {
             string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
-
-            // reset the virtual system if the user checked the checkbox in the register view menu
-            if (resetVirtualSystemAfterExecutionCheckbox.Checked)
-                this.virtual_system.ResetVirtualSystem();
 
             this.analyzer.Flush();
             this.analyzer.SetInstructions(code_to_analyze);
@@ -108,6 +103,18 @@ namespace EmuX
                 return;
             }
 
+            // reset the interrupt handler video and interrupt
+            this.interrupt_handler.ResetInterrupt();
+
+            // init the video form
+            if (this.video_form.IsOpen() == false)
+            {
+                this.video_form = new VideoForm();
+
+                this.video_form.InitVideo(this.interrupt_handler.GetVideoOutput().Width, this.interrupt_handler.GetVideoOutput().Height);
+                this.video_form.Show();
+            }
+
             // clear the previous values and prepare all the data the emulator needs
             this.virtual_system.ClearCallStack();
 
@@ -127,13 +134,31 @@ namespace EmuX
                 this.emulator.NextInstruction();
 
                 // check if an interrupt occured
-                // TODO
-                if (this.emulator.GetInterrupt())
+                if (this.emulator.GetInterruptOccurance())
                 {
-                    // TODO
+                    // The user may have the *grabs speaker* STUPIIIID.....
+                    // ......
+                    // ......
+                    // so this will basically prevent the user from doing any mistakes that may crash the application
+                    // and also inform the user from his mistake and stop any further execution the code
+                    try
+                    {
+                        // execute the interrupt
+                        this.interrupt_handler.SetVirtualSystem(this.emulator.GetVirtualSystem());
+                        this.interrupt_handler.SetInterrupt(this.emulator.GetInterrupt());
+                        this.interrupt_handler.ExecuteInterrupt();
 
-                    // reset the interrupt flag
-                    this.emulator.ResetInterrupt();
+                        // update the video output
+                        this.video_form.UpdateVideo(this.interrupt_handler.GetVideoOutput());
+
+                        // reset the interrupt flag
+                        this.emulator.SetVirtualSystem(this.interrupt_handler.GetVirtualSystem());
+                        this.emulator.ResetInterrupt();
+                    } catch (Exception ex)
+                    {
+                        MessageBox.Show("There was an error in the interrupt handler\n\nError: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        break;
+                    }
                 }
 
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
@@ -544,10 +569,19 @@ namespace EmuX
             instruction_set.Show();
         }
 
+        private void ButtonResetVirtualSystem_Click(object sender, EventArgs e)
+        {
+            // ask the user for confirmation before reseting the virtual system
+            if (MessageBox.Show("Are you sure you want to reset the virtual system ?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+                this.virtual_system.ResetVirtualSystem();
+        }
+
+        private VideoForm video_form = new VideoForm();
         private VirtualSystem virtual_system = new VirtualSystem();
         private Analyzer analyzer = new Analyzer();
         private Emulator emulator = new Emulator();
         private Verifier verifier = new Verifier();
+        private Interrupt_Handler interrupt_handler = new Interrupt_Handler();
         private string save_path = "";
     }
 }

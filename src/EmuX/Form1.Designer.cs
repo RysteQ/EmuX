@@ -113,7 +113,7 @@
             this.LabelCF = new System.Windows.Forms.Label();
             this.ButtonSetRegisterValues = new System.Windows.Forms.Button();
             this.GroupBoxGeneralPurposeRegisters = new System.Windows.Forms.GroupBox();
-            this.resetVirtualSystemAfterExecutionCheckbox = new System.Windows.Forms.CheckBox();
+            this.ButtonResetVirtualSystem = new System.Windows.Forms.Button();
             this.TextBoxR15 = new System.Windows.Forms.TextBox();
             this.LabelR15 = new System.Windows.Forms.Label();
             this.TextBoxR14 = new System.Windows.Forms.TextBox();
@@ -308,7 +308,7 @@
             // 
             this.converterToolStripMenuItem.Name = "converterToolStripMenuItem";
             this.converterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
-            this.converterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.converterToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.converterToolStripMenuItem.Text = "Converter";
             this.converterToolStripMenuItem.Click += new System.EventHandler(this.converterToolStripMenuItem_Click);
             // 
@@ -316,7 +316,7 @@
             // 
             this.aSCIITableToolStripMenuItem.Name = "aSCIITableToolStripMenuItem";
             this.aSCIITableToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
-            this.aSCIITableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aSCIITableToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.aSCIITableToolStripMenuItem.Text = "ASCII Table";
             this.aSCIITableToolStripMenuItem.Click += new System.EventHandler(this.aSCIITableToolStripMenuItem_Click);
             // 
@@ -324,7 +324,7 @@
             // 
             this.instructionsToolStripMenuItem.Name = "instructionsToolStripMenuItem";
             this.instructionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.I)));
-            this.instructionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.instructionsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
             this.instructionsToolStripMenuItem.Text = "Instructions";
             this.instructionsToolStripMenuItem.Click += new System.EventHandler(this.instructionsToolStripMenuItem_Click);
             // 
@@ -1001,7 +1001,7 @@
             this.GroupBoxGeneralPurposeRegisters.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.GroupBoxGeneralPurposeRegisters.Controls.Add(this.resetVirtualSystemAfterExecutionCheckbox);
+            this.GroupBoxGeneralPurposeRegisters.Controls.Add(this.ButtonResetVirtualSystem);
             this.GroupBoxGeneralPurposeRegisters.Controls.Add(this.TextBoxR15);
             this.GroupBoxGeneralPurposeRegisters.Controls.Add(this.LabelR15);
             this.GroupBoxGeneralPurposeRegisters.Controls.Add(this.TextBoxR14);
@@ -1043,15 +1043,15 @@
             this.GroupBoxGeneralPurposeRegisters.TabStop = false;
             this.GroupBoxGeneralPurposeRegisters.Text = "General Purpose Register";
             // 
-            // resetVirtualSystemAfterExecutionCheckbox
+            // ButtonResetVirtualSystem
             // 
-            this.resetVirtualSystemAfterExecutionCheckbox.AutoSize = true;
-            this.resetVirtualSystemAfterExecutionCheckbox.Location = new System.Drawing.Point(319, 163);
-            this.resetVirtualSystemAfterExecutionCheckbox.Name = "resetVirtualSystemAfterExecutionCheckbox";
-            this.resetVirtualSystemAfterExecutionCheckbox.Size = new System.Drawing.Size(138, 19);
-            this.resetVirtualSystemAfterExecutionCheckbox.TabIndex = 34;
-            this.resetVirtualSystemAfterExecutionCheckbox.Text = "Reset After Execution";
-            this.resetVirtualSystemAfterExecutionCheckbox.UseVisualStyleBackColor = true;
+            this.ButtonResetVirtualSystem.Location = new System.Drawing.Point(313, 160);
+            this.ButtonResetVirtualSystem.Name = "ButtonResetVirtualSystem";
+            this.ButtonResetVirtualSystem.Size = new System.Drawing.Size(144, 24);
+            this.ButtonResetVirtualSystem.TabIndex = 34;
+            this.ButtonResetVirtualSystem.Text = "Reset Virtual System";
+            this.ButtonResetVirtualSystem.UseVisualStyleBackColor = true;
+            this.ButtonResetVirtualSystem.Click += new System.EventHandler(this.ButtonResetVirtualSystem_Click);
             // 
             // TextBoxR15
             // 
@@ -1514,11 +1514,11 @@
         private ToolStripSeparator toolStripSeparator3;
         private ToolStripMenuItem convertToUppercaseToolStripMenuItem;
         private ToolStripMenuItem convertToLowercaseToolStripMenuItem;
-        private CheckBox resetVirtualSystemAfterExecutionCheckbox;
         private ToolStripMenuItem toolsToolStripMenuItem;
         private ToolStripMenuItem converterToolStripMenuItem;
         private ToolStripMenuItem aSCIITableToolStripMenuItem;
         private Button ButtonExecuteOnAnotherTab;
         private ToolStripMenuItem instructionsToolStripMenuItem;
+        private Button ButtonResetVirtualSystem;
     }
 }

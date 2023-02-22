@@ -28,12 +28,18 @@ namespace EmuX
             this.interrupt = interrupt;
         }
 
+        public void ResetInterruptHandler()
+        {
+            ClearScreen();
+            ResetInterrupt();
+        }
+
         public void ResetInterrupt()
         {
             this.interrupt = new Interrupt();
         }
 
-        public void AnalyzeInterrupt()
+        public void ExecuteInterrupt()
         {
             switch (this.interrupt.GetInterruptCode())
             {
@@ -102,10 +108,12 @@ namespace EmuX
         /// </summary>
         private void ClearScreen()
         {
-            Graphics black_screen = Graphics.FromImage(new Bitmap(CHARACTERS_HORIZONTALY * CHAR_WIDTH, CHARACTERS_VERTICALY * CHAR_HEIGHT));
-            black_screen.Clear(Color.Black);
+            this.video = new Bitmap(CHARACTERS_HORIZONTALY * CHAR_WIDTH, CHARACTERS_VERTICALY * CHAR_HEIGHT);
 
-            this.video = new Bitmap(CHARACTERS_HORIZONTALY * CHAR_WIDTH, CHARACTERS_VERTICALY * CHAR_HEIGHT, black_screen);
+            // set the video output to black
+            for (int x = 0; x < this.video.Width; x++)
+                for (int y = 0; y < this.video.Height; y++)
+                    this.video.SetPixel(x, y, Color.Black);
 
             // clear the character buffer
             for (int x = 0; x < CHAR_WIDTH; x++)

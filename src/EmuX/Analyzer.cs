@@ -429,6 +429,11 @@ namespace EmuX
             StringHandler string_handler = new StringHandler();
             int integer_junk;
 
+            // remove all commas
+            for (int i = 0; i < tokens.Length; i++)
+                if (tokens[i].Contains(','))
+                    tokens[i] = tokens[i].Remove(tokens[i].IndexOf(','));
+
             // check if the instruction has no operands
             if (instruction_groups.no_operands.Contains(instruction) && tokens.Length == 1)
                 return Instruction_Variant_ENUM.SINGLE;

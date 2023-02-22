@@ -927,9 +927,10 @@ namespace EmuX
             Instruction_Data.Bit_Mode_ENUM._64_BIT
         };
 
+        // I am lazy to fix the actual bug that just gives the INT instruction a bitmode of NoN, this should do it tho
         public readonly Instruction_Data.Bit_Mode_ENUM[] INT_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
         {
-            Instruction_Data.Bit_Mode_ENUM._8_BIT
+            Instruction_Data.Bit_Mode_ENUM.NoN
         };
 
         public readonly Instruction_Data.Bit_Mode_ENUM[] JA_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]

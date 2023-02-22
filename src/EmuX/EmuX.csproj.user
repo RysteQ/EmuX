@@ -19,5 +19,8 @@
     <Compile Update="Registers Form.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Video Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
