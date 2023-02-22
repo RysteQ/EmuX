@@ -683,6 +683,13 @@
             // check if the value needs to be saved in a register or memory location
             if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
             {
+                // check if the data loaded to it is a memory location
+                if (instruction.destination_memory_type == Instruction_Data.Memory_Type_ENUM.ADDRESS)
+                {
+                    this.virtual_system.SetRegisterQuad(instruction.destination_register, value_to_set);
+                    return;
+                }
+
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
@@ -809,9 +816,7 @@
         /// <returns>The ulong value of the source</returns>
         private ulong AnalyzeInstructionSource(Instruction instruction, VirtualSystem virtual_system)
         {
-            if (instruction.source_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.NoN && instruction.source_register_pointer == false && instruction.destination_register_pointer == false)
-                return 0;
-
+            // check if the source is referring to a register
             if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER || instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER)
             {
                 switch (instruction.bit_mode)
@@ -835,7 +840,7 @@
                 // return the value of the static data
                 for (int i = 0; i < static_data.Count; i++)
                     if (static_data[i].name == instruction.source_memory_name)
-                        return static_data[i].value;
+                        return (ulong) static_data[i].memory_location;
 
                 // check if it is referring to a memory location pointed by a register
                 if (instruction.source_register_pointer)
@@ -870,6 +875,9 @@
                     this.error = true;
                     return 0;
                 }
+
+                if (instruction.source_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.NoN && instruction.source_register_pointer == false && instruction.destination_register_pointer == false)
+                    return 0;
 
                 return ulong.Parse(instruction.source_memory_name);
             }

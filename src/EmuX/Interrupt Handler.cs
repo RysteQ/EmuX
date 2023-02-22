@@ -8,6 +8,16 @@ namespace EmuX
 {
     class Interrupt_Handler
     {
+        public Interrupt_Handler() 
+        {
+            this.video_graphics = Graphics.FromImage(this.video);
+
+            // set the video output to black
+            for (int x = 0; x < this.video.Width; x++)
+                for (int y = 0; y < this.video.Height; y++)
+                    this.video.SetPixel(x, y, Color.Black);
+        }
+
         public VirtualSystem GetVirtualSystem()
         {
             return this.virtual_system;
@@ -108,8 +118,6 @@ namespace EmuX
         /// </summary>
         private void ClearScreen()
         {
-            this.video = new Bitmap(CHARACTERS_HORIZONTALY * CHAR_WIDTH, CHARACTERS_VERTICALY * CHAR_HEIGHT);
-
             // set the video output to black
             for (int x = 0; x < this.video.Width; x++)
                 for (int y = 0; y < this.video.Height; y++)
@@ -119,6 +127,9 @@ namespace EmuX
             for (int x = 0; x < CHAR_WIDTH; x++)
                 for (int y = 0; y < CHAR_HEIGHT; y++)
                     this.characters[x, y] = (char) 0;
+
+            this.cursor_x = 0;
+            this.cursor_y = 0;
         }
 
         /// <summary>
@@ -134,13 +145,27 @@ namespace EmuX
         /// </summary>
         private void WriteCharacterAtCursorPosition()
         {
-            char character_to_write = (char) this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
+            if (this.cursor_y == CHARACTERS_VERTICALY)
+                return;
 
+            char character_to_write = (char) this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
             this.characters[cursor_x, cursor_y] = character_to_write;
 
-            // update the cursor position
-            this.cursor_x = (ushort) (this.cursor_x % CHAR_WIDTH);
-            this.cursor_y = (ushort) (this.cursor_y % CHAR_HEIGHT);
+            // draw the character on the screen
+            this.video_graphics.DrawString(character_to_write.ToString(), new Font(FontFamily.GenericSerif, 8), Brushes.White, new Point(this.cursor_x * CHAR_WIDTH, this.cursor_y * CHAR_HEIGHT));
+            this.video_graphics.Flush();
+
+            // update the cursor position or exit the function all together
+            if ((this.cursor_x + 1) < CHARACTERS_HORIZONTALY)
+            {
+                this.cursor_x++;
+            }
+            else
+            {
+                this.cursor_x = 0;
+                this.cursor_y++;
+            }
+
         }
 
         /// <summary>
@@ -225,6 +250,7 @@ namespace EmuX
 
         // all of the video stuff
         private Bitmap video = new Bitmap(CHARACTERS_HORIZONTALY * CHAR_WIDTH, CHARACTERS_VERTICALY * CHAR_HEIGHT);
+        private Graphics video_graphics;
         private char[,] characters = new char[CHARACTERS_HORIZONTALY, CHARACTERS_VERTICALY];
         private ushort cursor_x = 0;
         private ushort cursor_y = 0;

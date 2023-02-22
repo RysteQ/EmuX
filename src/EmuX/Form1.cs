@@ -23,8 +23,10 @@ namespace EmuX
             // open the file
             RichTextboxAssemblyCode.Text = File.ReadAllText(filename);
             mainForm.ActiveForm.Text = filename.Split('\\')[filename.Split('\\').Length - 1] + " - EmuX";
-
             save_path = filename;
+
+            // update the user
+            this.UpdateOutput("Opened file " + save_path + " ...");
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -41,6 +43,9 @@ namespace EmuX
             StreamWriter file_writer = new StreamWriter(save_path);
             file_writer.Write(RichTextboxAssemblyCode.Text);
             file_writer.Close();
+
+            // update the user
+            this.UpdateOutput("File saved in location " + save_path + " ...");
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -61,6 +66,9 @@ namespace EmuX
             StreamWriter file_writer = new StreamWriter(save_path);
             file_writer.Write(RichTextboxAssemblyCode.Text);
             file_writer.Close();
+
+            // update the user
+            this.UpdateOutput("File Saved...");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -136,7 +144,7 @@ namespace EmuX
                 // check if an interrupt occured
                 if (this.emulator.GetInterruptOccurance())
                 {
-                    // The user may have the *grabs speaker* STUPIIIID.....
+                    // The user may have the *grabs speaker* STUPIIIID
                     // ......
                     // ......
                     // so this will basically prevent the user from doing any mistakes that may crash the application
@@ -169,6 +177,9 @@ namespace EmuX
 
             // get the virtual system back
             this.virtual_system = this.emulator.GetVirtualSystem();
+
+            // update the output rich textbox
+            this.UpdateOutput("Execution Completed...");
         }
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -573,7 +584,15 @@ namespace EmuX
         {
             // ask the user for confirmation before reseting the virtual system
             if (MessageBox.Show("Are you sure you want to reset the virtual system ?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
+            {
                 this.virtual_system.ResetVirtualSystem();
+                this.UpdateOutput("Virtual System reset...");
+            }
+        }
+
+        private void UpdateOutput(string message_to_append)
+        {
+            this.RichtextBoxOutput.Text += message_to_append + "\n";
         }
 
         private VideoForm video_form = new VideoForm();

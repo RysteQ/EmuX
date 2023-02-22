@@ -308,7 +308,7 @@
             // 
             this.converterToolStripMenuItem.Name = "converterToolStripMenuItem";
             this.converterToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.C)));
-            this.converterToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.converterToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.converterToolStripMenuItem.Text = "Converter";
             this.converterToolStripMenuItem.Click += new System.EventHandler(this.converterToolStripMenuItem_Click);
             // 
@@ -316,7 +316,7 @@
             // 
             this.aSCIITableToolStripMenuItem.Name = "aSCIITableToolStripMenuItem";
             this.aSCIITableToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.A)));
-            this.aSCIITableToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.aSCIITableToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aSCIITableToolStripMenuItem.Text = "ASCII Table";
             this.aSCIITableToolStripMenuItem.Click += new System.EventHandler(this.aSCIITableToolStripMenuItem_Click);
             // 
@@ -324,7 +324,7 @@
             // 
             this.instructionsToolStripMenuItem.Name = "instructionsToolStripMenuItem";
             this.instructionsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.I)));
-            this.instructionsToolStripMenuItem.Size = new System.Drawing.Size(170, 22);
+            this.instructionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.instructionsToolStripMenuItem.Text = "Instructions";
             this.instructionsToolStripMenuItem.Click += new System.EventHandler(this.instructionsToolStripMenuItem_Click);
             // 
@@ -366,7 +366,7 @@
             this.GroupboxControls.Controls.Add(this.GroupboxExecutionProgress);
             this.GroupboxControls.Controls.Add(this.LabelCurrentInstruction);
             this.GroupboxControls.Controls.Add(this.GroupboxExecution);
-            this.GroupboxControls.Location = new System.Drawing.Point(408, 10);
+            this.GroupboxControls.Location = new System.Drawing.Point(408, 6);
             this.GroupboxControls.Name = "GroupboxControls";
             this.GroupboxControls.Size = new System.Drawing.Size(220, 244);
             this.GroupboxControls.TabIndex = 2;
@@ -1341,9 +1341,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.RichtextBoxOutput.Enabled = false;
-            this.RichtextBoxOutput.Location = new System.Drawing.Point(8, 3);
+            this.RichtextBoxOutput.Location = new System.Drawing.Point(3, 3);
             this.RichtextBoxOutput.Name = "RichtextBoxOutput";
-            this.RichtextBoxOutput.Size = new System.Drawing.Size(627, 245);
+            this.RichtextBoxOutput.Size = new System.Drawing.Size(632, 251);
             this.RichtextBoxOutput.TabIndex = 0;
             this.RichtextBoxOutput.Text = "";
             // 

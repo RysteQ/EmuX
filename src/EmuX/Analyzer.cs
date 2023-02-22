@@ -1,4 +1,5 @@
-﻿using static EmuX.Instruction_Data;
+﻿using System.Reflection.Metadata.Ecma335;
+using static EmuX.Instruction_Data;
 
 namespace EmuX
 {
@@ -44,6 +45,8 @@ namespace EmuX
                 Instruction instruction_to_add = new Instruction();
                 string instruction_to_analyze = this.instructions_to_analyze[i];
                 string[] tokens = instruction_to_analyze.Split(' ');
+                int source_register_index = 0;
+                int destination_register_index = 0;
 
                 Registers_ENUM destination_register;
                 Registers_ENUM source_register;
@@ -114,15 +117,18 @@ namespace EmuX
                         break;
 
                     case Instruction_Variant_ENUM.SINGLE_REGISTER:
-                        destination_register = this.GetRegister(tokens[1].ToUpper());
+                        destination_register_index = this.GetRegisterIndex(tokens);
+                        destination_register = this.GetRegister(tokens[destination_register_index].ToUpper());
 
                         instruction_to_add = this.AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
                         instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.NoN, Memory_Type_ENUM.NoN);
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", "");
-                        instruction_to_add = this.AssignBitMode(instruction_to_add, tokens[1].ToUpper());
+                        instruction_to_add = this.AssignBitMode(instruction_to_add, tokens[destination_register_index].ToUpper());
+                        // instruction_to_add = this.AssignBitMode(instruction_to_add, tokens[destination_register_index - 1], tokens[destination_register_index].ToUpper());
+                        // TODO
 
                         // check if the register is 8 bit or not for the destination register
-                        if (tokens[1].ToUpper().EndsWith('H'))
+                        if (tokens[destination_register_index].ToUpper().EndsWith('H'))
                             instruction_to_add.destination_high_or_low = true;
 
                         break;
@@ -674,10 +680,12 @@ namespace EmuX
         {
             StaticData.SIZE size_of_static_data = StaticData.SIZE._8_BIT;
 
+            // get the size of the static data in bits
             for (int i = 0; i < this.static_data.Count; i++)
                 if (static_data[i].name == static_data_name)
                     size_of_static_data = static_data[i].size_in_bits;
 
+            // modify the instruction bitmode wi the previously gathered information
             switch (size_of_static_data)
             {
                 case StaticData.SIZE._8_BIT:
@@ -804,6 +812,18 @@ namespace EmuX
             this.error_line_data = this.instructions_to_analyze[error_line];
             this.error_line = error_line;
             this.successful = false;
+        }
+
+        /// <summary>
+        /// Gets the index of the source register in the tokens
+        /// 
+        /// Example: 
+        /// INC RAX => 1
+        /// INC QUAD RAX => 2
+        /// </summary>
+        private int GetRegisterIndex(string[] tokens)
+        {
+            return tokens.Length - 1;
         }
 
         private string instructions_data = "";
