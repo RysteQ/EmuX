@@ -203,9 +203,10 @@ namespace EmuX
                         break;
 
                     case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
-                        destination_register = GetRegister(tokens[1].ToUpper());
+                        destination_register = this.GetRegister(tokens[1].ToUpper());
+                        source_register = this.GetRegister(tokens[2].Trim('[', ']').ToUpper());
 
-                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, destination_register, Registers_ENUM.NoN);
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, destination_register, source_register);
                         instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, "", tokens[2].Trim('[', ']'));
                         instruction_to_add = this.AssignMemoryBitmode(instruction_to_add, tokens[2].Trim('[', ']'));
@@ -218,9 +219,10 @@ namespace EmuX
                         break;
 
                     case Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
+                        destination_register = this.GetRegister(tokens[1].ToUpper());
                         source_register = this.GetRegister(tokens[2].ToUpper());
 
-                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, Registers_ENUM.NoN, source_register);
+                        instruction_to_add = this.AssignRegisterParameters(instruction_to_add, destination_register, source_register);
                         instruction_to_add = this.AssignMemoryTypeParameters(instruction_to_add, Memory_Type_ENUM.ADDRESS, Memory_Type_ENUM.NoN);
                         instruction_to_add = this.AssignMemoryNameParameters(instruction_to_add, tokens[1], "");
                         instruction_to_add = this.AssignRegisterPointers(instruction_to_add, tokens[1].Trim('[', ']'), "");
@@ -232,6 +234,8 @@ namespace EmuX
                         break;
 
                     case Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE:
+                        destination_register = this.GetRegister(tokens[1].ToUpper());
+
                         // convert the number from base 10 / binary / hex to an integer
                         if (ulong.TryParse(tokens[2], out value) == false)
                         {
@@ -738,14 +742,13 @@ namespace EmuX
         /// Returns the modified version of the current instruction with the boolean values for register pointers
         /// modified if applicable, it also modifies the destination register and source register if a pointer
         /// and at last it also modifies the bit mode, again, if applicable
-        /// was found
         /// </summary>
         private Instruction AssignRegisterPointers(Instruction instruction, string destination_register_token, string source_register_token)
         {
             Instruction_Data instruction_object = new Instruction_Data();
 
-            Instruction_Data.Registers_ENUM destination_register = Registers_ENUM.NoN;
-            Instruction_Data.Registers_ENUM source_register = Registers_ENUM.NoN;
+            Registers_ENUM destination_register = Registers_ENUM.NoN;
+            Registers_ENUM source_register = Registers_ENUM.NoN;
             bool destination_register_pointer = false;
             bool source_register_pointer = false;
 
@@ -769,11 +772,11 @@ namespace EmuX
 
             // modify the destination / source register enums if applicable
             if (destination_register_pointer)
-                if (Enum.TryParse<Instruction_Data.Registers_ENUM>(destination_register_token, out destination_register))
+                if (Enum.TryParse<Registers_ENUM>(destination_register_token, out destination_register))
                     instruction.destination_register = destination_register;
 
             if (source_register_pointer)
-                if (Enum.TryParse<Instruction_Data.Registers_ENUM>(source_register_token, out source_register))
+                if (Enum.TryParse<Registers_ENUM>(source_register_token, out source_register))
                     instruction.source_register = source_register;
 
             // modify the instruction bit mode if applicable

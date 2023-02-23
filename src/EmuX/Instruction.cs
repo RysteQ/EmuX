@@ -19,7 +19,6 @@
 
     internal class Instruction_Data
     {
-        // All the possible instructions (I will slowly build upon this)
         public enum Instruction_ENUM
         {
             AAA,
