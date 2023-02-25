@@ -2,6 +2,23 @@
 {
     internal class Instruction
     {
+        public Instruction()
+        {
+            this.instruction = Instruction_Data.Instruction_ENUM.NoN;
+            this.variant = Instruction_Data.Instruction_Variant_ENUM.NoN;
+            this.destination_register = Instruction_Data.Registers_ENUM.NoN;
+            this.source_register = Instruction_Data.Registers_ENUM.NoN;
+            this.destination_memory_type = Instruction_Data.Memory_Type_ENUM.NoN;
+            this.source_memory_type = Instruction_Data.Memory_Type_ENUM.NoN;
+            this.bit_mode = Instruction_Data.Bit_Mode_ENUM._8_BIT;
+            this.destination_register_pointer = false;
+            this.source_register_pointer = false;
+            this.destination_memory_name = "";
+            this.source_memory_name = "";
+            this.destination_high_or_low = false;
+            this.source_high_or_low = false;
+        }
+
         public Instruction_Data.Instruction_ENUM instruction;
         public Instruction_Data.Instruction_Variant_ENUM variant;
         public Instruction_Data.Registers_ENUM destination_register;
@@ -11,10 +28,10 @@
         public Instruction_Data.Bit_Mode_ENUM bit_mode;
         public bool destination_register_pointer;
         public bool source_register_pointer;
-        public string destination_memory_name = "";
-        public string source_memory_name = "";
-        public bool destination_high_or_low = false;
-        public bool source_high_or_low = false;
+        public string destination_memory_name;
+        public string source_memory_name;
+        public bool destination_high_or_low;
+        public bool source_high_or_low;
     }
 
     internal class Instruction_Data

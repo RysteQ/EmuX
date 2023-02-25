@@ -684,7 +684,7 @@
             if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
             {
                 // check if the data loaded to it is a memory location
-                if (instruction.destination_memory_type == Instruction_Data.Memory_Type_ENUM.ADDRESS)
+                if (instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.ADDRESS)
                 {
                     this.virtual_system.SetRegisterQuad(instruction.destination_register, value_to_set);
                     return;

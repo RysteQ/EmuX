@@ -80,7 +80,6 @@ namespace EmuX
         {
             string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
 
-            this.analyzer.Flush();
             this.analyzer.SetInstructions(code_to_analyze);
             this.analyzer.AnalyzeInstructions();
 
@@ -114,15 +113,6 @@ namespace EmuX
             // reset the interrupt handler video and interrupt
             this.interrupt_handler.ResetInterrupt();
 
-            // init the video form
-            if (this.video_form.IsOpen() == false)
-            {
-                this.video_form = new VideoForm();
-
-                this.video_form.InitVideo(this.interrupt_handler.GetVideoOutput().Width, this.interrupt_handler.GetVideoOutput().Height);
-                this.video_form.Show();
-            }
-
             // clear the previous values and prepare all the data the emulator needs
             this.virtual_system.ClearCallStack();
 
@@ -144,6 +134,15 @@ namespace EmuX
                 // check if an interrupt occured
                 if (this.emulator.GetInterruptOccurance())
                 {
+                    // init the video form
+                    if (this.video_form.IsOpen() == false)
+                    {
+                        this.video_form = new VideoForm();
+
+                        this.video_form.InitVideo(this.interrupt_handler.GetVideoOutput().Width, this.interrupt_handler.GetVideoOutput().Height);
+                        this.video_form.Show();
+                    }
+
                     // The user may have the *grabs speaker* STUPIIIID
                     // ......
                     // ......
