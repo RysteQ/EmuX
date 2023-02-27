@@ -64,7 +64,16 @@ namespace EmuX
                 instruction_to_add.instruction = this.GetInstruction(tokens[0]);
 
                 // check to which parameter group the instruction belongs to
-                if (instruction_groups.no_operands.Contains(instruction_to_add.instruction))
+                if (instruction_groups.one_label.Contains(instruction_to_add.instruction))
+                {
+                    if (tokens.Length != 2)
+                    {
+                        this.AnalyzerError(line);
+                        return;
+                    }
+
+                    instruction_to_add = AssignLabelInstruction(instruction_to_add, tokens[1], line);
+                } else if (instruction_groups.no_operands.Contains(instruction_to_add.instruction))
                 {
                     // check if the instruction is valid
                     if (tokens.Length != 1)
@@ -100,6 +109,29 @@ namespace EmuX
 
                 this.instructions.Add(instruction_to_add);
             }
+        }
+
+        private Instruction AssignLabelInstruction(Instruction instruction, string label, int line)
+        {
+            bool label_found = false;
+
+            // check if the label exist, if don't then throw an error
+            for (int i = 0; i < labels.Count; i++)
+                if (labels[i].Item1 == label)
+                    label_found = true;
+
+            if (label_found == false)
+            {
+                this.AnalyzerError(line);
+                return instruction;
+            }
+
+            instruction.variant = this.GetVariant(instruction.instruction, new string[] { "lol", label });
+            instruction.bit_mode = Bit_Mode_ENUM.NoN;
+            instruction.destination_memory_type = Memory_Type_ENUM.ADDRESS;
+            instruction.destination_memory_name = label;
+
+            return instruction;
         }
 
         private Instruction AssignNoOperandInstruction(Instruction instruction, string[] tokens, int line)
@@ -148,7 +180,7 @@ namespace EmuX
                     if (value.Item2 == false)
                         this.AnalyzerError(line);
 
-                    instruction.destination_memory_name = value.ToString();
+                    instruction.destination_memory_name = value.Item1.ToString();
                     instruction.destination_memory_type = Memory_Type_ENUM.VALUE;
 
                     break;
@@ -211,7 +243,7 @@ namespace EmuX
 
                 case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
                     instruction.destination_register = this.GetRegister(tokens[1]);
-                    instruction.source_register = this.GetRegister(tokens[tokens.Length - 1]);
+                    instruction.source_register = this.GetRegister(tokens[tokens.Length - 1].Trim('[', ']'));
                     instruction.source_memory_type = Memory_Type_ENUM.ADDRESS;
                     instruction.source_memory_name = tokens[tokens.Length - 1].Trim('[', ']');
                     instruction = this.AssignRegisterPointers(instruction, "", tokens[tokens.Length - 1].Trim('[', ']'));
