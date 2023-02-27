@@ -365,14 +365,6 @@ class VirtualSystem
         return toReturn;
     }
 
-    /// <summary>
-    /// Clears the call stack
-    /// </summary>
-    public void ClearCallStack()
-    {
-        this.call_stack.Clear();
-    }
-
     // EFLAGS setters
 
     /// <summary>

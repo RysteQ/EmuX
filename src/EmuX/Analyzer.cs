@@ -31,14 +31,27 @@ namespace EmuX
         public void AnalyzeInstructions()
         {
             Instruction_Groups instruction_groups = new Instruction_Groups();
+            string[] label_names = this.ScanForLabels(this.instructions_data);
             int offset = 1024;
 
-            // flush everything and analyze the static data
             this.Flush();
 
-            this.instructions_to_analyze = this.instructions_data.Split('\n');
+            if (this.instructions_data.Contains("section.text") == false)
+            {
+                this.AnalyzerError(-1);
+                return;
+            }
+
+            this.static_data_to_analyze = this.instructions_data.Split("section.text")[0].Split('\n');
+            this.static_data_to_analyze = this.RemoveComments(this.static_data_to_analyze);
+            this.static_data_to_analyze = new StringHandler().RemoveEmptyLines(this.static_data_to_analyze);
+
+            this.instructions_to_analyze = this.instructions_data.Split("section.text")[1].Split('\n');
             this.instructions_to_analyze = this.RemoveComments(this.instructions_to_analyze);
             this.instructions_to_analyze = new StringHandler().RemoveEmptyLines(this.instructions_to_analyze);
+
+            for (int line = 0; line < static_data_to_analyze.Length; line++)
+                offset = this.AnalyzeStaticData(static_data_to_analyze[line], offset, line);
 
             for (int line = 0; line < this.instructions_to_analyze.Length && this.successful; line++)
             {
@@ -46,17 +59,23 @@ namespace EmuX
                 string instruction_to_analyze = this.instructions_to_analyze[line];
                 string[] tokens = instruction_to_analyze.Split(' ');
 
-                // check if the line refers to static data
+                // check if the line refers to a label
                 if (tokens[0].EndsWith(':'))
                 {
                     if (tokens.Length == 1)
                     {
+                        // make a dummy instruction so the labels can work properly
+                        instruction_to_add.instruction = Instruction_ENUM.LABEL;
+                        instruction_to_add.bit_mode = Bit_Mode_ENUM.NoN;
+
                         this.labels.Add((tokens[0].TrimEnd(':'), line));
+                        this.instructions.Add(instruction_to_add);
+                        
                         continue;
                     } else
                     {
-                        offset = this.AnalyzeStaticData(instruction_to_analyze, offset, line);
-                        continue;
+                        this.AnalyzerError(line);
+                        break;
                     }
                 }
 
@@ -72,7 +91,7 @@ namespace EmuX
                         return;
                     }
 
-                    instruction_to_add = AssignLabelInstruction(instruction_to_add, tokens[1], line);
+                    instruction_to_add = AssignLabelInstruction(instruction_to_add, label_names, tokens[1], line);
                 } else if (instruction_groups.no_operands.Contains(instruction_to_add.instruction))
                 {
                     // check if the instruction is valid
@@ -111,13 +130,12 @@ namespace EmuX
             }
         }
 
-        private Instruction AssignLabelInstruction(Instruction instruction, string label, int line)
+        private Instruction AssignLabelInstruction(Instruction instruction, string[] label_names, string label, int line)
         {
             bool label_found = false;
 
-            // check if the label exist, if don't then throw an error
-            for (int i = 0; i < labels.Count; i++)
-                if (labels[i].Item1 == label)
+            for (int i = 0; i < label_names.Length; i++)
+                if (label_names[i] == label)
                     label_found = true;
 
             if (label_found == false)
@@ -144,6 +162,9 @@ namespace EmuX
                 instruction.destination_memory_type = Memory_Type_ENUM.LABEL;
                 instruction.destination_memory_name = tokens[1];
                 instruction.bit_mode = this.AssignBitMode(instruction, "");
+            } else
+            {
+                instruction.bit_mode = Bit_Mode_ENUM.NoN;
             }
 
             return instruction;
@@ -295,6 +316,23 @@ namespace EmuX
             }
 
             return instruction;
+        }
+
+        private string[] ScanForLabels(string to_analyze)
+        {
+            List<string> toReturn = new List<string>();
+            string[] lines = to_analyze.Split('\n');
+
+            for (int line = 0; line < lines.Length; line++)
+            {
+                string[] tokens = lines[line].Split(' ');
+
+                if (tokens.Length == 1)
+                    if (tokens[0].EndsWith(':'))
+                        toReturn.Add(tokens[0].TrimEnd(':'));
+            }
+
+            return toReturn.ToArray();
         }
 
         /// <summary>
@@ -784,10 +822,18 @@ namespace EmuX
         }
 
         /// <summary>
-        /// Used to specift an error
+        /// Used to specify an error
         /// </summary>
         private void AnalyzerError(int error_line)
         {
+            if (error_line == -1)
+            {
+                this.error_line = error_line;
+                this.error_line_data = "No section.text was found";
+                this.successful = false;
+                return;
+            }
+
             this.error_line_data = this.instructions_to_analyze[error_line];
             this.error_line = error_line;
             this.successful = false;
@@ -810,6 +856,8 @@ namespace EmuX
 
                 value = base_converter.ConvertHexToUnsignedLong(token_to_analyze);
                 analyzed_successfuly = true;
+
+                return (value, analyzed_successfuly);
             }
 
             // check if the token is in binary
@@ -819,6 +867,8 @@ namespace EmuX
 
                 value = base_converter.ConvertBinaryToUnsignedLong(token_to_analyze);
                 analyzed_successfuly = true;
+
+                return (value, analyzed_successfuly);
             }
 
             // check if the token is a character
@@ -826,6 +876,8 @@ namespace EmuX
             {
                 value = (ulong) token_to_analyze[1];
                 analyzed_successfuly = true;
+
+                return (value, analyzed_successfuly);
             }
 
             // check if the token is a number
@@ -835,7 +887,7 @@ namespace EmuX
             return (value, analyzed_successfuly);
         }
 
-        private Instruction_Data.Bit_Mode_ENUM GetUserAssignedBitmode(string token_to_analyze)
+        private Bit_Mode_ENUM GetUserAssignedBitmode(string token_to_analyze)
         {
             switch (token_to_analyze.ToUpper()) 
             {
@@ -856,6 +908,7 @@ namespace EmuX
         }
 
         private string instructions_data = "";
+        private string[] static_data_to_analyze = new string[] { };
         private string[] instructions_to_analyze = new string[] { };
         private List<Instruction> instructions = new List<Instruction>();
         private List<StaticData> static_data = new List<StaticData>();
@@ -879,6 +932,7 @@ namespace EmuX
                 Instruction_ENUM.CWD,
                 Instruction_ENUM.DAA,
                 Instruction_ENUM.DAS,
+                Instruction_ENUM.HLT,
                 Instruction_ENUM.LAHF,
                 Instruction_ENUM.NOP,
                 Instruction_ENUM.POPF,

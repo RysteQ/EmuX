@@ -198,7 +198,8 @@ namespace EmuX
                 STD_ALLOWED_VARIANTS,
                 STI_ALLOWED_VARIANTS,
                 SUB_ALLOWED_VARIANTS,
-                XOR_ALLOWED_VARIANTS
+                XOR_ALLOWED_VARIANTS,
+                LABEL_ALLOWED_VARIANTS
             };
 
             return toReturn;
@@ -253,7 +254,7 @@ namespace EmuX
 
         public readonly Instruction_Variant_ENUM[] CALL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Instruction_Variant_ENUM.LABEL
         };
 
         public readonly Instruction_Variant_ENUM[] CBW_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
@@ -693,6 +694,11 @@ namespace EmuX
             Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
             Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
+
+        public readonly Instruction_Variant_ENUM[] LABEL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        {
+            Instruction_Variant_ENUM.NoN
+        };
     }
 
     class Allowed_Instruction_Bitmodes
@@ -784,7 +790,8 @@ namespace EmuX
                 WAIT_ALLOWED_BITMODES,
                 XCHG_ALLOWED_BITMODES,
                 XLAT_ALLOWED_BITMODES,
-                XOR_ALLOWED_BITMODES
+                XOR_ALLOWED_BITMODES,
+                LABEL_ALLOWED_BITMODES
             };
 
             return toReturn;
@@ -1300,6 +1307,11 @@ namespace EmuX
             Bit_Mode_ENUM._16_BIT,
             Bit_Mode_ENUM._32_BIT,
             Bit_Mode_ENUM._64_BIT
+        };
+
+        public readonly Bit_Mode_ENUM[] LABEL_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        {
+            Bit_Mode_ENUM.NoN
         };
     }
 }

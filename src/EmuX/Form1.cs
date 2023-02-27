@@ -111,10 +111,11 @@ namespace EmuX
             }
 
             // reset the interrupt handler video and interrupt
+            this.interrupt_handler.ResetInterruptHandler();
             this.interrupt_handler.ResetInterrupt();
 
-            // clear the previous values and prepare all the data the emulator needs
-            this.virtual_system.ClearCallStack();
+            // reset the virtual system
+            this.virtual_system.ResetVirtualSystem();
 
             this.emulator.SetVirtualSystem(this.virtual_system);
             this.emulator.SetInstructions(instructions);
@@ -173,6 +174,10 @@ namespace EmuX
 
             if (this.emulator.ErrorEncountered())
                 MessageBox.Show("An error was encountered at command " + (this.emulator.GetIndex() + 1).ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+            // update the progress bar if the HLT instruction was found
+            if (this.emulator.GetExit())
+                ProgressBarExecutionProgress.Value = ProgressBarExecutionProgress.Maximum;
 
             // get the virtual system back
             this.virtual_system = this.emulator.GetVirtualSystem();
@@ -577,16 +582,6 @@ namespace EmuX
 
             // display the instruction set form
             instruction_set.Show();
-        }
-
-        private void ButtonResetVirtualSystem_Click(object sender, EventArgs e)
-        {
-            // ask the user for confirmation before reseting the virtual system
-            if (MessageBox.Show("Are you sure you want to reset the virtual system ?", "Warning", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.Yes)
-            {
-                this.virtual_system.ResetVirtualSystem();
-                this.UpdateOutput("Virtual System reset...");
-            }
         }
 
         private void UpdateOutput(string message_to_append)

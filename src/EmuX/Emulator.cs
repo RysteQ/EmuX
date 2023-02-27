@@ -128,18 +128,16 @@
         /// </summary>
         public void Execute()
         {
-            // make sure there are instructions to run in the first place / the instruction is not the special EXIT instruction
-            if (this.instructions.Count == 0 || this.instructions[this.current_instruction_index].instruction == Instruction_Data.Instruction_ENUM.HLT)
+            // make sure there are instructions to run in the first place
+            if (this.instructions.Count == 0)
                 return;
 
             Instruction_Actions actions = new Instruction_Actions();
             Instruction instruction_to_execute = this.instructions[this.current_instruction_index];
 
-            // make sure the instruction is not a label
             if (instruction_to_execute.instruction == Instruction_Data.Instruction_ENUM.LABEL)
                 return;
 
-            // ---
             uint flags = this.virtual_system.GetEFLAGS();
             ulong destination_value = AnalyzeInstructionDestination(instruction_to_execute, this.virtual_system);
             ulong source_value = AnalyzeInstructionSource(instruction_to_execute, this.virtual_system);
@@ -148,7 +146,6 @@
             int destination_memory_index = GetMemoryIndex(instruction_to_execute, this.labels, instruction_to_execute.destination_memory_name);
             int source_memory_index = GetMemoryIndex(instruction_to_execute, this.labels, instruction_to_execute.source_memory_name);
             int index_to_jump_to = 0;
-            // ---
 
             if (this.error)
                 return;
@@ -206,7 +203,6 @@
                         break;
                     }
 
-                    // pop the value from the call stack
                     this.current_instruction_index = to_return_to;
                     break;
 
@@ -265,7 +261,6 @@
                 case Instruction_Data.Instruction_ENUM.INT:
                     this.interrupt.SetInterruptCode(destination_value);
 
-                    // check if the interrupt code is valid or not, if not then throw an error
                     if (this.interrupt.GetInterruptCode() == Interrupt.Interrupt_Codes.NoN)
                         this.error = true;
 
@@ -642,7 +637,7 @@
         }
 
         /// <summary>
-        /// Getter
+        /// Getter - Gets the current state of the Virtual System
         /// </summary>
         public VirtualSystem GetVirtualSystem()
         {
@@ -737,7 +732,6 @@
         /// <returns>An unsigned long value of its destination value</returns>
         private ulong AnalyzeInstructionDestination(Instruction instruction, VirtualSystem virtual_system)
         {
-            // This might be expanded upon in the future so I am keeping it for now
             switch (instruction.variant)
             {
                 case Instruction_Data.Instruction_Variant_ENUM.SINGLE_REGISTER:
@@ -747,7 +741,6 @@
                     return ulong.Parse(instruction.destination_memory_name);
 
                 case Instruction_Data.Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
-                    // get the static data value
                     for (int i = 0; i < static_data.Count; i++)
                         if (static_data[i].name == instruction.destination_memory_name)
                             return static_data[i].value;
@@ -779,12 +772,10 @@
                     return this.virtual_system.GetRegisterQuad(instruction.destination_register);
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
-                    // get the static data value
                     for (int i = 0; i < static_data.Count; i++)
                         if (static_data[i].name == instruction.destination_memory_name)
                             return static_data[i].value;
 
-                    // check if the destination is a register pointer
                     if (instruction.destination_register_pointer)
                     {
                         switch (instruction.bit_mode)
@@ -816,7 +807,6 @@
         /// <returns>The ulong value of the source</returns>
         private ulong AnalyzeInstructionSource(Instruction instruction, VirtualSystem virtual_system)
         {
-            // check if the source is referring to a register
             if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER || instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER)
             {
                 switch (instruction.bit_mode)
@@ -837,12 +827,10 @@
             {
                 Instruction_Data register_name_lookup = new Instruction_Data();
 
-                // return the value of the static data
                 for (int i = 0; i < static_data.Count; i++)
                     if (static_data[i].name == instruction.source_memory_name)
                         return (ulong) static_data[i].memory_location;
 
-                // check if it is referring to a memory location pointed by a register
                 if (instruction.source_register_pointer)
                 {
                     int memory_index = (int) this.virtual_system.GetRegisterDouble(instruction.source_register);
