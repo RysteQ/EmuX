@@ -1,5 +1,4 @@
-﻿using System.Reflection.Metadata.Ecma335;
-using static EmuX.Instruction_Data;
+﻿using static EmuX.Instruction_Data;
 
 namespace EmuX
 {
@@ -341,7 +340,7 @@ namespace EmuX
         /// </summary>
         private int AnalyzeStaticData(string static_data_to_analyze, int offset, int line)
         {
-            string[] static_data_tokens = static_data_to_analyze.Split(' ');
+            string[] static_data_tokens = static_data_to_analyze.Split(':');
             ulong static_data_value = 0;
 
             // the name of the static data
@@ -351,10 +350,10 @@ namespace EmuX
             Instruction_Data register_name_lookup = new Instruction_Data();
 
             // check if the static data name is valid or not aka if the static data name is a register name or not
-            if (register_name_lookup._8_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()) 
-            || register_name_lookup._16_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()) 
-            || register_name_lookup._32_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()) 
-            || register_name_lookup._64_bit_registers.Contains<string>(static_data_tokens[0].ToUpper()))
+            if (register_name_lookup._8_bit_registers.Contains(static_data_tokens[0].ToUpper()) 
+            || register_name_lookup._16_bit_registers.Contains(static_data_tokens[0].ToUpper()) 
+            || register_name_lookup._32_bit_registers.Contains(static_data_tokens[0].ToUpper()) 
+            || register_name_lookup._64_bit_registers.Contains(static_data_tokens[0].ToUpper()))
             {
                 this.AnalyzerError(line);
                 return offset;
@@ -363,11 +362,9 @@ namespace EmuX
             // check if the static data is a number or a character / list of characters (aka string)
             if (static_data_tokens.Length == 3 && ulong.TryParse(static_data_tokens[2].Trim(), out static_data_value))
             {
-                // fill in the necessary information
                 static_data_to_add.name = static_data_tokens[0];
                 static_data_to_add.value = static_data_value;
 
-                // find out the bit size
                 switch (static_data_tokens[1].ToUpper().Trim())
                 {
                     case "DB":
@@ -407,25 +404,26 @@ namespace EmuX
                     return offset;
                 }
 
-                // fill in the necessary information
                 static_data_to_add.name = static_data_tokens[0].TrimEnd(':').Trim();
                 static_data_to_add.memory_location = offset;
                 static_data_to_add.is_string_array = true;
 
-                // append every character after the DB to the List<char> in StaticData
                 for (int i = 2; i < static_data_tokens.Length; i++)
                 {
-                    static_data_tokens[i] = static_data_tokens[i].Trim(',');
+                    static_data_tokens[i] = static_data_tokens[i].Trim().Trim(',');
 
-                    // make sure the user entered the ' character on the start and end of the token
-                    if (static_data_tokens[i].Trim().StartsWith('\'') == false || static_data_tokens[i].Trim().EndsWith('\'') == false || static_data_tokens[i].Trim().Length != 3)
+                    if ((static_data_tokens[i].StartsWith('\'') == false || static_data_tokens[i].EndsWith('\'') == false || static_data_tokens[i].Length != 3) 
+                    && ulong.TryParse(static_data_tokens[i], out static_data_value) == false)
                     {
                         this.AnalyzerError(line);
                         return offset;
                     }
 
-                    // add the character and update the offset
-                    static_data_to_add.characters.Add(static_data_tokens[i].Trim(' ').Trim(',').Trim('\'').ToCharArray()[0]);
+                    if (static_data_tokens[i].StartsWith('\''))
+                        static_data_to_add.characters.Add(static_data_tokens[i].Trim('\'').ToCharArray()[0]);
+                    else
+                        static_data_to_add.characters.Add((char) static_data_value);
+
                     offset++;
                 }
             }

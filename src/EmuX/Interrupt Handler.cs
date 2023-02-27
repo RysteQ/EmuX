@@ -12,7 +12,6 @@ namespace EmuX
         {
             this.video_graphics = Graphics.FromImage(this.video);
 
-            // set the video output to black
             for (int x = 0; x < this.video.Width; x++)
                 for (int y = 0; y < this.video.Height; y++)
                     this.video.SetPixel(x, y, Color.Black);
@@ -118,12 +117,10 @@ namespace EmuX
         /// </summary>
         private void ClearScreen()
         {
-            // set the video output to black
             for (int x = 0; x < this.video.Width; x++)
                 for (int y = 0; y < this.video.Height; y++)
                     this.video.SetPixel(x, y, Color.Black);
 
-            // clear the character buffer
             for (int x = 0; x < CHAR_WIDTH; x++)
                 for (int y = 0; y < CHAR_HEIGHT; y++)
                     this.characters[x, y] = (char) 0;
@@ -151,11 +148,9 @@ namespace EmuX
             char character_to_write = (char) this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
             this.characters[cursor_x, cursor_y] = character_to_write;
 
-            // draw the character on the screen
             this.video_graphics.DrawString(character_to_write.ToString(), new Font(FontFamily.GenericSerif, 8), Brushes.White, new Point(this.cursor_x * CHAR_WIDTH, this.cursor_y * CHAR_HEIGHT));
             this.video_graphics.Flush();
 
-            // update the cursor position or exit the function all together
             if ((this.cursor_x + 1) < CHARACTERS_HORIZONTALY)
             {
                 this.cursor_x++;
@@ -195,7 +190,6 @@ namespace EmuX
                 this.virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, (ushort) (this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + 1));
             } while (this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER)) != 0);
 
-            // read and save the file data to memory
             file_data = File.ReadAllText(name_of_file);
 
             for (int i = 0; i < file_data.Length; i++)
@@ -229,7 +223,6 @@ namespace EmuX
                 this.virtual_system.SetRegisterWord(SECOND_ARGUMENT_REGISTER, (ushort) (this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER) + 1));
             } while (this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER)) != 0);
 
-            // save the file
             File.WriteAllText(name_of_file, file_data);
 
             this.virtual_system.SetRegisterQuad(FIRST_ARGUMENT_REGISTER, RCX_register_backup);

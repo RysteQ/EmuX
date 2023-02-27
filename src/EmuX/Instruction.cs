@@ -186,9 +186,6 @@
             NoN
         }
 
-        public bool HIGH = true;
-        public bool LOW = false;
-
         public readonly string[] _64_bit_registers =
 {
             "RAX", "RBX", "RCX", "RDX",
@@ -224,5 +221,8 @@
             "R8B", "R9B", "R10B", "R11B",
             "R12B", "R13B", "R14B", "R15W"
         };
+
+        public bool HIGH = true;
+        public bool LOW = false;
     }
 }

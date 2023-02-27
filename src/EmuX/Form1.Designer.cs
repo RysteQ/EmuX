@@ -356,7 +356,8 @@
             this.RichTextboxAssemblyCode.Name = "RichTextboxAssemblyCode";
             this.RichTextboxAssemblyCode.Size = new System.Drawing.Size(384, 214);
             this.RichTextboxAssemblyCode.TabIndex = 0;
-            this.RichTextboxAssemblyCode.Text = "";
+            this.RichTextboxAssemblyCode.Text = "; the static data goes here\n; for example\n; number_ten: db 10\n\nsection.text\n\n; th" +
+    "e instructions go here\n; for example\n; mov al, byte [number_ten]\n; inc byte al";
             // 
             // GroupboxControls
             // 

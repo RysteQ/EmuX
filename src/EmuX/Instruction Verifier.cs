@@ -31,19 +31,16 @@ namespace EmuX
         /// </summary>
         public void VerifyInstructions()
         {
-            // check each instruction if it is valid
             for (int index = 0; index < this.instructions.Count && this.valid_instructions; index++)
             {
                 Instruction instruction_to_analyze = this.instructions[index];
 
-                // check for the variant
                 if (ContainsVariant(instruction_to_analyze) == false)
                 {
                     this.instruction_index_error = index;
                     this.valid_instructions = false;
                 }
 
-                // check for the bitmode
                 if (ContainsBitmode(instruction_to_analyze) == false)
                 {
                     this.instruction_index_error = index;

@@ -1,14 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace EmuX
+﻿namespace EmuX
 {
     public partial class Converter_Form : Form
     {
@@ -19,11 +9,8 @@ namespace EmuX
 
         private void Converter_Form_Load(object sender, EventArgs e)
         {
-            // Make the text dissapear, that way you can still click it in the designer
-            // but the label is empty once the form loads for the user
             LabelResult.Text = "";
 
-            // select the convertion methods
             ComboBoxConvertFrom.SelectedIndex = 0;
             ComboBoxConvertTo.SelectedIndex = 0;
         }
@@ -32,6 +19,7 @@ namespace EmuX
         {
             HexConverter hex_converter = new HexConverter();
             BaseConverter base_converter = new BaseConverter();
+            ulong value_to_convert = 0;
 
             // make sure the user entered an actual conversion in the first place
             if (ComboBoxConvertFrom.Text == ComboBoxConvertTo.Text)
@@ -40,16 +28,12 @@ namespace EmuX
                 return;
             }
 
-            // convert the input to a ulong value first
-            ulong value_to_convert = 0;
-
             // 0: Decimal
             // 1: Binary
             // 2: Hexadecimal
             switch (ComboBoxConvertFrom.SelectedIndex)
             {
                 case 0:
-                    // check for any user errors
                     if (ulong.TryParse(TextBoxConvertFrom.Text, out value_to_convert) == false)
                     {
                         MessageBox.Show("The input given is not a number", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -59,7 +43,6 @@ namespace EmuX
                     break;
 
                 case 1:
-                    // check for any user errors
                     if (hex_converter.IsBinary(TextBoxConvertFrom.Text) == false)
                     {
                         MessageBox.Show("The input given is not binary", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -71,7 +54,6 @@ namespace EmuX
                     break;
 
                 case 2:
-                    // check for any user errors
                     if (hex_converter.IsHex(TextBoxConvertFrom.Text) == false)
                     {
                         MessageBox.Show("The input given is not hexadecimal", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -83,7 +65,6 @@ namespace EmuX
                     break;
             }
 
-            // convert the previous value to the new form the user wants
             // 0: Decimal
             // 1: Binary
             // 2: Hexadecimal
