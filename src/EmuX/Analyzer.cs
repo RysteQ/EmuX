@@ -340,7 +340,8 @@ namespace EmuX
         /// </summary>
         private int AnalyzeStaticData(string static_data_to_analyze, int offset, int line)
         {
-            string[] static_data_tokens = static_data_to_analyze.Split(':');
+            string static_data_name = static_data_to_analyze.Split(':')[0];
+            string[] static_data_tokens = static_data_to_analyze.Split(static_data_name + ":");
             ulong static_data_value = 0;
 
             // the name of the static data
@@ -362,7 +363,7 @@ namespace EmuX
             // check if the static data is a number or a character / list of characters (aka string)
             if (static_data_tokens.Length == 3 && ulong.TryParse(static_data_tokens[2].Trim(), out static_data_value))
             {
-                static_data_to_add.name = static_data_tokens[0];
+                static_data_to_add.name = static_data_name;
                 static_data_to_add.value = static_data_value;
 
                 switch (static_data_tokens[1].ToUpper().Trim())
@@ -398,19 +399,22 @@ namespace EmuX
             } else
             {
                 // check if the user made a mistake
-                if (static_data_tokens[1].ToUpper().Trim() != "DB")
+                if (static_data_tokens[1].Trim().Split(' ')[0].Trim().ToUpper() != "DB")
                 {
                     this.AnalyzerError(line);
                     return offset;
                 }
 
-                static_data_to_add.name = static_data_tokens[0].TrimEnd(':').Trim();
+                static_data_to_add.name = static_data_name;
                 static_data_to_add.memory_location = offset;
                 static_data_to_add.is_string_array = true;
 
-                for (int i = 2; i < static_data_tokens.Length; i++)
+                static_data_tokens = static_data_tokens[1].Split(',');
+                static_data_tokens[0] = static_data_tokens[0].Trim().Split(' ')[1];
+
+                for (int i = 0; i < static_data_tokens.Length; i++)
                 {
-                    static_data_tokens[i] = static_data_tokens[i].Trim().Trim(',');
+                    static_data_tokens[i] = static_data_tokens[i].Trim();
 
                     if ((static_data_tokens[i].StartsWith('\'') == false || static_data_tokens[i].EndsWith('\'') == false || static_data_tokens[i].Length != 3) 
                     && ulong.TryParse(static_data_tokens[i], out static_data_value) == false)
@@ -824,6 +828,8 @@ namespace EmuX
         /// </summary>
         private void AnalyzerError(int error_line)
         {
+            string[] lines = this.static_data_to_analyze.Concat(this.instructions_to_analyze).ToArray();
+
             if (error_line == -1)
             {
                 this.error_line = error_line;
@@ -832,7 +838,7 @@ namespace EmuX
                 return;
             }
 
-            this.error_line_data = this.instructions_to_analyze[error_line];
+            this.error_line_data = lines[error_line];
             this.error_line = error_line;
             this.successful = false;
         }

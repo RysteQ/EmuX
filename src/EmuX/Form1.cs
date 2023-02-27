@@ -12,39 +12,31 @@ namespace EmuX
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // open the open file dialog
             DialogFormHandler dialogFormHandler = new DialogFormHandler();
             string filename = dialogFormHandler.openFileDialog(openFD);
 
-            // make sure the user entered the filename
             if (filename == "")
                 return;
 
-            // open the file
             RichTextboxAssemblyCode.Text = File.ReadAllText(filename);
             mainForm.ActiveForm.Text = filename.Split('\\')[filename.Split('\\').Length - 1] + " - EmuX";
             save_path = filename;
 
-            // update the user
             this.UpdateOutput("Opened file " + save_path + " ...");
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // open the save file dialog
             DialogFormHandler dialogFormHandler = new DialogFormHandler();
             save_path = dialogFormHandler.saveFileDialog(saveFD);
 
-            // make sure the user selected a path
             if (save_path == "")
                 return;
 
-            // save the file
             StreamWriter file_writer = new StreamWriter(save_path);
             file_writer.Write(RichTextboxAssemblyCode.Text);
             file_writer.Close();
 
-            // update the user
             this.UpdateOutput("File saved in location " + save_path + " ...");
         }
 
@@ -55,19 +47,16 @@ namespace EmuX
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // make sure the user enter a path previously with save as
             if (save_path == "")
             {
-                saveAsToolStripMenuItem_Click(null, null);
+                saveAsToolStripMenuItem_Click(sender, e);
                 return;
             }
 
-            // save the file to the previously chosen path
             StreamWriter file_writer = new StreamWriter(save_path);
             file_writer.Write(RichTextboxAssemblyCode.Text);
             file_writer.Close();
 
-            // update the user
             this.UpdateOutput("File Saved...");
         }
 
@@ -83,38 +72,32 @@ namespace EmuX
             this.analyzer.SetInstructions(code_to_analyze);
             this.analyzer.AnalyzeInstructions();
 
-            // check if there was an error while analyzing the code
             if (this.analyzer.AnalyzingSuccessful() == false)
             {
-                // get the error line and the line that cause the error
                 string error_line_text = this.analyzer.GetErrorLineData();
 
                 MessageBox.Show("There was an error at line " + (this.analyzer.GetErrorLine() + 1).ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // initialize the data for the emulator
-            List<Instruction> instructions = this.analyzer.GetInstructions();
-            List<StaticData> static_data = this.analyzer.GetStaticData();
-            List<(string, int)> labels = this.analyzer.GetLabelData();
-
-            // make sure the instructions are of the correct variant and bitmode
-            this.verifier.SetInstructionData(instructions);
+            this.verifier.SetInstructionData(this.analyzer.GetInstructions());
             this.verifier.VerifyInstructions();
 
             if (this.verifier.AreInstructionsValid() == false)
             {
-                string error_message = verifier.GetErrorMessage();
-                
+                string error_message = this.verifier.GetErrorMessage();
+
                 MessageBox.Show("There was an error at line " + (this.verifier.GetInstructionIndexError() + 1).ToString() + "\nMessage: " + error_message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // reset the interrupt handler video and interrupt
+            List<Instruction> instructions = this.analyzer.GetInstructions();
+            List<StaticData> static_data = this.analyzer.GetStaticData();
+            List<(string, int)> labels = this.analyzer.GetLabelData();
+
             this.interrupt_handler.ResetInterruptHandler();
             this.interrupt_handler.ResetInterrupt();
 
-            // reset the virtual system
             this.virtual_system.ResetVirtualSystem();
 
             this.emulator.SetVirtualSystem(this.virtual_system);
@@ -123,19 +106,15 @@ namespace EmuX
             this.emulator.SetLabelData(labels);
             this.emulator.Reset();
 
-            // get the instruction count
             ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
 
             do
             {
-                // execute each instruction individually
                 this.emulator.Execute();
                 this.emulator.NextInstruction();
 
-                // check if an interrupt occured
                 if (this.emulator.GetInterruptOccurance())
                 {
-                    // init the video form
                     if (this.video_form.IsOpen() == false)
                     {
                         this.video_form = new VideoForm();
@@ -144,22 +123,16 @@ namespace EmuX
                         this.video_form.Show();
                     }
 
-                    // The user may have the *grabs speaker* STUPIIIID
+                    // I dont like using try catch but the user may have the *grabs speaker* STUPIIIID
                     // ......
-                    // ......
-                    // so this will basically prevent the user from doing any mistakes that may crash the application
-                    // and also inform the user from his mistake and stop any further execution the code
                     try
                     {
-                        // execute the interrupt
                         this.interrupt_handler.SetVirtualSystem(this.emulator.GetVirtualSystem());
                         this.interrupt_handler.SetInterrupt(this.emulator.GetInterrupt());
                         this.interrupt_handler.ExecuteInterrupt();
 
-                        // update the video output
                         this.video_form.UpdateVideo(this.interrupt_handler.GetVideoOutput());
 
-                        // reset the interrupt flag
                         this.emulator.SetVirtualSystem(this.interrupt_handler.GetVirtualSystem());
                         this.emulator.ResetInterrupt();
                     } catch (Exception ex)
@@ -172,23 +145,20 @@ namespace EmuX
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
             } while (this.emulator.ErrorEncountered() == false && this.emulator.GetExit() == false && this.emulator.GetIndex() != this.emulator.GetInstructionCount());
 
+            this.virtual_system = this.emulator.GetVirtualSystem();
+
             if (this.emulator.ErrorEncountered())
                 MessageBox.Show("An error was encountered at command " + (this.emulator.GetIndex() + 1).ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
-            // update the progress bar if the HLT instruction was found
+            // update the progress bar if the HLT instruction was found or any other early exit conditions
             if (this.emulator.GetExit())
                 ProgressBarExecutionProgress.Value = ProgressBarExecutionProgress.Maximum;
 
-            // get the virtual system back
-            this.virtual_system = this.emulator.GetVirtualSystem();
-
-            // update the output rich textbox
             this.UpdateOutput("Execution Completed...");
         }
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            // check if the user is at the main tab, if not then show the secondary execute button
             if (EmuXTabControl.SelectedIndex != 0)
                 ButtonExecuteOnAnotherTab.Visible = true;
             else
@@ -198,10 +168,7 @@ namespace EmuX
             if (EmuXTabControl.SelectedIndex != 2)
                 return;
 
-            // Get the virtual system
             this.virtual_system = this.emulator.GetVirtualSystem();
-
-            // get the values to set + the textboxes to set the values with
             ulong[] values_to_display = virtual_system.GetAllRegisterValues();
 
             TextBox[] textbox_to_update = new TextBox[]
@@ -225,14 +192,12 @@ namespace EmuX
                 TextBoxR15
             };
 
-            // set the said values to said textboxed and reset the back colour
             for (int i = 0; i < textbox_to_update.Length; i++)
             {
                 textbox_to_update[i].Text = values_to_display[i].ToString();
                 textbox_to_update[i].BackColor = Color.White;
             }
 
-            // get and set the EFLAGS checkboxes
             uint EFLAGS = this.virtual_system.GetEFLAGS();
             CheckBox[] checkboxes_to_update = new CheckBox[]
             {
@@ -273,7 +238,6 @@ namespace EmuX
             if ((TextBoxMemoryRangeStart.Text.Trim() == "" && TextBoxMemoryRangeEnd.Text.Trim() == "") || ComboBoxMemoryRepresentation.SelectedIndex == -1)
                 return;
 
-            // get and test the memory range start / end 
             if (TextBoxMemoryRangeEnd.Text.Trim().Length != 0 && TextBoxMemoryRangeStart.Text.Trim().Length != 0)
             {
                 if (int.TryParse(TextBoxMemoryRangeEnd.Text, out end) == false || int.TryParse(TextBoxMemoryRangeStart.Text, out start) == false)
@@ -290,18 +254,17 @@ namespace EmuX
                 return;
             }
 
-            // get the bytes within the range
             for (int i = start; i < end; i++)
                 bytes_to_show.Add(this.virtual_system.GetByteMemory(i));
 
             // init the data grid view
-            ButtonClearMemoryTable_Click(null, null);
+            DataGridViewMemory.Rows.Clear();
+            DataGridViewMemory.Columns.Clear();
             DataGridViewMemory.Columns.Add("empty", "");
 
             for (int i = 0; i < 8; i++)
                 DataGridViewMemory.Columns.Add("+" + i.ToString(), "+" + i.ToString());
 
-            // add the bytes to the data grid view
             for (int row = 0; row < (end - start) / 8; row++)
             {
                 List<string> to_add = new List<string>();
@@ -330,7 +293,6 @@ namespace EmuX
                         break;
                 }
 
-                // add the memory data to the table
                 DataGridViewMemory.Rows.Add(to_add.ToArray());
             }
         }
@@ -347,26 +309,22 @@ namespace EmuX
             int memory_end;
             int memory_start;
 
-            // parse all of the data
             bool valid_end_range = int.TryParse(TextBoxMemoryRangeEnd.Text, out memory_end);
             bool valid_start_range = int.TryParse(TextBoxMemoryRangeStart.Text, out memory_start);
             bool valid_value = byte.TryParse(TextBoxMemoryValue.Text, out value_to_set);
 
-            // check if all of the data was parsed successfuly and that the range is valid
             if ((valid_end_range == false || valid_start_range == false || valid_value == false) && memory_end < memory_start)
             {
                 MessageBox.Show("Please enter a valid memory range / value to set the memory range at", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // set all of the bytes to said value
             for (int index = memory_start; index < memory_end; index++)
                 this.virtual_system.SetByteMemory(index, value_to_set);
         }
 
         private void ButtonSetRegisterValues_Click(object sender, EventArgs e)
         {
-            // the textboxes to check the new register values of
             List<ulong> values_to_set = new List<ulong>();
             TextBox[] textbox_to_update = new TextBox[]
             {
@@ -389,7 +347,6 @@ namespace EmuX
                 TextBoxR15
             };
 
-            // reset the back colour
             for (int i = 0; i < textbox_to_update.Length; i++)
                 textbox_to_update[i].BackColor = Color.White;
 
@@ -404,10 +361,8 @@ namespace EmuX
                     textbox_to_update[i].BackColor = Color.Red;
             }
 
-            // set the values
             this.virtual_system.SetAllRegisterValues(values_to_set.ToArray());
 
-            // the eflags masks and value to set the eflags at
             uint[] masks = this.virtual_system.GetEFLAGSMasks();
             uint EFLAGS_to_set = 0;
 
@@ -439,7 +394,6 @@ namespace EmuX
 
             this.virtual_system.SetEflags(EFLAGS_to_set);
 
-            // Set the virtual system to the emulator
             this.emulator.SetVirtualSystem(this.virtual_system);
         }
 
@@ -511,7 +465,6 @@ namespace EmuX
                 this.emulator.Execute();
                 this.emulator.NextInstruction();
 
-                // Update the GUI elements
                 LabelCurrentInstruction.Text = "Current Instruction: " + RichTextboxAssemblyCode.Text.Split('\n')[index];
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
             }
@@ -544,7 +497,6 @@ namespace EmuX
                 this.emulator.PreviousInstruction();
                 this.emulator.Execute();
 
-                // Update the GUI elements
                 LabelCurrentInstruction.Text = "Current Instruction: " + RichTextboxAssemblyCode.Text.Split('\n')[index];
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
             }
@@ -552,35 +504,28 @@ namespace EmuX
 
         private void ButtonExecuteOnAnotherTab_Click(object sender, EventArgs e)
         {
-            // execute the code
-            ButtonExecute_Click(null, null);
+            ButtonExecute_Click(sender, e);
 
             // check if the user is at the register view tab, if so refresh the data
             if (EmuXTabControl.SelectedIndex == 2)
-                EmuXTabControl_SelectedIndexChanged(null, null);
+                EmuXTabControl_SelectedIndexChanged(sender, e);
         }
 
         private void converterToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Converter_Form converter_form = new Converter_Form();
-
-            // display the converter form
             converter_form.Show();
         }
 
         private void aSCIITableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             ASCII_Table ascii_table = new ASCII_Table();
-
-            // display the ascii table form
             ascii_table.Show();
         }
 
         private void instructionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Instruction_Set instruction_set = new Instruction_Set();
-
-            // display the instruction set form
             instruction_set.Show();
         }
 
