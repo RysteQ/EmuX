@@ -170,7 +170,7 @@
 
         /// <summary>
         /// Reads from disk the file that has the same name as the data loaded in the CX register
-        /// and saves the result to the memory location pointed of the RSI register
+        /// and saves the result to the memory location pointed of the RDX register
         /// </summary>
         private void ReadFromDisk()
         {
@@ -180,14 +180,14 @@
 
             do
             {
-                name_of_file += this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER));
+                name_of_file += (char) this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER));
                 this.virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, (ushort) (this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + 1));
             } while (this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER)) != 0);
 
             file_data = File.ReadAllText(name_of_file);
 
             for (int i = 0; i < file_data.Length; i++)
-                this.virtual_system.SetByteMemory((int) (this.virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RSI) + i), (byte) file_data[i]);
+                this.virtual_system.SetByteMemory((int) (this.virtual_system.GetRegisterDouble(SECOND_ARGUMENT_REGISTER) + i), (byte) file_data[i]);
 
             this.virtual_system.SetRegisterQuad(FIRST_ARGUMENT_REGISTER, RCX_register_backup);
         }

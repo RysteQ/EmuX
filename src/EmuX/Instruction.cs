@@ -11,8 +11,8 @@
             this.destination_memory_type = Instruction_Data.Memory_Type_ENUM.NoN;
             this.source_memory_type = Instruction_Data.Memory_Type_ENUM.NoN;
             this.bit_mode = Instruction_Data.Bit_Mode_ENUM._8_BIT;
-            this.destination_register_pointer = false;
-            this.source_register_pointer = false;
+            this.destination_pointer = false;
+            this.source_pointer = false;
             this.destination_memory_name = "";
             this.source_memory_name = "";
             this.destination_high_or_low = false;
@@ -26,8 +26,8 @@
         public Instruction_Data.Memory_Type_ENUM destination_memory_type;
         public Instruction_Data.Memory_Type_ENUM source_memory_type;
         public Instruction_Data.Bit_Mode_ENUM bit_mode;
-        public bool destination_register_pointer;
-        public bool source_register_pointer;
+        public bool destination_pointer;
+        public bool source_pointer;
         public string destination_memory_name;
         public string source_memory_name;
         public bool destination_high_or_low;

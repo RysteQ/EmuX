@@ -105,8 +105,8 @@ class VirtualSystem
     /// </summary>
     public void SetWordMemory(int index, ushort value)
     {
-        this.SetByteMemory(index + 1, (byte) (value & 0xFF00));
-        this.SetByteMemory(index, (byte) (value & 0x00FF));
+        this.SetByteMemory(index + 1, (byte) value);
+        this.SetByteMemory(index, (byte) (value >> 8));
     }
 
     /// <summary>
@@ -114,8 +114,8 @@ class VirtualSystem
     /// </summary>
     public void SetDoubleMemory(int index, uint value)
     {
-        this.SetWordMemory(index + 2, (ushort) (value & 0xFFFF0000));
-        this.SetWordMemory(index, (ushort) (value & 0x0000FFFF));
+        this.SetWordMemory(index + 2, (ushort) value);
+        this.SetWordMemory(index, (ushort) (value >> 16));
     }
 
     /// <summary>
@@ -123,8 +123,8 @@ class VirtualSystem
     /// </summary>
     public void SetQuadMemory(int index, ulong value)
     {
-        this.SetDoubleMemory(index + 4, (uint) (value & 0xFFFFFFFF00000000));
-        this.SetDoubleMemory(index, (uint) (value & 0x00000000FFFFFFFF));
+        this.SetDoubleMemory(index + 4, (uint) value);
+        this.SetDoubleMemory(index, (uint) (value >> 32));
     }
 
     // stack getters

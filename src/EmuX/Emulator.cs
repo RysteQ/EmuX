@@ -659,7 +659,7 @@
         private int GetMemoryIndex(Instruction instruction, List<(string, int)> labels, string label_name_to_find)
         {
             // check if the destination is a register pointer
-            if (instruction.destination_register_pointer)
+            if (instruction.destination_pointer)
                 return (int) this.virtual_system.GetRegisterQuad(instruction.destination_register);
 
             if (label_name_to_find != "")
@@ -676,7 +676,7 @@
         private void SetValue(Instruction instruction, int memory_index, ulong value_to_set)
         {
             // check if the value needs to be saved in a register or memory location
-            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
+            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_pointer == false)
             {
                 // check if the data loaded to it is a memory location
                 if (instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.ADDRESS)
@@ -776,7 +776,7 @@
                         if (static_data[i].name == instruction.destination_memory_name)
                             return static_data[i].value;
 
-                    if (instruction.destination_register_pointer)
+                    if (instruction.destination_pointer)
                     {
                         switch (instruction.bit_mode)
                         {
@@ -826,32 +826,41 @@
             } else if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS)
             {
                 Instruction_Data register_name_lookup = new Instruction_Data();
+                int memory_index = -1;
 
-                for (int i = 0; i < static_data.Count; i++)
-                    if (static_data[i].name == instruction.source_memory_name)
-                        return (ulong) static_data[i].memory_location;
-
-                if (instruction.source_register_pointer)
+                if (instruction.source_pointer && instruction.source_register != Instruction_Data.Registers_ENUM.NoN)
                 {
-                    int memory_index = (int) this.virtual_system.GetRegisterDouble(instruction.source_register);
+                    memory_index = (int)this.virtual_system.GetRegisterDouble(instruction.source_register);
+                } 
+                else if (instruction.source_pointer)
+                {
+                    for (int i = 0; i < static_data.Count; i++)
+                        if (static_data[i].name == instruction.source_memory_name)
+                            memory_index = static_data[i].memory_location;
+                }
 
-                    switch (instruction.bit_mode)
-                    {
-                        case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                            return (ulong) this.virtual_system.GetByteMemory(memory_index);
+                if (memory_index == -1)
+                {
+                    this.error = true;
+                    return 0;
+                }
 
-                        case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                            return (ulong) this.virtual_system.GetWordMemory(memory_index);
+                switch (instruction.bit_mode)
+                {
+                    case Instruction_Data.Bit_Mode_ENUM._8_BIT:
+                        return (ulong) this.virtual_system.GetByteMemory(memory_index);
 
-                        case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                            return (ulong) this.virtual_system.GetDoubleMemory(memory_index);
+                    case Instruction_Data.Bit_Mode_ENUM._16_BIT:
+                        return (ulong) this.virtual_system.GetWordMemory(memory_index);
 
-                        case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                            return this.virtual_system.GetQuadMemory(memory_index);
+                    case Instruction_Data.Bit_Mode_ENUM._32_BIT:
+                        return (ulong) this.virtual_system.GetDoubleMemory(memory_index);
 
-                        default:
-                            return 0;
-                    }
+                    case Instruction_Data.Bit_Mode_ENUM._64_BIT:
+                        return this.virtual_system.GetQuadMemory(memory_index);
+
+                    default:
+                        return 0;
                 }
             } else if (instruction.variant == Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE)
             {
@@ -864,7 +873,7 @@
                     return 0;
                 }
 
-                if (instruction.source_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.NoN && instruction.source_register_pointer == false && instruction.destination_register_pointer == false)
+                if (instruction.source_register == Instruction_Data.Registers_ENUM.NoN && instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.NoN && instruction.source_pointer == false && instruction.destination_pointer == false)
                     return 0;
 
                 return ulong.Parse(instruction.source_memory_name);

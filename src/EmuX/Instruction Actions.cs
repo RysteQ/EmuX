@@ -768,7 +768,7 @@ namespace EmuX
 
             // the set value function taken from Emulator.cs
             // check if the value needs to be saved in a register or memory location
-            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
+            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_pointer == false)
             {
                 switch (instruction.bit_mode)
                 {
@@ -934,7 +934,7 @@ namespace EmuX
 
             // the set value function taken from Emulator.cs
             // check if the value needs to be saved in a register or memory location
-            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
+            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_pointer == false)
             {
                 switch (instruction.bit_mode)
                 {
@@ -1064,7 +1064,7 @@ namespace EmuX
 
             // the set value function taken from Emulator.cs
             // check if the value needs to be saved in a register or memory location
-            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_register_pointer == false)
+            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_pointer == false)
             {
                 switch (instruction.bit_mode)
                 {

@@ -270,7 +270,7 @@ namespace EmuX
 
                     // assign the bitmode automatically or let the use assign the bit mode
                     if (tokens.Length == 3)
-                        instruction.bit_mode = this.AssignBitMode(instruction, tokens[tokens.Length - 1].Trim('[', ']'));
+                        instruction.bit_mode = this.AssignBitMode(instruction, tokens[tokens.Length - 1]);
                     else
                         instruction.bit_mode = this.GetUserAssignedBitmode(tokens[tokens.Length - 2]);
 
@@ -285,7 +285,7 @@ namespace EmuX
                     instruction.source_register = this.GetRegister(tokens[tokens.Length - 1]);
                     instruction.destination_memory_type = Memory_Type_ENUM.ADDRESS;
                     instruction.destination_memory_name = tokens[1];
-                    instruction = this.AssignRegisterPointers(instruction, tokens[1], tokens[tokens.Length - 1]);
+                    instruction = this.AssignRegisterPointers(instruction, tokens[1].Trim('[', ']'), tokens[tokens.Length - 1]);
 
                     // check if the destination register is a 8bit high or low one
                     if (tokens[tokens.Length - 1].ToUpper().EndsWith('H'))
@@ -340,12 +340,12 @@ namespace EmuX
         /// </summary>
         private int AnalyzeStaticData(string static_data_to_analyze, int offset, int line)
         {
-            string static_data_name = static_data_to_analyze.Split(':')[0];
+            string static_data_name = static_data_to_analyze.Split(':')[0].Trim();
             string[] static_data_tokens = static_data_to_analyze.Split(static_data_name + ":");
             ulong static_data_value = 0;
 
             // the name of the static data
-            static_data_tokens[0] = static_data_tokens[0].TrimEnd(':').Trim();
+            static_data_tokens[0] = static_data_name.TrimEnd(':');
 
             StaticData static_data_to_add = new StaticData();
             Instruction_Data register_name_lookup = new Instruction_Data();
@@ -361,12 +361,12 @@ namespace EmuX
             }
 
             // check if the static data is a number or a character / list of characters (aka string)
-            if (static_data_tokens.Length == 3 && ulong.TryParse(static_data_tokens[2].Trim(), out static_data_value))
+            if (static_data_tokens[1].Trim().Split(' ').Length == 2 && ulong.TryParse(static_data_tokens[1].Trim().Split(' ')[1], out static_data_value))
             {
                 static_data_to_add.name = static_data_name;
                 static_data_to_add.value = static_data_value;
 
-                switch (static_data_tokens[1].ToUpper().Trim())
+                switch (static_data_tokens[1].Trim().Split(' ')[0].ToUpper())
                 {
                     case "DB":
                         static_data_to_add.size_in_bits = StaticData.SIZE._8_BIT;
@@ -771,20 +771,11 @@ namespace EmuX
             destination_register_token = destination_register_token.ToUpper();
             source_register_token = source_register_token.ToUpper();
 
-            // check if the value is an actual register or not
-            destination_register_pointer = instruction_object._64_bit_registers.Contains(destination_register_token)
-                                             || instruction_object._32_bit_registers.Contains(destination_register_token)
-                                             || instruction_object._16_bit_registers.Contains(destination_register_token)
-                                             || instruction_object._8_bit_registers.Contains(destination_register_token);
+            if (destination_register_token != "")
+                instruction.destination_pointer = true;
 
-            // check if the value is an actual register or not
-            source_register_pointer = instruction_object._64_bit_registers.Contains(source_register_token)
-                                        || instruction_object._32_bit_registers.Contains(source_register_token)
-                                        || instruction_object._16_bit_registers.Contains(source_register_token)
-                                        || instruction_object._8_bit_registers.Contains(source_register_token);
-
-            instruction.destination_register_pointer = destination_register_pointer;
-            instruction.source_register_pointer = source_register_pointer;
+            if (source_register_token != "")
+                instruction.source_pointer = true;
 
             // modify the destination / source register enums if applicable
             if (destination_register_pointer)
