@@ -174,22 +174,22 @@
         /// </summary>
         private void ReadFromDisk()
         {
-            ulong RCX_register_backup = this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
+            byte current_byte = 0;
+            int offset = 0;
+
             string name_of_file = "";
             string file_data = "";
 
-            do
+            while ((current_byte = this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + offset)) != 0)
             {
-                name_of_file += (char) this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER));
-                this.virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, (ushort) (this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + 1));
-            } while (this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER)) != 0);
+                name_of_file += (char)current_byte;
+                offset++;
+            }
 
             file_data = File.ReadAllText(name_of_file);
 
             for (int i = 0; i < file_data.Length; i++)
                 this.virtual_system.SetByteMemory((int) (this.virtual_system.GetRegisterDouble(SECOND_ARGUMENT_REGISTER) + i), (byte) file_data[i]);
-
-            this.virtual_system.SetRegisterQuad(FIRST_ARGUMENT_REGISTER, RCX_register_backup);
         }
 
         /// <summary>
@@ -198,29 +198,27 @@
         /// </summary>
         private void WriteToDisk()
         {
-            ulong RCX_register_backup = this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
-            ulong RDX_register_backup = this.virtual_system.GetRegisterQuad(SECOND_ARGUMENT_REGISTER);
+            byte current_byte = 0;
+            int offset = 0;
+
             string name_of_file = "";
             string file_data = "";
 
-            // get the name of the file
-            do
+            while ((current_byte = this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + offset)) != 0)
             {
-                name_of_file += this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER));
-                this.virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, (ushort) (this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + 1));
-            } while (this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER)) != 0);
+                name_of_file += (char) current_byte;
+                offset++;
+            }
 
-            // get the contents of the file
-            do
+            offset = 0;
+
+            while ((current_byte = this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER) + offset)) != 0)
             {
-                file_data += this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER));
-                this.virtual_system.SetRegisterWord(SECOND_ARGUMENT_REGISTER, (ushort) (this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER) + 1));
-            } while (this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER)) != 0);
+                file_data += (char) current_byte;
+                offset++;
+            }
 
             File.WriteAllText(name_of_file, file_data);
-
-            this.virtual_system.SetRegisterQuad(FIRST_ARGUMENT_REGISTER, RCX_register_backup);
-            this.virtual_system.SetRegisterQuad(SECOND_ARGUMENT_REGISTER, RDX_register_backup);
         }
 
         /// <summary>

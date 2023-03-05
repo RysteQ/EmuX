@@ -1338,6 +1338,7 @@
             // 
             // ButtonExecuteOnAnotherTab
             // 
+            this.ButtonExecuteOnAnotherTab.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ButtonExecuteOnAnotherTab.Location = new System.Drawing.Point(542, 0);
             this.ButtonExecuteOnAnotherTab.Name = "ButtonExecuteOnAnotherTab";
             this.ButtonExecuteOnAnotherTab.Size = new System.Drawing.Size(100, 23);

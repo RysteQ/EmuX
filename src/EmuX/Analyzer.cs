@@ -263,10 +263,10 @@ namespace EmuX
 
                 case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
                     instruction.destination_register = this.GetRegister(tokens[1]);
-                    instruction.source_register = this.GetRegister(tokens[tokens.Length - 1].Trim('[', ']'));
+                    instruction.source_register = this.GetRegister(tokens[tokens.Length - 1]);
                     instruction.source_memory_type = Memory_Type_ENUM.ADDRESS;
                     instruction.source_memory_name = tokens[tokens.Length - 1].Trim('[', ']');
-                    instruction = this.AssignRegisterPointers(instruction, "", tokens[tokens.Length - 1].Trim('[', ']'));
+                    instruction = this.AssignRegisterPointers(instruction, "", tokens[tokens.Length - 1]);
 
                     // assign the bitmode automatically or let the use assign the bit mode
                     if (tokens.Length == 3)
@@ -284,8 +284,8 @@ namespace EmuX
                     instruction.destination_register = this.GetRegister(tokens[1]);
                     instruction.source_register = this.GetRegister(tokens[tokens.Length - 1]);
                     instruction.destination_memory_type = Memory_Type_ENUM.ADDRESS;
-                    instruction.destination_memory_name = tokens[1];
-                    instruction = this.AssignRegisterPointers(instruction, tokens[1].Trim('[', ']'), tokens[tokens.Length - 1]);
+                    instruction.destination_memory_name = tokens[1].Trim('[', ']');
+                    instruction = this.AssignRegisterPointers(instruction, tokens[1], tokens[tokens.Length - 1]);
 
                     // check if the destination register is a 8bit high or low one
                     if (tokens[tokens.Length - 1].ToUpper().EndsWith('H'))
@@ -297,7 +297,7 @@ namespace EmuX
                     value = this.GetValue(tokens[tokens.Length - 1]);
 
                     instruction.destination_memory_type = Memory_Type_ENUM.ADDRESS;
-                    instruction = this.AssignRegisterPointers(instruction, tokens[1].Trim('[', ']'), "");
+                    instruction = this.AssignRegisterPointers(instruction, tokens[1], "");
                     
                     // check if the value is valid and assign it, if not then throw an error
                     if (value.Item2)
@@ -307,7 +307,7 @@ namespace EmuX
 
                     // assign the bitmode automatically or let the use assign the bit mode
                     if (tokens.Length == 3)
-                        instruction.bit_mode = this.AssignBitMode(instruction, tokens[1].Trim('[', ']'));
+                        instruction.bit_mode = this.AssignBitMode(instruction, tokens[1]);
                     else
                         instruction.bit_mode = this.GetUserAssignedBitmode(tokens[tokens.Length - 2]);
 
@@ -771,11 +771,14 @@ namespace EmuX
             destination_register_token = destination_register_token.ToUpper();
             source_register_token = source_register_token.ToUpper();
 
-            if (destination_register_token != "")
+            if (destination_register_token != "" && destination_register_token.StartsWith('[') && destination_register_token.EndsWith(']'))
                 instruction.destination_pointer = true;
 
-            if (source_register_token != "")
+            if (source_register_token != "" && source_register_token.StartsWith('[') && source_register_token.EndsWith(']'))
                 instruction.source_pointer = true;
+
+            destination_register_token = destination_register_token.Trim('[', ']');
+            source_register_token = source_register_token.Trim('[', ']');
 
             // modify the destination / source register enums if applicable
             if (destination_register_pointer)
