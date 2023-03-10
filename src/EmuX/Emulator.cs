@@ -1,4 +1,6 @@
-﻿namespace EmuX
+﻿using static EmuX.Instruction_Data;
+
+namespace EmuX
 {
     internal class Emulator
     {
@@ -830,7 +832,7 @@
 
                 if (instruction.source_pointer && instruction.source_register != Instruction_Data.Registers_ENUM.NoN)
                 {
-                    memory_index = (int)this.virtual_system.GetRegisterDouble(instruction.source_register);
+                    memory_index = (int) this.virtual_system.GetRegisterDouble(instruction.source_register);
                 } else if (instruction.source_pointer)
                 {
                     for (int i = 0; i < static_data.Count; i++)
