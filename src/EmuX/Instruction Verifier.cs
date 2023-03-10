@@ -35,13 +35,13 @@ namespace EmuX
             {
                 Instruction instruction_to_analyze = this.instructions[index];
 
-                if (this.ContainsVariant(instruction_to_analyze) == false)
+                if (ContainsVariant(instruction_to_analyze) == false)
                 {
                     this.instruction_index_error = index;
                     this.valid_instructions = false;
                 }
 
-                if (this.ContainsBitmode(instruction_to_analyze) == false)
+                if (ContainsBitmode(instruction_to_analyze) == false)
                 {
                     this.instruction_index_error = index;
                     this.valid_instructions = false;

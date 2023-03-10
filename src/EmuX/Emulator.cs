@@ -172,15 +172,15 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.ADC:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.ADC(destination_value, source_value, this.virtual_system.GetEFLAGS()));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.ADD:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.ADD(destination_value, source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.ADD(destination_value, source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.AND:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.AND(destination_value, source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.AND(destination_value, source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.CALL:
@@ -245,7 +245,7 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.DEC:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.DEC(destination_value, instruction_to_execute.bit_mode));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.DEC(destination_value, instruction_to_execute.bit_mode));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.DIV:
@@ -257,7 +257,7 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.INC:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.INC(destination_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.INC(destination_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.INT:
@@ -513,11 +513,11 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.LEA:
-                    this.SetValue(instruction_to_execute, destination_memory_index, (ulong) actions.LEA(this.static_data, instruction_to_execute.source_memory_name));
+                    SetValue(instruction_to_execute, destination_memory_index, (ulong) actions.LEA(this.static_data, instruction_to_execute.source_memory_name));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.MOV:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.MOV(source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.MOV(source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.MUL:
@@ -525,7 +525,7 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.NEG:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.NEG(destination_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.NEG(destination_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.NOP:
@@ -533,11 +533,11 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.NOT:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.NOT(destination_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.NOT(destination_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.OR:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.OR(destination_value, source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.OR(destination_value, source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.POP:
@@ -565,11 +565,11 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.ROL:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.ROL(instruction_to_execute.bit_mode, destination_value, (int) source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.ROL(instruction_to_execute.bit_mode, destination_value, (int) source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.ROR:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.ROR(instruction_to_execute.bit_mode, destination_value, (int) source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.ROR(instruction_to_execute.bit_mode, destination_value, (int) source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.SAHF:
@@ -577,23 +577,23 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.SAL:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SAL(destination_value, (int) source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.SAL(destination_value, (int) source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.SAR:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SAR(destination_value, (int) source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.SAR(destination_value, (int) source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.SBB:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SBB(destination_value, source_value, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[0]) != 0));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.SBB(destination_value, source_value, (this.virtual_system.GetEFLAGS() & this.virtual_system.GetEFLAGSMasks()[0]) != 0));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.SHL:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SHL(destination_value, (int) source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.SHL(destination_value, (int) source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.SHR:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SHR(destination_value, (int) source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.SHR(destination_value, (int) source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.STC:
@@ -609,11 +609,11 @@ namespace EmuX
                     break;
 
                 case Instruction_Data.Instruction_ENUM.SUB:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.SUB(destination_value, source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.SUB(destination_value, source_value));
                     break;
 
                 case Instruction_Data.Instruction_ENUM.XOR:
-                    this.SetValue(instruction_to_execute, destination_memory_index, actions.XOR(destination_value, source_value));
+                    SetValue(instruction_to_execute, destination_memory_index, actions.XOR(destination_value, source_value));
                     break;
 
                 default:
@@ -774,17 +774,12 @@ namespace EmuX
                     return this.virtual_system.GetRegisterQuad(instruction.destination_register);
 
                 case Instruction_Data.Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
-                    for (int i = 0; i < static_data.Count; i++)
-                        if (static_data[i].name == instruction.destination_memory_name)
-                            return static_data[i].value;
-
                     if (instruction.destination_pointer)
                     {
                         switch (instruction.bit_mode)
                         {
                             case Instruction_Data.Bit_Mode_ENUM._8_BIT:
                                 return this.virtual_system.GetRegisterByte(instruction.destination_register, instruction.destination_high_or_low);
-
 
                             case Instruction_Data.Bit_Mode_ENUM._16_BIT:
                                 return this.virtual_system.GetRegisterWord(instruction.destination_register);
@@ -796,6 +791,10 @@ namespace EmuX
                                 return this.virtual_system.GetRegisterQuad(instruction.destination_register);
                         }
                     }
+
+                    for (int i = 0; i < static_data.Count; i++)
+                        if (static_data[i].name == instruction.destination_memory_name)
+                            return static_data[i].value;
 
                     return 0;
             }
@@ -838,12 +837,10 @@ namespace EmuX
                     for (int i = 0; i < static_data.Count; i++)
                         if (static_data[i].name == instruction.source_memory_name)
                             memory_index = static_data[i].memory_location;
-                } else
-                {
-                    for (int i = 0; i < static_data.Count; i++)
-                        if (static_data[i].name == instruction.source_memory_name)
-                            return (ulong) static_data[i].memory_location;
                 }
+
+                if (instruction.source_pointer == false)
+                    return (ulong) memory_index;
 
                 if (memory_index == -1)
                 {

@@ -30,27 +30,27 @@ namespace EmuX
         public void AnalyzeInstructions()
         {
             Instruction_Groups instruction_groups = new Instruction_Groups();
-            string[] label_names = this.ScanForLabels(this.instructions_data);
+            string[] label_names = ScanForLabels(this.instructions_data);
             int offset = 1024;
 
-            this.Flush();
+            Flush();
 
             if (this.instructions_data.Contains("section.text") == false)
             {
-                this.AnalyzerError(-1);
+                AnalyzerError(-1);
                 return;
             }
 
             this.static_data_to_analyze = this.instructions_data.Split("section.text")[0].Split('\n');
-            this.static_data_to_analyze = this.RemoveComments(this.static_data_to_analyze);
+            this.static_data_to_analyze = RemoveComments(this.static_data_to_analyze);
             this.static_data_to_analyze = new StringHandler().RemoveEmptyLines(this.static_data_to_analyze);
 
             this.instructions_to_analyze = this.instructions_data.Split("section.text")[1].Split('\n');
-            this.instructions_to_analyze = this.RemoveComments(this.instructions_to_analyze);
+            this.instructions_to_analyze = RemoveComments(this.instructions_to_analyze);
             this.instructions_to_analyze = new StringHandler().RemoveEmptyLines(this.instructions_to_analyze);
 
             for (int line = 0; line < static_data_to_analyze.Length; line++)
-                offset = this.AnalyzeStaticData(static_data_to_analyze[line], offset, line);
+                offset = AnalyzeStaticData(static_data_to_analyze[line], offset, line);
 
             for (int line = 0; line < this.instructions_to_analyze.Length && this.successful; line++)
             {
@@ -73,20 +73,20 @@ namespace EmuX
                         continue;
                     } else
                     {
-                        this.AnalyzerError(line);
+                        AnalyzerError(line);
                         break;
                     }
                 }
 
                 // get the instruction
-                instruction_to_add.instruction = this.GetInstruction(tokens[0]);
+                instruction_to_add.instruction = GetInstruction(tokens[0]);
 
                 // check to which parameter group the instruction belongs to
                 if (instruction_groups.one_label.Contains(instruction_to_add.instruction))
                 {
                     if (tokens.Length != 2)
                     {
-                        this.AnalyzerError(line);
+                        AnalyzerError(line);
                         return;
                     }
 
@@ -96,32 +96,32 @@ namespace EmuX
                     // check if the instruction is valid
                     if (tokens.Length != 1)
                     {
-                        this.AnalyzerError(line);
+                        AnalyzerError(line);
                         return;
                     }
 
-                    instruction_to_add = this.AssignNoOperandInstruction(instruction_to_add, tokens, line);
+                    instruction_to_add = AssignNoOperandInstruction(instruction_to_add, tokens, line);
                 } else if (instruction_groups.one_operands.Contains(instruction_to_add.instruction))
                 {
                     if (tokens.Length != 2 && tokens.Length != 3)
                     {
-                        this.AnalyzerError(line);
+                        AnalyzerError(line);
                         return;
                     }
 
-                    instruction_to_add = this.AssignOneOperandInstruction(instruction_to_add, tokens, offset, line);
+                    instruction_to_add = AssignOneOperandInstruction(instruction_to_add, tokens, offset, line);
                 } else if (instruction_groups.two_operands.Contains(instruction_to_add.instruction))
                 {
                     if (tokens.Length != 3 && tokens.Length != 4)
                     {
-                        this.AnalyzerError(line);
+                        AnalyzerError(line);
                         return;
                     }
 
-                    instruction_to_add = this.AssignTwoOperandInstruction(instruction_to_add, tokens, offset, line);
+                    instruction_to_add = AssignTwoOperandInstruction(instruction_to_add, tokens, offset, line);
                 } else
                 {
-                    this.AnalyzerError(line);
+                    AnalyzerError(line);
                     return;
                 }
 
@@ -143,7 +143,7 @@ namespace EmuX
                 return instruction;
             }
 
-            instruction.variant = this.GetVariant(instruction.instruction, new string[] { "lol", label });
+            instruction.variant = GetVariant(instruction.instruction, new string[] { "lol", label });
             instruction.bit_mode = Bit_Mode_ENUM.NoN;
             instruction.destination_memory_type = Memory_Type_ENUM.ADDRESS;
             instruction.destination_memory_name = label;
@@ -153,14 +153,14 @@ namespace EmuX
 
         private Instruction AssignNoOperandInstruction(Instruction instruction, string[] tokens, int line)
         {
-            instruction.variant = this.GetVariant(instruction.instruction, tokens);
+            instruction.variant = GetVariant(instruction.instruction, tokens);
 
             // check if the variant is a label or a single variant instruction
             if (instruction.variant == Instruction_Variant_ENUM.LABEL)
             {
                 instruction.destination_memory_type = Memory_Type_ENUM.LABEL;
                 instruction.destination_memory_name = tokens[1];
-                instruction.bit_mode = this.AssignBitMode(instruction, "");
+                instruction.bit_mode = AssignBitMode(instruction, "");
             } else
             {
                 instruction.bit_mode = Bit_Mode_ENUM.NoN;
@@ -220,40 +220,40 @@ namespace EmuX
 
         private Instruction AssignTwoOperandInstruction(Instruction instruction, string[] tokens, int memory_offset, int line)
         {
-            instruction.variant = this.GetVariant(instruction.instruction, tokens);
+            instruction.variant = GetVariant(instruction.instruction, tokens);
             (ulong, bool) value;
 
             switch (instruction.variant)
             {
                 case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER:
-                    instruction.destination_register = this.GetRegister(tokens[1]);
-                    instruction.source_register = this.GetRegister(tokens[tokens.Length - 1]);
+                    instruction.destination_register = GetRegister(tokens[1]);
+                    instruction.source_register = GetRegister(tokens[tokens.Length - 1]);
 
                     // assign automatically the bitmode with the source register or allow the user to modify the bitmode
                     if (tokens.Length == 3)
-                        instruction.bit_mode = this.AssignBitMode(instruction, tokens[tokens.Length - 1]);
+                        instruction.bit_mode = AssignBitMode(instruction, tokens[tokens.Length - 1]);
                     else
-                        instruction.bit_mode = this.GetUserAssignedBitmode(tokens[tokens.Length - 2]);
+                        instruction.bit_mode = GetUserAssignedBitmode(tokens[tokens.Length - 2]);
 
                     break;
 
                 case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE:
-                    value = this.GetValue(tokens[tokens.Length - 1]);
+                    value = GetValue(tokens[tokens.Length - 1]);
 
-                    instruction.destination_register = this.GetRegister(tokens[1]);
+                    instruction.destination_register = GetRegister(tokens[1]);
                     instruction.source_memory_type = Memory_Type_ENUM.VALUE;
 
                     // check if the value is valid and assign it, if not then throw an error
                     if (value.Item2)
                         instruction.source_memory_name = value.Item1.ToString();
                     else
-                        this.AnalyzerError(line);
+                        AnalyzerError(line);
 
                     // assign the bitmode automatically or let the use assign the bit mode
                     if (tokens.Length == 3)
-                        instruction.bit_mode = this.AssignBitMode(instruction, tokens[1]);
+                        instruction.bit_mode = AssignBitMode(instruction, tokens[1]);
                     else
-                        instruction.bit_mode = this.GetUserAssignedBitmode(tokens[tokens.Length - 2]);
+                        instruction.bit_mode = GetUserAssignedBitmode(tokens[tokens.Length - 2]);
 
                     // check if the destination register is a 8bit high or low one
                     if (tokens[1].ToUpper().EndsWith('H'))
@@ -262,18 +262,16 @@ namespace EmuX
                     break;
 
                 case Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS:
-                    instruction.destination_register = this.GetRegister(tokens[1]);
-                    instruction.source_register = this.GetRegister(tokens[tokens.Length - 1].Trim('[', ']'));
+                    instruction.destination_register = GetRegister(tokens[1]);
+                    instruction.source_register = GetRegister(tokens[tokens.Length - 1].Trim('[', ']'));
                     instruction.source_memory_type = Memory_Type_ENUM.ADDRESS;
                     instruction.source_memory_name = tokens[tokens.Length - 1].Trim('[', ']');
 
                     // assign the bitmode automatically or let the use assign the bit mode
                     if (tokens.Length == 3)
-                        instruction.bit_mode = this.AssignBitMode(instruction, tokens[tokens.Length - 1]);
+                        instruction.bit_mode = AssignBitMode(instruction, tokens[tokens.Length - 1]);
                     else
-                        instruction.bit_mode = this.GetUserAssignedBitmode(tokens[tokens.Length - 2]);
-
-                    string l = tokens[tokens.Length - 1];
+                        instruction.bit_mode = GetUserAssignedBitmode(tokens[tokens.Length - 2]);
 
                     if (tokens[tokens.Length - 1].StartsWith('[') && tokens[tokens.Length - 1].EndsWith(']'))
                         instruction.source_pointer = true;
@@ -285,12 +283,12 @@ namespace EmuX
                     break;
 
                 case Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER:
-                    instruction.destination_register = this.GetRegister(tokens[1]);
-                    instruction.source_register = this.GetRegister(tokens[tokens.Length - 1]);
+                    instruction.destination_register = GetRegister(tokens[1]);
+                    instruction.source_register = GetRegister(tokens[tokens.Length - 1]);
                     instruction.destination_memory_type = Memory_Type_ENUM.ADDRESS;
                     instruction.destination_memory_name = tokens[1].Trim('[', ']');
-                    instruction.bit_mode = this.AssignBitMode(instruction, tokens[1].Trim('[', ']'));
-                    instruction = this.AssignRegisterPointers(instruction, tokens[1], "");
+                    instruction.bit_mode = AssignBitMode(instruction, tokens[1].Trim('[', ']'));
+                    instruction = AssignRegisterPointers(instruction, tokens[1], "");
 
                     if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
                         instruction.destination_pointer = true;
@@ -302,7 +300,7 @@ namespace EmuX
                     break;
 
                 case Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE:
-                    value = this.GetValue(tokens[tokens.Length - 1]);
+                    value = GetValue(tokens[tokens.Length - 1]);
 
                     instruction.destination_memory_type = Memory_Type_ENUM.ADDRESS;
                     
@@ -310,13 +308,13 @@ namespace EmuX
                     if (value.Item2)
                         instruction.source_memory_name = value.Item1.ToString();
                     else
-                        this.AnalyzerError(line);
+                        AnalyzerError(line);
 
                     // assign the bitmode automatically or let the use assign the bit mode
                     if (tokens.Length == 3)
-                        instruction.bit_mode = this.AssignBitMode(instruction, tokens[1]);
+                        instruction.bit_mode = AssignBitMode(instruction, tokens[1]);
                     else
-                        instruction.bit_mode = this.GetUserAssignedBitmode(tokens[tokens.Length - 2]);
+                        instruction.bit_mode = GetUserAssignedBitmode(tokens[tokens.Length - 2]);
 
                     break;
             }
@@ -365,7 +363,7 @@ namespace EmuX
             || register_name_lookup._32_bit_registers.Contains(static_data_tokens[0].ToUpper()) 
             || register_name_lookup._64_bit_registers.Contains(static_data_tokens[0].ToUpper()))
             {
-                this.AnalyzerError(line);
+                AnalyzerError(line);
                 return offset;
             }
 
@@ -407,7 +405,7 @@ namespace EmuX
                 // check if the user made a mistake
                 if (static_data_tokens[1].Split(' ')[0].Trim().ToUpper() != "DB")
                 {
-                    this.AnalyzerError(line);
+                    AnalyzerError(line);
                     return offset;
                 }
 
@@ -425,7 +423,7 @@ namespace EmuX
                     if ((static_data_tokens[i].StartsWith('\'') == false || static_data_tokens[i].EndsWith('\'') == false || static_data_tokens[i].Length != 3) 
                     && ulong.TryParse(static_data_tokens[i], out static_data_value) == false)
                     {
-                        this.AnalyzerError(line);
+                        AnalyzerError(line);
                         return offset;
                     }
 
@@ -553,7 +551,7 @@ namespace EmuX
                         return Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE;
 
                 // check if it refers to a register
-                if (this.GetRegister(last_token.ToUpper()) != Registers_ENUM.NoN)
+                if (GetRegister(last_token.ToUpper()) != Registers_ENUM.NoN)
                     return Instruction_Variant_ENUM.SINGLE_REGISTER;
 
                 // check if it refers to an int
@@ -583,12 +581,12 @@ namespace EmuX
             if (instruction_groups.two_operands.Contains(instruction) && (tokens.Length == 3 || (tokens.Length == 4) && bit_mode_keywords.Contains(tokens[2].ToUpper())))
             {
                 // check if the destination and source are both registers
-                if (this.GetRegister(tokens[1]) != Registers_ENUM.NoN)
-                    if (this.GetRegister(last_token) != Registers_ENUM.NoN)
+                if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
+                    if (GetRegister(last_token) != Registers_ENUM.NoN)
                         return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER;
 
                 // check if the destination is a register and source a number
-                if (this.GetRegister(tokens[1]) != Registers_ENUM.NoN)
+                if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
                 {
                     // check if it refers to an int
                     if (int.TryParse(last_token, out integer_junk))
@@ -610,13 +608,13 @@ namespace EmuX
                             return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if the destination is a register and the source is a value from memory
-                    if (this.GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
+                    if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
                         if (last_token.StartsWith('[') && last_token.EndsWith(']'))
                             if (string_handler.GetCharOccurrences(last_token, '[') == 1 && string_handler.GetCharOccurrences(last_token, ']') == 1)
                                 return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
 
                     // check if the destination is a register and the source is a location in memory
-                    if (this.GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
+                    if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
                         for (int i = 0; i < this.static_data.Count; i++)
                             if (static_data[i].name == last_token)
                                 return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
@@ -629,7 +627,7 @@ namespace EmuX
                 }
 
                 // check if the destination register is a pointer
-                if (this.GetRegister(tokens[1].Trim('[', ']')) != Registers_ENUM.NoN)
+                if (GetRegister(tokens[1].Trim('[', ']')) != Registers_ENUM.NoN)
                 {
                     // check if it refers to an int
                     if (int.TryParse(last_token, out integer_junk))
@@ -651,7 +649,7 @@ namespace EmuX
                             return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE;
 
                     // check if the destination is a register and the source is a value from memory
-                    if (this.GetRegister(last_token.ToUpper()) != Registers_ENUM.NoN)
+                    if (GetRegister(last_token.ToUpper()) != Registers_ENUM.NoN)
                         if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
                             if (string_handler.GetCharOccurrences(tokens[1], '[') == 1 && string_handler.GetCharOccurrences(tokens[1], ']') == 1)
                                 return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
@@ -849,29 +847,25 @@ namespace EmuX
         /// <returns>The converted value and a boolean value if the analyzing was successful</returns>
         private (ulong, bool) GetValue(string token_to_analyze)
         {
+            BaseConverter base_converter = new BaseConverter();
+
             ulong value = 0;
             bool analyzed_successfuly = false;
+
+            analyzed_successfuly = ulong.TryParse(token_to_analyze, out value);
 
             // check if the token is in hex
             if (token_to_analyze.ToUpper().EndsWith('H'))
             {
-                BaseConverter base_converter = new BaseConverter();
-
                 value = base_converter.ConvertHexToUnsignedLong(token_to_analyze);
                 analyzed_successfuly = true;
-
-                return (value, analyzed_successfuly);
             }
 
             // check if the token is in binary
             if (token_to_analyze.ToUpper().EndsWith('B'))
             {
-                BaseConverter base_converter = new BaseConverter();
-
                 value = base_converter.ConvertBinaryToUnsignedLong(token_to_analyze);
                 analyzed_successfuly = true;
-
-                return (value, analyzed_successfuly);
             }
 
             // check if the token is a character
@@ -879,13 +873,7 @@ namespace EmuX
             {
                 value = (ulong) token_to_analyze[1];
                 analyzed_successfuly = true;
-
-                return (value, analyzed_successfuly);
             }
-
-            // check if the token is a number
-            if (ulong.TryParse(token_to_analyze, out value))
-                analyzed_successfuly = true;
 
             return (value, analyzed_successfuly);
         }

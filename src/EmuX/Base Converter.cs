@@ -20,7 +20,7 @@
                 multiplier = multiplier << 1;
             }
 
-            return toReturn;
+            return toReturn / 2;
         }
 
         /// <summary>
@@ -28,7 +28,7 @@
         /// </summary>
         public ulong ConvertHexToUnsignedLong(string hex_value)
         {
-            return this.ConvertBinaryToUnsignedLong(this.ConvertHexToBinary(hex_value));
+            return ConvertBinaryToUnsignedLong(ConvertHexToBinary(hex_value));
         }
 
         /// <summary>

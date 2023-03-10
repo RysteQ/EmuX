@@ -22,7 +22,7 @@ namespace EmuX
             mainForm.ActiveForm.Text = filename.Split('\\')[filename.Split('\\').Length - 1] + " - EmuX";
             save_path = filename;
 
-            this.UpdateOutput("Opened file " + save_path + " ...");
+            UpdateOutput("Opened file " + save_path + " ...");
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -37,7 +37,7 @@ namespace EmuX
             file_writer.Write(RichTextboxAssemblyCode.Text);
             file_writer.Close();
 
-            this.UpdateOutput("File saved in location " + save_path + " ...");
+            UpdateOutput("File saved in location " + save_path + " ...");
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -57,12 +57,12 @@ namespace EmuX
             file_writer.Write(RichTextboxAssemblyCode.Text);
             file_writer.Close();
 
-            this.UpdateOutput("File Saved...");
+            UpdateOutput("File Saved...");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void ButtonExecute_Click(object sender, EventArgs e)
@@ -154,7 +154,7 @@ namespace EmuX
             if (this.emulator.GetExit())
                 ProgressBarExecutionProgress.Value = ProgressBarExecutionProgress.Maximum;
 
-            this.UpdateOutput("Execution Completed...");
+            UpdateOutput("Execution Completed...");
         }
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -254,13 +254,13 @@ namespace EmuX
                 return;
             }
 
-            for (int i = start; i < end; i++)
-                bytes_to_show.Add(this.virtual_system.GetByteMemory(i));
-
             // init the data grid view
             DataGridViewMemory.Rows.Clear();
             DataGridViewMemory.Columns.Clear();
             DataGridViewMemory.Columns.Add("empty", "");
+
+            for (int i = start; i < end; i++)
+                bytes_to_show.Add(this.virtual_system.GetByteMemory(i));
 
             for (int i = 0; i < 8; i++)
                 DataGridViewMemory.Columns.Add("+" + i.ToString(), "+" + i.ToString());
@@ -326,6 +326,9 @@ namespace EmuX
         private void ButtonSetRegisterValues_Click(object sender, EventArgs e)
         {
             List<ulong> values_to_set = new List<ulong>();
+            uint[] masks = this.virtual_system.GetEFLAGSMasks();
+            uint EFLAGS_to_set = 0;
+
             TextBox[] textbox_to_update = new TextBox[]
             {
                 TextBoxRAX,
@@ -346,25 +349,6 @@ namespace EmuX
                 TextBoxR14,
                 TextBoxR15
             };
-
-            for (int i = 0; i < textbox_to_update.Length; i++)
-                textbox_to_update[i].BackColor = Color.White;
-
-            // get all of the values and to a validity check on them
-            for (int i = 0; i < textbox_to_update.Length; i++)
-            {
-                ulong value = 0;
-
-                if (textbox_to_update[i].Text.Trim().Length != 0 && ulong.TryParse(textbox_to_update[i].Text, out value))
-                    values_to_set.Add(value);
-                else
-                    textbox_to_update[i].BackColor = Color.Red;
-            }
-
-            this.virtual_system.SetAllRegisterValues(values_to_set.ToArray());
-
-            uint[] masks = this.virtual_system.GetEFLAGSMasks();
-            uint EFLAGS_to_set = 0;
 
             CheckBox[] checkboxes_to_update = new CheckBox[]
             {
@@ -387,6 +371,22 @@ namespace EmuX
                 CheckBoxID
             };
 
+            for (int i = 0; i < textbox_to_update.Length; i++)
+                textbox_to_update[i].BackColor = Color.White;
+
+            // get all of the values and to a validity check on them
+            for (int i = 0; i < textbox_to_update.Length; i++)
+            {
+                ulong value = 0;
+
+                if (textbox_to_update[i].Text.Trim().Length != 0 && ulong.TryParse(textbox_to_update[i].Text, out value))
+                    values_to_set.Add(value);
+                else
+                    textbox_to_update[i].BackColor = Color.Red;
+            }
+
+            this.virtual_system.SetAllRegisterValues(values_to_set.ToArray());
+
             // check and increment the corresponding bit of the EFLAGS
             for (int i = 0; i < masks.Length; i++)
                 if (checkboxes_to_update[i].Checked)
@@ -407,7 +407,7 @@ namespace EmuX
 
         private void decreaseSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Font font_to_set = new Font(RichTextboxAssemblyCode.Font.FontFamily, RichTextboxAssemblyCode.Font.Size + 1, FontStyle.Regular);
+            Font font_to_set = new Font(RichTextboxAssemblyCode.Font.FontFamily, RichTextboxAssemblyCode.Font.Size - 1, FontStyle.Regular);
 
             RichTextboxAssemblyCode.Font = font_to_set;
             RichtextBoxOutput.Font = font_to_set;
@@ -472,6 +472,8 @@ namespace EmuX
 
         private void ButtonPreviousInstruction_Click(object sender, EventArgs e)
         {
+            int index = 0;
+
             if (this.emulator.HasInstructions() == false)
             {
                 this.analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
@@ -480,7 +482,6 @@ namespace EmuX
             }
 
             ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
-            int index = 0;
 
             // go through each line and don't count empty lines
             for (int i = 0; i < RichTextboxAssemblyCode.Text.Split('\n').Length && index != this.emulator.GetIndex(); i++)
@@ -513,20 +514,17 @@ namespace EmuX
 
         private void converterToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Converter_Form converter_form = new Converter_Form();
-            converter_form.Show();
+            new Converter_Form().Show();
         }
 
         private void aSCIITableToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ASCII_Table ascii_table = new ASCII_Table();
-            ascii_table.Show();
+            new ASCII_Table().Show();
         }
 
         private void instructionsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Instruction_Set instruction_set = new Instruction_Set();
-            instruction_set.Show();
+            new Instruction_Set().Show();
         }
 
         private void UpdateOutput(string message_to_append)

@@ -29,7 +29,7 @@ namespace EmuX
             };
 
             for (int i = 7; i > -1; i--)
-                toReturn += this.ConvertByteToHex(bytes[i]);
+                toReturn += ConvertByteToHex(bytes[i]);
 
             return toReturn;
         }
@@ -48,12 +48,12 @@ namespace EmuX
             if (first_half < 10)
                 toReturn += first_half.ToString();
             else
-                toReturn += this.ConvertByteOverTenToHex(first_half).ToString();
+                toReturn += ConvertByteOverTenToHex(first_half).ToString();
 
             if (second_half < 10)
                 toReturn += second_half.ToString();
             else
-                toReturn += this.ConvertByteOverTenToHex(second_half).ToString();
+                toReturn += ConvertByteOverTenToHex(second_half).ToString();
 
             return toReturn;
         }

@@ -63,7 +63,7 @@ class VirtualSystem
     /// </summary>
     public ushort GetWordMemory(int index)
     {
-        return (ushort) ((this.GetByteMemory(index) << 8) + this.GetByteMemory(index + 1));
+        return (ushort) ((GetByteMemory(index) << 8) + GetByteMemory(index + 1));
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ class VirtualSystem
     /// </summary>
     public uint GetDoubleMemory(int index)
     {
-        return (uint) ((this.GetWordMemory(index) << 16) + this.GetWordMemory(index + 2));
+        return (uint) ((GetWordMemory(index) << 16) + GetWordMemory(index + 2));
     }
 
     /// <summary>
@@ -79,7 +79,7 @@ class VirtualSystem
     /// </summary>
     public ulong GetQuadMemory(int index)
     {
-        return (ulong) ((this.GetDoubleMemory(index) << 32) + this.GetDoubleMemory(index + 4));
+        return (GetDoubleMemory(index) << 32) + GetDoubleMemory(index + 4);
     }
 
     // memory setters
@@ -105,8 +105,8 @@ class VirtualSystem
     /// </summary>
     public void SetWordMemory(int index, ushort value)
     {
-        this.SetByteMemory(index + 1, (byte) value);
-        this.SetByteMemory(index, (byte) (value >> 8));
+        SetByteMemory(index + 1, (byte) value);
+        SetByteMemory(index, (byte) (value >> 8));
     }
 
     /// <summary>
@@ -114,8 +114,8 @@ class VirtualSystem
     /// </summary>
     public void SetDoubleMemory(int index, uint value)
     {
-        this.SetWordMemory(index + 2, (ushort) value);
-        this.SetWordMemory(index, (ushort) (value >> 16));
+        SetWordMemory(index + 2, (ushort) value);
+        SetWordMemory(index, (ushort) (value >> 16));
     }
 
     /// <summary>
@@ -123,8 +123,8 @@ class VirtualSystem
     /// </summary>
     public void SetQuadMemory(int index, ulong value)
     {
-        this.SetDoubleMemory(index + 4, (uint) value);
-        this.SetDoubleMemory(index, (uint) (value >> 32));
+        SetDoubleMemory(index + 4, (uint) value);
+        SetDoubleMemory(index, (uint) (value >> 32));
     }
 
     // stack getters
@@ -143,8 +143,8 @@ class VirtualSystem
     /// </summary>
     public void PushWord(ushort value_to_push)
     {
-        this.PushByte((byte) (value_to_push & 0x00FF));
-        this.PushByte((byte) ((value_to_push & 0xFF00) >> 8));
+        PushByte((byte) (value_to_push & 0x00FF));
+        PushByte((byte) ((value_to_push & 0xFF00) >> 8));
     }
 
     /// <summary>
@@ -152,8 +152,8 @@ class VirtualSystem
     /// </summary>
     public void PushDouble(uint value_to_push)
     {
-        this.PushWord((ushort) (value_to_push & 0x0000FFFF));
-        this.PushWord((ushort) ((value_to_push & 0xFFFF0000) >> 16));
+        PushWord((ushort) (value_to_push & 0x0000FFFF));
+        PushWord((ushort) ((value_to_push & 0xFFFF0000) >> 16));
     }
 
     /// <summary>
@@ -161,8 +161,8 @@ class VirtualSystem
     /// </summary>
     public void PushQuad(ulong value_to_push)
     {
-        this.PushDouble((uint) (value_to_push & 0x00000000FFFFFFFF));
-        this.PushDouble((uint) ((value_to_push & 0xFFFFFFFF00000000) >> 32));
+        PushDouble((uint) (value_to_push & 0x00000000FFFFFFFF));
+        PushDouble((uint) ((value_to_push & 0xFFFFFFFF00000000) >> 32));
     }
 
     // stack setters
@@ -181,7 +181,7 @@ class VirtualSystem
     /// </summary>
     public ushort PopWord()
     {
-        return (ushort) ((this.PopByte() << 8) + this.PopByte());
+        return (ushort) ((PopByte() << 8) + PopByte());
     }
 
     /// <summary>
@@ -189,7 +189,7 @@ class VirtualSystem
     /// </summary>
     public uint PopDouble()
     {
-        return (uint) ((this.PopWord() << 16) + this.PopWord());
+        return (uint) ((PopWord() << 16) + PopWord());
     }
 
     /// <summary>
@@ -197,7 +197,7 @@ class VirtualSystem
     /// </summary>
     public ulong PopQuad()
     {
-        return (ulong) ((this.PopDouble() << 32) + this.PopDouble());
+        return (PopDouble() << 32) + PopDouble();
     }
 
     // register getters
@@ -235,7 +235,7 @@ class VirtualSystem
     /// </summary>
     public ulong GetRegisterQuad(Instruction_Data.Registers_ENUM register_to_get)
     {
-        return (ulong) this.registers[(int) register_to_get];
+        return this.registers[(int) register_to_get];
     }
 
     /// <summary>

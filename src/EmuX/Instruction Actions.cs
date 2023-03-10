@@ -1,7 +1,4 @@
-﻿using System.IO.Compression;
-using System.Security.Cryptography.X509Certificates;
-
-namespace EmuX
+﻿namespace EmuX
 {
     internal class Instruction_Actions
     {
