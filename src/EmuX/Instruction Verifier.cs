@@ -35,13 +35,13 @@ namespace EmuX
             {
                 Instruction instruction_to_analyze = this.instructions[index];
 
-                if (ContainsVariant(instruction_to_analyze) == false)
+                if (this.ContainsVariant(instruction_to_analyze) == false)
                 {
                     this.instruction_index_error = index;
                     this.valid_instructions = false;
                 }
 
-                if (ContainsBitmode(instruction_to_analyze) == false)
+                if (this.ContainsBitmode(instruction_to_analyze) == false)
                 {
                     this.instruction_index_error = index;
                     this.valid_instructions = false;
@@ -784,9 +784,6 @@ namespace EmuX
                 STD_ALLOWED_BITMODES,
                 STI_ALLOWED_BITMODES,
                 SUB_ALLOWED_BITMODES,
-                WAIT_ALLOWED_BITMODES,
-                XCHG_ALLOWED_BITMODES,
-                XLAT_ALLOWED_BITMODES,
                 XOR_ALLOWED_BITMODES,
                 LABEL_ALLOWED_BITMODES
             };
@@ -1278,24 +1275,6 @@ namespace EmuX
             Bit_Mode_ENUM._16_BIT,
             Bit_Mode_ENUM._32_BIT,
             Bit_Mode_ENUM._64_BIT
-        };
-
-        public readonly Bit_Mode_ENUM[] WAIT_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
-        {
-            Bit_Mode_ENUM.NoN
-        };
-
-        public readonly Bit_Mode_ENUM[] XCHG_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
-        {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
-        };
-
-        public readonly Bit_Mode_ENUM[] XLAT_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
-        {
-            Bit_Mode_ENUM.NoN
         };
 
         public readonly Bit_Mode_ENUM[] XOR_ALLOWED_BITMODES = new Bit_Mode_ENUM[]

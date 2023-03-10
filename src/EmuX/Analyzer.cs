@@ -749,6 +749,7 @@ namespace EmuX
                 return Bit_Mode_ENUM.NoN;
 
             Instruction_Data instruction_object = new Instruction_Data();
+            register_token = register_token.ToUpper();
 
             if (instruction_object._64_bit_registers.Contains(register_token))
                 return Bit_Mode_ENUM._64_BIT;
