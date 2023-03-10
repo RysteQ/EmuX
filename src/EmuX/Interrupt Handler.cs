@@ -47,39 +47,39 @@
             switch (this.interrupt.GetInterruptCode())
             {
                 case Interrupt.Interrupt_Codes.Set_Cursor_Position:
-                    this.SetCursorPosition();
+                    SetCursorPosition();
                     break;
 
                 case Interrupt.Interrupt_Codes.Get_Cursor_Position:
-                    this.GetCursorPosition();
+                    GetCursorPosition();
                     break;
 
                 case Interrupt.Interrupt_Codes.Clear_Screen:
-                    this.ClearScreen();
+                    ClearScreen();
                     break;
 
                 case Interrupt.Interrupt_Codes.Read_Character_At_Cursor_Position:
-                    this.ReadCharacterAtCursorPosition();
+                    ReadCharacterAtCursorPosition();
                     break;
 
                 case Interrupt.Interrupt_Codes.Write_Character_At_Cursor_Position:
-                    this.WriteCharacterAtCursorPosition();
+                    WriteCharacterAtCursorPosition();
                     break;
 
                 case Interrupt.Interrupt_Codes.Write_Pixel_At_Position:
-                    this.WritePixelAtPosition();
+                    WritePixelAtPosition();
                     break;
 
                 case Interrupt.Interrupt_Codes.Read_From_Disk:
-                    this.ReadFromDisk();
+                    ReadFromDisk();
                     break;
 
                 case Interrupt.Interrupt_Codes.Write_To_Disk:
-                    this.WriteToDisk();
+                    WriteToDisk();
                     break;
 
                 case Interrupt.Interrupt_Codes.Wait_Delay:
-                    this.WaitDelay();
+                    WaitDelay();
                     break;
             }
         }
@@ -93,8 +93,11 @@
             ushort new_cursor_y = this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER);
 
             // make sure the new cursor position is within limits
-            this.cursor_x = (ushort) (new_cursor_x % CHAR_WIDTH);
-            this.cursor_y = (ushort) (new_cursor_y % CHAR_HEIGHT);
+            if (new_cursor_x < CHARACTERS_HORIZONTALY)
+                this.cursor_x = new_cursor_x;
+
+            if (new_cursor_y < CHARACTERS_VERTICALY)
+                this.cursor_y = new_cursor_y;
         }
 
         /// <summary>

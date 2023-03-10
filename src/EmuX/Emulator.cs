@@ -832,7 +832,7 @@ namespace EmuX
                 if (instruction.source_pointer && instruction.source_register != Instruction_Data.Registers_ENUM.NoN)
                 {
                     memory_index = (int) this.virtual_system.GetRegisterDouble(instruction.source_register);
-                } else if (instruction.source_pointer)
+                } else
                 {
                     for (int i = 0; i < static_data.Count; i++)
                         if (static_data[i].name == instruction.source_memory_name)
