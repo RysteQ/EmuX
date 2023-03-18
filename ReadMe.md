@@ -17,8 +17,8 @@ The following image is of the memory map for version 1.0.0, the upcoming version
 
 ![Memory Map](/misc/memory%20map.png)
 
-🟥 **(0x0000 - 0x0400)** Stack Memory
-🟦 **(0x0400 - 0x2000)** General Purpose Memory
+🟥 **(0x0000 - 0x0400)** Stack Memory <br>
+🟦 **(0x0400 - 0x2000)** General Purpose Memory <br>
 
 ## Instructions
 
