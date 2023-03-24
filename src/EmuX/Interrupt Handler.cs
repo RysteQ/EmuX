@@ -67,7 +67,7 @@
                     break;
 
                 case Interrupt.Interrupt_Codes.Write_Pixel_At_Position:
-                    WritePixelAtPosition();
+                    RefreshVideo();
                     break;
 
                 case Interrupt.Interrupt_Codes.Read_From_Disk:
@@ -163,12 +163,25 @@
         /// <summary>
         /// Draws a pixel to the screen based on the CX and DX for it's x and y coordinates
         /// </summary>
-        private void WritePixelAtPosition()
+        private void RefreshVideo()
         {
-            ushort x_pos = (ushort) this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
-            ushort y_pos = (ushort) this.virtual_system.GetRegisterQuad(SECOND_ARGUMENT_REGISTER);
+            const int stack_general_memory_limit = 8192;
 
-            this.video.SetPixel(x_pos, y_pos, Color.White);
+            byte[] RGB = new byte[3];
+            int x = 0;
+            int y = 0;
+
+            for (int i = 0; i < 640 * 420; i += 3)
+            {
+                x = (i / 3) % 640;
+                y = i / (640 * 3);
+
+                RGB[0] = this.virtual_system.GetByteMemory(stack_general_memory_limit + i);
+                RGB[1] = this.virtual_system.GetByteMemory(stack_general_memory_limit + i + 1);
+                RGB[2] = this.virtual_system.GetByteMemory(stack_general_memory_limit + i + 2);
+
+                this.video.SetPixel(x, y, Color.FromArgb(RGB[0], RGB[1], RGB[2]));
+            }
         }
 
         /// <summary>

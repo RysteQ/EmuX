@@ -1,22 +1,17 @@
+screen_memory_start: dq 8192
+byte_limit: dq 82000
+
 section.text
 
-; initialize the registers
-xor cx, cx
-xor dx, dx
+mov rax, quad [screen_memory_start]
+mov rcx, quad [byte_limit]
 
-; the main loop
-draw_screen:
+loop:
+
+mov [rax], byte 255
+add rax, 3
+
+cmp rax, rcx
+jl loop
+
 int 12
-
-; check if the end of the line has been reached
-inc cx
-cmp cx, 100
-jne draw_screen
-
-; reset the column and go to the next line
-xor cx, cx
-
-; check if the end condition was met or not
-inc dx
-cmp dx, 100
-jne draw_screen

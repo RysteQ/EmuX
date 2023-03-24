@@ -678,15 +678,8 @@ namespace EmuX
         private void SetValue(Instruction instruction, int memory_index, ulong value_to_set)
         {
             // check if the value needs to be saved in a register or memory location
-            if (instruction.destination_register != Instruction_Data.Registers_ENUM.NoN && instruction.destination_pointer == false)
+            if (instruction.destination_memory_type != Memory_Type_ENUM.ADDRESS)
             {
-                // check if the data loaded to it is a memory location
-                if (instruction.source_memory_type == Instruction_Data.Memory_Type_ENUM.ADDRESS)
-                {
-                    this.virtual_system.SetRegisterQuad(instruction.destination_register, value_to_set);
-                    return;
-                }
-
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:

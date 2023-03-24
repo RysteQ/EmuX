@@ -162,32 +162,36 @@
         /// <returns>The new EFLAGS value</returns>
         public uint CMP(ulong operand_one, ulong operand_two, uint flags)
         {
+            uint toReturn = 0;
+
+            // CF
             if (operand_one < operand_two)
-            {
-                // set the C flag to one if its not already set to one
-                if (flags % 2 == 0)
-                    flags++;
+                toReturn += 0x00000001;
 
-                // set the Z flag to zero
-                flags = flags & 0xFFFFFFBF;
-            } else if (operand_one > operand_two)
-            {
-                // set the C flag to zero if its not already set to zero
-                flags = flags & 0xFFFFFFFE;
+            // RESERVED ALWAYS 1
+            toReturn += 0x00000002;
 
-                // set the Z flag to zero
-                flags = flags & 0xFFFFFFBF;
-            } else
-            {
-                // set the C flag to zero if its not already set to zero
-                flags = flags & 0xFFFFFFFE;
+            // PF
+            if ((operand_one + operand_two) % 2 == 1)
+                toReturn += 0x00000004;
 
-                // set the Z flag to one if its not already se to one
-                if ((flags & 0x0040) == 0)
-                    flags += 0x00000040;
-            }
+            // AF
+            if (((operand_one & 0x0000000F) + (operand_two & 0x0000000F)) > 15)
+                toReturn += 0x00000010;
 
-            return flags;
+            // ZF
+            if (operand_one == operand_two)
+                toReturn += 0x00000040;
+
+            // SF
+            if (((operand_one - operand_two) >> 63) == 1)
+                toReturn += 0x00000080;
+
+            // OF
+            if ((operand_one >> 63) != (operand_two >> 63))
+                toReturn += 0x00000800;
+
+            return toReturn;
         }
 
         /// <summary>

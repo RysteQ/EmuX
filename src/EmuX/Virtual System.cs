@@ -383,6 +383,6 @@ class VirtualSystem
 
     // MEMORY
     // first kilobyte is the stack
-    private byte[] memory = new byte[8192];
+    private byte[] memory = new byte[8192 + 806400];
     private List<int> call_stack = new List<int>();
 }

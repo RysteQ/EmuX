@@ -42,7 +42,16 @@ namespace EmuX
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Not yet completed", "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            // major versions are complete rewrites or very major changes to the structure of the software
+            // minor versions are new features
+            // hotfix is the bugfix count, increment by one for each version, each version can solve multiple bugs
+            int major_version = 1;
+            int minor_version = 1;
+            int hotfix = 1;
+
+            string version = major_version.ToString() + "." + minor_version.ToString() + "." + hotfix.ToString();
+
+            MessageBox.Show("Version " + version, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)

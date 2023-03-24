@@ -13,12 +13,11 @@ Contents
   
 ## Memory Map
 
-The following image is of the memory map for version 1.0.0, the upcoming version (1.1.0) will have a vastly different memory map.
-
 ![Memory Map](/misc/memory%20map.png)
 
-🟥 **(0x0000 - 0x0400)** Stack Memory <br>
-🟦 **(0x0400 - 0x2000)** General Purpose Memory <br>
+🟥 **(0x0000 - 0x00400)** Stack Memory <br>
+🟦 **(0x00400 - 0x02000)** General Purpose Memory <br>
+🟨 **(0x02000 - 0xC4E00)** Screen Memory <br>
 
 ## Instructions
 
@@ -26,8 +25,10 @@ EmuX supports almost every instruction of the original x86 instruction set, the 
 
 ## Future Goals
 
-The future goals of this project of mine will be adding a framebuffer, having detachable tabs, having the option to actually compile your program as a .exe file and the ability to take a snapshot of the memory each time an instruction is executed for debugging purposes.
+The future goals of this project of mine will be adding detachable tabs, having the option to actually compile your program as a .exe file and the ability to take a snapshot of the memory each time an instruction is executed for debugging purposes.
+
+Also a lot, and I mean a **lot** of debugging.
 
 ---
 
-*Version: 1.0.0*
+*Version: 1.1.1*

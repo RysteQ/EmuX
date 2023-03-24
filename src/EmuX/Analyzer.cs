@@ -303,7 +303,9 @@ namespace EmuX
                     value = GetValue(tokens[tokens.Length - 1]);
 
                     instruction.destination_memory_type = Memory_Type_ENUM.ADDRESS;
-                    
+                    instruction.destination_pointer = true;
+                    instruction.destination_register = GetRegister(tokens[1].Trim('[', ']'));
+
                     // check if the value is valid and assign it, if not then throw an error
                     if (value.Item2)
                         instruction.source_memory_name = value.Item1.ToString();
