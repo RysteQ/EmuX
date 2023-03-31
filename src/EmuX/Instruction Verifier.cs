@@ -11,9 +11,10 @@
  * 
  */
 
-using static EmuX.Instruction_Data;
+using EmuX;
+using static Instruction_Data;
 
-namespace EmuX
+namespace Emux
 {
     class Verifier
     {
@@ -23,7 +24,7 @@ namespace EmuX
         public void SetInstructionData(List<Instruction> instructions)
         {
             this.instructions = instructions;
-            this.valid_instructions = true;
+            valid_instructions = true;
         }
 
         /// <summary>
@@ -31,20 +32,20 @@ namespace EmuX
         /// </summary>
         public void VerifyInstructions()
         {
-            for (int index = 0; index < this.instructions.Count && this.valid_instructions; index++)
+            for (int index = 0; index < instructions.Count && valid_instructions; index++)
             {
-                Instruction instruction_to_analyze = this.instructions[index];
+                Instruction instruction_to_analyze = instructions[index];
 
                 if (ContainsVariant(instruction_to_analyze) == false)
                 {
-                    this.instruction_index_error = index;
-                    this.valid_instructions = false;
+                    instruction_index_error = index;
+                    valid_instructions = false;
                 }
 
                 if (ContainsBitmode(instruction_to_analyze) == false)
                 {
-                    this.instruction_index_error = index;
-                    this.valid_instructions = false;
+                    instruction_index_error = index;
+                    valid_instructions = false;
                 }
             }
         }
@@ -54,7 +55,7 @@ namespace EmuX
         /// </summary>
         public bool AreInstructionsValid()
         {
-            return this.valid_instructions;
+            return valid_instructions;
         }
 
         /// <summary>
@@ -62,7 +63,7 @@ namespace EmuX
         /// </summary>
         public int GetInstructionIndexError()
         {
-            return this.instruction_index_error;
+            return instruction_index_error;
         }
 
         /// <summary>
@@ -70,7 +71,7 @@ namespace EmuX
         /// </summary>
         public string GetErrorMessage()
         {
-            return this.error_message;
+            return error_message;
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace EmuX
 
             Instruction_Variant_ENUM[] specific_instruction_variants = allowed_variants.AllInstructionVariants()[(int)instruction.instruction];
 
-            return specific_instruction_variants.Contains<Instruction_Variant_ENUM>(instruction.variant);
+            return specific_instruction_variants.Contains(instruction.variant);
         }
 
         /// <summary>
@@ -98,14 +99,14 @@ namespace EmuX
 
             Bit_Mode_ENUM[] specific_instruction_bitmodes = allowed_bitmodes.AllAllowedBitmodes()[(int)instruction.instruction];
 
-            return specific_instruction_bitmodes.Contains<Bit_Mode_ENUM>(instruction.bit_mode);
+            return specific_instruction_bitmodes.Contains(instruction.bit_mode);
         }
 
-        private Allowed_Instruction_Variants allowed_variants = new Allowed_Instruction_Variants();
-        private Allowed_Instruction_Bitmodes allowed_bitmodes = new Allowed_Instruction_Bitmodes();
-        private List<Instruction> instructions = new List<Instruction>();
+        private Allowed_Instruction_Variants allowed_variants = new();
+        private Allowed_Instruction_Bitmodes allowed_bitmodes = new();
+        private List<Instruction> instructions = new();
         private bool valid_instructions = true;
-        private int instruction_index_error = 0;
+        private int instruction_index_error;
         private string error_message = "";
     }
 

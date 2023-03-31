@@ -31,4 +31,4 @@ Also a lot, and I mean a **lot** of debugging.
 
 ---
 
-*Version: 1.1.1*
+*Version: 1.2.1*

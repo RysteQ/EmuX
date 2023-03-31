@@ -36,7 +36,6 @@
         /// </summary>
         public string ConvertUnsignedLongToBinaryString(ulong value)
         {
-            StringHandler string_handler = new StringHandler();
             string toReturn = "";
 
             do
@@ -45,7 +44,7 @@
                 value = value / 2;
             } while (value != 0);
 
-            return string_handler.ReverseString(toReturn);
+            return new StringHandler().ReverseString(toReturn);
         }
 
         /// <summary>

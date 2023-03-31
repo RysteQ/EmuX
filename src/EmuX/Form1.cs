@@ -1,5 +1,7 @@
 using System.ComponentModel;
 using System.DirectoryServices;
+using Emux;
+using EmuX;
 
 namespace EmuX
 {
@@ -12,32 +14,32 @@ namespace EmuX
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogFormHandler dialogFormHandler = new DialogFormHandler();
-            string filename = dialogFormHandler.openFileDialog(openFD);
+            openFD.FileName = "";
+            openFD.Filter = "Text file (*.txt)|*.txt|Assenbly file (*.asm)|*.asm|All files (*.*)|*.*";
 
-            if (filename == "")
-                return;
+            if (openFD.ShowDialog() == DialogResult.OK)
+            {
+                RichTextboxAssemblyCode.Text = File.ReadAllText(openFD.FileName);
+                mainForm.ActiveForm.Text = openFD.FileName.Split('\\')[openFD.FileName.Split('\\').Length - 1] + " - EmuX";
+                save_path = openFD.FileName;
 
-            RichTextboxAssemblyCode.Text = File.ReadAllText(filename);
-            mainForm.ActiveForm.Text = filename.Split('\\')[filename.Split('\\').Length - 1] + " - EmuX";
-            save_path = filename;
-
-            UpdateOutput("Opened file " + save_path + " ...");
+                UpdateOutput("Opened file " + save_path + " ...");
+            }
         }
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DialogFormHandler dialogFormHandler = new DialogFormHandler();
-            save_path = dialogFormHandler.saveFileDialog(saveFD);
+            saveFD.FileName = "";
+            saveFD.Filter = "Text file (*.txt)|*.txt|Assenbly file (*.asm)|*.asm|All files (*.*)|*.*";
 
-            if (save_path == "")
-                return;
+            if (saveFD.ShowDialog() == DialogResult.OK)
+            {
+                StreamWriter file_writer = new(save_path);
+                file_writer.Write(RichTextboxAssemblyCode.Text);
+                file_writer.Close();
 
-            StreamWriter file_writer = new StreamWriter(save_path);
-            file_writer.Write(RichTextboxAssemblyCode.Text);
-            file_writer.Close();
-
-            UpdateOutput("File saved in location " + save_path + " ...");
+                UpdateOutput("File saved in location " + save_path + " ...");
+            }
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -46,7 +48,7 @@ namespace EmuX
             // minor versions are new features
             // hotfix is the bugfix count, increment by one for each version, each version can solve multiple bugs
             int major_version = 1;
-            int minor_version = 1;
+            int minor_version = 2;
             int hotfix = 1;
 
             string version = major_version.ToString() + "." + minor_version.ToString() + "." + hotfix.ToString();
@@ -62,7 +64,7 @@ namespace EmuX
                 return;
             }
 
-            StreamWriter file_writer = new StreamWriter(save_path);
+            StreamWriter file_writer = new(save_path);
             file_writer.Write(RichTextboxAssemblyCode.Text);
             file_writer.Close();
 
@@ -136,15 +138,16 @@ namespace EmuX
                     // ......
                     try
                     {
-                        this.interrupt_handler.SetVirtualSystem(this.emulator.GetVirtualSystem());
+                        this.interrupt_handler.virtual_system = this.emulator.GetVirtualSystem();
                         this.interrupt_handler.SetInterrupt(this.emulator.GetInterrupt());
                         this.interrupt_handler.ExecuteInterrupt();
 
                         this.video_form.UpdateVideo(this.interrupt_handler.GetVideoOutput());
 
-                        this.emulator.SetVirtualSystem(this.interrupt_handler.GetVirtualSystem());
+                        this.emulator.SetVirtualSystem(this.interrupt_handler.virtual_system);
                         this.emulator.ResetInterrupt();
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         MessageBox.Show("There was an error in the interrupt handler\n\nError: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
@@ -207,7 +210,7 @@ namespace EmuX
                 textbox_to_update[i].BackColor = Color.White;
             }
 
-            uint EFLAGS = this.virtual_system.GetEFLAGS();
+            uint EFLAGS = this.virtual_system.EFLAGS;
             CheckBox[] checkboxes_to_update = new CheckBox[]
             {
                 CheckBoxCF,
@@ -237,9 +240,9 @@ namespace EmuX
 
         private void ButtonSearchMemoryRange_Click(object sender, EventArgs e)
         {
-            HexConverter hex_converter = new HexConverter();
-            BaseConverter base_converter = new BaseConverter();
-            List<byte> bytes_to_show = new List<byte>();
+            HexConverter hex_converter = new();
+            BaseConverter base_converter = new();
+            List<byte> bytes_to_show = new();
 
             int start = 0;
             int end = 0;
@@ -276,7 +279,7 @@ namespace EmuX
 
             for (int row = 0; row < (end - start) / 8; row++)
             {
-                List<string> to_add = new List<string>();
+                List<string> to_add = new();
                 to_add.Add((row * 8).ToString());
 
                 // check which representation the user wants
@@ -334,7 +337,7 @@ namespace EmuX
 
         private void ButtonSetRegisterValues_Click(object sender, EventArgs e)
         {
-            List<ulong> values_to_set = new List<ulong>();
+            List<ulong> values_to_set = new();
             uint[] masks = this.virtual_system.GetEFLAGSMasks();
             uint EFLAGS_to_set = 0;
 
@@ -386,9 +389,7 @@ namespace EmuX
             // get all of the values and to a validity check on them
             for (int i = 0; i < textbox_to_update.Length; i++)
             {
-                ulong value = 0;
-
-                if (textbox_to_update[i].Text.Trim().Length != 0 && ulong.TryParse(textbox_to_update[i].Text, out value))
+                if (textbox_to_update[i].Text.Trim().Length != 0 && ulong.TryParse(textbox_to_update[i].Text, out ulong value))
                     values_to_set.Add(value);
                 else
                     textbox_to_update[i].BackColor = Color.Red;
@@ -401,7 +402,7 @@ namespace EmuX
                 if (checkboxes_to_update[i].Checked)
                     EFLAGS_to_set += masks[i];
 
-            this.virtual_system.SetEflags(EFLAGS_to_set);
+            this.virtual_system.EFLAGS = EFLAGS_to_set;
 
             this.emulator.SetVirtualSystem(this.virtual_system);
         }
@@ -416,7 +417,7 @@ namespace EmuX
 
         private void decreaseSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Font font_to_set = new Font(RichTextboxAssemblyCode.Font.FontFamily, RichTextboxAssemblyCode.Font.Size - 1, FontStyle.Regular);
+            Font font_to_set = new(RichTextboxAssemblyCode.Font.FontFamily, RichTextboxAssemblyCode.Font.Size - 1, FontStyle.Regular);
 
             RichTextboxAssemblyCode.Font = font_to_set;
             RichtextBoxOutput.Font = font_to_set;
@@ -541,12 +542,27 @@ namespace EmuX
             this.RichtextBoxOutput.Text += message_to_append + "\n";
         }
 
-        private VideoForm video_form = new VideoForm();
-        private VirtualSystem virtual_system = new VirtualSystem();
-        private Analyzer analyzer = new Analyzer();
-        private Emulator emulator = new Emulator();
-        private Verifier verifier = new Verifier();
-        private Interrupt_Handler interrupt_handler = new Interrupt_Handler();
+        private void memoryToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // TODO
+        }
+
+        private void registersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // TODO
+        }
+
+        private void refreshVideoFormTimer_Tick(object sender, EventArgs e)
+        {
+            // TODO
+        }
+
+        private VideoForm video_form = new();
+        private VirtualSystem virtual_system = new();
+        private Analyzer analyzer = new();
+        private Emulator emulator = new();
+        private Verifier verifier = new();
+        private Interrupt_Handler interrupt_handler = new();
         private string save_path = "";
     }
 }

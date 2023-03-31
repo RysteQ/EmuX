@@ -7,9 +7,9 @@
         /// </summary>
         public (ushort, uint) AAA(ushort ax_register_value, uint flags)
         {
-            if (((ax_register_value) & 0x000F) > 9 || (flags & 0x00000010) == 1)
+            if ((ax_register_value & 0x000F) > 9 || (flags & 0x00000010) == 1)
             {
-                ax_register_value = (ushort) (((ax_register_value & 0xFF00) + 1) + ((ax_register_value & 0x00FF) + 6));
+                ax_register_value = (ushort)((ax_register_value & 0xFF00) + 1 + (ax_register_value & 0x00FF) + 6);
                 flags = flags | 0x00000010;
                 flags = flags | 0x00000001;
 
@@ -26,7 +26,7 @@
         /// </summary>
         public ushort AAD(ushort ax_register_value)
         {
-            return (ushort) ((ax_register_value & 0xFF00) + (ax_register_value & 0x00FF));
+            return (ushort)((ax_register_value & 0xFF00) + (ax_register_value & 0x00FF));
         }
 
         /// <summary>
@@ -34,7 +34,7 @@
         /// </summary>
         public ushort AAM(ushort ax_register_value)
         {
-            return (ushort) ((((ax_register_value & 0xFF00) / 10) << 8) + (ax_register_value & 0xFF00) % 10);
+            return (ushort)(((ax_register_value & 0xFF00) / 10 << 8) + (ax_register_value & 0xFF00) % 10);
         }
 
         /// <summary>
@@ -44,17 +44,18 @@
         public VirtualSystem AAS(VirtualSystem virtual_system)
         {
             int low_nibble_al = virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, false) & 0x0F;
-            bool af_status_flag = (virtual_system.GetEFLAGS() & virtual_system.GetEFLAGSMasks()[2]) == 1;
+            bool af_status_flag = (virtual_system.EFLAGS & virtual_system.GetEFLAGSMasks()[2]) == 1;
             uint af_cf_status_flag_mask = virtual_system.GetEFLAGSMasks()[2] + virtual_system.GetEFLAGSMasks()[0];
 
             if (low_nibble_al > 9 || af_status_flag)
             {
-                virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte) (low_nibble_al - 6), false);
-                virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte) (virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, true) - 1), true);
-                virtual_system.SetEflags(virtual_system.GetEFLAGS() | af_cf_status_flag_mask);
-            } else
+                virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte)(low_nibble_al - 6), false);
+                virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte)(virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, true) - 1), true);
+                virtual_system.EFLAGS = virtual_system.EFLAGS | af_cf_status_flag_mask;
+            }
+            else
             {
-                virtual_system.SetEflags(virtual_system.GetEFLAGS() ^ af_cf_status_flag_mask);
+                virtual_system.EFLAGS = virtual_system.EFLAGS ^ af_cf_status_flag_mask;
             }
 
             return virtual_system;
@@ -176,7 +177,7 @@
                 toReturn += 0x00000004;
 
             // AF
-            if (((operand_one & 0x0000000F) + (operand_two & 0x0000000F)) > 15)
+            if ((operand_one & 0x0000000F) + (operand_two & 0x0000000F) > 15)
                 toReturn += 0x00000010;
 
             // ZF
@@ -184,11 +185,11 @@
                 toReturn += 0x00000040;
 
             // SF
-            if (((operand_one - operand_two) >> 63) == 1)
+            if (operand_one - operand_two >> 63 == 1)
                 toReturn += 0x00000080;
 
             // OF
-            if ((operand_one >> 63) != (operand_two >> 63))
+            if (operand_one >> 63 != operand_two >> 63)
                 toReturn += 0x00000800;
 
             return toReturn;
@@ -214,9 +215,9 @@
         public byte DAA(byte value, uint flags)
         {
             if ((value & 0x0F) > 9 || (flags & 0x00000010) == 1)
-                return (byte) (value + 6);
+                return (byte)(value + 6);
             else if (value > 0x9F || (flags & 0x00000001) == 1)
-                return (byte) (value + 96);
+                return (byte)(value + 96);
 
             return value;
         }
@@ -229,9 +230,9 @@
         public byte DAS(byte value, uint flags)
         {
             if ((value & 0x0F) > 9 || (flags & 0x00000010) == 1)
-                return (byte) (value - 6);
+                return (byte)(value - 6);
             else if (value > 0x9F || (flags & 0x00000001) == 1)
-                return (byte) (value - 96);
+                return (byte)(value - 96);
 
             return value;
         }
@@ -247,7 +248,7 @@
                 case Instruction_Data.Bit_Mode_ENUM._8_BIT:
                     if ((value & 0x00000000000000FF) == 0)
                         return byte.MaxValue;
-                    
+
                     break;
 
                 case Instruction_Data.Bit_Mode_ENUM._16_BIT:
@@ -289,30 +290,30 @@
                     quotient = divident / destination_value;
                     remainder = divident % destination_value;
 
-                    virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte) quotient, false);
-                    virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte) remainder, true);
+                    virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte)quotient, false);
+                    virtual_system.SetRegisterByte(Instruction_Data.Registers_ENUM.RAX, (byte)remainder, true);
 
                     break;
 
                 case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                    divident = (ulong) ((virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RDX) << 16) + virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX));
+                    divident = (ulong)((virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RDX) << 16) + virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX));
 
                     quotient = divident / destination_value;
                     remainder = divident % destination_value;
 
-                    virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, (ushort) quotient);
-                    virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RDX, (ushort) remainder);
+                    virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, (ushort)quotient);
+                    virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RDX, (ushort)remainder);
 
                     break;
 
                 case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                    divident = (ulong) ((virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RDX) << 32) + virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RAX));
+                    divident = (ulong)((virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RDX) << 32) + virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RAX));
 
                     quotient = divident / destination_value;
                     remainder = divident % destination_value;
 
-                    virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RAX, (uint) quotient);
-                    virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RDX, (uint) remainder);
+                    virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RAX, (uint)quotient);
+                    virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RDX, (uint)remainder);
 
                     break;
             }
@@ -332,11 +333,11 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
-        
+
         public int JAE(List<(string, int)> labels, string label_to_jump_to, bool cf_flag_status)
         {
             if (cf_flag_status)
@@ -344,7 +345,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -356,7 +357,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -368,7 +369,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -380,7 +381,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -392,19 +393,19 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
-        
+
         public int JG(List<(string, int)> labels, string label_to_jump_to, bool zf_flag_status, bool sf_flag_status, bool of_status_flag)
         {
-            if (zf_flag_status || (sf_flag_status != of_status_flag))
+            if (zf_flag_status || sf_flag_status != of_status_flag)
                 return -1;
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -416,7 +417,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -428,7 +429,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -440,7 +441,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -452,7 +453,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -464,7 +465,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -476,7 +477,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -488,7 +489,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -500,19 +501,19 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
 
         public int JNG(List<(string, int)> labels, string label_to_jump_to, bool zf_flag_status, bool sf_flag_status, bool of_flag_status)
         {
-            if (zf_flag_status == false && (sf_flag_status == of_flag_status))
+            if (zf_flag_status == false && sf_flag_status == of_flag_status)
                 return -1;
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -524,7 +525,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -536,19 +537,19 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
 
         public int JNLE(List<(string, int)> labels, string label_to_jump_to, bool zf_status_flag, bool sf_flag_status, bool of_flag_status)
         {
-            if (zf_status_flag || (sf_flag_status != of_flag_status))
+            if (zf_status_flag || sf_flag_status != of_flag_status)
                 return -1;
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -560,7 +561,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -572,7 +573,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -584,7 +585,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -596,7 +597,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -608,7 +609,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -620,7 +621,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -632,7 +633,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -644,7 +645,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -656,7 +657,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -668,7 +669,7 @@
 
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
@@ -677,14 +678,14 @@
         {
             for (int i = 0; i < labels.Count; i++)
                 if (labels[i].Item1 == label_to_jump_to)
-                    return labels[i].Item2;;
+                    return labels[i].Item2; ;
 
             return -1;
         }
 
         public byte LAHF(uint EFLAGS_register_value)
         {
-            return (byte) (EFLAGS_register_value & 0x000000FF);
+            return (byte)(EFLAGS_register_value & 0x000000FF);
         }
 
         public int LEA(List<StaticData> static_data, string static_data_to_find)
@@ -708,15 +709,17 @@
         {
             if (bit_mode == Instruction_Data.Bit_Mode_ENUM._8_BIT)
             {
-                virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, (ushort) (virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, false) * destination_value));
-            } else if (bit_mode == Instruction_Data.Bit_Mode_ENUM._16_BIT)
+                virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, (ushort)(virtual_system.GetRegisterByte(Instruction_Data.Registers_ENUM.RAX, false) * destination_value));
+            }
+            else if (bit_mode == Instruction_Data.Bit_Mode_ENUM._16_BIT)
             {
-                virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RDX, (ushort) ((virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX) * destination_value) & 0xFFFF0000));
-                virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, (ushort) ((virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX) * destination_value) & 0x0000FFFF));
-            } else
+                virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RDX, (ushort)(virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX) * destination_value & 0xFFFF0000));
+                virtual_system.SetRegisterWord(Instruction_Data.Registers_ENUM.RAX, (ushort)(virtual_system.GetRegisterWord(Instruction_Data.Registers_ENUM.RAX) * destination_value & 0x0000FFFF));
+            }
+            else
             {
-                virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RDX, (uint) ((virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RAX) * destination_value) & 0xFFFFFFFF00000000));
-                virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RAX, (uint) ((virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RAX) * destination_value) & 0x00000000FFFFFFFF));
+                virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RDX, (uint)(virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RAX) * destination_value & 0xFFFFFFFF00000000));
+                virtual_system.SetRegisterDouble(Instruction_Data.Registers_ENUM.RAX, (uint)(virtual_system.GetRegisterDouble(Instruction_Data.Registers_ENUM.RAX) * destination_value & 0x00000000FFFFFFFF));
             }
 
             return virtual_system;
@@ -724,7 +727,7 @@
 
         public ulong NEG(ulong value)
         {
-            return (~value) + 1;
+            return ~value + 1;
         }
 
         /// <summary>
@@ -746,7 +749,7 @@
         public VirtualSystem POP(VirtualSystem virtual_system, Instruction instruction, int memory_index)
         {
             ulong value_to_set = 0;
-            
+
             // pop the right amount of bytes from the stack
             switch (instruction.bit_mode)
             {
@@ -774,15 +777,15 @@
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.destination_high_or_low);
+                        virtual_system.SetRegisterByte(instruction.destination_register, (byte)value_to_set, instruction.destination_high_or_low);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        virtual_system.SetRegisterWord(instruction.destination_register, (ushort) value_to_set);
+                        virtual_system.SetRegisterWord(instruction.destination_register, (ushort)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                        virtual_system.SetRegisterDouble(instruction.destination_register, (uint) value_to_set);
+                        virtual_system.SetRegisterDouble(instruction.destination_register, (uint)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._64_BIT:
@@ -795,15 +798,15 @@
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        virtual_system.SetByteMemory(memory_index, (byte) value_to_set);
+                        virtual_system.SetByteMemory(memory_index, (byte)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        virtual_system.SetWordMemory(memory_index, (ushort) value_to_set);
+                        virtual_system.SetWordMemory(memory_index, (ushort)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                        virtual_system.SetDoubleMemory(memory_index, (uint) value_to_set);
+                        virtual_system.SetDoubleMemory(memory_index, (uint)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._64_BIT:
@@ -817,7 +820,7 @@
 
         public VirtualSystem POPF(VirtualSystem virtual_system)
         {
-            virtual_system.SetEflags(virtual_system.PopWord());
+            virtual_system.EFLAGS = virtual_system.PopWord();
             return virtual_system;
         }
 
@@ -826,15 +829,15 @@
             switch (bit_mode)
             {
                 case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                    virtual_system.PushByte((byte) value);
+                    virtual_system.PushByte((byte)value);
                     break;
 
                 case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                    virtual_system.PushWord((ushort) value);
+                    virtual_system.PushWord((ushort)value);
                     break;
 
                 case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                    virtual_system.PushDouble((uint) value);
+                    virtual_system.PushDouble((uint)value);
                     break;
 
                 case Instruction_Data.Bit_Mode_ENUM._64_BIT:
@@ -847,15 +850,15 @@
 
         public VirtualSystem PUSHF(VirtualSystem virtual_system, uint EFLAGS)
         {
-            virtual_system.PushWord((ushort) EFLAGS);
+            virtual_system.PushWord((ushort)EFLAGS);
             return virtual_system;
         }
 
         public VirtualSystem RCL(VirtualSystem virtual_system, Instruction instruction, int memory_index, ulong destination_value, int bits_to_shift)
         {
-            byte new_value_byte = (byte) destination_value;
-            ushort new_value_ushort = (ushort) destination_value;
-            uint new_value_uint = (uint) destination_value;
+            byte new_value_byte = (byte)destination_value;
+            ushort new_value_ushort = (ushort)destination_value;
+            uint new_value_uint = (uint)destination_value;
             ulong new_value_ulong = destination_value;
 
             ulong value_to_set = 0;
@@ -866,14 +869,14 @@
             for (int i = 0; i < bits_to_shift; i++)
             {
                 // Get the CF value
-                CF_value = (virtual_system.GetEFLAGS() & virtual_system.GetEFLAGSMasks()[0]) == 1;
+                CF_value = (virtual_system.EFLAGS & virtual_system.GetEFLAGSMasks()[0]) == 1;
 
                 // get the new CF value and rotate all the bits by one bit
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        CF_new_value = (((byte) destination_value) & 0x80) == 1;
-                        new_value_byte = (byte) (((new_value_byte << 1) | (new_value_byte >> (8 - 1))) ^ 1);
+                        CF_new_value = ((byte)destination_value & 0x80) == 1;
+                        new_value_byte = (byte)((new_value_byte << 1 | new_value_byte >> 8 - 1) ^ 1);
 
                         if (CF_value)
                             new_value_byte++;
@@ -881,8 +884,8 @@
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        CF_new_value = (((ushort) destination_value) & 0x8000) == 1;
-                        new_value_ushort = (ushort) (((new_value_ushort << 1) | (new_value_ushort >> (16 - 1))) ^ 1);
+                        CF_new_value = ((ushort)destination_value & 0x8000) == 1;
+                        new_value_ushort = (ushort)((new_value_ushort << 1 | new_value_ushort >> 16 - 1) ^ 1);
 
                         if (CF_value)
                             new_value_ushort++;
@@ -890,8 +893,8 @@
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                        CF_new_value = (((uint) destination_value) & 0x80000000) == 1;
-                        new_value_uint = (new_value_uint << 1) | (new_value_uint >> (32 - 1)) ^ 1;
+                        CF_new_value = ((uint)destination_value & 0x80000000) == 1;
+                        new_value_uint = new_value_uint << 1 | new_value_uint >> 32 - 1 ^ 1;
 
                         if (CF_value)
                             new_value_uint++;
@@ -900,7 +903,7 @@
 
                     case Instruction_Data.Bit_Mode_ENUM._64_BIT:
                         CF_new_value = (destination_value & 0x8000000000000000) == 1;
-                        new_value_ulong = (new_value_ulong << 1) | (new_value_ulong >> (64 - 1)) ^ 1;
+                        new_value_ulong = new_value_ulong << 1 | new_value_ulong >> 64 - 1 ^ 1;
 
                         if (CF_value)
                             new_value_ulong++;
@@ -909,9 +912,9 @@
                 }
 
                 if (CF_new_value)
-                    virtual_system.SetEflags(virtual_system.GetEFLAGS() ^ virtual_system.GetEFLAGSMasks()[0] + 1);
+                    virtual_system.EFLAGS = virtual_system.EFLAGS ^ virtual_system.GetEFLAGSMasks()[0] + 1;
                 else
-                    virtual_system.SetEflags(virtual_system.GetEFLAGS() ^ virtual_system.GetEFLAGSMasks()[0]);
+                    virtual_system.EFLAGS = virtual_system.EFLAGS ^ virtual_system.GetEFLAGSMasks()[0];
             }
 
             switch (instruction.bit_mode)
@@ -940,15 +943,15 @@
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.destination_high_or_low);
+                        virtual_system.SetRegisterByte(instruction.destination_register, (byte)value_to_set, instruction.destination_high_or_low);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        virtual_system.SetRegisterWord(instruction.destination_register, (ushort) value_to_set);
+                        virtual_system.SetRegisterWord(instruction.destination_register, (ushort)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                        virtual_system.SetRegisterDouble(instruction.destination_register, (uint) value_to_set);
+                        virtual_system.SetRegisterDouble(instruction.destination_register, (uint)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._64_BIT:
@@ -961,15 +964,15 @@
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        virtual_system.SetByteMemory(memory_index, (byte) value_to_set);
+                        virtual_system.SetByteMemory(memory_index, (byte)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        virtual_system.SetWordMemory(memory_index, (ushort) value_to_set);
+                        virtual_system.SetWordMemory(memory_index, (ushort)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                        virtual_system.SetDoubleMemory(memory_index, (uint) value_to_set);
+                        virtual_system.SetDoubleMemory(memory_index, (uint)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._64_BIT:
@@ -983,9 +986,9 @@
 
         public VirtualSystem RCR(VirtualSystem virtual_system, Instruction instruction, int memory_index, ulong destination_value, int bits_to_shift)
         {
-            byte new_value_byte = (byte) destination_value;
-            ushort new_value_ushort = (ushort) destination_value;
-            uint new_value_uint = (uint) destination_value;
+            byte new_value_byte = (byte)destination_value;
+            ushort new_value_ushort = (ushort)destination_value;
+            uint new_value_uint = (uint)destination_value;
             ulong new_value_ulong = destination_value;
 
             ulong value_to_set = 0;
@@ -996,14 +999,14 @@
             for (int i = 0; i < bits_to_shift; i++)
             {
                 // Get the CF value
-                CF_value = (virtual_system.GetEFLAGS() & virtual_system.GetEFLAGSMasks()[0]) == 1;
+                CF_value = (virtual_system.EFLAGS & virtual_system.GetEFLAGSMasks()[0]) == 1;
 
                 // get the new CF value and rotate all the bits by one bit
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        CF_new_value = (((byte) destination_value) & 0x80) == 1;
-                        new_value_byte = (byte) (((new_value_byte >> 1) | (new_value_byte << (8 - 1))) ^ 1);
+                        CF_new_value = ((byte)destination_value & 0x80) == 1;
+                        new_value_byte = (byte)((new_value_byte >> 1 | new_value_byte << 8 - 1) ^ 1);
 
                         if (CF_value)
                             new_value_byte++;
@@ -1011,8 +1014,8 @@
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        CF_new_value = (((ushort) destination_value) & 0x8000) == 1;
-                        new_value_ushort = (ushort) (((new_value_ushort >> 1) | (new_value_ushort << (16 - 1))) ^ 1);
+                        CF_new_value = ((ushort)destination_value & 0x8000) == 1;
+                        new_value_ushort = (ushort)((new_value_ushort >> 1 | new_value_ushort << 16 - 1) ^ 1);
 
                         if (CF_value)
                             new_value_ushort++;
@@ -1020,8 +1023,8 @@
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                        CF_new_value = (((uint) destination_value) & 0x80000000) == 1;
-                        new_value_uint = (new_value_uint >> 1) | (new_value_uint << (32 - 1)) ^ 1;
+                        CF_new_value = ((uint)destination_value & 0x80000000) == 1;
+                        new_value_uint = new_value_uint >> 1 | new_value_uint << 32 - 1 ^ 1;
 
                         if (CF_value)
                             new_value_uint++;
@@ -1030,7 +1033,7 @@
 
                     case Instruction_Data.Bit_Mode_ENUM._64_BIT:
                         CF_new_value = (destination_value & 0x8000000000000000) == 1;
-                        new_value_ulong = (new_value_ulong >> 1) | (new_value_ulong << (64 - 1)) ^ 1;
+                        new_value_ulong = new_value_ulong >> 1 | new_value_ulong << 64 - 1 ^ 1;
 
                         if (CF_value)
                             new_value_ulong++;
@@ -1039,9 +1042,9 @@
                 }
 
                 if (CF_new_value)
-                    virtual_system.SetEflags(virtual_system.GetEFLAGS() ^ virtual_system.GetEFLAGSMasks()[0] + 1);
+                    virtual_system.EFLAGS = virtual_system.EFLAGS ^ virtual_system.GetEFLAGSMasks()[0] + 1;
                 else
-                    virtual_system.SetEflags(virtual_system.GetEFLAGS() ^ virtual_system.GetEFLAGSMasks()[0]);
+                    virtual_system.EFLAGS = virtual_system.EFLAGS ^ virtual_system.GetEFLAGSMasks()[0];
             }
 
             switch (instruction.bit_mode)
@@ -1070,15 +1073,15 @@
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        virtual_system.SetRegisterByte(instruction.destination_register, (byte) value_to_set, instruction.destination_high_or_low);
+                        virtual_system.SetRegisterByte(instruction.destination_register, (byte)value_to_set, instruction.destination_high_or_low);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        virtual_system.SetRegisterWord(instruction.destination_register, (ushort) value_to_set);
+                        virtual_system.SetRegisterWord(instruction.destination_register, (ushort)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                        virtual_system.SetRegisterDouble(instruction.destination_register, (uint) value_to_set);
+                        virtual_system.SetRegisterDouble(instruction.destination_register, (uint)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._64_BIT:
@@ -1091,15 +1094,15 @@
                 switch (instruction.bit_mode)
                 {
                     case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                        virtual_system.SetByteMemory(memory_index, (byte) value_to_set);
+                        virtual_system.SetByteMemory(memory_index, (byte)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                        virtual_system.SetWordMemory(memory_index, (ushort) value_to_set);
+                        virtual_system.SetWordMemory(memory_index, (ushort)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                        virtual_system.SetDoubleMemory(memory_index, (uint) value_to_set);
+                        virtual_system.SetDoubleMemory(memory_index, (uint)value_to_set);
                         break;
 
                     case Instruction_Data.Bit_Mode_ENUM._64_BIT:
@@ -1113,24 +1116,24 @@
 
         public ulong ROL(Instruction_Data.Bit_Mode_ENUM bit_mode, ulong value, int bits_to_shift)
         {
-            byte new_value_byte = (byte) value;
-            ushort new_value_ushort = (ushort) value;
-            uint new_value_uint = (uint) value;
+            byte new_value_byte = (byte)value;
+            ushort new_value_ushort = (ushort)value;
+            uint new_value_uint = (uint)value;
             ulong new_value_ulong = value;
 
             switch (bit_mode)
             {
                 case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                    return (ulong) ((new_value_byte << bits_to_shift) | (new_value_byte >> (8 - bits_to_shift)));
+                    return (ulong)(new_value_byte << bits_to_shift | new_value_byte >> 8 - bits_to_shift);
 
                 case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                    return (ulong) ((new_value_ushort << bits_to_shift) | (new_value_ushort >> (16 - bits_to_shift)));
+                    return (ulong)(new_value_ushort << bits_to_shift | new_value_ushort >> 16 - bits_to_shift);
 
                 case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                    return (new_value_uint << bits_to_shift) | (new_value_uint << (32 - bits_to_shift));
+                    return new_value_uint << bits_to_shift | new_value_uint << 32 - bits_to_shift;
 
                 case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                    return (new_value_ulong << bits_to_shift) | (new_value_ulong >> (64 - bits_to_shift));
+                    return new_value_ulong << bits_to_shift | new_value_ulong >> 64 - bits_to_shift;
             }
 
             return 0;
@@ -1146,16 +1149,16 @@
             switch (bit_mode)
             {
                 case Instruction_Data.Bit_Mode_ENUM._8_BIT:
-                    return (ulong) ((new_value_byte >> bits_to_shift) | (new_value_byte << (8 - bits_to_shift)));
+                    return (ulong)(new_value_byte >> bits_to_shift | new_value_byte << 8 - bits_to_shift);
 
                 case Instruction_Data.Bit_Mode_ENUM._16_BIT:
-                    return (ulong) ((new_value_ushort >> bits_to_shift) | (new_value_ushort << (16 - bits_to_shift)));
+                    return (ulong)(new_value_ushort >> bits_to_shift | new_value_ushort << 16 - bits_to_shift);
 
                 case Instruction_Data.Bit_Mode_ENUM._32_BIT:
-                    return (new_value_uint >> bits_to_shift) | (new_value_uint << (32 - bits_to_shift));
+                    return new_value_uint >> bits_to_shift | new_value_uint << 32 - bits_to_shift;
 
                 case Instruction_Data.Bit_Mode_ENUM._64_BIT:
-                    return (new_value_ulong >> bits_to_shift) | (new_value_ulong << (64 - bits_to_shift));
+                    return new_value_ulong >> bits_to_shift | new_value_ulong << 64 - bits_to_shift;
             }
 
             return 0;
@@ -1166,22 +1169,22 @@
             byte toReturn = 0;
 
             // get the SF
-            toReturn = (byte) ((EFLAGS & EFLAGS_masks[4]) << 7);
+            toReturn = (byte)((EFLAGS & EFLAGS_masks[4]) << 7);
 
             // get the ZF
-            toReturn += (byte) ((EFLAGS & EFLAGS_masks[3]) << 6);
+            toReturn += (byte)((EFLAGS & EFLAGS_masks[3]) << 6);
 
             // get the AF
-            toReturn += (byte) ((EFLAGS & EFLAGS_masks[2]) << 4);
+            toReturn += (byte)((EFLAGS & EFLAGS_masks[2]) << 4);
 
             // get the PF
-            toReturn += (byte) ((EFLAGS & EFLAGS_masks[1]) << 2);
+            toReturn += (byte)((EFLAGS & EFLAGS_masks[1]) << 2);
 
             // set 1 to the second lowest bit
-            toReturn += (byte) (1 << 1);
+            toReturn += 1 << 1;
 
             // get the CF
-            toReturn += (byte) (EFLAGS & EFLAGS_masks[0]);
+            toReturn += (byte)(EFLAGS & EFLAGS_masks[0]);
 
             return toReturn;
         }
@@ -1237,7 +1240,7 @@
 
             return EFLAGS + IF_mask;
         }
-         
+
         public ulong SUB(ulong destination_value, ulong source_value)
         {
             return destination_value - source_value;

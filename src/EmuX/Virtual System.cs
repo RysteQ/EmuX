@@ -16,7 +16,7 @@ class VirtualSystem
         this.registers = virtual_system.GetAllRegisterValues();
         this.memory = virtual_system.GetAllMemory();
         this.call_stack = virtual_system.GetCallStack();
-        this.EFLAGS = virtual_system.GetEFLAGS();
+        this.EFLAGS = virtual_system.EFLAGS;
     }
 
     public void ResetVirtualSystem()
@@ -308,14 +308,6 @@ class VirtualSystem
 
     // EFLAGS getters
 
-    /// <summary>
-    /// Gets the EFLAGS register
-    /// </summary>
-    public uint GetEFLAGS()
-    {
-        return this.EFLAGS;
-    }
-
     public uint[] GetEFLAGSMasks()
     {
         uint[] masks = new uint[]
@@ -365,21 +357,11 @@ class VirtualSystem
         return toReturn;
     }
 
-    // EFLAGS setters
-
-    /// <summary>
-    /// Sets the EFLAGS register
-    /// </summary>
-    public void SetEflags(uint flags)
-    {
-        this.EFLAGS = flags;
-    }
-
     // REGISTERS
     private ulong[] registers = new ulong[(int) Instruction_Data.Registers_ENUM.LAST - 2];
 
     // EFLAGS
-    private uint EFLAGS = 0;
+    public uint EFLAGS { get; set; }
 
     // MEMORY
     // first kilobyte is the stack

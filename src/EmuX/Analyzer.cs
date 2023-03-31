@@ -1,18 +1,16 @@
-﻿using static EmuX.Instruction_Data;
-
-namespace EmuX
+﻿namespace EmuX
 {
     /// <summary>
     /// Analyzes a string value and returns the instructions and the data necessary for the Emulator.cs class
     /// </summary>
-    internal class Analyzer
+    internal class Analyzer : Instruction_Data
     {
         private void Flush()
         {
-            this.static_data = new List<StaticData>();
-            this.instructions = new List<Instruction>();
-            this.labels = new List<(string, int)>();
-            this.successful = true;
+            static_data = new List<StaticData>();
+            instructions = new List<Instruction>();
+            labels = new List<(string, int)>();
+            successful = true;
         }
 
         /// <summary>
@@ -20,7 +18,7 @@ namespace EmuX
         /// </summary>
         public void SetInstructions(string instructions_to_analyze)
         {
-            this.instructions_data = instructions_to_analyze;
+            instructions_data = instructions_to_analyze;
         }
 
         /// <summary>
@@ -29,33 +27,33 @@ namespace EmuX
         /// </summary>
         public void AnalyzeInstructions()
         {
-            Instruction_Groups instruction_groups = new Instruction_Groups();
-            string[] label_names = ScanForLabels(this.instructions_data);
+            Instruction_Groups instruction_groups = new();
+            string[] label_names = ScanForLabels(instructions_data);
             int offset = 1024;
 
             Flush();
 
-            if (this.instructions_data.Contains("section.text") == false)
+            if (instructions_data.Contains("section.text") == false)
             {
                 AnalyzerError(-1);
                 return;
             }
 
-            this.static_data_to_analyze = this.instructions_data.Split("section.text")[0].Split('\n');
-            this.static_data_to_analyze = RemoveComments(this.static_data_to_analyze);
-            this.static_data_to_analyze = new StringHandler().RemoveEmptyLines(this.static_data_to_analyze);
+            static_data_to_analyze = instructions_data.Split("section.text")[0].Split('\n');
+            static_data_to_analyze = RemoveComments(static_data_to_analyze);
+            static_data_to_analyze = new StringHandler().RemoveEmptyLines(static_data_to_analyze);
 
-            this.instructions_to_analyze = this.instructions_data.Split("section.text")[1].Split('\n');
-            this.instructions_to_analyze = RemoveComments(this.instructions_to_analyze);
-            this.instructions_to_analyze = new StringHandler().RemoveEmptyLines(this.instructions_to_analyze);
+            instructions_to_analyze = instructions_data.Split("section.text")[1].Split('\n');
+            instructions_to_analyze = RemoveComments(instructions_to_analyze);
+            instructions_to_analyze = new StringHandler().RemoveEmptyLines(instructions_to_analyze);
 
             for (int line = 0; line < static_data_to_analyze.Length; line++)
                 offset = AnalyzeStaticData(static_data_to_analyze[line], offset, line);
 
-            for (int line = 0; line < this.instructions_to_analyze.Length && this.successful; line++)
+            for (int line = 0; line < instructions_to_analyze.Length && successful; line++)
             {
-                Instruction instruction_to_add = new Instruction();
-                string instruction_to_analyze = this.instructions_to_analyze[line];
+                Instruction instruction_to_add = new();
+                string instruction_to_analyze = instructions_to_analyze[line];
                 string[] tokens = instruction_to_analyze.Split(' ');
 
                 // check if the line refers to a label
@@ -67,11 +65,12 @@ namespace EmuX
                         instruction_to_add.instruction = Instruction_ENUM.LABEL;
                         instruction_to_add.bit_mode = Bit_Mode_ENUM.NoN;
 
-                        this.labels.Add((tokens[0].TrimEnd(':'), line));
-                        this.instructions.Add(instruction_to_add);
-                        
+                        labels.Add((tokens[0].TrimEnd(':'), line));
+                        instructions.Add(instruction_to_add);
+
                         continue;
-                    } else
+                    }
+                    else
                     {
                         AnalyzerError(line);
                         break;
@@ -91,7 +90,8 @@ namespace EmuX
                     }
 
                     instruction_to_add = AssignLabelInstruction(instruction_to_add, label_names, tokens[1], line);
-                } else if (instruction_groups.no_operands.Contains(instruction_to_add.instruction))
+                }
+                else if (instruction_groups.no_operands.Contains(instruction_to_add.instruction))
                 {
                     // check if the instruction is valid
                     if (tokens.Length != 1)
@@ -101,7 +101,8 @@ namespace EmuX
                     }
 
                     instruction_to_add = AssignNoOperandInstruction(instruction_to_add, tokens, line);
-                } else if (instruction_groups.one_operands.Contains(instruction_to_add.instruction))
+                }
+                else if (instruction_groups.one_operands.Contains(instruction_to_add.instruction))
                 {
                     if (tokens.Length != 2 && tokens.Length != 3)
                     {
@@ -110,7 +111,8 @@ namespace EmuX
                     }
 
                     instruction_to_add = AssignOneOperandInstruction(instruction_to_add, tokens, offset, line);
-                } else if (instruction_groups.two_operands.Contains(instruction_to_add.instruction))
+                }
+                else if (instruction_groups.two_operands.Contains(instruction_to_add.instruction))
                 {
                     if (tokens.Length != 3 && tokens.Length != 4)
                     {
@@ -119,13 +121,14 @@ namespace EmuX
                     }
 
                     instruction_to_add = AssignTwoOperandInstruction(instruction_to_add, tokens, offset, line);
-                } else
+                }
+                else
                 {
                     AnalyzerError(line);
                     return;
                 }
 
-                this.instructions.Add(instruction_to_add);
+                instructions.Add(instruction_to_add);
             }
         }
 
@@ -139,7 +142,7 @@ namespace EmuX
 
             if (label_found == false)
             {
-                this.AnalyzerError(line);
+                AnalyzerError(line);
                 return instruction;
             }
 
@@ -161,7 +164,8 @@ namespace EmuX
                 instruction.destination_memory_type = Memory_Type_ENUM.LABEL;
                 instruction.destination_memory_name = tokens[1];
                 instruction.bit_mode = AssignBitMode(instruction, "");
-            } else
+            }
+            else
             {
                 instruction.bit_mode = Bit_Mode_ENUM.NoN;
             }
@@ -171,34 +175,34 @@ namespace EmuX
 
         private Instruction AssignOneOperandInstruction(Instruction instruction, string[] tokens, int memory_offset, int line)
         {
-            instruction.variant = this.GetVariant(instruction.instruction, tokens);
+            instruction.variant = GetVariant(instruction.instruction, tokens);
             (ulong, bool) value;
 
             switch (instruction.variant)
             {
                 case Instruction_Variant_ENUM.SINGLE_REGISTER:
-                    instruction.destination_register = this.GetRegister(tokens[tokens.Length - 1]);
+                    instruction.destination_register = GetRegister(tokens[tokens.Length - 1]);
 
                     // check if the instruction has a keyword like byte (example: inc byte al) or not
                     if (tokens.Length == 2)
                     {
-                        instruction.bit_mode = this.AssignBitMode(instruction, tokens[tokens.Length - 1]);
+                        instruction.bit_mode = AssignBitMode(instruction, tokens[tokens.Length - 1]);
                     }
                     else
                     {
-                        instruction.bit_mode = this.GetUserAssignedBitmode(tokens[1]);
+                        instruction.bit_mode = GetUserAssignedBitmode(tokens[1]);
 
                         if (instruction.bit_mode == Bit_Mode_ENUM.NoN)
-                            this.AnalyzerError(line);
+                            AnalyzerError(line);
                     }
 
                     break;
 
                 case Instruction_Variant_ENUM.SINGLE_VALUE:
-                    value = this.GetValue(tokens[tokens.Length - 1]);
+                    value = GetValue(tokens[tokens.Length - 1]);
 
                     if (value.Item2 == false)
-                        this.AnalyzerError(line);
+                        AnalyzerError(line);
 
                     instruction.destination_memory_name = value.Item1.ToString();
                     instruction.destination_memory_type = Memory_Type_ENUM.VALUE;
@@ -208,7 +212,7 @@ namespace EmuX
                 case Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE:
                     // check for keywords like byte word etc
                     if (tokens.Length == 3)
-                        instruction.bit_mode = this.GetUserAssignedBitmode(tokens[1]);
+                        instruction.bit_mode = GetUserAssignedBitmode(tokens[1]);
 
                     instruction.destination_memory_type = Memory_Type_ENUM.ADDRESS;
 
@@ -326,7 +330,7 @@ namespace EmuX
 
         private string[] ScanForLabels(string to_analyze)
         {
-            List<string> toReturn = new List<string>();
+            List<string> toReturn = new();
             string[] lines = to_analyze.Split('\n');
 
             for (int line = 0; line < lines.Length; line++)
@@ -346,8 +350,8 @@ namespace EmuX
         /// </summary>
         private int AnalyzeStaticData(string static_data_to_analyze, int offset, int line)
         {
-            StaticData static_data_to_add = new StaticData();
-            Instruction_Data register_name_lookup = new Instruction_Data();
+            StaticData static_data_to_add = new();
+            Instruction_Data register_name_lookup = new();
 
             string static_data_name = static_data_to_analyze.Split(':')[0].Trim();
             string[] static_data_tokens = static_data_to_analyze.Split(static_data_name + ":");
@@ -360,9 +364,9 @@ namespace EmuX
             static_data_tokens[0] = static_data_name.TrimEnd(':');
 
             // check if the static data name is valid or not aka if the static data name is a register name or not
-            if (register_name_lookup._8_bit_registers.Contains(static_data_tokens[0].ToUpper()) 
-            || register_name_lookup._16_bit_registers.Contains(static_data_tokens[0].ToUpper()) 
-            || register_name_lookup._32_bit_registers.Contains(static_data_tokens[0].ToUpper()) 
+            if (register_name_lookup._8_bit_registers.Contains(static_data_tokens[0].ToUpper())
+            || register_name_lookup._16_bit_registers.Contains(static_data_tokens[0].ToUpper())
+            || register_name_lookup._32_bit_registers.Contains(static_data_tokens[0].ToUpper())
             || register_name_lookup._64_bit_registers.Contains(static_data_tokens[0].ToUpper()))
             {
                 AnalyzerError(line);
@@ -399,10 +403,11 @@ namespace EmuX
                         break;
 
                     default:
-                        this.AnalyzerError(line);
+                        AnalyzerError(line);
                         break;
                 }
-            } else
+            }
+            else
             {
                 // check if the user made a mistake
                 if (static_data_tokens[1].Split(' ')[0].Trim().ToUpper() != "DB")
@@ -422,7 +427,7 @@ namespace EmuX
                 {
                     static_data_tokens[i] = static_data_tokens[i].Trim();
 
-                    if ((static_data_tokens[i].StartsWith('\'') == false || static_data_tokens[i].EndsWith('\'') == false || static_data_tokens[i].Length != 3) 
+                    if ((static_data_tokens[i].StartsWith('\'') == false || static_data_tokens[i].EndsWith('\'') == false || static_data_tokens[i].Length != 3)
                     && ulong.TryParse(static_data_tokens[i], out static_data_value) == false)
                     {
                         AnalyzerError(line);
@@ -432,14 +437,14 @@ namespace EmuX
                     if (static_data_tokens[i].StartsWith('\''))
                         static_data_to_add.characters.Add(static_data_tokens[i].Trim('\'').ToCharArray()[0]);
                     else
-                        static_data_to_add.characters.Add((char) static_data_value);
+                        static_data_to_add.characters.Add((char)static_data_value);
 
                     offset++;
                 }
             }
 
             // add the new static data to the list
-            this.static_data.Add(static_data_to_add);
+            static_data.Add(static_data_to_add);
 
             return offset;
         }
@@ -449,7 +454,7 @@ namespace EmuX
         /// </summary>
         public bool AnalyzingSuccessful()
         {
-            return this.successful;
+            return successful;
         }
 
         /// <summary>
@@ -457,8 +462,8 @@ namespace EmuX
         /// </summary>
         public int GetErrorLine()
         {
-            if (this.successful == false)
-                return this.error_line;
+            if (successful == false)
+                return error_line;
 
             return -1;
         }
@@ -468,8 +473,8 @@ namespace EmuX
         /// </summary>
         public string GetErrorLineData()
         {
-            if (this.successful == false)
-                return this.error_line_data;
+            if (successful == false)
+                return error_line_data;
 
             return "";
         }
@@ -479,7 +484,7 @@ namespace EmuX
         /// </summary>
         public List<Instruction> GetInstructions()
         {
-            return this.instructions;
+            return instructions;
         }
 
         /// <summary>
@@ -487,7 +492,7 @@ namespace EmuX
         /// </summary>
         public List<StaticData> GetStaticData()
         {
-            return this.static_data;
+            return static_data;
         }
 
         /// <summary>
@@ -495,7 +500,7 @@ namespace EmuX
         /// </summary>
         public List<(string, int)> GetLabelData()
         {
-            return this.labels;
+            return labels;
         }
 
         /// <summary>
@@ -505,7 +510,7 @@ namespace EmuX
         {
             Instruction_ENUM toReturn;
 
-            if (Enum.TryParse<Instruction_ENUM>(opcode_to_analyze.ToUpper(), out toReturn))
+            if (Enum.TryParse(opcode_to_analyze.ToUpper(), out toReturn))
                 return toReturn;
 
             return Instruction_ENUM.NoN;
@@ -517,10 +522,9 @@ namespace EmuX
         /// <param name="tokens">The static data name to analyze</param>
         private Instruction_Variant_ENUM GetVariant(Instruction_ENUM instruction, string[] tokens)
         {
-            Instruction_Groups instruction_groups = new Instruction_Groups();
-            HexConverter hex_converter = new HexConverter();
-            StringHandler string_handler = new StringHandler();
-            int integer_junk;
+            Instruction_Groups instruction_groups = new();
+            HexConverter hex_converter = new();
+            StringHandler string_handler = new();
 
             string last_token = tokens[tokens.Length - 1];
             string[] bit_mode_keywords = new string[]
@@ -545,7 +549,7 @@ namespace EmuX
                 return Instruction_Variant_ENUM.LABEL;
 
             // check if the Instruction_Data has one operand
-            if (instruction_groups.one_operands.Contains(instruction) && (tokens.Length == 2 || (tokens.Length == 3) && bit_mode_keywords.Contains(tokens[1].ToUpper())))
+            if (instruction_groups.one_operands.Contains(instruction) && (tokens.Length == 2 || tokens.Length == 3 && bit_mode_keywords.Contains(tokens[1].ToUpper())))
             {
                 // check if it points to a value in memory
                 if (last_token.StartsWith('[') && last_token.EndsWith(']'))
@@ -557,7 +561,7 @@ namespace EmuX
                     return Instruction_Variant_ENUM.SINGLE_REGISTER;
 
                 // check if it refers to an int
-                if (int.TryParse(last_token, out integer_junk))
+                if (int.TryParse(last_token, out _))
                     return Instruction_Variant_ENUM.SINGLE_VALUE;
 
                 // check if it refers to binary
@@ -580,7 +584,7 @@ namespace EmuX
             }
 
             // check if the instruction has two operands
-            if (instruction_groups.two_operands.Contains(instruction) && (tokens.Length == 3 || (tokens.Length == 4) && bit_mode_keywords.Contains(tokens[2].ToUpper())))
+            if (instruction_groups.two_operands.Contains(instruction) && (tokens.Length == 3 || tokens.Length == 4 && bit_mode_keywords.Contains(tokens[2].ToUpper())))
             {
                 // check if the destination and source are both registers
                 if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
@@ -591,7 +595,7 @@ namespace EmuX
                 if (GetRegister(tokens[1]) != Registers_ENUM.NoN)
                 {
                     // check if it refers to an int
-                    if (int.TryParse(last_token, out integer_junk))
+                    if (int.TryParse(last_token, out _))
                         return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if it refers to binary
@@ -617,14 +621,14 @@ namespace EmuX
 
                     // check if the destination is a register and the source is a location in memory
                     if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
-                        for (int i = 0; i < this.static_data.Count; i++)
+                        for (int i = 0; i < static_data.Count; i++)
                             if (static_data[i].name == last_token)
                                 return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
 
                     // check if the destination is a location in memory and the source is a register
                     if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
                         if (string_handler.GetCharOccurrences(tokens[1], '[') == 1 && string_handler.GetCharOccurrences(tokens[1], ']') == 1)
-                            if (this.GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
+                            if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
                                 return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
                 }
 
@@ -632,7 +636,7 @@ namespace EmuX
                 if (GetRegister(tokens[1].Trim('[', ']')) != Registers_ENUM.NoN)
                 {
                     // check if it refers to an int
-                    if (int.TryParse(last_token, out integer_junk))
+                    if (int.TryParse(last_token, out _))
                         return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE;
 
                     // check if it refers to binary
@@ -726,7 +730,7 @@ namespace EmuX
         /// </summary>
         private string[] RemoveComments(string[] to_remove_from)
         {
-            List<string> toReturn = new List<string>();
+            List<string> toReturn = new();
 
             for (int i = 0; i < to_remove_from.Length; i++)
             {
@@ -745,10 +749,10 @@ namespace EmuX
         /// </summary>
         private Bit_Mode_ENUM AssignBitMode(Instruction instruction, string register_token)
         {
-            if ((instruction.destination_register == Registers_ENUM.NoN && instruction.source_register == Registers_ENUM.NoN) || register_token == "")
+            if (instruction.destination_register == Registers_ENUM.NoN && instruction.source_register == Registers_ENUM.NoN || register_token == "")
                 return Bit_Mode_ENUM.NoN;
 
-            Instruction_Data instruction_object = new Instruction_Data();
+            Instruction_Data instruction_object = new();
             register_token = register_token.ToUpper();
 
             if (instruction_object._64_bit_registers.Contains(register_token))
@@ -791,10 +795,6 @@ namespace EmuX
         /// </summary>
         private Instruction AssignRegisterPointers(Instruction instruction, string destination_register_token, string source_register_token)
         {
-            Instruction_Data instruction_object = new Instruction_Data();
-
-            Registers_ENUM destination_register = Registers_ENUM.NoN;
-            Registers_ENUM source_register = Registers_ENUM.NoN;
             bool destination_register_pointer = false;
             bool source_register_pointer = false;
 
@@ -812,11 +812,11 @@ namespace EmuX
 
             // modify the destination / source register enums if applicable
             if (destination_register_pointer)
-                if (Enum.TryParse<Registers_ENUM>(destination_register_token, out destination_register))
+                if (Enum.TryParse(destination_register_token, out Registers_ENUM destination_register))
                     instruction.destination_register = destination_register;
 
             if (source_register_pointer)
-                if (Enum.TryParse<Registers_ENUM>(source_register_token, out source_register))
+                if (Enum.TryParse(source_register_token, out Registers_ENUM source_register))
                     instruction.source_register = source_register;
 
             return instruction;
@@ -827,19 +827,19 @@ namespace EmuX
         /// </summary>
         private void AnalyzerError(int error_line)
         {
-            string[] lines = this.static_data_to_analyze.Concat(this.instructions_to_analyze).ToArray();
+            string[] lines = static_data_to_analyze.Concat(instructions_to_analyze).ToArray();
 
             if (error_line == -1)
             {
                 this.error_line = error_line;
-                this.error_line_data = "No section.text was found";
-                this.successful = false;
+                error_line_data = "No section.text was found";
+                successful = false;
                 return;
             }
 
-            this.error_line_data = lines[error_line];
+            error_line_data = lines[error_line];
             this.error_line = error_line;
-            this.successful = false;
+            successful = false;
         }
 
         /// <summary>
@@ -849,10 +849,10 @@ namespace EmuX
         /// <returns>The converted value and a boolean value if the analyzing was successful</returns>
         private (ulong, bool) GetValue(string token_to_analyze)
         {
-            BaseConverter base_converter = new BaseConverter();
+            BaseConverter base_converter = new();
 
-            ulong value = 0;
-            bool analyzed_successfuly = false;
+            ulong value;
+            bool analyzed_successfuly;
 
             analyzed_successfuly = ulong.TryParse(token_to_analyze, out value);
 
@@ -873,7 +873,7 @@ namespace EmuX
             // check if the token is a character
             if (token_to_analyze.Length == 3 && token_to_analyze.StartsWith('\'') && token_to_analyze.EndsWith('\''))
             {
-                value = (ulong) token_to_analyze[1];
+                value = token_to_analyze[1];
                 analyzed_successfuly = true;
             }
 
@@ -882,7 +882,7 @@ namespace EmuX
 
         private Bit_Mode_ENUM GetUserAssignedBitmode(string token_to_analyze)
         {
-            switch (token_to_analyze.ToUpper()) 
+            switch (token_to_analyze.ToUpper())
             {
                 case "BYTE":
                     return Bit_Mode_ENUM._8_BIT;
@@ -895,17 +895,18 @@ namespace EmuX
 
                 case "QUAD":
                     return Bit_Mode_ENUM._64_BIT;
-            }
 
-            return Bit_Mode_ENUM.NoN;
+                default:
+                    return Bit_Mode_ENUM.NoN;
+            }
         }
 
         private string instructions_data = "";
-        private string[] static_data_to_analyze = new string[] { };
-        private string[] instructions_to_analyze = new string[] { };
-        private List<Instruction> instructions = new List<Instruction>();
-        private List<StaticData> static_data = new List<StaticData>();
-        private List<(string, int)> labels = new List<(string, int)>();
+        private string[] static_data_to_analyze = Array.Empty<string>();
+        private string[] instructions_to_analyze = Array.Empty<string>();
+        private List<Instruction> instructions = new();
+        private List<StaticData> static_data = new();
+        private List<(string, int)> labels = new();
         private string error_line_data = "";
         private bool successful = false;
         private int error_line = 0;

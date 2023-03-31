@@ -2,28 +2,18 @@
 {
     class Interrupt_Handler
     {
-        public Interrupt_Handler() 
+        public Interrupt_Handler()
         {
-            this.video_graphics = Graphics.FromImage(this.video);
+            video_graphics = Graphics.FromImage(video);
 
-            for (int x = 0; x < this.video.Width; x++)
-                for (int y = 0; y < this.video.Height; y++)
-                    this.video.SetPixel(x, y, Color.Black);
-        }
-
-        public VirtualSystem GetVirtualSystem()
-        {
-            return this.virtual_system;
+            for (int x = 0; x < video.Width; x++)
+                for (int y = 0; y < video.Height; y++)
+                    video.SetPixel(x, y, Color.Black);
         }
 
         public Bitmap GetVideoOutput()
         {
-            return this.video;
-        }
-
-        public void SetVirtualSystem(VirtualSystem virtual_system)
-        {
-            this.virtual_system = virtual_system;
+            return video;
         }
 
         public void SetInterrupt(Interrupt interrupt)
@@ -39,12 +29,12 @@
 
         public void ResetInterrupt()
         {
-            this.interrupt = new Interrupt();
+            interrupt = new Interrupt();
         }
 
         public void ExecuteInterrupt()
         {
-            switch (this.interrupt.GetInterruptCode())
+            switch (interrupt.GetInterruptCode())
             {
                 case Interrupt.Interrupt_Codes.Set_Cursor_Position:
                     SetCursorPosition();
@@ -89,15 +79,15 @@
         /// </summary>
         private void SetCursorPosition()
         {
-            ushort new_cursor_x = this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER);
-            ushort new_cursor_y = this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER);
+            ushort new_cursor_x = virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER);
+            ushort new_cursor_y = virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER);
 
             // make sure the new cursor position is within limits
             if (new_cursor_x < CHARACTERS_HORIZONTALY)
-                this.cursor_x = new_cursor_x;
+                cursor_x = new_cursor_x;
 
             if (new_cursor_y < CHARACTERS_VERTICALY)
-                this.cursor_y = new_cursor_y;
+                cursor_y = new_cursor_y;
         }
 
         /// <summary>
@@ -105,8 +95,8 @@
         /// </summary>
         private void GetCursorPosition()
         {
-            this.virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, this.cursor_x);
-            this.virtual_system.SetRegisterWord(SECOND_ARGUMENT_REGISTER, this.cursor_y);
+            virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, cursor_x);
+            virtual_system.SetRegisterWord(SECOND_ARGUMENT_REGISTER, cursor_y);
         }
 
         /// <summary>
@@ -114,16 +104,16 @@
         /// </summary>
         private void ClearScreen()
         {
-            for (int x = 0; x < this.video.Width; x++)
-                for (int y = 0; y < this.video.Height; y++)
-                    this.video.SetPixel(x, y, Color.Black);
+            for (int x = 0; x < video.Width; x++)
+                for (int y = 0; y < video.Height; y++)
+                    video.SetPixel(x, y, Color.Black);
 
             for (int x = 0; x < CHAR_WIDTH; x++)
                 for (int y = 0; y < CHAR_HEIGHT; y++)
-                    this.characters[x, y] = (char) 0;
+                    characters[x, y] = (char)0;
 
-            this.cursor_x = 0;
-            this.cursor_y = 0;
+            cursor_x = 0;
+            cursor_y = 0;
         }
 
         /// <summary>
@@ -131,7 +121,7 @@
         /// </summary>
         private void ReadCharacterAtCursorPosition()
         {
-            this.virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, this.characters[cursor_x, cursor_y]);
+            virtual_system.SetRegisterWord(FIRST_ARGUMENT_REGISTER, characters[cursor_x, cursor_y]);
         }
 
         /// <summary>
@@ -139,23 +129,23 @@
         /// </summary>
         private void WriteCharacterAtCursorPosition()
         {
-            if (this.cursor_y == CHARACTERS_VERTICALY)
+            if (cursor_y == CHARACTERS_VERTICALY)
                 return;
 
-            char character_to_write = (char) this.virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
-            this.characters[cursor_x, cursor_y] = character_to_write;
+            char character_to_write = (char)virtual_system.GetRegisterQuad(FIRST_ARGUMENT_REGISTER);
+            characters[cursor_x, cursor_y] = character_to_write;
 
-            this.video_graphics.DrawString(character_to_write.ToString(), new Font(FontFamily.GenericSerif, 8), Brushes.White, new Point(this.cursor_x * CHAR_WIDTH, this.cursor_y * CHAR_HEIGHT));
-            this.video_graphics.Flush();
+            video_graphics.DrawString(character_to_write.ToString(), new Font(FontFamily.GenericSerif, 8), Brushes.White, new Point(cursor_x * CHAR_WIDTH, cursor_y * CHAR_HEIGHT));
+            video_graphics.Flush();
 
-            if ((this.cursor_x + 1) < CHARACTERS_HORIZONTALY)
+            if (cursor_x + 1 < CHARACTERS_HORIZONTALY)
             {
-                this.cursor_x++;
+                cursor_x++;
             }
             else
             {
-                this.cursor_x = 0;
-                this.cursor_y++;
+                cursor_x = 0;
+                cursor_y++;
             }
 
         }
@@ -173,14 +163,14 @@
 
             for (int i = 0; i < 640 * 420; i += 3)
             {
-                x = (i / 3) % 640;
+                x = i / 3 % 640;
                 y = i / (640 * 3);
 
-                RGB[0] = this.virtual_system.GetByteMemory(stack_general_memory_limit + i);
-                RGB[1] = this.virtual_system.GetByteMemory(stack_general_memory_limit + i + 1);
-                RGB[2] = this.virtual_system.GetByteMemory(stack_general_memory_limit + i + 2);
+                RGB[0] = virtual_system.GetByteMemory(stack_general_memory_limit + i);
+                RGB[1] = virtual_system.GetByteMemory(stack_general_memory_limit + i + 1);
+                RGB[2] = virtual_system.GetByteMemory(stack_general_memory_limit + i + 2);
 
-                this.video.SetPixel(x, y, Color.FromArgb(RGB[0], RGB[1], RGB[2]));
+                video.SetPixel(x, y, Color.FromArgb(RGB[0], RGB[1], RGB[2]));
             }
         }
 
@@ -196,7 +186,7 @@
             string name_of_file = "";
             string file_data = "";
 
-            while ((current_byte = this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + offset)) != 0)
+            while ((current_byte = virtual_system.GetByteMemory(virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + offset)) != 0)
             {
                 name_of_file += (char)current_byte;
                 offset++;
@@ -205,7 +195,7 @@
             file_data = File.ReadAllText(name_of_file);
 
             for (int i = 0; i < file_data.Length; i++)
-                this.virtual_system.SetByteMemory((int) (this.virtual_system.GetRegisterDouble(SECOND_ARGUMENT_REGISTER) + i), (byte) file_data[i]);
+                virtual_system.SetByteMemory((int)(virtual_system.GetRegisterDouble(SECOND_ARGUMENT_REGISTER) + i), (byte)file_data[i]);
         }
 
         /// <summary>
@@ -220,17 +210,17 @@
             string name_of_file = "";
             string file_data = "";
 
-            while ((current_byte = this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + offset)) != 0)
+            while ((current_byte = virtual_system.GetByteMemory(virtual_system.GetRegisterWord(FIRST_ARGUMENT_REGISTER) + offset)) != 0)
             {
-                name_of_file += (char) current_byte;
+                name_of_file += (char)current_byte;
                 offset++;
             }
 
             offset = 0;
 
-            while ((current_byte = this.virtual_system.GetByteMemory(this.virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER) + offset)) != 0)
+            while ((current_byte = virtual_system.GetByteMemory(virtual_system.GetRegisterWord(SECOND_ARGUMENT_REGISTER) + offset)) != 0)
             {
-                file_data += (char) current_byte;
+                file_data += (char)current_byte;
                 offset++;
             }
 
@@ -242,12 +232,12 @@
         /// </summary>
         private void WaitDelay()
         {
-            int miliseconds_to_sleep_for = (int) this.virtual_system.GetRegisterDouble(FIRST_ARGUMENT_REGISTER);
+            int miliseconds_to_sleep_for = (int)virtual_system.GetRegisterDouble(FIRST_ARGUMENT_REGISTER);
             Thread.Sleep(miliseconds_to_sleep_for);
         }
 
         private Interrupt interrupt = new Interrupt();
-        private VirtualSystem virtual_system = new VirtualSystem();
+        public VirtualSystem virtual_system { get; set; }
 
         // all of the video stuff
         private Bitmap video = new Bitmap(CHARACTERS_HORIZONTALY * CHAR_WIDTH, CHARACTERS_VERTICALY * CHAR_HEIGHT);
