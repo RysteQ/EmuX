@@ -2,6 +2,8 @@
 
 EmuX is a x86 emulator which gives the programmer the oppurtunity to write and execute x86 code and also debug the code or even modify the memory or registers of the system.
 
+**The project is badly written and no longer maintained**
+
 ![EmuX](/misc/EmuX%20screenshot.png)
 
 Contents
