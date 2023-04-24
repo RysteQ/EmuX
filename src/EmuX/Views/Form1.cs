@@ -3,6 +3,7 @@ using System.DirectoryServices;
 using EmuX.Models;
 using EmuX.Services;
 using EmuX.Services.Analyzer;
+using EmuX.Services.Base.Converter;
 using EmuX.Services.Emulator;
 
 namespace EmuX
@@ -242,8 +243,6 @@ namespace EmuX
 
         private void ButtonSearchMemoryRange_Click(object sender, EventArgs e)
         {
-            HexConverter hex_converter = new();
-            BaseConverter base_converter = new();
             List<byte> bytes_to_show = new();
 
             int start = 0;
@@ -296,13 +295,13 @@ namespace EmuX
 
                     case 1:
                         for (int column = 0; column < 8; column++)
-                            to_add.Add("0b" + base_converter.ConvertUnsignedLongToBinaryString(bytes_to_show[row * 8 + column]));
+                            to_add.Add("0b" + Binary_Converter.ConvertUlongToBase(bytes_to_show[row * 8 + column]));
 
                         break;
 
                     case 2:
                         for (int column = 0; column < 8; column++)
-                            to_add.Add("0x" + hex_converter.ConvertByteToHex(bytes_to_show[row * 8 + column]));
+                            to_add.Add("0x" + Hexadecimal_Converter.ConvertUlongToBase(bytes_to_show[row * 8 + column]));
 
                         break;
                 }

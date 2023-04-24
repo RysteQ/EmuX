@@ -13,8 +13,8 @@
             bit_mode = Bit_Mode_ENUM._8_BIT;
             destination_pointer = false;
             source_pointer = false;
-            destination_memory_name = "";
-            source_memory_name = "";
+            destination_memory_name = string.Empty;
+            source_memory_name = string.Empty;
             destination_high_or_low = false;
             source_high_or_low = false;
         }

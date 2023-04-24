@@ -1,5 +1,7 @@
 ﻿using EmuX.Models;
 using EmuX.Services;
+using EmuX.Services.Base.Converter;
+using EmuX.Services.Base.Verifier;
 
 namespace EmuX.Services.Analyzer
 {
@@ -526,7 +528,6 @@ namespace EmuX.Services.Analyzer
         private Instruction_Variant_ENUM GetVariant(Instruction_ENUM instruction, string[] tokens)
         {
             Instruction_Groups instruction_groups = new();
-            HexConverter hex_converter = new();
 
             string last_token = tokens[tokens.Length - 1];
             string[] bit_mode_keywords = new string[]
@@ -581,7 +582,7 @@ namespace EmuX.Services.Analyzer
 
                 // check if it refers to hex
                 if (last_token.ToUpper().EndsWith('H'))
-                    if (hex_converter.IsHex(last_token.ToUpper().TrimEnd('H')))
+                    if (Hexadecimal_Verifier.IsBase(last_token.ToUpper().TrimEnd('H')))
                         return Instruction_Variant_ENUM.SINGLE_VALUE;
             }
 
@@ -602,12 +603,12 @@ namespace EmuX.Services.Analyzer
 
                     // check if it refers to binary
                     if (last_token.ToUpper().EndsWith('B'))
-                        if (hex_converter.IsBinary(last_token.ToUpper().TrimEnd('B')))
+                        if (Binary_Verifier.IsBase(last_token.ToUpper().TrimEnd('B')))
                             return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // check if it refers to hex
                     if (last_token.ToUpper().EndsWith('H'))
-                        if (hex_converter.IsHex(last_token.ToUpper().TrimEnd('H')))
+                        if (Hexadecimal_Verifier.IsBase(last_token.ToUpper().TrimEnd('H')))
                             return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE;
 
                     // Check if it refers to an ASCII character
@@ -643,12 +644,12 @@ namespace EmuX.Services.Analyzer
 
                     // check if it refers to binary
                     if (last_token.ToUpper().EndsWith('B'))
-                        if (hex_converter.IsBinary(last_token.ToUpper().TrimEnd('B')))
+                        if (Binary_Verifier.IsBase(last_token.ToUpper().TrimEnd('B')))
                             return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE;
 
                     // check if it refers to hex
                     if (last_token.ToUpper().EndsWith('H'))
-                        if (hex_converter.IsHex(last_token.ToUpper().TrimEnd('H')))
+                        if (Hexadecimal_Verifier.IsBase(last_token.ToUpper().TrimEnd('H')))
                             return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE;
 
                     // Check if it refers to an ASCII character
@@ -851,8 +852,6 @@ namespace EmuX.Services.Analyzer
         /// <returns>The converted value and a boolean value if the analyzing was successful</returns>
         private (ulong, bool) GetValue(string token_to_analyze)
         {
-            BaseConverter base_converter = new();
-
             ulong value;
             bool analyzed_successfuly;
 
@@ -861,14 +860,14 @@ namespace EmuX.Services.Analyzer
             // check if the token is in hex
             if (token_to_analyze.ToUpper().EndsWith('H'))
             {
-                value = base_converter.ConvertHexToUnsignedLong(token_to_analyze);
+                value = Hexadecimal_Converter.ConvertBaseToUlong(token_to_analyze);
                 analyzed_successfuly = true;
             }
 
             // check if the token is in binary
             if (token_to_analyze.ToUpper().EndsWith('B'))
             {
-                value = base_converter.ConvertBinaryToUnsignedLong(token_to_analyze);
+                value = Binary_Converter.ConvertBaseToUlong(token_to_analyze);
                 analyzed_successfuly = true;
             }
 

@@ -1,4 +1,6 @@
 ﻿using EmuX.Services;
+using EmuX.Services.Base.Converter;
+using EmuX.Services.Base.Verifier;
 
 namespace EmuX
 {
@@ -19,8 +21,6 @@ namespace EmuX
 
         private void ButtonConvert_Click(object sender, EventArgs e)
         {
-            HexConverter hex_converter = new HexConverter();
-            BaseConverter base_converter = new BaseConverter();
             ulong value_to_convert = 0;
 
             // make sure the user entered an actual conversion in the first place
@@ -45,24 +45,24 @@ namespace EmuX
                     break;
 
                 case 1:
-                    if (hex_converter.IsBinary(TextBoxConvertFrom.Text) == false)
+                    if (Binary_Verifier.IsBase(TextBoxConvertFrom.Text) == false)
                     {
                         MessageBox.Show("The input given is not binary", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    value_to_convert = base_converter.ConvertBinaryToUnsignedLong(TextBoxConvertFrom.Text);
+                    value_to_convert = Binary_Converter.ConvertBaseToUlong(TextBoxConvertFrom.Text);
 
                     break;
 
                 case 2:
-                    if (hex_converter.IsHex(TextBoxConvertFrom.Text) == false)
+                    if (Hexadecimal_Verifier.IsBase(TextBoxConvertFrom.Text) == false)
                     {
                         MessageBox.Show("The input given is not hexadecimal", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    value_to_convert = base_converter.ConvertHexToUnsignedLong(TextBoxConvertFrom.Text);
+                    value_to_convert = Hexadecimal_Converter.ConvertBaseToUlong(TextBoxConvertFrom.Text);
 
                     break;
             }
@@ -77,11 +77,11 @@ namespace EmuX
                     break;
 
                 case 1:
-                    LabelResult.Text = base_converter.ConvertUnsignedLongToBinaryString(value_to_convert);
+                    LabelResult.Text = Binary_Converter.ConvertUlongToBase(value_to_convert);
                     break;
 
                 case 2:
-                    LabelResult.Text = hex_converter.ConvertUnsignedLongToHex(value_to_convert);
+                    LabelResult.Text = Hexadecimal_Converter.ConvertUlongToBase(value_to_convert);
                     break;
             }
         }

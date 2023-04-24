@@ -2,7 +2,7 @@
 {
     class StaticData
     {
-        public string name { get; set; } = "";
+        public string name { get; set; } = string.Empty;
         public int memory_location { get; set; }
         public SIZE size_in_bits { get; set; }
         public bool is_string_array { get; set; }
