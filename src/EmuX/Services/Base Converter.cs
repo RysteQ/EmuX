@@ -10,7 +10,7 @@
             ulong toReturn = 0;
             ulong multiplier = 1;
 
-            binary_value = new StringHandler().ReverseString(binary_value);
+            binary_value = StringHandler.ReverseString(binary_value);
 
             for (int i = 0; i < binary_value.Length; i++)
             {
@@ -44,7 +44,7 @@
                 value = value / 2;
             } while (value != 0);
 
-            return new StringHandler().ReverseString(toReturn);
+            return StringHandler.ReverseString(toReturn);
         }
 
         /// <summary>
@@ -55,7 +55,7 @@
             string toReturn = "";
 
             hex_value = hex_value.ToUpper();
-            hex_value = new StringHandler().ReverseString(hex_value);
+            hex_value = StringHandler.ReverseString(hex_value);
 
             for (int i = 0; i < hex_value.Length; i++)
             {

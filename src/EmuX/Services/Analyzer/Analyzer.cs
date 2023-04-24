@@ -44,11 +44,11 @@ namespace EmuX.Services.Analyzer
 
             static_data_to_analyze = instructions_data.Split("section.text")[0].Split('\n');
             static_data_to_analyze = RemoveComments(static_data_to_analyze);
-            static_data_to_analyze = new StringHandler().RemoveEmptyLines(static_data_to_analyze);
+            static_data_to_analyze = StringHandler.RemoveEmptyLines(static_data_to_analyze);
 
             instructions_to_analyze = instructions_data.Split("section.text")[1].Split('\n');
             instructions_to_analyze = RemoveComments(instructions_to_analyze);
-            instructions_to_analyze = new StringHandler().RemoveEmptyLines(instructions_to_analyze);
+            instructions_to_analyze = StringHandler.RemoveEmptyLines(instructions_to_analyze);
 
             for (int line = 0; line < static_data_to_analyze.Length; line++)
                 offset = AnalyzeStaticData(static_data_to_analyze[line], offset, line);
@@ -527,7 +527,6 @@ namespace EmuX.Services.Analyzer
         {
             Instruction_Groups instruction_groups = new();
             HexConverter hex_converter = new();
-            StringHandler string_handler = new();
 
             string last_token = tokens[tokens.Length - 1];
             string[] bit_mode_keywords = new string[]
@@ -556,7 +555,7 @@ namespace EmuX.Services.Analyzer
             {
                 // check if it points to a value in memory
                 if (last_token.StartsWith('[') && last_token.EndsWith(']'))
-                    if (string_handler.GetCharOccurrences(last_token, '[') == 1 && string_handler.GetCharOccurrences(last_token, ']') == 1)
+                    if (StringHandler.GetCharOccurrences(last_token, '[') == 1 && StringHandler.GetCharOccurrences(last_token, ']') == 1)
                         return Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE;
 
                 // check if it refers to a register
@@ -619,7 +618,7 @@ namespace EmuX.Services.Analyzer
                     // check if the destination is a register and the source is a value from memory
                     if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
                         if (last_token.StartsWith('[') && last_token.EndsWith(']'))
-                            if (string_handler.GetCharOccurrences(last_token, '[') == 1 && string_handler.GetCharOccurrences(last_token, ']') == 1)
+                            if (StringHandler.GetCharOccurrences(last_token, '[') == 1 && StringHandler.GetCharOccurrences(last_token, ']') == 1)
                                 return Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS;
 
                     // check if the destination is a register and the source is a location in memory
@@ -630,7 +629,7 @@ namespace EmuX.Services.Analyzer
 
                     // check if the destination is a location in memory and the source is a register
                     if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
-                        if (string_handler.GetCharOccurrences(tokens[1], '[') == 1 && string_handler.GetCharOccurrences(tokens[1], ']') == 1)
+                        if (StringHandler.GetCharOccurrences(tokens[1], '[') == 1 && StringHandler.GetCharOccurrences(tokens[1], ']') == 1)
                             if (GetRegister(tokens[1].ToUpper()) != Registers_ENUM.NoN)
                                 return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
                 }
@@ -660,7 +659,7 @@ namespace EmuX.Services.Analyzer
                     // check if the destination is a register and the source is a value from memory
                     if (GetRegister(last_token.ToUpper()) != Registers_ENUM.NoN)
                         if (tokens[1].StartsWith('[') && tokens[1].EndsWith(']'))
-                            if (string_handler.GetCharOccurrences(tokens[1], '[') == 1 && string_handler.GetCharOccurrences(tokens[1], ']') == 1)
+                            if (StringHandler.GetCharOccurrences(tokens[1], '[') == 1 && StringHandler.GetCharOccurrences(tokens[1], ']') == 1)
                                 return Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER;
                 }
             }
