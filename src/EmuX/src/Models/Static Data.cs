@@ -1,20 +1,12 @@
-﻿using static EmuX.src.Enums.BitSize;
-
-namespace EmuX.src.Models
+﻿namespace EmuX.src.Models
 {
-    class StaticData
+    class StaticData : SIZE
     {
-        public StaticData()
-        {
-            this.name = string.Empty;
-            this.characters = new List<char>();
-        }
-
-        public string name { get; set; }
-        public int memory_location { get; set; }
-        public SIZE size_in_bits { get; set; }
-        public bool is_string_array { get; set; }
-        public ulong value { get; set; }
-        public List<char> characters { get; set; }
+        public string name = string.Empty;
+        public int memory_location;
+        public Size_ENUM size_in_bits;
+        public bool is_string_array;
+        public ulong value;
+        public List<char> characters = new List<char>();
     }
 }

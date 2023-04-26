@@ -1,6 +1,4 @@
-﻿using EmuX.Services;
-using EmuX.src.Services.Base.Converter;
-using EmuX.src.Services.Base.Verifier;
+﻿using EmuX.src.Services.Base_Converter;
 
 namespace EmuX
 {
@@ -45,24 +43,24 @@ namespace EmuX
                     break;
 
                 case 1:
-                    if (Binary_Verifier.IsBase(TextBoxConvertFrom.Text) == false)
+                    if (BaseVerifier.IsBinary(TextBoxConvertFrom.Text) == false)
                     {
                         MessageBox.Show("The input given is not binary", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    value_to_convert = Binary_Converter.ConvertBaseToUlong(TextBoxConvertFrom.Text);
+                    value_to_convert = BaseConverter.ConvertBinaryToUlong(TextBoxConvertFrom.Text);
 
                     break;
 
                 case 2:
-                    if (Hexadecimal_Verifier.IsBase(TextBoxConvertFrom.Text) == false)
+                    if (BaseVerifier.IsHex(TextBoxConvertFrom.Text) == false)
                     {
                         MessageBox.Show("The input given is not hexadecimal", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    value_to_convert = Hexadecimal_Converter.ConvertBaseToUlong(TextBoxConvertFrom.Text);
+                    value_to_convert = BaseConverter.ConvertHexToUlong(TextBoxConvertFrom.Text);
 
                     break;
             }
@@ -77,11 +75,11 @@ namespace EmuX
                     break;
 
                 case 1:
-                    LabelResult.Text = Binary_Converter.ConvertUlongToBase(value_to_convert);
+                    LabelResult.Text = BaseConverter.ConvertUlongToBinary(value_to_convert);
                     break;
 
                 case 2:
-                    LabelResult.Text = Hexadecimal_Converter.ConvertUlongToBase(value_to_convert);
+                    LabelResult.Text = BaseConverter.ConvertUlongToHex(value_to_convert);
                     break;
             }
         }

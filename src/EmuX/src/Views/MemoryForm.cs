@@ -1,5 +1,5 @@
 ﻿using EmuX.Services;
-using EmuX.src.Services.Base.Converter;
+using EmuX.src.Services.Base_Converter;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -40,7 +40,7 @@ namespace EmuX
                 bytes_to_show.Add((i * this.bytes_to_show_per_row).ToString());
 
                 for (int j = 0; j < this.bytes_to_show_per_row; j++)
-                    bytes_to_show.Add(Hexadecimal_Converter.ConvertUlongToBase(memory_to_show[i * this.bytes_to_show_per_row + j]));
+                    bytes_to_show.Add(BaseConverter.ConvertUlongToHex(memory_to_show[i * this.bytes_to_show_per_row + j]));
 
                 DataGridViewMemory.Rows.Add(bytes_to_show.ToArray());
             }

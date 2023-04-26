@@ -1,0 +1,18 @@
+﻿public class Variants
+{
+    public enum Variants_ENUM
+    {
+        SINGLE,
+        SINGLE_REGISTER,
+        SINGLE_VALUE,
+        SINGLE_ADDRESS_VALUE,
+        DESTINATION_REGISTER_SOURCE_REGISTER,
+        DESTINATION_REGISTER_SOURCE_VALUE,
+        DESTINATION_REGISTER_SOURCE_ADDRESS,
+        DESTINATION_ADDRESS_SOURCE_REGISTER,
+        DESTINATION_ADDRESS_SOURCE_VALUE,
+
+        LABEL,
+        NoN
+    }
+}

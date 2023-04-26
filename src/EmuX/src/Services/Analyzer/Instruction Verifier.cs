@@ -1,120 +1,51 @@
-﻿/*
- * For those unfortunate to stumble across this file, let me warn you
- * 
- * What you are about to see is some really stupid code
- * 
- * I did not write all of the code, I automated the process with a python script I wrote
- * 
- * But this still does not erase this monstrosity, this.... SIN.... that I have just committed
- * 
- * I am sorry, may He have mercy upon my soul
- * 
- */
-
-using EmuX.src.Models;
-using static Instruction_Data;
+﻿using EmuX.src.Models;
 
 namespace EmuX.src.Services.Analyzer
 {
-    class Verifier
+    public class Instruction_Verifier
     {
-        /// <summary>
-        /// Setter - Sets the instructions to verify
-        /// </summary>
-        public void SetInstructionData(List<Instruction> instructions)
+        public static bool VerifyInstructions(List<Instruction> instructions)
         {
-            this.instructions = instructions;
-            valid_instructions = true;
-        }
-
-        /// <summary>
-        /// Verifies the instructions variant and bitmode
-        /// </summary>
-        public void VerifyInstructions()
-        {
-            for (int index = 0; index < instructions.Count && valid_instructions; index++)
+            foreach (Instruction instruction in instructions)
             {
-                Instruction instruction_to_analyze = instructions[index];
+                if (ContainsVariant(instruction) == false)
+                    return false;
 
-                if (ContainsVariant(instruction_to_analyze) == false)
-                {
-                    instruction_index_error = index;
-                    valid_instructions = false;
-                }
-
-                if (ContainsBitmode(instruction_to_analyze) == false)
-                {
-                    instruction_index_error = index;
-                    valid_instructions = false;
-                }
+                if (ContainsBitmode(instruction) == false)
+                    return false;
             }
+
+            return true;
         }
 
-        /// <summary>
-        /// Getter
-        /// </summary>
-        public bool AreInstructionsValid()
-        {
-            return valid_instructions;
-        }
-
-        /// <summary>
-        /// Getter - Returns the instruction index the error was found
-        /// </summary>
-        public int GetInstructionIndexError()
-        {
-            return instruction_index_error;
-        }
-
-        /// <summary>
-        /// Getter - Returns a message that shows the instruction parameters and the allowed values of said instruction
-        /// </summary>
-        public string GetErrorMessage()
-        {
-            return error_message;
-        }
-
-        /// <summary>
-        /// Checks if the variant of the instruction is acceptable or not
-        /// </summary>
-        private bool ContainsVariant(Instruction instruction)
+        private static bool ContainsVariant(Instruction instruction)
         {
             // check if the instruction is a label or not
-            if (instruction.instruction == Instruction_ENUM.LABEL)
+            if (instruction.opcode == Opcodes.Opcodes_ENUM.LABEL)
                 return true;
 
-            Instruction_Variant_ENUM[] specific_instruction_variants = allowed_variants.AllInstructionVariants()[(int)instruction.instruction];
+            Variants.Variants_ENUM[] specific_instruction_variants = Allowed_Instruction_Variants.AllInstructionVariants()[(int)instruction.opcode];
 
             return specific_instruction_variants.Contains(instruction.variant);
         }
 
-        /// <summary>
-        /// Checks if the bitmode of the instruction is acceptable or not
-        /// </summary>
-        private bool ContainsBitmode(Instruction instruction)
+        private static bool ContainsBitmode(Instruction instruction)
         {
             // check if the instruction is a label or not
-            if (instruction.instruction == Instruction_ENUM.LABEL)
+            if (instruction.opcode == Opcodes.Opcodes_ENUM.LABEL)
                 return true;
 
-            Bit_Mode_ENUM[] specific_instruction_bitmodes = allowed_bitmodes.AllAllowedBitmodes()[(int)instruction.instruction];
+            SIZE.Size_ENUM[] specific_instruction_bitmodes = Allowed_Instruction_Bitmodes.AllAllowedBitmodes()[(int)instruction.opcode];
 
             return specific_instruction_bitmodes.Contains(instruction.bit_mode);
         }
-
-        private Allowed_Instruction_Variants allowed_variants = new();
-        private Allowed_Instruction_Bitmodes allowed_bitmodes = new();
-        private List<Instruction> instructions = new();
-        private bool valid_instructions = true;
-        private int instruction_index_error;
-        private string error_message = "";
     }
 
-    class Allowed_Instruction_Variants
+    public class Allowed_Instruction_Variants : Variants
     {
-        public Instruction_Variant_ENUM[][] AllInstructionVariants()
+        public static Variants_ENUM[][] AllInstructionVariants()
         {
-            Instruction_Variant_ENUM[][] toReturn = new Instruction_Variant_ENUM[][]
+            Variants_ENUM[][] toReturn = new Variants_ENUM[][]
             {
                 AAA_ALLOWED_VARIANTS,
                 AAD_ALLOWED_VARIANTS,
@@ -166,7 +97,7 @@ namespace EmuX.src.Services.Analyzer
                 JP_ALLOWED_VARIANTS,
                 JPE_ALLOWED_VARIANTS,
                 JPO_ALLOWED_VARIANTS,
-                JS_ALLOWED_VARIANTS, //
+                JS_ALLOWED_VARIANTS,
                 JZ_ALLOWED_VARIANTS,
                 JMP_ALLOWED_VARIANTS,
                 LAHF_ALLOWED_VARIANTS,
@@ -203,507 +134,507 @@ namespace EmuX.src.Services.Analyzer
             return toReturn;
         }
 
-        Instruction_Variant_ENUM[] AAA_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[1]
+        private static readonly Variants_ENUM[] AAA_ALLOWED_VARIANTS = new Variants_ENUM[1]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] AAD_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] AAD_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] AAM_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] AAM_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] AAS_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] AAS_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] ADC_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] ADC_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] ADD_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] ADD_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] AND_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] AND_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] CALL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] CALL_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] CBW_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] CBW_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] CLC_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] CLC_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] CLD_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] CLD_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] CLI_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] CLI_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] CMC_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] CMC_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] CMP_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] CMP_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE
         };
 
         /*
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] CMPSB_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
+        private static readonly Instruction_Data.Variants_ENUM[] CMPSB_ALLOWED_VARIANTS = new Instruction_Data.Variants_ENUM[]
         {
 
         };
 
-        public readonly Instruction_Data.Instruction_Variant_ENUM[] CMPSW_ALLOWED_VARIANTS = new Instruction_Data.Instruction_Variant_ENUM[]
+        private static readonly Instruction_Data.Variants_ENUM[] CMPSW_ALLOWED_VARIANTS = new Instruction_Data.Variants_ENUM[]
         {
 
         };
         */
 
-        public readonly Instruction_Variant_ENUM[] CWD_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] CWD_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] DAA_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] DAA_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] DAS_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] DAS_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] DEC_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] DEC_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE,
-            Instruction_Variant_ENUM.SINGLE_REGISTER
+            Variants_ENUM.SINGLE_ADDRESS_VALUE,
+            Variants_ENUM.SINGLE_REGISTER
         };
 
-        public readonly Instruction_Variant_ENUM[] DIV_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] DIV_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE,
-            Instruction_Variant_ENUM.SINGLE_REGISTER
+            Variants_ENUM.SINGLE_ADDRESS_VALUE,
+            Variants_ENUM.SINGLE_REGISTER
         };
 
-        public readonly Instruction_Variant_ENUM[] HLT_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] HLT_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] INC_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] INC_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE,
-            Instruction_Variant_ENUM.SINGLE_REGISTER
+            Variants_ENUM.SINGLE_ADDRESS_VALUE,
+            Variants_ENUM.SINGLE_REGISTER
         };
 
-        public readonly Instruction_Variant_ENUM[] INT_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] INT_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_VALUE
+            Variants_ENUM.SINGLE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] JCXZ_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JCXZ_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JMP_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JMP_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JA_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JA_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JAE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JAE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JB_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JB_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JBE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JBE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JC_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JC_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JG_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JG_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JGE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JGE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JL_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JLE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JLE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNA_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNA_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNAE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNAE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNB_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNB_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNBE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNBE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNC_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNC_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNG_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNG_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNGE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNGE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNL_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNLE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNLE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNO_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNO_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNP_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNP_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNS_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNS_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JNZ_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JNZ_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JO_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JO_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JP_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JP_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JPE_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JPE_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JPO_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JPO_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JS_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JS_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] JZ_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] JZ_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.LABEL
+            Variants_ENUM.LABEL
         };
 
-        public readonly Instruction_Variant_ENUM[] LAHF_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] LAHF_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] LEA_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] LEA_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS
         };
 
-        public readonly Instruction_Variant_ENUM[] MOV_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] MOV_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] MUL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] MUL_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Variants_ENUM.SINGLE_REGISTER,
+            Variants_ENUM.SINGLE_ADDRESS_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] NEG_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] NEG_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Variants_ENUM.SINGLE_REGISTER,
+            Variants_ENUM.SINGLE_ADDRESS_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] NOP_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] NOP_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] NOT_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] NOT_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Variants_ENUM.SINGLE_REGISTER,
+            Variants_ENUM.SINGLE_ADDRESS_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] OR_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] OR_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] POP_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] POP_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Variants_ENUM.SINGLE_REGISTER,
+            Variants_ENUM.SINGLE_ADDRESS_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] POPF_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] POPF_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] PUSH_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] PUSH_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Variants_ENUM.SINGLE_REGISTER,
+            Variants_ENUM.SINGLE_ADDRESS_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] PUSHF_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] PUSHF_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] RCL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] RCL_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] RCR_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] RCR_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] RET_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] RET_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] ROL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] ROL_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] ROR_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] ROR_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] SAHF_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] SAHF_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] SAL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] SAL_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] SAR_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] SAR_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] SBB_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] SBB_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] SHL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] SHL_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Variants_ENUM.SINGLE_REGISTER,
+            Variants_ENUM.SINGLE_ADDRESS_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] SHR_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] SHR_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE_REGISTER,
-            Instruction_Variant_ENUM.SINGLE_ADDRESS_VALUE
+            Variants_ENUM.SINGLE_REGISTER,
+            Variants_ENUM.SINGLE_ADDRESS_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] STC_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] STC_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] STD_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] STD_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] STI_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] STI_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.SINGLE
+            Variants_ENUM.SINGLE
         };
 
-        public readonly Instruction_Variant_ENUM[] SUB_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] SUB_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] XOR_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] XOR_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
-            Instruction_Variant_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
-            Instruction_Variant_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_ADDRESS,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
-        public readonly Instruction_Variant_ENUM[] LABEL_ALLOWED_VARIANTS = new Instruction_Variant_ENUM[]
+        private static readonly Variants_ENUM[] LABEL_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Instruction_Variant_ENUM.NoN
+            Variants_ENUM.NoN
         };
     }
 
-    class Allowed_Instruction_Bitmodes
+    class Allowed_Instruction_Bitmodes : SIZE
     {
-        public Bit_Mode_ENUM[][] AllAllowedBitmodes()
+        public static Size_ENUM[][] AllAllowedBitmodes()
         {
-            Bit_Mode_ENUM[][] toReturn = new Bit_Mode_ENUM[][]
+            Size_ENUM[][] toReturn = new Size_ENUM[][]
             {
                 AAA_ALLOWED_BITMODES,
                 AAD_ALLOWED_BITMODES,
@@ -792,503 +723,503 @@ namespace EmuX.src.Services.Analyzer
             return toReturn;
         }
 
-        public readonly Bit_Mode_ENUM[] AAA_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] AAA_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] AAD_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] AAD_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] AAM_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] AAM_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] AAS_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] AAS_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] ADC_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] ADC_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] ADD_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] ADD_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] AND_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] AND_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] CALL_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] CALL_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] CBW_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] CBW_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] CLC_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] CLC_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] CLD_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] CLD_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] CLI_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] CLI_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] CMC_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] CMC_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] CMP_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] CMP_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
         /*
-        public readonly Instruction_Data.Bit_Mode_ENUM[] CMPSB_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
+        private static readonly Instruction_Data.Size_ENUM[] CMPSB_ALLOWED_BITMODES = new Instruction_Data.Size_ENUM[]
         {
 
         };
 
-        public readonly Instruction_Data.Bit_Mode_ENUM[] CMPSW_ALLOWED_BITMODES = new Instruction_Data.Bit_Mode_ENUM[]
+        private static readonly Instruction_Data.Size_ENUM[] CMPSW_ALLOWED_BITMODES = new Instruction_Data.Size_ENUM[]
         {
 
         };
         */
 
-        public readonly Bit_Mode_ENUM[] CWD_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] CWD_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] DAA_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] DAA_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] DAS_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] DAS_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] DEC_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] DEC_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] DIV_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] DIV_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] HLT_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] HLT_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] INC_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] INC_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
         // I am lazy to fix the actual bug that just gives the INT instruction a bitmode of NoN, this should do it tho
-        public readonly Bit_Mode_ENUM[] INT_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] INT_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT
+            Size_ENUM._8_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] JA_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JA_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JAE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JAE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JB_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JB_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JBE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JBE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JC_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JC_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JG_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JG_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JGE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JGE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JL_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JL_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JLE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JLE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNA_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNA_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNAE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNAE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNB_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNB_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNBE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNBE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNC_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNC_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNG_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNG_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNGE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNGE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNL_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNL_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNLE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNLE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNO_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNO_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNP_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNP_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNS_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNS_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JNZ_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JNZ_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JO_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JO_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JP_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JP_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JPE_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JPE_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JPO_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JPO_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JS_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JS_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JZ_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JZ_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] JMP_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] JMP_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] LAHF_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] LAHF_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] LEA_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] LEA_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] MOV_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] MOV_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] MUL_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] MUL_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] NEG_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] NEG_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] NOP_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] NOP_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] NOT_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] NOT_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] OR_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] OR_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] POP_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] POP_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] POPF_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] POPF_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] PUSH_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] PUSH_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] PUSHF_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] PUSHF_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] RCL_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] RCL_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
-
-        };
-
-        public readonly Bit_Mode_ENUM[] RCR_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
-        {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
 
         };
 
-        public readonly Bit_Mode_ENUM[] RET_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] RCR_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
+
         };
 
-        public readonly Bit_Mode_ENUM[] ROL_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] RET_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] ROR_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] ROL_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] SAHF_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] ROR_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] SAL_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] SAHF_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] SAR_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] SAL_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] SBB_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] SAR_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] SHL_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] SBB_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] SHR_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] SHL_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] STC_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] SHR_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] STD_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] STC_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] STI_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] STD_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] SUB_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] STI_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM.NoN
         };
 
-        public readonly Bit_Mode_ENUM[] XOR_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] SUB_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM._8_BIT,
-            Bit_Mode_ENUM._16_BIT,
-            Bit_Mode_ENUM._32_BIT,
-            Bit_Mode_ENUM._64_BIT
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
         };
 
-        public readonly Bit_Mode_ENUM[] LABEL_ALLOWED_BITMODES = new Bit_Mode_ENUM[]
+        private static readonly Size_ENUM[] XOR_ALLOWED_BITMODES = new Size_ENUM[]
         {
-            Bit_Mode_ENUM.NoN
+            Size_ENUM._8_BIT,
+            Size_ENUM._16_BIT,
+            Size_ENUM._32_BIT,
+            Size_ENUM._64_BIT
+        };
+
+        private static readonly Size_ENUM[] LABEL_ALLOWED_BITMODES = new Size_ENUM[]
+        {
+            Size_ENUM.NoN
         };
     }
 }

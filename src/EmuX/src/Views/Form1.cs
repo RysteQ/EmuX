@@ -1,9 +1,6 @@
-using System.ComponentModel;
-using System.DirectoryServices;
-using EmuX.Services;
 using EmuX.src.Models;
 using EmuX.src.Services.Analyzer;
-using EmuX.src.Services.Base.Converter;
+using EmuX.src.Services.Base_Converter;
 using EmuX.src.Services.Emulator;
 
 namespace EmuX
@@ -83,8 +80,7 @@ namespace EmuX
         {
             string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
 
-            this.analyzer.SetInstructions(code_to_analyze);
-            this.analyzer.AnalyzeInstructions();
+            this.analyzer.AnalyzeInstructions(code_to_analyze);
 
             if (this.analyzer.AnalyzingSuccessful() == false)
             {
@@ -94,31 +90,20 @@ namespace EmuX
                 return;
             }
 
-            this.verifier.SetInstructionData(this.analyzer.GetInstructions());
-            this.verifier.VerifyInstructions();
-
-            if (this.verifier.AreInstructionsValid() == false)
+            if (Instruction_Verifier.VerifyInstructions(this.analyzer.GetInstructions()) == false)
             {
-                string error_message = this.verifier.GetErrorMessage();
-
-                MessageBox.Show("There was an error at line " + (this.verifier.GetInstructionIndexError() + 1).ToString() + "\nMessage: " + error_message, "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("There was an error, invalid opcode / parameter combination", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             List<Instruction> instructions = this.analyzer.GetInstructions();
             List<StaticData> static_data = this.analyzer.GetStaticData();
-            List<(string, int)> labels = this.analyzer.GetLabelData();
+            List<src.Models.Label> labels = this.analyzer.GetLabelData();
 
-            this.interrupt_handler.ResetInterruptHandler();
             this.interrupt_handler.ResetInterrupt();
 
-            this.virtual_system.ResetVirtualSystem();
-
             this.emulator.SetVirtualSystem(this.virtual_system);
-            this.emulator.SetInstructions(instructions);
-            this.emulator.SetStaticData(static_data);
-            this.emulator.SetLabelData(labels);
-            this.emulator.Reset();
+            this.emulator.PrepareEmulator(instructions, static_data, labels);
 
             ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
 
@@ -141,13 +126,13 @@ namespace EmuX
                     // ......
                     try
                     {
-                        this.interrupt_handler.virtual_system = this.emulator.GetVirtualSystem();
+                        this.interrupt_handler.SetVirtualSystem(this.emulator.GetVirtualSystem());
                         this.interrupt_handler.SetInterrupt(this.emulator.GetInterrupt());
                         this.interrupt_handler.ExecuteInterrupt();
 
                         this.video_form.UpdateVideo(this.interrupt_handler.GetVideoOutput());
 
-                        this.emulator.SetVirtualSystem(this.interrupt_handler.virtual_system);
+                        this.emulator.SetVirtualSystem(this.interrupt_handler.GetVirtualSystem());
                         this.emulator.ResetInterrupt();
                     }
                     catch (Exception ex)
@@ -295,13 +280,13 @@ namespace EmuX
 
                     case 1:
                         for (int column = 0; column < 8; column++)
-                            to_add.Add("0b" + Binary_Converter.ConvertUlongToBase(bytes_to_show[row * 8 + column]));
+                            to_add.Add("0b" + BaseConverter.ConvertUlongToBinary(bytes_to_show[row * 8 + column]));
 
                         break;
 
                     case 2:
                         for (int column = 0; column < 8; column++)
-                            to_add.Add("0x" + Hexadecimal_Converter.ConvertUlongToBase(bytes_to_show[row * 8 + column]));
+                            to_add.Add("0x" + BaseConverter.ConvertUlongToHex(bytes_to_show[row * 8 + column]));
 
                         break;
                 }
@@ -453,8 +438,7 @@ namespace EmuX
         {
             if (this.emulator.HasInstructions() == false)
             {
-                this.analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
-                this.analyzer.AnalyzeInstructions();
+                this.analyzer.AnalyzeInstructions(RichTextboxAssemblyCode.Text);
                 this.emulator.SetInstructions(this.analyzer.GetInstructions());
             }
 
@@ -462,52 +446,15 @@ namespace EmuX
             int index = 0;
 
             // go through each line and don't count empty lines
-            for (int i = 0; i < RichTextboxAssemblyCode.Text.Split('\n').Length && index != this.emulator.GetIndex(); i++)
-            {
-                if (RichTextboxAssemblyCode.Text.Split('\n')[i].Trim().Length == 0)
-                    continue;
-
-                index++;
-            }
+            foreach (string to_check in RichTextboxAssemblyCode.Text.Split('\n'))
+                if (string.IsNullOrWhiteSpace(to_check))
+                    index++;
 
             // cheks if the instructions is within bounds
             if (this.emulator.GetInstructionCount() != this.emulator.GetIndex())
             {
                 this.emulator.Execute();
                 this.emulator.NextInstruction();
-
-                LabelCurrentInstruction.Text = "Current Instruction: " + RichTextboxAssemblyCode.Text.Split('\n')[index];
-                ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
-            }
-        }
-
-        private void ButtonPreviousInstruction_Click(object sender, EventArgs e)
-        {
-            int index = 0;
-
-            if (this.emulator.HasInstructions() == false)
-            {
-                this.analyzer.SetInstructions(RichTextboxAssemblyCode.Text);
-                this.analyzer.AnalyzeInstructions();
-                this.emulator.SetInstructions(analyzer.GetInstructions());
-            }
-
-            ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
-
-            // go through each line and don't count empty lines
-            for (int i = 0; i < RichTextboxAssemblyCode.Text.Split('\n').Length && index != this.emulator.GetIndex(); i++)
-            {
-                if (RichTextboxAssemblyCode.Text.Split('\n')[i].Trim().Length == 0)
-                    continue;
-
-                index++;
-            }
-
-            // cheks if the instructions is within bounds
-            if (this.emulator.GetIndex() > 0)
-            {
-                this.emulator.PreviousInstruction();
-                this.emulator.Execute();
 
                 LabelCurrentInstruction.Text = "Current Instruction: " + RichTextboxAssemblyCode.Text.Split('\n')[index];
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
@@ -562,7 +509,6 @@ namespace EmuX
         private VirtualSystem virtual_system = new();
         private Analyzer analyzer = new();
         private Emulator emulator = new();
-        private Verifier verifier = new();
         private Interrupt_Handler interrupt_handler = new();
         private string save_path = "";
     }

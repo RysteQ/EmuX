@@ -44,6 +44,9 @@
             toolStripSeparator3 = new ToolStripSeparator();
             convertToUppercaseToolStripMenuItem = new ToolStripMenuItem();
             convertToLowercaseToolStripMenuItem = new ToolStripMenuItem();
+            tabsToolStripMenuItem = new ToolStripMenuItem();
+            memoryToolStripMenuItem = new ToolStripMenuItem();
+            registersToolStripMenuItem = new ToolStripMenuItem();
             toolsToolStripMenuItem = new ToolStripMenuItem();
             converterToolStripMenuItem = new ToolStripMenuItem();
             aSCIITableToolStripMenuItem = new ToolStripMenuItem();
@@ -57,7 +60,6 @@
             LabelCurrentInstruction = new Label();
             GroupboxExecution = new GroupBox();
             ButtonExecute = new Button();
-            ButtonPreviousInstruction = new Button();
             ButtonNextInstruction = new Button();
             openFD = new OpenFileDialog();
             saveFD = new SaveFileDialog();
@@ -152,9 +154,6 @@
             RichtextBoxOutput = new RichTextBox();
             fontDialog = new FontDialog();
             ButtonExecuteOnAnotherTab = new Button();
-            tabsToolStripMenuItem = new ToolStripMenuItem();
-            memoryToolStripMenuItem = new ToolStripMenuItem();
-            registersToolStripMenuItem = new ToolStripMenuItem();
             refreshVideoFormTimer = new System.Windows.Forms.Timer(components);
             mainMenuStrip.SuspendLayout();
             GroupboxInput.SuspendLayout();
@@ -178,8 +177,7 @@
             mainMenuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, textToolStripMenuItem, tabsToolStripMenuItem, toolsToolStripMenuItem, aboutToolStripMenuItem });
             mainMenuStrip.Location = new Point(0, 0);
             mainMenuStrip.Name = "mainMenuStrip";
-            mainMenuStrip.Padding = new Padding(9, 3, 0, 3);
-            mainMenuStrip.Size = new Size(920, 35);
+            mainMenuStrip.Size = new Size(644, 24);
             mainMenuStrip.TabIndex = 0;
             mainMenuStrip.Text = "mainMenuStrip";
             // 
@@ -187,14 +185,14 @@
             // 
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { openToolStripMenuItem, saveToolStripMenuItem, saveAsToolStripMenuItem, toolStripSeparator1, exitToolStripMenuItem });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(54, 29);
+            fileToolStripMenuItem.Size = new Size(37, 20);
             fileToolStripMenuItem.Text = "File";
             // 
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
             openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-            openToolStripMenuItem.Size = new Size(285, 34);
+            openToolStripMenuItem.Size = new Size(186, 22);
             openToolStripMenuItem.Text = "Open";
             openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
@@ -202,7 +200,7 @@
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
             saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-            saveToolStripMenuItem.Size = new Size(285, 34);
+            saveToolStripMenuItem.Size = new Size(186, 22);
             saveToolStripMenuItem.Text = "Save";
             saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
@@ -210,19 +208,19 @@
             // 
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
             saveAsToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
-            saveAsToolStripMenuItem.Size = new Size(285, 34);
+            saveAsToolStripMenuItem.Size = new Size(186, 22);
             saveAsToolStripMenuItem.Text = "Save As";
             saveAsToolStripMenuItem.Click += saveAsToolStripMenuItem_Click;
             // 
             // toolStripSeparator1
             // 
             toolStripSeparator1.Name = "toolStripSeparator1";
-            toolStripSeparator1.Size = new Size(282, 6);
+            toolStripSeparator1.Size = new Size(183, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(285, 34);
+            exitToolStripMenuItem.Size = new Size(186, 22);
             exitToolStripMenuItem.Text = "Exit";
             exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
@@ -230,26 +228,26 @@
             // 
             textToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { tODOToolStripMenuItem, toolStripSeparator2, increaseSizeToolStripMenuItem, decreaseSizeToolStripMenuItem, toolStripSeparator3, convertToUppercaseToolStripMenuItem, convertToLowercaseToolStripMenuItem });
             textToolStripMenuItem.Name = "textToolStripMenuItem";
-            textToolStripMenuItem.Size = new Size(58, 29);
+            textToolStripMenuItem.Size = new Size(40, 20);
             textToolStripMenuItem.Text = "Text";
             // 
             // tODOToolStripMenuItem
             // 
             tODOToolStripMenuItem.Name = "tODOToolStripMenuItem";
-            tODOToolStripMenuItem.Size = new Size(350, 34);
+            tODOToolStripMenuItem.Size = new Size(231, 22);
             tODOToolStripMenuItem.Text = "Change Font";
             tODOToolStripMenuItem.Click += tODOToolStripMenuItem_Click;
             // 
             // toolStripSeparator2
             // 
             toolStripSeparator2.Name = "toolStripSeparator2";
-            toolStripSeparator2.Size = new Size(347, 6);
+            toolStripSeparator2.Size = new Size(228, 6);
             // 
             // increaseSizeToolStripMenuItem
             // 
             increaseSizeToolStripMenuItem.Name = "increaseSizeToolStripMenuItem";
             increaseSizeToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.I;
-            increaseSizeToolStripMenuItem.Size = new Size(350, 34);
+            increaseSizeToolStripMenuItem.Size = new Size(231, 22);
             increaseSizeToolStripMenuItem.Text = "Increase Size";
             increaseSizeToolStripMenuItem.Click += increaseSizeToolStripMenuItem_Click;
             // 
@@ -257,20 +255,20 @@
             // 
             decreaseSizeToolStripMenuItem.Name = "decreaseSizeToolStripMenuItem";
             decreaseSizeToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.D;
-            decreaseSizeToolStripMenuItem.Size = new Size(350, 34);
+            decreaseSizeToolStripMenuItem.Size = new Size(231, 22);
             decreaseSizeToolStripMenuItem.Text = "Decrease Size";
             decreaseSizeToolStripMenuItem.Click += decreaseSizeToolStripMenuItem_Click;
             // 
             // toolStripSeparator3
             // 
             toolStripSeparator3.Name = "toolStripSeparator3";
-            toolStripSeparator3.Size = new Size(347, 6);
+            toolStripSeparator3.Size = new Size(228, 6);
             // 
             // convertToUppercaseToolStripMenuItem
             // 
             convertToUppercaseToolStripMenuItem.Name = "convertToUppercaseToolStripMenuItem";
             convertToUppercaseToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.U;
-            convertToUppercaseToolStripMenuItem.Size = new Size(350, 34);
+            convertToUppercaseToolStripMenuItem.Size = new Size(231, 22);
             convertToUppercaseToolStripMenuItem.Text = "Convert To Uppercase";
             convertToUppercaseToolStripMenuItem.Click += convertToUppercaseToolStripMenuItem_Click;
             // 
@@ -278,22 +276,45 @@
             // 
             convertToLowercaseToolStripMenuItem.Name = "convertToLowercaseToolStripMenuItem";
             convertToLowercaseToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.L;
-            convertToLowercaseToolStripMenuItem.Size = new Size(350, 34);
+            convertToLowercaseToolStripMenuItem.Size = new Size(231, 22);
             convertToLowercaseToolStripMenuItem.Text = "Convert To Lowercase";
             convertToLowercaseToolStripMenuItem.Click += convertToLowercaseToolStripMenuItem_Click;
+            // 
+            // tabsToolStripMenuItem
+            // 
+            tabsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { memoryToolStripMenuItem, registersToolStripMenuItem });
+            tabsToolStripMenuItem.Name = "tabsToolStripMenuItem";
+            tabsToolStripMenuItem.Size = new Size(42, 20);
+            tabsToolStripMenuItem.Text = "Tabs";
+            // 
+            // memoryToolStripMenuItem
+            // 
+            memoryToolStripMenuItem.Name = "memoryToolStripMenuItem";
+            memoryToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.M;
+            memoryToolStripMenuItem.Size = new Size(164, 22);
+            memoryToolStripMenuItem.Text = "Memory";
+            memoryToolStripMenuItem.Click += memoryToolStripMenuItem_Click;
+            // 
+            // registersToolStripMenuItem
+            // 
+            registersToolStripMenuItem.Name = "registersToolStripMenuItem";
+            registersToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.R;
+            registersToolStripMenuItem.Size = new Size(164, 22);
+            registersToolStripMenuItem.Text = "Registers";
+            registersToolStripMenuItem.Click += registersToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
             // 
             toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { converterToolStripMenuItem, aSCIITableToolStripMenuItem, instructionsToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            toolsToolStripMenuItem.Size = new Size(69, 29);
+            toolsToolStripMenuItem.Size = new Size(46, 20);
             toolsToolStripMenuItem.Text = "Tools";
             // 
             // converterToolStripMenuItem
             // 
             converterToolStripMenuItem.Name = "converterToolStripMenuItem";
             converterToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.C;
-            converterToolStripMenuItem.Size = new Size(270, 34);
+            converterToolStripMenuItem.Size = new Size(170, 22);
             converterToolStripMenuItem.Text = "Converter";
             converterToolStripMenuItem.Click += converterToolStripMenuItem_Click;
             // 
@@ -301,7 +322,7 @@
             // 
             aSCIITableToolStripMenuItem.Name = "aSCIITableToolStripMenuItem";
             aSCIITableToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.A;
-            aSCIITableToolStripMenuItem.Size = new Size(270, 34);
+            aSCIITableToolStripMenuItem.Size = new Size(170, 22);
             aSCIITableToolStripMenuItem.Text = "ASCII Table";
             aSCIITableToolStripMenuItem.Click += aSCIITableToolStripMenuItem_Click;
             // 
@@ -309,14 +330,14 @@
             // 
             instructionsToolStripMenuItem.Name = "instructionsToolStripMenuItem";
             instructionsToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.I;
-            instructionsToolStripMenuItem.Size = new Size(270, 34);
+            instructionsToolStripMenuItem.Size = new Size(170, 22);
             instructionsToolStripMenuItem.Text = "Instructions";
             instructionsToolStripMenuItem.Click += instructionsToolStripMenuItem_Click;
             // 
             // aboutToolStripMenuItem
             // 
             aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            aboutToolStripMenuItem.Size = new Size(78, 29);
+            aboutToolStripMenuItem.Size = new Size(52, 20);
             aboutToolStripMenuItem.Text = "About";
             aboutToolStripMenuItem.Click += aboutToolStripMenuItem_Click;
             // 
@@ -324,11 +345,9 @@
             // 
             GroupboxInput.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             GroupboxInput.Controls.Add(RichTextboxAssemblyCode);
-            GroupboxInput.Location = new Point(9, 10);
-            GroupboxInput.Margin = new Padding(4, 5, 4, 5);
+            GroupboxInput.Location = new Point(6, 6);
             GroupboxInput.Name = "GroupboxInput";
-            GroupboxInput.Padding = new Padding(4, 5, 4, 5);
-            GroupboxInput.Size = new Size(566, 407);
+            GroupboxInput.Size = new Size(396, 244);
             GroupboxInput.TabIndex = 1;
             GroupboxInput.TabStop = false;
             GroupboxInput.Text = "Assembly";
@@ -336,10 +355,9 @@
             // RichTextboxAssemblyCode
             // 
             RichTextboxAssemblyCode.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            RichTextboxAssemblyCode.Location = new Point(9, 37);
-            RichTextboxAssemblyCode.Margin = new Padding(4, 5, 4, 5);
+            RichTextboxAssemblyCode.Location = new Point(6, 22);
             RichTextboxAssemblyCode.Name = "RichTextboxAssemblyCode";
-            RichTextboxAssemblyCode.Size = new Size(547, 354);
+            RichTextboxAssemblyCode.Size = new Size(384, 214);
             RichTextboxAssemblyCode.TabIndex = 0;
             RichTextboxAssemblyCode.Text = "; the static data goes here\n; for example\n; number_ten: db 10\n\nsection.text\n\n; the instructions go here\n; for example\n; mov al, byte [number_ten]\n; inc byte al";
             // 
@@ -349,11 +367,9 @@
             GroupboxControls.Controls.Add(GroupboxExecutionProgress);
             GroupboxControls.Controls.Add(LabelCurrentInstruction);
             GroupboxControls.Controls.Add(GroupboxExecution);
-            GroupboxControls.Location = new Point(583, 10);
-            GroupboxControls.Margin = new Padding(4, 5, 4, 5);
+            GroupboxControls.Location = new Point(408, 6);
             GroupboxControls.Name = "GroupboxControls";
-            GroupboxControls.Padding = new Padding(4, 5, 4, 5);
-            GroupboxControls.Size = new Size(314, 407);
+            GroupboxControls.Size = new Size(220, 244);
             GroupboxControls.TabIndex = 2;
             GroupboxControls.TabStop = false;
             GroupboxControls.Text = "Controls";
@@ -362,31 +378,27 @@
             // 
             GroupboxExecutionProgress.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             GroupboxExecutionProgress.Controls.Add(ProgressBarExecutionProgress);
-            GroupboxExecutionProgress.Location = new Point(14, 275);
-            GroupboxExecutionProgress.Margin = new Padding(4, 5, 4, 5);
+            GroupboxExecutionProgress.Location = new Point(10, 165);
             GroupboxExecutionProgress.Name = "GroupboxExecutionProgress";
-            GroupboxExecutionProgress.Padding = new Padding(4, 5, 4, 5);
-            GroupboxExecutionProgress.Size = new Size(294, 120);
+            GroupboxExecutionProgress.Size = new Size(206, 72);
             GroupboxExecutionProgress.TabIndex = 4;
             GroupboxExecutionProgress.TabStop = false;
             GroupboxExecutionProgress.Text = "Execution Progress";
             // 
             // ProgressBarExecutionProgress
             // 
-            ProgressBarExecutionProgress.Location = new Point(11, 37);
-            ProgressBarExecutionProgress.Margin = new Padding(4, 5, 4, 5);
+            ProgressBarExecutionProgress.Location = new Point(8, 22);
             ProgressBarExecutionProgress.Name = "ProgressBarExecutionProgress";
-            ProgressBarExecutionProgress.Size = new Size(274, 73);
+            ProgressBarExecutionProgress.Size = new Size(192, 44);
             ProgressBarExecutionProgress.TabIndex = 0;
             // 
             // LabelCurrentInstruction
             // 
             LabelCurrentInstruction.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             LabelCurrentInstruction.AutoSize = true;
-            LabelCurrentInstruction.Location = new Point(11, 42);
-            LabelCurrentInstruction.Margin = new Padding(4, 0, 4, 0);
+            LabelCurrentInstruction.Location = new Point(8, 25);
             LabelCurrentInstruction.Name = "LabelCurrentInstruction";
-            LabelCurrentInstruction.Size = new Size(163, 25);
+            LabelCurrentInstruction.Size = new Size(110, 15);
             LabelCurrentInstruction.TabIndex = 1;
             LabelCurrentInstruction.Text = "Current Instruction:";
             // 
@@ -394,45 +406,29 @@
             // 
             GroupboxExecution.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             GroupboxExecution.Controls.Add(ButtonExecute);
-            GroupboxExecution.Controls.Add(ButtonPreviousInstruction);
             GroupboxExecution.Controls.Add(ButtonNextInstruction);
-            GroupboxExecution.Location = new Point(11, 82);
-            GroupboxExecution.Margin = new Padding(4, 5, 4, 5);
+            GroupboxExecution.Location = new Point(8, 49);
             GroupboxExecution.Name = "GroupboxExecution";
-            GroupboxExecution.Padding = new Padding(4, 5, 4, 5);
-            GroupboxExecution.Size = new Size(297, 183);
+            GroupboxExecution.Size = new Size(208, 110);
             GroupboxExecution.TabIndex = 0;
             GroupboxExecution.TabStop = false;
             GroupboxExecution.Text = "Execution";
             // 
             // ButtonExecute
             // 
-            ButtonExecute.Location = new Point(9, 133);
-            ButtonExecute.Margin = new Padding(4, 5, 4, 5);
+            ButtonExecute.Location = new Point(6, 66);
             ButtonExecute.Name = "ButtonExecute";
-            ButtonExecute.Size = new Size(280, 38);
+            ButtonExecute.Size = new Size(196, 38);
             ButtonExecute.TabIndex = 3;
             ButtonExecute.Text = "Execute";
             ButtonExecute.UseVisualStyleBackColor = true;
             ButtonExecute.Click += ButtonExecute_Click;
             // 
-            // ButtonPreviousInstruction
-            // 
-            ButtonPreviousInstruction.Location = new Point(9, 85);
-            ButtonPreviousInstruction.Margin = new Padding(4, 5, 4, 5);
-            ButtonPreviousInstruction.Name = "ButtonPreviousInstruction";
-            ButtonPreviousInstruction.Size = new Size(280, 38);
-            ButtonPreviousInstruction.TabIndex = 1;
-            ButtonPreviousInstruction.Text = "Previous Instruction";
-            ButtonPreviousInstruction.UseVisualStyleBackColor = true;
-            ButtonPreviousInstruction.Click += ButtonPreviousInstruction_Click;
-            // 
             // ButtonNextInstruction
             // 
-            ButtonNextInstruction.Location = new Point(9, 37);
-            ButtonNextInstruction.Margin = new Padding(4, 5, 4, 5);
+            ButtonNextInstruction.Location = new Point(6, 22);
             ButtonNextInstruction.Name = "ButtonNextInstruction";
-            ButtonNextInstruction.Size = new Size(280, 38);
+            ButtonNextInstruction.Size = new Size(196, 38);
             ButtonNextInstruction.TabIndex = 0;
             ButtonNextInstruction.Text = "Next Instruction";
             ButtonNextInstruction.UseVisualStyleBackColor = true;
@@ -445,11 +441,10 @@
             EmuXTabControl.Controls.Add(Memory);
             EmuXTabControl.Controls.Add(Registers);
             EmuXTabControl.Controls.Add(Output);
-            EmuXTabControl.Location = new Point(0, 45);
-            EmuXTabControl.Margin = new Padding(4, 5, 4, 5);
+            EmuXTabControl.Location = new Point(0, 27);
             EmuXTabControl.Name = "EmuXTabControl";
             EmuXTabControl.SelectedIndex = 0;
-            EmuXTabControl.Size = new Size(923, 475);
+            EmuXTabControl.Size = new Size(646, 285);
             EmuXTabControl.TabIndex = 1;
             EmuXTabControl.SelectedIndexChanged += EmuXTabControl_SelectedIndexChanged;
             // 
@@ -457,11 +452,10 @@
             // 
             Assembly.Controls.Add(GroupboxInput);
             Assembly.Controls.Add(GroupboxControls);
-            Assembly.Location = new Point(4, 34);
-            Assembly.Margin = new Padding(4, 5, 4, 5);
+            Assembly.Location = new Point(4, 24);
             Assembly.Name = "Assembly";
-            Assembly.Padding = new Padding(4, 5, 4, 5);
-            Assembly.Size = new Size(915, 437);
+            Assembly.Padding = new Padding(3, 3, 3, 3);
+            Assembly.Size = new Size(638, 257);
             Assembly.TabIndex = 0;
             Assembly.Text = "Assembly";
             Assembly.UseVisualStyleBackColor = true;
@@ -470,11 +464,10 @@
             // 
             Memory.Controls.Add(GroupBoxMemoryControls);
             Memory.Controls.Add(DataGridViewMemory);
-            Memory.Location = new Point(4, 34);
-            Memory.Margin = new Padding(4, 5, 4, 5);
+            Memory.Location = new Point(4, 24);
             Memory.Name = "Memory";
-            Memory.Padding = new Padding(4, 5, 4, 5);
-            Memory.Size = new Size(915, 437);
+            Memory.Padding = new Padding(3, 3, 3, 3);
+            Memory.Size = new Size(638, 257);
             Memory.TabIndex = 1;
             Memory.Text = "Memory";
             Memory.UseVisualStyleBackColor = true;
@@ -492,11 +485,9 @@
             GroupBoxMemoryControls.Controls.Add(TextBoxMemoryRangeEnd);
             GroupBoxMemoryControls.Controls.Add(TextBoxMemoryRangeStart);
             GroupBoxMemoryControls.Controls.Add(ComboBoxMemoryRepresentation);
-            GroupBoxMemoryControls.Location = new Point(11, 10);
-            GroupBoxMemoryControls.Margin = new Padding(4, 5, 4, 5);
+            GroupBoxMemoryControls.Location = new Point(8, 6);
             GroupBoxMemoryControls.Name = "GroupBoxMemoryControls";
-            GroupBoxMemoryControls.Padding = new Padding(4, 5, 4, 5);
-            GroupBoxMemoryControls.Size = new Size(1060, 187);
+            GroupBoxMemoryControls.Size = new Size(742, 112);
             GroupBoxMemoryControls.TabIndex = 1;
             GroupBoxMemoryControls.TabStop = false;
             GroupBoxMemoryControls.Text = "Controls";
@@ -504,10 +495,9 @@
             // ButtonClearMemoryTable
             // 
             ButtonClearMemoryTable.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonClearMemoryTable.Location = new Point(567, 83);
-            ButtonClearMemoryTable.Margin = new Padding(4, 5, 4, 5);
+            ButtonClearMemoryTable.Location = new Point(397, 50);
             ButtonClearMemoryTable.Name = "ButtonClearMemoryTable";
-            ButtonClearMemoryTable.Size = new Size(324, 38);
+            ButtonClearMemoryTable.Size = new Size(227, 23);
             ButtonClearMemoryTable.TabIndex = 9;
             ButtonClearMemoryTable.Text = "Clear";
             ButtonClearMemoryTable.UseVisualStyleBackColor = true;
@@ -516,40 +506,36 @@
             // LabelValue
             // 
             LabelValue.AutoSize = true;
-            LabelValue.Location = new Point(9, 140);
-            LabelValue.Margin = new Padding(4, 0, 4, 0);
+            LabelValue.Location = new Point(6, 84);
             LabelValue.Name = "LabelValue";
-            LabelValue.Size = new Size(54, 25);
+            LabelValue.Size = new Size(35, 15);
             LabelValue.TabIndex = 8;
             LabelValue.Text = "Value";
             // 
             // labelDataRepresentation
             // 
             labelDataRepresentation.AutoSize = true;
-            labelDataRepresentation.Location = new Point(9, 90);
-            labelDataRepresentation.Margin = new Padding(4, 0, 4, 0);
+            labelDataRepresentation.Location = new Point(6, 54);
             labelDataRepresentation.Name = "labelDataRepresentation";
-            labelDataRepresentation.Size = new Size(172, 25);
+            labelDataRepresentation.Size = new Size(113, 15);
             labelDataRepresentation.TabIndex = 7;
             labelDataRepresentation.Text = "Data Representation";
             // 
             // LabelMemoryRange
             // 
             LabelMemoryRange.AutoSize = true;
-            LabelMemoryRange.Location = new Point(9, 42);
-            LabelMemoryRange.Margin = new Padding(4, 0, 4, 0);
+            LabelMemoryRange.Location = new Point(6, 25);
             LabelMemoryRange.Name = "LabelMemoryRange";
-            LabelMemoryRange.Size = new Size(134, 25);
+            LabelMemoryRange.Size = new Size(88, 15);
             LabelMemoryRange.TabIndex = 6;
             LabelMemoryRange.Text = "Memory Range";
             // 
             // ButtonSetMemoryValue
             // 
             ButtonSetMemoryValue.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonSetMemoryValue.Location = new Point(567, 133);
-            ButtonSetMemoryValue.Margin = new Padding(4, 5, 4, 5);
+            ButtonSetMemoryValue.Location = new Point(397, 80);
             ButtonSetMemoryValue.Name = "ButtonSetMemoryValue";
-            ButtonSetMemoryValue.Size = new Size(324, 38);
+            ButtonSetMemoryValue.Size = new Size(227, 23);
             ButtonSetMemoryValue.TabIndex = 5;
             ButtonSetMemoryValue.Text = "Set";
             ButtonSetMemoryValue.UseVisualStyleBackColor = true;
@@ -558,10 +544,9 @@
             // ButtonSearchMemoryRange
             // 
             ButtonSearchMemoryRange.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonSearchMemoryRange.Location = new Point(567, 37);
-            ButtonSearchMemoryRange.Margin = new Padding(4, 5, 4, 5);
+            ButtonSearchMemoryRange.Location = new Point(397, 22);
             ButtonSearchMemoryRange.Name = "ButtonSearchMemoryRange";
-            ButtonSearchMemoryRange.Size = new Size(324, 38);
+            ButtonSearchMemoryRange.Size = new Size(227, 23);
             ButtonSearchMemoryRange.TabIndex = 4;
             ButtonSearchMemoryRange.Text = "Search";
             ButtonSearchMemoryRange.UseVisualStyleBackColor = true;
@@ -570,28 +555,25 @@
             // TextBoxMemoryValue
             // 
             TextBoxMemoryValue.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            TextBoxMemoryValue.Location = new Point(270, 133);
-            TextBoxMemoryValue.Margin = new Padding(4, 5, 4, 5);
+            TextBoxMemoryValue.Location = new Point(189, 80);
             TextBoxMemoryValue.Name = "TextBoxMemoryValue";
-            TextBoxMemoryValue.Size = new Size(287, 31);
+            TextBoxMemoryValue.Size = new Size(202, 23);
             TextBoxMemoryValue.TabIndex = 3;
             // 
             // TextBoxMemoryRangeEnd
             // 
             TextBoxMemoryRangeEnd.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            TextBoxMemoryRangeEnd.Location = new Point(416, 37);
-            TextBoxMemoryRangeEnd.Margin = new Padding(4, 5, 4, 5);
+            TextBoxMemoryRangeEnd.Location = new Point(291, 22);
             TextBoxMemoryRangeEnd.Name = "TextBoxMemoryRangeEnd";
-            TextBoxMemoryRangeEnd.Size = new Size(141, 31);
+            TextBoxMemoryRangeEnd.Size = new Size(100, 23);
             TextBoxMemoryRangeEnd.TabIndex = 2;
             // 
             // TextBoxMemoryRangeStart
             // 
             TextBoxMemoryRangeStart.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            TextBoxMemoryRangeStart.Location = new Point(270, 37);
-            TextBoxMemoryRangeStart.Margin = new Padding(4, 5, 4, 5);
+            TextBoxMemoryRangeStart.Location = new Point(189, 22);
             TextBoxMemoryRangeStart.Name = "TextBoxMemoryRangeStart";
-            TextBoxMemoryRangeStart.Size = new Size(141, 31);
+            TextBoxMemoryRangeStart.Size = new Size(100, 23);
             TextBoxMemoryRangeStart.TabIndex = 1;
             // 
             // ComboBoxMemoryRepresentation
@@ -599,10 +581,9 @@
             ComboBoxMemoryRepresentation.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ComboBoxMemoryRepresentation.FormattingEnabled = true;
             ComboBoxMemoryRepresentation.Items.AddRange(new object[] { "Decimal", "Binary", "Hexadecimal" });
-            ComboBoxMemoryRepresentation.Location = new Point(270, 85);
-            ComboBoxMemoryRepresentation.Margin = new Padding(4, 5, 4, 5);
+            ComboBoxMemoryRepresentation.Location = new Point(189, 51);
             ComboBoxMemoryRepresentation.Name = "ComboBoxMemoryRepresentation";
-            ComboBoxMemoryRepresentation.Size = new Size(287, 33);
+            ComboBoxMemoryRepresentation.Size = new Size(202, 23);
             ComboBoxMemoryRepresentation.TabIndex = 0;
             // 
             // DataGridViewMemory
@@ -615,13 +596,12 @@
             DataGridViewMemory.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             DataGridViewMemory.EditMode = DataGridViewEditMode.EditProgrammatically;
             DataGridViewMemory.Enabled = false;
-            DataGridViewMemory.Location = new Point(11, 207);
-            DataGridViewMemory.Margin = new Padding(4, 5, 4, 5);
+            DataGridViewMemory.Location = new Point(8, 124);
             DataGridViewMemory.Name = "DataGridViewMemory";
             DataGridViewMemory.ReadOnly = true;
             DataGridViewMemory.RowHeadersWidth = 62;
             DataGridViewMemory.RowTemplate.Height = 25;
-            DataGridViewMemory.Size = new Size(891, 207);
+            DataGridViewMemory.Size = new Size(624, 124);
             DataGridViewMemory.TabIndex = 0;
             // 
             // Registers
@@ -629,10 +609,9 @@
             Registers.Controls.Add(GroupBoxEFLAGS);
             Registers.Controls.Add(ButtonSetRegisterValues);
             Registers.Controls.Add(GroupBoxGeneralPurposeRegisters);
-            Registers.Location = new Point(4, 34);
-            Registers.Margin = new Padding(4, 5, 4, 5);
+            Registers.Location = new Point(4, 24);
             Registers.Name = "Registers";
-            Registers.Size = new Size(915, 437);
+            Registers.Size = new Size(638, 257);
             Registers.TabIndex = 2;
             Registers.Text = "Registers";
             Registers.UseVisualStyleBackColor = true;
@@ -674,11 +653,9 @@
             GroupBoxEFLAGS.Controls.Add(LabelPF);
             GroupBoxEFLAGS.Controls.Add(CheckBoxCF);
             GroupBoxEFLAGS.Controls.Add(LabelCF);
-            GroupBoxEFLAGS.Location = new Point(684, 5);
-            GroupBoxEFLAGS.Margin = new Padding(4, 5, 4, 5);
+            GroupBoxEFLAGS.Location = new Point(479, 3);
             GroupBoxEFLAGS.Name = "GroupBoxEFLAGS";
-            GroupBoxEFLAGS.Padding = new Padding(4, 5, 4, 5);
-            GroupBoxEFLAGS.Size = new Size(209, 322);
+            GroupBoxEFLAGS.Size = new Size(146, 193);
             GroupBoxEFLAGS.TabIndex = 20;
             GroupBoxEFLAGS.TabStop = false;
             GroupBoxEFLAGS.Text = "EFLAGS";
@@ -686,350 +663,315 @@
             // CheckBoxID
             // 
             CheckBoxID.AutoSize = true;
-            CheckBoxID.Location = new Point(180, 153);
-            CheckBoxID.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxID.Location = new Point(126, 92);
             CheckBoxID.Name = "CheckBoxID";
-            CheckBoxID.Size = new Size(22, 21);
+            CheckBoxID.Size = new Size(15, 14);
             CheckBoxID.TabIndex = 33;
             CheckBoxID.UseVisualStyleBackColor = true;
             // 
             // CheckBoxVIP
             // 
             CheckBoxVIP.AutoSize = true;
-            CheckBoxVIP.Location = new Point(180, 128);
-            CheckBoxVIP.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxVIP.Location = new Point(126, 77);
             CheckBoxVIP.Name = "CheckBoxVIP";
-            CheckBoxVIP.Size = new Size(22, 21);
+            CheckBoxVIP.Size = new Size(15, 14);
             CheckBoxVIP.TabIndex = 32;
             CheckBoxVIP.UseVisualStyleBackColor = true;
             // 
             // CheckBoxVIF
             // 
             CheckBoxVIF.AutoSize = true;
-            CheckBoxVIF.Location = new Point(180, 103);
-            CheckBoxVIF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxVIF.Location = new Point(126, 62);
             CheckBoxVIF.Name = "CheckBoxVIF";
-            CheckBoxVIF.Size = new Size(22, 21);
+            CheckBoxVIF.Size = new Size(15, 14);
             CheckBoxVIF.TabIndex = 31;
             CheckBoxVIF.UseVisualStyleBackColor = true;
             // 
             // LabelID
             // 
             LabelID.AutoSize = true;
-            LabelID.Location = new Point(120, 157);
-            LabelID.Margin = new Padding(4, 0, 4, 0);
+            LabelID.Location = new Point(84, 94);
             LabelID.Name = "LabelID";
-            LabelID.Size = new Size(30, 25);
+            LabelID.Size = new Size(18, 15);
             LabelID.TabIndex = 30;
             LabelID.Text = "ID";
             // 
             // LabelVIP
             // 
             LabelVIP.AutoSize = true;
-            LabelVIP.Location = new Point(120, 132);
-            LabelVIP.Margin = new Padding(4, 0, 4, 0);
+            LabelVIP.Location = new Point(84, 79);
             LabelVIP.Name = "LabelVIP";
-            LabelVIP.Size = new Size(38, 25);
+            LabelVIP.Size = new Size(24, 15);
             LabelVIP.TabIndex = 29;
             LabelVIP.Text = "VIP";
             // 
             // LabelVIF
             // 
             LabelVIF.AutoSize = true;
-            LabelVIF.Location = new Point(120, 107);
-            LabelVIF.Margin = new Padding(4, 0, 4, 0);
+            LabelVIF.Location = new Point(84, 64);
             LabelVIF.Name = "LabelVIF";
-            LabelVIF.Size = new Size(37, 25);
+            LabelVIF.Size = new Size(23, 15);
             LabelVIF.TabIndex = 28;
             LabelVIF.Text = "VIF";
             // 
             // CheckBoxAC
             // 
             CheckBoxAC.AutoSize = true;
-            CheckBoxAC.Location = new Point(180, 78);
-            CheckBoxAC.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxAC.Location = new Point(126, 47);
             CheckBoxAC.Name = "CheckBoxAC";
-            CheckBoxAC.Size = new Size(22, 21);
+            CheckBoxAC.Size = new Size(15, 14);
             CheckBoxAC.TabIndex = 27;
             CheckBoxAC.UseVisualStyleBackColor = true;
             // 
             // LabelAC
             // 
             LabelAC.AutoSize = true;
-            LabelAC.Location = new Point(120, 82);
-            LabelAC.Margin = new Padding(4, 0, 4, 0);
+            LabelAC.Location = new Point(84, 49);
             LabelAC.Name = "LabelAC";
-            LabelAC.Size = new Size(35, 25);
+            LabelAC.Size = new Size(23, 15);
             LabelAC.TabIndex = 26;
             LabelAC.Text = "AC";
             // 
             // CheckBoxVM
             // 
             CheckBoxVM.AutoSize = true;
-            CheckBoxVM.Location = new Point(180, 53);
-            CheckBoxVM.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxVM.Location = new Point(126, 32);
             CheckBoxVM.Name = "CheckBoxVM";
-            CheckBoxVM.Size = new Size(22, 21);
+            CheckBoxVM.Size = new Size(15, 14);
             CheckBoxVM.TabIndex = 25;
             CheckBoxVM.UseVisualStyleBackColor = true;
             // 
             // LabelVM
             // 
             LabelVM.AutoSize = true;
-            LabelVM.Location = new Point(120, 55);
-            LabelVM.Margin = new Padding(4, 0, 4, 0);
+            LabelVM.Location = new Point(84, 33);
             LabelVM.Name = "LabelVM";
-            LabelVM.Size = new Size(39, 25);
+            LabelVM.Size = new Size(25, 15);
             LabelVM.TabIndex = 24;
             LabelVM.Text = "VM";
             // 
             // CheckBoxRF
             // 
             CheckBoxRF.AutoSize = true;
-            CheckBoxRF.Location = new Point(180, 28);
-            CheckBoxRF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxRF.Location = new Point(126, 17);
             CheckBoxRF.Name = "CheckBoxRF";
-            CheckBoxRF.Size = new Size(22, 21);
+            CheckBoxRF.Size = new Size(15, 14);
             CheckBoxRF.TabIndex = 23;
             CheckBoxRF.UseVisualStyleBackColor = true;
             // 
             // LabelRF
             // 
             LabelRF.AutoSize = true;
-            LabelRF.Location = new Point(120, 30);
-            LabelRF.Margin = new Padding(4, 0, 4, 0);
+            LabelRF.Location = new Point(84, 18);
             LabelRF.Name = "LabelRF";
-            LabelRF.Size = new Size(32, 25);
+            LabelRF.Size = new Size(20, 15);
             LabelRF.TabIndex = 22;
             LabelRF.Text = "RF";
             // 
             // CheckBoxNT
             // 
             CheckBoxNT.AutoSize = true;
-            CheckBoxNT.Location = new Point(76, 282);
-            CheckBoxNT.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxNT.Location = new Point(53, 169);
             CheckBoxNT.Name = "CheckBoxNT";
-            CheckBoxNT.Size = new Size(22, 21);
+            CheckBoxNT.Size = new Size(15, 14);
             CheckBoxNT.TabIndex = 21;
             CheckBoxNT.UseVisualStyleBackColor = true;
             // 
             // LabelNT
             // 
             LabelNT.AutoSize = true;
-            LabelNT.Location = new Point(10, 282);
-            LabelNT.Margin = new Padding(4, 0, 4, 0);
+            LabelNT.Location = new Point(7, 169);
             LabelNT.Name = "LabelNT";
-            LabelNT.Size = new Size(34, 25);
+            LabelNT.Size = new Size(22, 15);
             LabelNT.TabIndex = 20;
             LabelNT.Text = "NT";
             // 
             // CheckBoxIOPL
             // 
             CheckBoxIOPL.AutoSize = true;
-            CheckBoxIOPL.Location = new Point(76, 257);
-            CheckBoxIOPL.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxIOPL.Location = new Point(53, 154);
             CheckBoxIOPL.Name = "CheckBoxIOPL";
-            CheckBoxIOPL.Size = new Size(22, 21);
+            CheckBoxIOPL.Size = new Size(15, 14);
             CheckBoxIOPL.TabIndex = 19;
             CheckBoxIOPL.UseVisualStyleBackColor = true;
             // 
             // LabelIOPL
             // 
             LabelIOPL.AutoSize = true;
-            LabelIOPL.Location = new Point(10, 257);
-            LabelIOPL.Margin = new Padding(4, 0, 4, 0);
+            LabelIOPL.Location = new Point(7, 154);
             LabelIOPL.Name = "LabelIOPL";
-            LabelIOPL.Size = new Size(49, 25);
+            LabelIOPL.Size = new Size(32, 15);
             LabelIOPL.TabIndex = 18;
             LabelIOPL.Text = "IOPL";
             // 
             // CheckBoxOF
             // 
             CheckBoxOF.AutoSize = true;
-            CheckBoxOF.Location = new Point(76, 232);
-            CheckBoxOF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxOF.Location = new Point(53, 139);
             CheckBoxOF.Name = "CheckBoxOF";
-            CheckBoxOF.Size = new Size(22, 21);
+            CheckBoxOF.Size = new Size(15, 14);
             CheckBoxOF.TabIndex = 17;
             CheckBoxOF.UseVisualStyleBackColor = true;
             // 
             // LabelOF
             // 
             LabelOF.AutoSize = true;
-            LabelOF.Location = new Point(10, 232);
-            LabelOF.Margin = new Padding(4, 0, 4, 0);
+            LabelOF.Location = new Point(7, 139);
             LabelOF.Name = "LabelOF";
-            LabelOF.Size = new Size(35, 25);
+            LabelOF.Size = new Size(22, 15);
             LabelOF.TabIndex = 16;
             LabelOF.Text = "OF";
             // 
             // CheckBoxDF
             // 
             CheckBoxDF.AutoSize = true;
-            CheckBoxDF.Location = new Point(76, 207);
-            CheckBoxDF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxDF.Location = new Point(53, 124);
             CheckBoxDF.Name = "CheckBoxDF";
-            CheckBoxDF.Size = new Size(22, 21);
+            CheckBoxDF.Size = new Size(15, 14);
             CheckBoxDF.TabIndex = 15;
             CheckBoxDF.UseVisualStyleBackColor = true;
             // 
             // LabelDF
             // 
             LabelDF.AutoSize = true;
-            LabelDF.Location = new Point(10, 207);
-            LabelDF.Margin = new Padding(4, 0, 4, 0);
+            LabelDF.Location = new Point(7, 124);
             LabelDF.Name = "LabelDF";
-            LabelDF.Size = new Size(34, 25);
+            LabelDF.Size = new Size(21, 15);
             LabelDF.TabIndex = 14;
             LabelDF.Text = "DF";
             // 
             // CheckBoxIF
             // 
             CheckBoxIF.AutoSize = true;
-            CheckBoxIF.Location = new Point(76, 182);
-            CheckBoxIF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxIF.Location = new Point(53, 109);
             CheckBoxIF.Name = "CheckBoxIF";
-            CheckBoxIF.Size = new Size(22, 21);
+            CheckBoxIF.Size = new Size(15, 14);
             CheckBoxIF.TabIndex = 13;
             CheckBoxIF.UseVisualStyleBackColor = true;
             // 
             // LabelIF
             // 
             LabelIF.AutoSize = true;
-            LabelIF.Location = new Point(10, 182);
-            LabelIF.Margin = new Padding(4, 0, 4, 0);
+            LabelIF.Location = new Point(7, 109);
             LabelIF.Name = "LabelIF";
-            LabelIF.Size = new Size(26, 25);
+            LabelIF.Size = new Size(16, 15);
             LabelIF.TabIndex = 12;
             LabelIF.Text = "IF";
             // 
             // CheckBoxTF
             // 
             CheckBoxTF.AutoSize = true;
-            CheckBoxTF.Location = new Point(76, 157);
-            CheckBoxTF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxTF.Location = new Point(53, 94);
             CheckBoxTF.Name = "CheckBoxTF";
-            CheckBoxTF.Size = new Size(22, 21);
+            CheckBoxTF.Size = new Size(15, 14);
             CheckBoxTF.TabIndex = 11;
             CheckBoxTF.UseVisualStyleBackColor = true;
             // 
             // LabelTF
             // 
             LabelTF.AutoSize = true;
-            LabelTF.Location = new Point(9, 157);
-            LabelTF.Margin = new Padding(4, 0, 4, 0);
+            LabelTF.Location = new Point(6, 94);
             LabelTF.Name = "LabelTF";
-            LabelTF.Size = new Size(30, 25);
+            LabelTF.Size = new Size(19, 15);
             LabelTF.TabIndex = 10;
             LabelTF.Text = "TF";
             // 
             // CheckBoxSF
             // 
             CheckBoxSF.AutoSize = true;
-            CheckBoxSF.Location = new Point(76, 132);
-            CheckBoxSF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxSF.Location = new Point(53, 79);
             CheckBoxSF.Name = "CheckBoxSF";
-            CheckBoxSF.Size = new Size(22, 21);
+            CheckBoxSF.Size = new Size(15, 14);
             CheckBoxSF.TabIndex = 9;
             CheckBoxSF.UseVisualStyleBackColor = true;
             // 
             // LabelSF
             // 
             LabelSF.AutoSize = true;
-            LabelSF.Location = new Point(9, 132);
-            LabelSF.Margin = new Padding(4, 0, 4, 0);
+            LabelSF.Location = new Point(6, 79);
             LabelSF.Name = "LabelSF";
-            LabelSF.Size = new Size(31, 25);
+            LabelSF.Size = new Size(19, 15);
             LabelSF.TabIndex = 8;
             LabelSF.Text = "SF";
             // 
             // CheckBoxZF
             // 
             CheckBoxZF.AutoSize = true;
-            CheckBoxZF.Location = new Point(76, 107);
-            CheckBoxZF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxZF.Location = new Point(53, 64);
             CheckBoxZF.Name = "CheckBoxZF";
-            CheckBoxZF.Size = new Size(22, 21);
+            CheckBoxZF.Size = new Size(15, 14);
             CheckBoxZF.TabIndex = 7;
             CheckBoxZF.UseVisualStyleBackColor = true;
             // 
             // LabelZF
             // 
             LabelZF.AutoSize = true;
-            LabelZF.Location = new Point(9, 107);
-            LabelZF.Margin = new Padding(4, 0, 4, 0);
+            LabelZF.Location = new Point(6, 64);
             LabelZF.Name = "LabelZF";
-            LabelZF.Size = new Size(31, 25);
+            LabelZF.Size = new Size(20, 15);
             LabelZF.TabIndex = 6;
             LabelZF.Text = "ZF";
             // 
             // CheckBoxAF
             // 
             CheckBoxAF.AutoSize = true;
-            CheckBoxAF.Location = new Point(76, 82);
-            CheckBoxAF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxAF.Location = new Point(53, 49);
             CheckBoxAF.Name = "CheckBoxAF";
-            CheckBoxAF.Size = new Size(22, 21);
+            CheckBoxAF.Size = new Size(15, 14);
             CheckBoxAF.TabIndex = 5;
             CheckBoxAF.UseVisualStyleBackColor = true;
             // 
             // LabelAF
             // 
             LabelAF.AutoSize = true;
-            LabelAF.Location = new Point(9, 82);
-            LabelAF.Margin = new Padding(4, 0, 4, 0);
+            LabelAF.Location = new Point(6, 49);
             LabelAF.Name = "LabelAF";
-            LabelAF.Size = new Size(33, 25);
+            LabelAF.Size = new Size(21, 15);
             LabelAF.TabIndex = 4;
             LabelAF.Text = "AF";
             // 
             // CheckBoxPF
             // 
             CheckBoxPF.AutoSize = true;
-            CheckBoxPF.Location = new Point(76, 57);
-            CheckBoxPF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxPF.Location = new Point(53, 34);
             CheckBoxPF.Name = "CheckBoxPF";
-            CheckBoxPF.Size = new Size(22, 21);
+            CheckBoxPF.Size = new Size(15, 14);
             CheckBoxPF.TabIndex = 3;
             CheckBoxPF.UseVisualStyleBackColor = true;
             // 
             // LabelPF
             // 
             LabelPF.AutoSize = true;
-            LabelPF.Location = new Point(10, 55);
-            LabelPF.Margin = new Padding(4, 0, 4, 0);
+            LabelPF.Location = new Point(7, 33);
             LabelPF.Name = "LabelPF";
-            LabelPF.Size = new Size(31, 25);
+            LabelPF.Size = new Size(20, 15);
             LabelPF.TabIndex = 2;
             LabelPF.Text = "PF";
             // 
             // CheckBoxCF
             // 
             CheckBoxCF.AutoSize = true;
-            CheckBoxCF.Location = new Point(76, 32);
-            CheckBoxCF.Margin = new Padding(4, 5, 4, 5);
+            CheckBoxCF.Location = new Point(53, 19);
             CheckBoxCF.Name = "CheckBoxCF";
-            CheckBoxCF.Size = new Size(22, 21);
+            CheckBoxCF.Size = new Size(15, 14);
             CheckBoxCF.TabIndex = 1;
             CheckBoxCF.UseVisualStyleBackColor = true;
             // 
             // LabelCF
             // 
             LabelCF.AutoSize = true;
-            LabelCF.Location = new Point(10, 32);
-            LabelCF.Margin = new Padding(4, 0, 4, 0);
+            LabelCF.Location = new Point(7, 19);
             LabelCF.Name = "LabelCF";
-            LabelCF.Size = new Size(32, 25);
+            LabelCF.Size = new Size(21, 15);
             LabelCF.TabIndex = 0;
             LabelCF.Text = "CF";
             // 
             // ButtonSetRegisterValues
             // 
             ButtonSetRegisterValues.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            ButtonSetRegisterValues.Location = new Point(11, 337);
-            ButtonSetRegisterValues.Margin = new Padding(4, 5, 4, 5);
+            ButtonSetRegisterValues.Location = new Point(8, 202);
             ButtonSetRegisterValues.Name = "ButtonSetRegisterValues";
-            ButtonSetRegisterValues.Size = new Size(881, 77);
+            ButtonSetRegisterValues.Size = new Size(617, 46);
             ButtonSetRegisterValues.TabIndex = 19;
             ButtonSetRegisterValues.Text = "Set Register Values";
             ButtonSetRegisterValues.UseVisualStyleBackColor = true;
@@ -1072,328 +1014,291 @@
             GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRDI);
             GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRSI);
             GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxRSI);
-            GroupBoxGeneralPurposeRegisters.Location = new Point(11, 5);
-            GroupBoxGeneralPurposeRegisters.Margin = new Padding(4, 5, 4, 5);
+            GroupBoxGeneralPurposeRegisters.Location = new Point(8, 3);
             GroupBoxGeneralPurposeRegisters.Name = "GroupBoxGeneralPurposeRegisters";
-            GroupBoxGeneralPurposeRegisters.Padding = new Padding(4, 5, 4, 5);
-            GroupBoxGeneralPurposeRegisters.Size = new Size(664, 322);
+            GroupBoxGeneralPurposeRegisters.Size = new Size(465, 193);
             GroupBoxGeneralPurposeRegisters.TabIndex = 18;
             GroupBoxGeneralPurposeRegisters.TabStop = false;
             GroupBoxGeneralPurposeRegisters.Text = "General Purpose Register";
             // 
             // TextBoxR15
             // 
-            TextBoxR15.Location = new Point(510, 220);
-            TextBoxR15.Margin = new Padding(4, 5, 4, 5);
+            TextBoxR15.Location = new Point(357, 132);
             TextBoxR15.Name = "TextBoxR15";
-            TextBoxR15.Size = new Size(141, 31);
+            TextBoxR15.Size = new Size(100, 23);
             TextBoxR15.TabIndex = 33;
             // 
             // LabelR15
             // 
             LabelR15.AutoSize = true;
-            LabelR15.Location = new Point(447, 225);
-            LabelR15.Margin = new Padding(4, 0, 4, 0);
+            LabelR15.Location = new Point(313, 135);
             LabelR15.Name = "LabelR15";
-            LabelR15.Size = new Size(43, 25);
+            LabelR15.Size = new Size(26, 15);
             LabelR15.TabIndex = 32;
             LabelR15.Text = "R15";
             // 
             // TextBoxR14
             // 
-            TextBoxR14.Location = new Point(510, 172);
-            TextBoxR14.Margin = new Padding(4, 5, 4, 5);
+            TextBoxR14.Location = new Point(357, 103);
             TextBoxR14.Name = "TextBoxR14";
-            TextBoxR14.Size = new Size(141, 31);
+            TextBoxR14.Size = new Size(100, 23);
             TextBoxR14.TabIndex = 31;
             // 
             // LabelR14
             // 
             LabelR14.AutoSize = true;
-            LabelR14.Location = new Point(447, 177);
-            LabelR14.Margin = new Padding(4, 0, 4, 0);
+            LabelR14.Location = new Point(313, 106);
             LabelR14.Name = "LabelR14";
-            LabelR14.Size = new Size(43, 25);
+            LabelR14.Size = new Size(26, 15);
             LabelR14.TabIndex = 30;
             LabelR14.Text = "R14";
             // 
             // TextBoxR13
             // 
-            TextBoxR13.Location = new Point(510, 123);
-            TextBoxR13.Margin = new Padding(4, 5, 4, 5);
+            TextBoxR13.Location = new Point(357, 74);
             TextBoxR13.Name = "TextBoxR13";
-            TextBoxR13.Size = new Size(141, 31);
+            TextBoxR13.Size = new Size(100, 23);
             TextBoxR13.TabIndex = 29;
             // 
             // LabelR13
             // 
             LabelR13.AutoSize = true;
-            LabelR13.Location = new Point(447, 128);
-            LabelR13.Margin = new Padding(4, 0, 4, 0);
+            LabelR13.Location = new Point(313, 77);
             LabelR13.Name = "LabelR13";
-            LabelR13.Size = new Size(43, 25);
+            LabelR13.Size = new Size(26, 15);
             LabelR13.TabIndex = 28;
             LabelR13.Text = "R13";
             // 
             // TextBoxR12
             // 
-            TextBoxR12.Location = new Point(510, 75);
-            TextBoxR12.Margin = new Padding(4, 5, 4, 5);
+            TextBoxR12.Location = new Point(357, 45);
             TextBoxR12.Name = "TextBoxR12";
-            TextBoxR12.Size = new Size(141, 31);
+            TextBoxR12.Size = new Size(100, 23);
             TextBoxR12.TabIndex = 27;
             // 
             // LabelR12
             // 
             LabelR12.AutoSize = true;
-            LabelR12.Location = new Point(447, 80);
-            LabelR12.Margin = new Padding(4, 0, 4, 0);
+            LabelR12.Location = new Point(313, 48);
             LabelR12.Name = "LabelR12";
-            LabelR12.Size = new Size(43, 25);
+            LabelR12.Size = new Size(26, 15);
             LabelR12.TabIndex = 26;
             LabelR12.Text = "R12";
             // 
             // TextBoxR11
             // 
-            TextBoxR11.Location = new Point(510, 27);
-            TextBoxR11.Margin = new Padding(4, 5, 4, 5);
+            TextBoxR11.Location = new Point(357, 16);
             TextBoxR11.Name = "TextBoxR11";
-            TextBoxR11.Size = new Size(141, 31);
+            TextBoxR11.Size = new Size(100, 23);
             TextBoxR11.TabIndex = 25;
             // 
             // LabelR11
             // 
             LabelR11.AutoSize = true;
-            LabelR11.Location = new Point(447, 32);
-            LabelR11.Margin = new Padding(4, 0, 4, 0);
+            LabelR11.Location = new Point(313, 19);
             LabelR11.Name = "LabelR11";
-            LabelR11.Size = new Size(43, 25);
+            LabelR11.Size = new Size(26, 15);
             LabelR11.TabIndex = 24;
             LabelR11.Text = "R11";
             // 
             // TextBoxR10
             // 
-            TextBoxR10.Location = new Point(291, 268);
-            TextBoxR10.Margin = new Padding(4, 5, 4, 5);
+            TextBoxR10.Location = new Point(204, 161);
             TextBoxR10.Name = "TextBoxR10";
-            TextBoxR10.Size = new Size(141, 31);
+            TextBoxR10.Size = new Size(100, 23);
             TextBoxR10.TabIndex = 23;
             // 
             // LabelR10
             // 
             LabelR10.AutoSize = true;
-            LabelR10.Location = new Point(229, 273);
-            LabelR10.Margin = new Padding(4, 0, 4, 0);
+            LabelR10.Location = new Point(160, 164);
             LabelR10.Name = "LabelR10";
-            LabelR10.Size = new Size(43, 25);
+            LabelR10.Size = new Size(26, 15);
             LabelR10.TabIndex = 22;
             LabelR10.Text = "R10";
             // 
             // TextBoxR9
             // 
-            TextBoxR9.Location = new Point(291, 220);
-            TextBoxR9.Margin = new Padding(4, 5, 4, 5);
+            TextBoxR9.Location = new Point(204, 132);
             TextBoxR9.Name = "TextBoxR9";
-            TextBoxR9.Size = new Size(141, 31);
+            TextBoxR9.Size = new Size(100, 23);
             TextBoxR9.TabIndex = 21;
             // 
             // LabelR9
             // 
             LabelR9.AutoSize = true;
-            LabelR9.Location = new Point(229, 225);
-            LabelR9.Margin = new Padding(4, 0, 4, 0);
+            LabelR9.Location = new Point(160, 135);
             LabelR9.Name = "LabelR9";
-            LabelR9.Size = new Size(33, 25);
+            LabelR9.Size = new Size(20, 15);
             LabelR9.TabIndex = 20;
             LabelR9.Text = "R9";
             // 
             // TextBoxR8
             // 
-            TextBoxR8.Location = new Point(291, 172);
-            TextBoxR8.Margin = new Padding(4, 5, 4, 5);
+            TextBoxR8.Location = new Point(204, 103);
             TextBoxR8.Name = "TextBoxR8";
-            TextBoxR8.Size = new Size(141, 31);
+            TextBoxR8.Size = new Size(100, 23);
             TextBoxR8.TabIndex = 19;
             // 
             // LabelR8
             // 
             LabelR8.AutoSize = true;
-            LabelR8.Location = new Point(229, 177);
-            LabelR8.Margin = new Padding(4, 0, 4, 0);
+            LabelR8.Location = new Point(160, 106);
             LabelR8.Name = "LabelR8";
-            LabelR8.Size = new Size(33, 25);
+            LabelR8.Size = new Size(20, 15);
             LabelR8.TabIndex = 18;
             LabelR8.Text = "R8";
             // 
             // LabelRAX
             // 
             LabelRAX.AutoSize = true;
-            LabelRAX.Location = new Point(9, 32);
-            LabelRAX.Margin = new Padding(4, 0, 4, 0);
+            LabelRAX.Location = new Point(6, 19);
             LabelRAX.Name = "LabelRAX";
-            LabelRAX.Size = new Size(46, 25);
+            LabelRAX.Size = new Size(29, 15);
             LabelRAX.TabIndex = 0;
             LabelRAX.Text = "RAX";
             // 
             // TextBoxRIP
             // 
-            TextBoxRIP.Location = new Point(291, 123);
-            TextBoxRIP.Margin = new Padding(4, 5, 4, 5);
+            TextBoxRIP.Location = new Point(204, 74);
             TextBoxRIP.Name = "TextBoxRIP";
-            TextBoxRIP.Size = new Size(141, 31);
+            TextBoxRIP.Size = new Size(100, 23);
             TextBoxRIP.TabIndex = 17;
             // 
             // TextBoxRAX
             // 
-            TextBoxRAX.Location = new Point(71, 27);
-            TextBoxRAX.Margin = new Padding(4, 5, 4, 5);
+            TextBoxRAX.Location = new Point(50, 16);
             TextBoxRAX.Name = "TextBoxRAX";
-            TextBoxRAX.Size = new Size(141, 31);
+            TextBoxRAX.Size = new Size(100, 23);
             TextBoxRAX.TabIndex = 1;
             // 
             // LabelRIP
             // 
             LabelRIP.AutoSize = true;
-            LabelRIP.Location = new Point(229, 128);
-            LabelRIP.Margin = new Padding(4, 0, 4, 0);
+            LabelRIP.Location = new Point(160, 77);
             LabelRIP.Name = "LabelRIP";
-            LabelRIP.Size = new Size(38, 25);
+            LabelRIP.Size = new Size(24, 15);
             LabelRIP.TabIndex = 16;
             LabelRIP.Text = "RIP";
             // 
             // LabelRBX
             // 
             LabelRBX.AutoSize = true;
-            LabelRBX.Location = new Point(9, 80);
-            LabelRBX.Margin = new Padding(4, 0, 4, 0);
+            LabelRBX.Location = new Point(6, 48);
             LabelRBX.Name = "LabelRBX";
-            LabelRBX.Size = new Size(44, 25);
+            LabelRBX.Size = new Size(28, 15);
             LabelRBX.TabIndex = 2;
             LabelRBX.Text = "RBX";
             // 
             // TextBoxRBP
             // 
-            TextBoxRBP.Location = new Point(291, 75);
-            TextBoxRBP.Margin = new Padding(4, 5, 4, 5);
+            TextBoxRBP.Location = new Point(204, 45);
             TextBoxRBP.Name = "TextBoxRBP";
-            TextBoxRBP.Size = new Size(141, 31);
+            TextBoxRBP.Size = new Size(100, 23);
             TextBoxRBP.TabIndex = 15;
             // 
             // TextBoxRBX
             // 
-            TextBoxRBX.Location = new Point(71, 75);
-            TextBoxRBX.Margin = new Padding(4, 5, 4, 5);
+            TextBoxRBX.Location = new Point(50, 45);
             TextBoxRBX.Name = "TextBoxRBX";
-            TextBoxRBX.Size = new Size(141, 31);
+            TextBoxRBX.Size = new Size(100, 23);
             TextBoxRBX.TabIndex = 3;
             // 
             // LabelRBP
             // 
             LabelRBP.AutoSize = true;
-            LabelRBP.Location = new Point(229, 80);
-            LabelRBP.Margin = new Padding(4, 0, 4, 0);
+            LabelRBP.Location = new Point(160, 48);
             LabelRBP.Name = "LabelRBP";
-            LabelRBP.Size = new Size(43, 25);
+            LabelRBP.Size = new Size(28, 15);
             LabelRBP.TabIndex = 14;
             LabelRBP.Text = "RBP";
             // 
             // LabelRCX
             // 
             LabelRCX.AutoSize = true;
-            LabelRCX.Location = new Point(9, 128);
-            LabelRCX.Margin = new Padding(4, 0, 4, 0);
+            LabelRCX.Location = new Point(6, 77);
             LabelRCX.Name = "LabelRCX";
-            LabelRCX.Size = new Size(45, 25);
+            LabelRCX.Size = new Size(29, 15);
             LabelRCX.TabIndex = 4;
             LabelRCX.Text = "RCX";
             // 
             // TextBoxRSP
             // 
-            TextBoxRSP.Location = new Point(291, 27);
-            TextBoxRSP.Margin = new Padding(4, 5, 4, 5);
+            TextBoxRSP.Location = new Point(204, 16);
             TextBoxRSP.Name = "TextBoxRSP";
-            TextBoxRSP.Size = new Size(141, 31);
+            TextBoxRSP.Size = new Size(100, 23);
             TextBoxRSP.TabIndex = 13;
             // 
             // TextBoxRCX
             // 
-            TextBoxRCX.Location = new Point(71, 123);
-            TextBoxRCX.Margin = new Padding(4, 5, 4, 5);
+            TextBoxRCX.Location = new Point(50, 74);
             TextBoxRCX.Name = "TextBoxRCX";
-            TextBoxRCX.Size = new Size(141, 31);
+            TextBoxRCX.Size = new Size(100, 23);
             TextBoxRCX.TabIndex = 5;
             // 
             // LabelRSP
             // 
             LabelRSP.AutoSize = true;
-            LabelRSP.Location = new Point(229, 32);
-            LabelRSP.Margin = new Padding(4, 0, 4, 0);
+            LabelRSP.Location = new Point(160, 19);
             LabelRSP.Name = "LabelRSP";
-            LabelRSP.Size = new Size(43, 25);
+            LabelRSP.Size = new Size(27, 15);
             LabelRSP.TabIndex = 12;
             LabelRSP.Text = "RSP";
             // 
             // LabelRDX
             // 
             LabelRDX.AutoSize = true;
-            LabelRDX.Location = new Point(9, 177);
-            LabelRDX.Margin = new Padding(4, 0, 4, 0);
+            LabelRDX.Location = new Point(6, 106);
             LabelRDX.Name = "LabelRDX";
-            LabelRDX.Size = new Size(46, 25);
+            LabelRDX.Size = new Size(29, 15);
             LabelRDX.TabIndex = 6;
             LabelRDX.Text = "RDX";
             // 
             // TextBoxRDI
             // 
-            TextBoxRDI.Location = new Point(71, 268);
-            TextBoxRDI.Margin = new Padding(4, 5, 4, 5);
+            TextBoxRDI.Location = new Point(50, 161);
             TextBoxRDI.Name = "TextBoxRDI";
-            TextBoxRDI.Size = new Size(141, 31);
+            TextBoxRDI.Size = new Size(100, 23);
             TextBoxRDI.TabIndex = 11;
             // 
             // TextBoxRDX
             // 
-            TextBoxRDX.Location = new Point(71, 172);
-            TextBoxRDX.Margin = new Padding(4, 5, 4, 5);
+            TextBoxRDX.Location = new Point(50, 103);
             TextBoxRDX.Name = "TextBoxRDX";
-            TextBoxRDX.Size = new Size(141, 31);
+            TextBoxRDX.Size = new Size(100, 23);
             TextBoxRDX.TabIndex = 7;
             // 
             // LabelRDI
             // 
             LabelRDI.AutoSize = true;
-            LabelRDI.Location = new Point(9, 273);
-            LabelRDI.Margin = new Padding(4, 0, 4, 0);
+            LabelRDI.Location = new Point(6, 164);
             LabelRDI.Name = "LabelRDI";
-            LabelRDI.Size = new Size(41, 25);
+            LabelRDI.Size = new Size(25, 15);
             LabelRDI.TabIndex = 10;
             LabelRDI.Text = "RDI";
             // 
             // LabelRSI
             // 
             LabelRSI.AutoSize = true;
-            LabelRSI.Location = new Point(9, 225);
-            LabelRSI.Margin = new Padding(4, 0, 4, 0);
+            LabelRSI.Location = new Point(6, 135);
             LabelRSI.Name = "LabelRSI";
-            LabelRSI.Size = new Size(38, 25);
+            LabelRSI.Size = new Size(23, 15);
             LabelRSI.TabIndex = 8;
             LabelRSI.Text = "RSI";
             // 
             // TextBoxRSI
             // 
-            TextBoxRSI.Location = new Point(71, 220);
-            TextBoxRSI.Margin = new Padding(4, 5, 4, 5);
+            TextBoxRSI.Location = new Point(50, 132);
             TextBoxRSI.Name = "TextBoxRSI";
-            TextBoxRSI.Size = new Size(141, 31);
+            TextBoxRSI.Size = new Size(100, 23);
             TextBoxRSI.TabIndex = 9;
             // 
             // Output
             // 
             Output.Controls.Add(RichtextBoxOutput);
-            Output.Location = new Point(4, 34);
-            Output.Margin = new Padding(4, 5, 4, 5);
+            Output.Location = new Point(4, 24);
             Output.Name = "Output";
-            Output.Size = new Size(915, 437);
+            Output.Size = new Size(638, 257);
             Output.TabIndex = 3;
             Output.Text = "Output";
             Output.UseVisualStyleBackColor = true;
@@ -1402,48 +1307,23 @@
             // 
             RichtextBoxOutput.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             RichtextBoxOutput.Enabled = false;
-            RichtextBoxOutput.Location = new Point(4, 5);
-            RichtextBoxOutput.Margin = new Padding(4, 5, 4, 5);
+            RichtextBoxOutput.Location = new Point(3, 3);
             RichtextBoxOutput.Name = "RichtextBoxOutput";
-            RichtextBoxOutput.Size = new Size(901, 416);
+            RichtextBoxOutput.Size = new Size(632, 251);
             RichtextBoxOutput.TabIndex = 0;
             RichtextBoxOutput.Text = "";
             // 
             // ButtonExecuteOnAnotherTab
             // 
             ButtonExecuteOnAnotherTab.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonExecuteOnAnotherTab.Location = new Point(774, 0);
-            ButtonExecuteOnAnotherTab.Margin = new Padding(4, 5, 4, 5);
+            ButtonExecuteOnAnotherTab.Location = new Point(542, 0);
             ButtonExecuteOnAnotherTab.Name = "ButtonExecuteOnAnotherTab";
-            ButtonExecuteOnAnotherTab.Size = new Size(143, 38);
+            ButtonExecuteOnAnotherTab.Size = new Size(100, 23);
             ButtonExecuteOnAnotherTab.TabIndex = 2;
             ButtonExecuteOnAnotherTab.Text = "Execute";
             ButtonExecuteOnAnotherTab.UseVisualStyleBackColor = true;
             ButtonExecuteOnAnotherTab.Visible = false;
             ButtonExecuteOnAnotherTab.Click += ButtonExecuteOnAnotherTab_Click;
-            // 
-            // tabsToolStripMenuItem
-            // 
-            tabsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { memoryToolStripMenuItem, registersToolStripMenuItem });
-            tabsToolStripMenuItem.Name = "tabsToolStripMenuItem";
-            tabsToolStripMenuItem.Size = new Size(63, 29);
-            tabsToolStripMenuItem.Text = "Tabs";
-            // 
-            // memoryToolStripMenuItem
-            // 
-            memoryToolStripMenuItem.Name = "memoryToolStripMenuItem";
-            memoryToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.M;
-            memoryToolStripMenuItem.Size = new Size(270, 34);
-            memoryToolStripMenuItem.Text = "Memory";
-            memoryToolStripMenuItem.Click += memoryToolStripMenuItem_Click;
-            // 
-            // registersToolStripMenuItem
-            // 
-            registersToolStripMenuItem.Name = "registersToolStripMenuItem";
-            registersToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.R;
-            registersToolStripMenuItem.Size = new Size(270, 34);
-            registersToolStripMenuItem.Text = "Registers";
-            registersToolStripMenuItem.Click += registersToolStripMenuItem_Click;
             // 
             // refreshVideoFormTimer
             // 
@@ -1452,15 +1332,14 @@
             // 
             // mainForm
             // 
-            AutoScaleDimensions = new SizeF(10F, 25F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(920, 518);
+            ClientSize = new Size(644, 311);
             Controls.Add(ButtonExecuteOnAnotherTab);
             Controls.Add(EmuXTabControl);
             Controls.Add(mainMenuStrip);
             MainMenuStrip = mainMenuStrip;
-            Margin = new Padding(4, 5, 4, 5);
-            MinimumSize = new Size(929, 546);
+            MinimumSize = new Size(655, 343);
             Name = "mainForm";
             Text = "EmuX";
             mainMenuStrip.ResumeLayout(false);
@@ -1504,7 +1383,6 @@
         private Label LabelCurrentInstruction;
         private GroupBox GroupboxExecution;
         private Button ButtonExecute;
-        private Button ButtonPreviousInstruction;
         private Button ButtonNextInstruction;
         private OpenFileDialog openFD;
         private SaveFileDialog saveFD;
