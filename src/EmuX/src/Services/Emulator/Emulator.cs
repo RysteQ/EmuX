@@ -1,5 +1,6 @@
 ﻿using EmuX.src.Enums;
 using EmuX.src.Models;
+using System;
 
 namespace EmuX.src.Services.Emulator
 {
@@ -62,12 +63,6 @@ namespace EmuX.src.Services.Emulator
         {
             if (this.current_instruction_index < this.instructions.Count)
                 this.current_instruction_index++;
-        }
-
-        public void PreviousInstruction()
-        {
-            if (this.current_instruction_index != 0)
-                this.current_instruction_index--;
         }
 
         public void ResetInterrupt()
@@ -743,6 +738,15 @@ namespace EmuX.src.Services.Emulator
 
         private ulong AnalyzeInstructionSource(Instruction instruction, VirtualSystem virtual_system)
         {
+            if (new Variants.Variants_ENUM[] {
+                Variants.Variants_ENUM.SINGLE,
+                Variants.Variants_ENUM.SINGLE_REGISTER,
+                Variants.Variants_ENUM.SINGLE_VALUE,
+                Variants.Variants_ENUM.SINGLE_ADDRESS_VALUE,
+                Variants.Variants_ENUM.LABEL
+            }.Contains(instruction.variant)
+            ) return 0;
+
             if (instruction.variant == Variants.Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER || instruction.variant == Variants.Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER)
             {
                 switch (instruction.bit_mode)
@@ -825,7 +829,7 @@ namespace EmuX.src.Services.Emulator
 
         private bool GetFlag(EFLAGS.EFLAGS_ENUM flag)
         {
-            return (this.virtual_system.EFLAGS & ((int) flag)) == 1;
+            return (this.virtual_system.EFLAGS & ((int) flag)) != 0;
         }
 
         private List<Instruction> instructions = new List<Instruction>();

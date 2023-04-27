@@ -47,6 +47,7 @@
             tabsToolStripMenuItem = new ToolStripMenuItem();
             memoryToolStripMenuItem = new ToolStripMenuItem();
             registersToolStripMenuItem = new ToolStripMenuItem();
+            outputToolStripMenuItem = new ToolStripMenuItem();
             toolsToolStripMenuItem = new ToolStripMenuItem();
             converterToolStripMenuItem = new ToolStripMenuItem();
             aSCIITableToolStripMenuItem = new ToolStripMenuItem();
@@ -155,6 +156,7 @@
             fontDialog = new FontDialog();
             ButtonExecuteOnAnotherTab = new Button();
             refreshVideoFormTimer = new System.Windows.Forms.Timer(components);
+            CheckBoxResetVirtualSystemBeforeExecution = new CheckBox();
             mainMenuStrip.SuspendLayout();
             GroupboxInput.SuspendLayout();
             GroupboxControls.SuspendLayout();
@@ -282,7 +284,7 @@
             // 
             // tabsToolStripMenuItem
             // 
-            tabsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { memoryToolStripMenuItem, registersToolStripMenuItem });
+            tabsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { memoryToolStripMenuItem, registersToolStripMenuItem, outputToolStripMenuItem });
             tabsToolStripMenuItem.Name = "tabsToolStripMenuItem";
             tabsToolStripMenuItem.Size = new Size(42, 20);
             tabsToolStripMenuItem.Text = "Tabs";
@@ -302,6 +304,14 @@
             registersToolStripMenuItem.Size = new Size(164, 22);
             registersToolStripMenuItem.Text = "Registers";
             registersToolStripMenuItem.Click += registersToolStripMenuItem_Click;
+            // 
+            // outputToolStripMenuItem
+            // 
+            outputToolStripMenuItem.Name = "outputToolStripMenuItem";
+            outputToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.P;
+            outputToolStripMenuItem.Size = new Size(164, 22);
+            outputToolStripMenuItem.Text = "Output";
+            outputToolStripMenuItem.Click += outputToolStripMenuItem_Click;
             // 
             // toolsToolStripMenuItem
             // 
@@ -360,6 +370,7 @@
             RichTextboxAssemblyCode.Size = new Size(384, 214);
             RichTextboxAssemblyCode.TabIndex = 0;
             RichTextboxAssemblyCode.Text = "; the static data goes here\n; for example\n; number_ten: db 10\n\nsection.text\n\n; the instructions go here\n; for example\n; mov al, byte [number_ten]\n; inc byte al";
+            RichTextboxAssemblyCode.TextChanged += RichTextboxAssemblyCode_TextChanged;
             // 
             // GroupboxControls
             // 
@@ -447,6 +458,7 @@
             EmuXTabControl.Size = new Size(646, 285);
             EmuXTabControl.TabIndex = 1;
             EmuXTabControl.SelectedIndexChanged += EmuXTabControl_SelectedIndexChanged;
+            EmuXTabControl.MouseClick += EmuXTabControl_MouseClick;
             // 
             // Assembly
             // 
@@ -454,7 +466,7 @@
             Assembly.Controls.Add(GroupboxControls);
             Assembly.Location = new Point(4, 24);
             Assembly.Name = "Assembly";
-            Assembly.Padding = new Padding(3, 3, 3, 3);
+            Assembly.Padding = new Padding(3);
             Assembly.Size = new Size(638, 257);
             Assembly.TabIndex = 0;
             Assembly.Text = "Assembly";
@@ -466,7 +478,7 @@
             Memory.Controls.Add(DataGridViewMemory);
             Memory.Location = new Point(4, 24);
             Memory.Name = "Memory";
-            Memory.Padding = new Padding(3, 3, 3, 3);
+            Memory.Padding = new Padding(3);
             Memory.Size = new Size(638, 257);
             Memory.TabIndex = 1;
             Memory.Text = "Memory";
@@ -980,6 +992,7 @@
             // GroupBoxGeneralPurposeRegisters
             // 
             GroupBoxGeneralPurposeRegisters.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            GroupBoxGeneralPurposeRegisters.Controls.Add(CheckBoxResetVirtualSystemBeforeExecution);
             GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxR15);
             GroupBoxGeneralPurposeRegisters.Controls.Add(LabelR15);
             GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxR14);
@@ -1330,6 +1343,18 @@
             refreshVideoFormTimer.Interval = 20;
             refreshVideoFormTimer.Tick += refreshVideoFormTimer_Tick;
             // 
+            // CheckBoxResetVirtualSystemBeforeExecution
+            // 
+            CheckBoxResetVirtualSystemBeforeExecution.AutoSize = true;
+            CheckBoxResetVirtualSystemBeforeExecution.Checked = true;
+            CheckBoxResetVirtualSystemBeforeExecution.CheckState = CheckState.Checked;
+            CheckBoxResetVirtualSystemBeforeExecution.Location = new Point(325, 164);
+            CheckBoxResetVirtualSystemBeforeExecution.Name = "CheckBoxResetVirtualSystemBeforeExecution";
+            CheckBoxResetVirtualSystemBeforeExecution.Size = new Size(132, 19);
+            CheckBoxResetVirtualSystemBeforeExecution.TabIndex = 34;
+            CheckBoxResetVirtualSystemBeforeExecution.Text = "Reset Virtual System";
+            CheckBoxResetVirtualSystemBeforeExecution.UseVisualStyleBackColor = true;
+            // 
             // mainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1493,5 +1518,7 @@
         private ToolStripMenuItem memoryToolStripMenuItem;
         private ToolStripMenuItem registersToolStripMenuItem;
         private System.Windows.Forms.Timer refreshVideoFormTimer;
+        private ToolStripMenuItem outputToolStripMenuItem;
+        private CheckBox CheckBoxResetVirtualSystemBeforeExecution;
     }
 }

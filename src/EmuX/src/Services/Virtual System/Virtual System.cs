@@ -16,6 +16,18 @@ public class VirtualSystem
         this.EFLAGS = virtual_system.EFLAGS;
     }
 
+    public void Reset()
+    {
+        for (int i = 0; i < this.registers.Length; i++)
+            this.registers[i] = 0;
+
+        for (int i = 0; i < this.memory.Length; i++)
+            this.memory[i] = 0;
+
+        this.call_stack = new List<int> { 0 };
+        this.EFLAGS = 0;
+    }
+
     public List<int> GetCallStack()
     {
         return this.call_stack;

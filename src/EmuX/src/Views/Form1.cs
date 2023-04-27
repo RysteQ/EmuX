@@ -1,7 +1,9 @@
+using EmuX.Services;
 using EmuX.src.Models;
 using EmuX.src.Services.Analyzer;
 using EmuX.src.Services.Base_Converter;
 using EmuX.src.Services.Emulator;
+using EmuX.src.Views;
 
 namespace EmuX
 {
@@ -21,9 +23,9 @@ namespace EmuX
             {
                 RichTextboxAssemblyCode.Text = File.ReadAllText(openFD.FileName);
                 mainForm.ActiveForm.Text = openFD.FileName.Split('\\')[openFD.FileName.Split('\\').Length - 1] + " - EmuX";
-                save_path = openFD.FileName;
+                this.save_path = openFD.FileName;
 
-                UpdateOutput("Opened file " + save_path + " ...");
+                UpdateOutput("Opened file " + this.save_path + " ...");
             }
         }
 
@@ -34,37 +36,33 @@ namespace EmuX
 
             if (saveFD.ShowDialog() == DialogResult.OK)
             {
-                StreamWriter file_writer = new(save_path);
+                StreamWriter file_writer = new(this.save_path);
                 file_writer.Write(RichTextboxAssemblyCode.Text);
                 file_writer.Close();
 
-                UpdateOutput("File saved in location " + save_path + " ...");
+                UpdateOutput("File saved in location " + this.save_path + " ...");
             }
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // major versions are complete rewrites or very major changes to the structure of the software
-            // minor versions are new features
-            // hotfix is the bugfix count, increment by one for each version, each version can solve multiple bugs
-            int major_version = 1;
-            int minor_version = 2;
-            int hotfix = 1;
+            string contents = "Open source software \n\n" +
+                                "EmuX, a x86 emulator written in C# for the purpose of making it easier" +
+                                "to learn x86 assembly on Windows in an easy way\n\n" +
+                                "Created by RysteQ";
 
-            string version = major_version.ToString() + "." + minor_version.ToString() + "." + hotfix.ToString();
-
-            MessageBox.Show("Version " + version, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show(contents, "About", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void saveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (save_path == "")
+            if (string.IsNullOrWhiteSpace(this.save_path))
             {
                 saveAsToolStripMenuItem_Click(sender, e);
                 return;
             }
 
-            StreamWriter file_writer = new(save_path);
+            StreamWriter file_writer = new(this.save_path);
             file_writer.Write(RichTextboxAssemblyCode.Text);
             file_writer.Close();
 
@@ -76,7 +74,7 @@ namespace EmuX
             Close();
         }
 
-        private void ButtonExecute_Click(object sender, EventArgs e)
+        private bool AnalyzeInstructions()
         {
             string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
 
@@ -85,15 +83,19 @@ namespace EmuX
             if (this.analyzer.AnalyzingSuccessful() == false)
             {
                 string error_line_text = this.analyzer.GetErrorLineData();
+                string error_message = "There was an error at line " + (this.analyzer.GetErrorLine() + 1).ToString() + "\nLine: " + error_line_text;
 
-                MessageBox.Show("There was an error at line " + (this.analyzer.GetErrorLine() + 1).ToString() + "\nLine: " + error_line_text, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show(error_message, "Error - Analyzer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateOutput(error_message);
+
+                return false;
             }
 
             if (Instruction_Verifier.VerifyInstructions(this.analyzer.GetInstructions()) == false)
             {
-                MessageBox.Show("There was an error, invalid opcode / parameter combination", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                MessageBox.Show("There was an error, invalid opcode / parameter combination", "Error - Verifier", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateOutput("There was an error, invalid opcode / parameter combination");
+                return false;
             }
 
             List<Instruction> instructions = this.analyzer.GetInstructions();
@@ -101,13 +103,30 @@ namespace EmuX
             List<src.Models.Label> labels = this.analyzer.GetLabelData();
 
             this.interrupt_handler.ResetInterrupt();
+            this.assembly_analyzed = true;
 
             this.emulator.SetVirtualSystem(this.virtual_system);
             this.emulator.PrepareEmulator(instructions, static_data, labels);
 
+            return true;
+        }
+
+        private void ButtonExecute_Click(object sender, EventArgs e)
+        {
+            if (CheckBoxResetVirtualSystemBeforeExecution.Checked)
+                this.virtual_system.Reset();
+
+            if (this.assembly_analyzed)
+            {
+                if (MessageBox.Show("The source code has not changed, analyze the source code again ?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                    AnalyzeInstructions();
+            }
+            else
+                AnalyzeInstructions();
+
             ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
 
-            do
+            while (this.emulator.ErrorEncountered() == false && this.emulator.GetExit() == false && this.emulator.GetIndex() != this.emulator.GetInstructionCount())
             {
                 this.emulator.Execute();
                 this.emulator.NextInstruction();
@@ -143,18 +162,24 @@ namespace EmuX
                 }
 
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
-            } while (this.emulator.ErrorEncountered() == false && this.emulator.GetExit() == false && this.emulator.GetIndex() != this.emulator.GetInstructionCount());
+            }
 
             this.virtual_system = this.emulator.GetVirtualSystem();
 
             if (this.emulator.ErrorEncountered())
+            {
+                string error_line_text = (this.emulator.GetIndex() + 1).ToString();
+
                 MessageBox.Show("An error was encountered at command " + (this.emulator.GetIndex() + 1).ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateOutput("An error was encountered at command " + error_line_text);
+            }
 
             // update the progress bar if the HLT instruction was found or any other early exit conditions
             if (this.emulator.GetExit())
                 ProgressBarExecutionProgress.Value = ProgressBarExecutionProgress.Maximum;
 
-            UpdateOutput("Execution Completed...");
+            if (this.emulator.HasInstructions())
+                UpdateOutput("Execution Completed...");
         }
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -436,19 +461,17 @@ namespace EmuX
 
         private void ButtonNextInstruction_Click(object sender, EventArgs e)
         {
-            if (this.emulator.HasInstructions() == false)
-            {
-                this.analyzer.AnalyzeInstructions(RichTextboxAssemblyCode.Text);
-                this.emulator.SetInstructions(this.analyzer.GetInstructions());
-            }
+            if (this.assembly_analyzed == false)
+                if (AnalyzeInstructions() == false)
+                    return;
+
+            // count the labels as lines of code AKA instructions
+            string[] lines_of_code = StringHandler.RemoveEmptyLines(
+                RichTextboxAssemblyCode.Text.Split("section.text")[1].Split('\n')
+                .Where(line => line.Trim().StartsWith(';') == false)
+                .ToArray());
 
             ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
-            int index = 0;
-
-            // go through each line and don't count empty lines
-            foreach (string to_check in RichTextboxAssemblyCode.Text.Split('\n'))
-                if (string.IsNullOrWhiteSpace(to_check))
-                    index++;
 
             // cheks if the instructions is within bounds
             if (this.emulator.GetInstructionCount() != this.emulator.GetIndex())
@@ -456,8 +479,10 @@ namespace EmuX
                 this.emulator.Execute();
                 this.emulator.NextInstruction();
 
-                LabelCurrentInstruction.Text = "Current Instruction: " + RichTextboxAssemblyCode.Text.Split('\n')[index];
+                LabelCurrentInstruction.Text = "Current Instruction: " + lines_of_code[this.emulator.GetIndex() - 1];
                 ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
+
+                UpdateOutput("Stepped");
             }
         }
 
@@ -487,6 +512,9 @@ namespace EmuX
 
         private void UpdateOutput(string message_to_append)
         {
+            if (this.output_form.IsOpen())
+                this.output_form.UpdateOutput(message_to_append);
+
             this.RichtextBoxOutput.Text += message_to_append + "\n";
         }
 
@@ -505,11 +533,40 @@ namespace EmuX
             // TODO
         }
 
-        private VideoForm video_form = new();
-        private VirtualSystem virtual_system = new();
-        private Analyzer analyzer = new();
-        private Emulator emulator = new();
-        private Interrupt_Handler interrupt_handler = new();
-        private string save_path = "";
+        private void EmuXTabControl_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                if (EmuXTabControl.SelectedIndex == 3)
+                {
+                    outputToolStripMenuItem_Click(null, null);
+                }
+            }
+        }
+
+        private void outputToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.output_form.IsOpen())
+                return;
+
+            this.output_form = new Output_Form();
+            this.output_form.UpdateOutput(RichtextBoxOutput.Text.TrimEnd('\n'));
+            this.output_form.Show();
+        }
+
+        private void RichTextboxAssemblyCode_TextChanged(object sender, EventArgs e)
+        {
+            this.assembly_analyzed = false;
+        }
+
+        private Output_Form output_form = new Output_Form();
+
+        private VideoForm video_form = new VideoForm();
+        private VirtualSystem virtual_system = new VirtualSystem();
+        private Analyzer analyzer = new Analyzer();
+        private Emulator emulator = new Emulator();
+        private Interrupt_Handler interrupt_handler = new Interrupt_Handler();
+        private string save_path = string.Empty;
+        private bool assembly_analyzed = false;
     }
 }

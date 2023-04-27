@@ -20,21 +20,24 @@ namespace EmuX.src.Services.Analyzer
             string[] label_names = ScanForLabels(to_analyze);
             int offset = 1024;
 
+            to_analyze = string.Join("\n", StringHandler.RemoveEmptyLines(to_analyze.Split('\n')));
+            this.successful = false;
+
             Flush();
 
             if (to_analyze.Contains("section.text") == false)
             {
-                AnalyzerError(-1);
+                AnalyzerError(-1, "");
                 return;
             }
 
-            string[] labels_to_analyze = to_analyze.Split("section.text")[0].Split('\n');
-            labels_to_analyze = RemoveComments(static_data_to_analyze);
-            labels_to_analyze = StringHandler.RemoveEmptyLines(static_data_to_analyze);
+            string[] static_data_to_analyze = to_analyze.Split("section.text")[0].Split('\n');
+            static_data_to_analyze = RemoveComments(static_data_to_analyze);
+            static_data_to_analyze = static_data_to_analyze.Where(line => string.IsNullOrWhiteSpace(line) == false).ToArray();
 
             string[] instructions_to_analyze = to_analyze.Split("section.text")[1].Split('\n');
             instructions_to_analyze = RemoveComments(instructions_to_analyze);
-            instructions_to_analyze = StringHandler.RemoveEmptyLines(instructions_to_analyze);
+            instructions_to_analyze = instructions_to_analyze.Where(line => string.IsNullOrWhiteSpace(line) == false).ToArray();
 
             for (int line = 0; line < static_data_to_analyze.Length; line++)
                 offset = AnalyzeStaticData(static_data_to_analyze[line], offset, line);
@@ -43,7 +46,7 @@ namespace EmuX.src.Services.Analyzer
             {
                 Instruction instruction_to_add = new();
                 string instruction_to_analyze = instructions_to_analyze[line];
-                string[] tokens = instruction_to_analyze.Split(' ');
+                string[] tokens = instruction_to_analyze.Trim().Split(' ');
 
                 // check if the line refers to a label
                 if (tokens[0].EndsWith(':'))
@@ -61,7 +64,7 @@ namespace EmuX.src.Services.Analyzer
                     }
                     else
                     {
-                        AnalyzerError(line);
+                        AnalyzerError(line, instruction_to_analyze);
                         break;
                     }
                 }
@@ -74,7 +77,7 @@ namespace EmuX.src.Services.Analyzer
                 {
                     if (tokens.Length != 2)
                     {
-                        AnalyzerError(line);
+                        AnalyzerError(line, instruction_to_analyze);
                         return;
                     }
 
@@ -85,7 +88,7 @@ namespace EmuX.src.Services.Analyzer
                     // check if the instruction is valid
                     if (tokens.Length != 1)
                     {
-                        AnalyzerError(line);
+                        AnalyzerError(line, instruction_to_analyze);
                         return;
                     }
 
@@ -95,7 +98,7 @@ namespace EmuX.src.Services.Analyzer
                 {
                     if (tokens.Length != 2 && tokens.Length != 3)
                     {
-                        AnalyzerError(line);
+                        AnalyzerError(line, instruction_to_analyze);
                         return;
                     }
 
@@ -105,7 +108,7 @@ namespace EmuX.src.Services.Analyzer
                 {
                     if (tokens.Length != 3 && tokens.Length != 4)
                     {
-                        AnalyzerError(line);
+                        AnalyzerError(line, instruction_to_analyze);
                         return;
                     }
 
@@ -113,17 +116,22 @@ namespace EmuX.src.Services.Analyzer
                 }
                 else
                 {
-                    AnalyzerError(line);
+                    AnalyzerError(line, instruction_to_analyze);
                     return;
                 }
 
                 instructions.Add(instruction_to_add);
             }
+
+            this.successful = true;
         }
         
         private int AnalyzeStaticData(string static_data_to_analyze, int offset, int line)
         {
             StaticData static_data_to_add = new();
+
+            if (string.IsNullOrWhiteSpace(static_data_to_analyze))
+                return offset;
 
             string static_data_name = static_data_to_analyze.Split(':')[0].Trim();
             string[] static_data_tokens = static_data_to_analyze.Split(static_data_name + ":");
@@ -138,7 +146,7 @@ namespace EmuX.src.Services.Analyzer
             // check if the static data name is valid or not aka if the static data name is a register name or not
             if (Register_Verifier.IsRegister(static_data_tokens[0]))
             {
-                AnalyzerError(line);
+                AnalyzerError(line, static_data_to_analyze);
                 return offset;
             }
 
@@ -172,7 +180,7 @@ namespace EmuX.src.Services.Analyzer
                         break;
 
                     default:
-                        AnalyzerError(line);
+                        AnalyzerError(line, static_data_to_analyze);
                         break;
                 }
             }
@@ -181,7 +189,7 @@ namespace EmuX.src.Services.Analyzer
                 // check if the user made a mistake
                 if (static_data_tokens[1].Split(' ')[0].Trim().ToUpper() != "DB")
                 {
-                    AnalyzerError(line);
+                    AnalyzerError(line, static_data_to_analyze);
                     return offset;
                 }
 
@@ -199,7 +207,7 @@ namespace EmuX.src.Services.Analyzer
                     if ((static_data_tokens[i].StartsWith('\'') == false || static_data_tokens[i].EndsWith('\'') == false || static_data_tokens[i].Length != 3)
                     && ulong.TryParse(static_data_tokens[i], out static_data_value) == false)
                     {
-                        AnalyzerError(line);
+                        AnalyzerError(line, static_data_to_analyze);
                         return offset;
                     }
 
@@ -228,7 +236,7 @@ namespace EmuX.src.Services.Analyzer
 
             if (label_found == false)
             {
-                AnalyzerError(line);
+                AnalyzerError(line, label);
                 return instruction;
             }
 
@@ -279,7 +287,7 @@ namespace EmuX.src.Services.Analyzer
                         instruction.bit_mode = GetUserAssignedBitmode(tokens[1]);
 
                         if (instruction.bit_mode == SIZE.Size_ENUM.NoN)
-                            AnalyzerError(line);
+                            AnalyzerError(line, string.Join(" ", tokens));
                     }
 
                     break;
@@ -288,7 +296,7 @@ namespace EmuX.src.Services.Analyzer
                     value = GetValue(tokens[tokens.Length - 1]);
 
                     if (value.Item2 == false)
-                        AnalyzerError(line);
+                        AnalyzerError(line, string.Join(" ", tokens));
 
                     instruction.destination_memory_name = value.Item1.ToString();
                     instruction.destination_memory_type = Memory_Type.Memory_Type_ENUM.VALUE;
@@ -337,7 +345,7 @@ namespace EmuX.src.Services.Analyzer
                     if (value.Item2)
                         instruction.source_memory_name = value.Item1.ToString();
                     else
-                        AnalyzerError(line);
+                        AnalyzerError(line, string.Join(" ", tokens));
 
                     // assign the bitmode automatically or let the use assign the bit mode
                     if (tokens.Length == 3)
@@ -400,7 +408,7 @@ namespace EmuX.src.Services.Analyzer
                     if (value.Item2)
                         instruction.source_memory_name = value.Item1.ToString();
                     else
-                        AnalyzerError(line);
+                        AnalyzerError(line, string.Join(" ", tokens));
 
                     // assign the bitmode automatically or let the use assign the bit mode
                     if (tokens.Length == 3)
@@ -432,7 +440,7 @@ namespace EmuX.src.Services.Analyzer
 
         public bool AnalyzingSuccessful()
         {
-            return successful;
+            return this.successful;
         }
 
         public int GetErrorLine()
@@ -485,7 +493,7 @@ namespace EmuX.src.Services.Analyzer
                 "QUAD"
             };
 
-            // remove all commas
+            // remove all commas=
             for (int i = 0; i < tokens.Length; i++)
                 if (tokens[i].Contains(','))
                     tokens[i] = tokens[i].Remove(tokens[i].IndexOf(','));
@@ -734,21 +742,17 @@ namespace EmuX.src.Services.Analyzer
             return instruction;
         }
 
-        private void AnalyzerError(int error_line)
+        private void AnalyzerError(int error_line, string line)
         {
-            string[] lines = this.static_data_to_analyze.Concat(this.instructions_to_analyze).ToArray();
-
             if (error_line == -1)
             {
                 this.error_line = error_line;
                 this.error_line_data = "No section.text was found";
-                this.successful = false;
                 return;
             }
 
-            this.error_line_data = lines[error_line];
+            this.error_line_data = line;
             this.error_line = error_line;
-            this.successful = false;
         }
 
         private (ulong, bool) GetValue(string token_to_analyze)

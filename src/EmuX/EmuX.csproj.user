@@ -4,10 +4,10 @@
     <_LastSelectedProfileId>C:\Users\RysteQ\Desktop\src\EmuX\Properties\PublishProfiles\FolderProfile.pubxml</_LastSelectedProfileId>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Update="src\Views\ASCII_Table.cs">
+    <Compile Update="src\Views\ASCII Table.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Views\Converter_Form.cs">
+    <Compile Update="src\Views\Converter Form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Views\Form1.cs">
@@ -16,7 +16,10 @@
     <Compile Update="src\Views\Instruction Set.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Views\MemoryForm.cs">
+    <Compile Update="src\Views\Memory Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="src\Views\Output Form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="src\Views\Registers Form.cs">
