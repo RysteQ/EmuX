@@ -28,7 +28,3 @@ EmuX supports almost every instruction of the original x86 instruction set, the 
 The future goals of this project of mine will be adding detachable tabs, having the option to actually compile your program as a .exe file and the ability to take a snapshot of the memory each time an instruction is executed for debugging purposes.
 
 Also a lot, and I mean a **lot** of debugging.
-
----
-
-*Version: 1.2.2*
