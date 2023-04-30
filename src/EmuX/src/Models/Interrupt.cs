@@ -2,7 +2,7 @@
 
 namespace EmuX.src.Models
 {
-    class Interrupt
+    public class Interrupt
     {
         public void SetInterruptCode(ulong interrupt_int_code)
         {

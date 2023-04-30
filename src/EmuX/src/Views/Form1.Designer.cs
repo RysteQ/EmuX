@@ -117,6 +117,7 @@
             LabelCF = new Label();
             ButtonSetRegisterValues = new Button();
             GroupBoxGeneralPurposeRegisters = new GroupBox();
+            CheckBoxResetVirtualSystemBeforeExecution = new CheckBox();
             TextBoxR15 = new TextBox();
             LabelR15 = new Label();
             TextBoxR14 = new TextBox();
@@ -156,7 +157,6 @@
             fontDialog = new FontDialog();
             ButtonExecuteOnAnotherTab = new Button();
             refreshVideoFormTimer = new System.Windows.Forms.Timer(components);
-            CheckBoxResetVirtualSystemBeforeExecution = new CheckBox();
             mainMenuStrip.SuspendLayout();
             GroupboxInput.SuspendLayout();
             GroupboxControls.SuspendLayout();
@@ -499,7 +499,7 @@
             GroupBoxMemoryControls.Controls.Add(ComboBoxMemoryRepresentation);
             GroupBoxMemoryControls.Location = new Point(8, 6);
             GroupBoxMemoryControls.Name = "GroupBoxMemoryControls";
-            GroupBoxMemoryControls.Size = new Size(742, 112);
+            GroupBoxMemoryControls.Size = new Size(624, 112);
             GroupBoxMemoryControls.TabIndex = 1;
             GroupBoxMemoryControls.TabStop = false;
             GroupBoxMemoryControls.Text = "Controls";
@@ -507,7 +507,7 @@
             // ButtonClearMemoryTable
             // 
             ButtonClearMemoryTable.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonClearMemoryTable.Location = new Point(397, 50);
+            ButtonClearMemoryTable.Location = new Point(387, 46);
             ButtonClearMemoryTable.Name = "ButtonClearMemoryTable";
             ButtonClearMemoryTable.Size = new Size(227, 23);
             ButtonClearMemoryTable.TabIndex = 9;
@@ -545,7 +545,7 @@
             // ButtonSetMemoryValue
             // 
             ButtonSetMemoryValue.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonSetMemoryValue.Location = new Point(397, 80);
+            ButtonSetMemoryValue.Location = new Point(387, 76);
             ButtonSetMemoryValue.Name = "ButtonSetMemoryValue";
             ButtonSetMemoryValue.Size = new Size(227, 23);
             ButtonSetMemoryValue.TabIndex = 5;
@@ -556,7 +556,7 @@
             // ButtonSearchMemoryRange
             // 
             ButtonSearchMemoryRange.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            ButtonSearchMemoryRange.Location = new Point(397, 22);
+            ButtonSearchMemoryRange.Location = new Point(387, 18);
             ButtonSearchMemoryRange.Name = "ButtonSearchMemoryRange";
             ButtonSearchMemoryRange.Size = new Size(227, 23);
             ButtonSearchMemoryRange.TabIndex = 4;
@@ -567,7 +567,7 @@
             // TextBoxMemoryValue
             // 
             TextBoxMemoryValue.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            TextBoxMemoryValue.Location = new Point(189, 80);
+            TextBoxMemoryValue.Location = new Point(179, 76);
             TextBoxMemoryValue.Name = "TextBoxMemoryValue";
             TextBoxMemoryValue.Size = new Size(202, 23);
             TextBoxMemoryValue.TabIndex = 3;
@@ -575,7 +575,7 @@
             // TextBoxMemoryRangeEnd
             // 
             TextBoxMemoryRangeEnd.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            TextBoxMemoryRangeEnd.Location = new Point(291, 22);
+            TextBoxMemoryRangeEnd.Location = new Point(281, 18);
             TextBoxMemoryRangeEnd.Name = "TextBoxMemoryRangeEnd";
             TextBoxMemoryRangeEnd.Size = new Size(100, 23);
             TextBoxMemoryRangeEnd.TabIndex = 2;
@@ -583,7 +583,7 @@
             // TextBoxMemoryRangeStart
             // 
             TextBoxMemoryRangeStart.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            TextBoxMemoryRangeStart.Location = new Point(189, 22);
+            TextBoxMemoryRangeStart.Location = new Point(179, 18);
             TextBoxMemoryRangeStart.Name = "TextBoxMemoryRangeStart";
             TextBoxMemoryRangeStart.Size = new Size(100, 23);
             TextBoxMemoryRangeStart.TabIndex = 1;
@@ -593,7 +593,7 @@
             ComboBoxMemoryRepresentation.Anchor = AnchorStyles.Top | AnchorStyles.Right;
             ComboBoxMemoryRepresentation.FormattingEnabled = true;
             ComboBoxMemoryRepresentation.Items.AddRange(new object[] { "Decimal", "Binary", "Hexadecimal" });
-            ComboBoxMemoryRepresentation.Location = new Point(189, 51);
+            ComboBoxMemoryRepresentation.Location = new Point(179, 47);
             ComboBoxMemoryRepresentation.Name = "ComboBoxMemoryRepresentation";
             ComboBoxMemoryRepresentation.Size = new Size(202, 23);
             ComboBoxMemoryRepresentation.TabIndex = 0;
@@ -1034,6 +1034,18 @@
             GroupBoxGeneralPurposeRegisters.TabStop = false;
             GroupBoxGeneralPurposeRegisters.Text = "General Purpose Register";
             // 
+            // CheckBoxResetVirtualSystemBeforeExecution
+            // 
+            CheckBoxResetVirtualSystemBeforeExecution.AutoSize = true;
+            CheckBoxResetVirtualSystemBeforeExecution.Checked = true;
+            CheckBoxResetVirtualSystemBeforeExecution.CheckState = CheckState.Checked;
+            CheckBoxResetVirtualSystemBeforeExecution.Location = new Point(325, 164);
+            CheckBoxResetVirtualSystemBeforeExecution.Name = "CheckBoxResetVirtualSystemBeforeExecution";
+            CheckBoxResetVirtualSystemBeforeExecution.Size = new Size(132, 19);
+            CheckBoxResetVirtualSystemBeforeExecution.TabIndex = 34;
+            CheckBoxResetVirtualSystemBeforeExecution.Text = "Reset Virtual System";
+            CheckBoxResetVirtualSystemBeforeExecution.UseVisualStyleBackColor = true;
+            // 
             // TextBoxR15
             // 
             TextBoxR15.Location = new Point(357, 132);
@@ -1343,18 +1355,6 @@
             refreshVideoFormTimer.Interval = 20;
             refreshVideoFormTimer.Tick += refreshVideoFormTimer_Tick;
             // 
-            // CheckBoxResetVirtualSystemBeforeExecution
-            // 
-            CheckBoxResetVirtualSystemBeforeExecution.AutoSize = true;
-            CheckBoxResetVirtualSystemBeforeExecution.Checked = true;
-            CheckBoxResetVirtualSystemBeforeExecution.CheckState = CheckState.Checked;
-            CheckBoxResetVirtualSystemBeforeExecution.Location = new Point(325, 164);
-            CheckBoxResetVirtualSystemBeforeExecution.Name = "CheckBoxResetVirtualSystemBeforeExecution";
-            CheckBoxResetVirtualSystemBeforeExecution.Size = new Size(132, 19);
-            CheckBoxResetVirtualSystemBeforeExecution.TabIndex = 34;
-            CheckBoxResetVirtualSystemBeforeExecution.Text = "Reset Virtual System";
-            CheckBoxResetVirtualSystemBeforeExecution.UseVisualStyleBackColor = true;
-            // 
             // mainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -1364,7 +1364,7 @@
             Controls.Add(EmuXTabControl);
             Controls.Add(mainMenuStrip);
             MainMenuStrip = mainMenuStrip;
-            MinimumSize = new Size(655, 343);
+            MinimumSize = new Size(660, 350);
             Name = "mainForm";
             Text = "EmuX";
             mainMenuStrip.ResumeLayout(false);

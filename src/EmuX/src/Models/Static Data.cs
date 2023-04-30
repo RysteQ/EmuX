@@ -1,6 +1,6 @@
 ﻿namespace EmuX.src.Models
 {
-    class StaticData : SIZE
+    public class StaticData : SIZE
     {
         public string name = string.Empty;
         public int memory_location;

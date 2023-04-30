@@ -581,14 +581,18 @@ namespace EmuX.src.Services.Analyzer
 
         private static readonly Variants_ENUM[] SHL_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Variants_ENUM.SINGLE_REGISTER,
-            Variants_ENUM.SINGLE_ADDRESS_VALUE
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
         private static readonly Variants_ENUM[] SHR_ALLOWED_VARIANTS = new Variants_ENUM[]
         {
-            Variants_ENUM.SINGLE_REGISTER,
-            Variants_ENUM.SINGLE_ADDRESS_VALUE
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_REGISTER_SOURCE_VALUE,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_REGISTER,
+            Variants_ENUM.DESTINATION_ADDRESS_SOURCE_VALUE
         };
 
         private static readonly Variants_ENUM[] STC_ALLOWED_VARIANTS = new Variants_ENUM[]

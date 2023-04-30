@@ -28,807 +28,866 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ButtonUpdateRegisters = new System.Windows.Forms.Button();
-            this.GroupBoxRegisters = new System.Windows.Forms.GroupBox();
-            this.GroupBoxR9 = new System.Windows.Forms.GroupBox();
-            this.ComboBoxR9 = new System.Windows.Forms.ComboBox();
-            this.TextBoxR9 = new System.Windows.Forms.TextBox();
-            this.GroupBoxR10 = new System.Windows.Forms.GroupBox();
-            this.ComboBoxR10 = new System.Windows.Forms.ComboBox();
-            this.TextBoxR10 = new System.Windows.Forms.TextBox();
-            this.GroupBoxR11 = new System.Windows.Forms.GroupBox();
-            this.ComboBoxR11 = new System.Windows.Forms.ComboBox();
-            this.TextBoxR11 = new System.Windows.Forms.TextBox();
-            this.GroupBoxR14 = new System.Windows.Forms.GroupBox();
-            this.ComboBoxR14 = new System.Windows.Forms.ComboBox();
-            this.TextBoxR14 = new System.Windows.Forms.TextBox();
-            this.GroupBoxR12 = new System.Windows.Forms.GroupBox();
-            this.ComboBoxR12 = new System.Windows.Forms.ComboBox();
-            this.TextBoxR12 = new System.Windows.Forms.TextBox();
-            this.GroupBoxR13 = new System.Windows.Forms.GroupBox();
-            this.ComboBoxR13 = new System.Windows.Forms.ComboBox();
-            this.TextBoxR13 = new System.Windows.Forms.TextBox();
-            this.GroupBoxR15 = new System.Windows.Forms.GroupBox();
-            this.TextBoxR15 = new System.Windows.Forms.TextBox();
-            this.ComboBoxR15 = new System.Windows.Forms.ComboBox();
-            this.GroupBoxR8 = new System.Windows.Forms.GroupBox();
-            this.ComboBoxR8 = new System.Windows.Forms.ComboBox();
-            this.TextBoxR8 = new System.Windows.Forms.TextBox();
-            this.GroupBoxEFLAGS = new System.Windows.Forms.GroupBox();
-            this.CheckBoxEFLAGSVIP = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSID = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSVIF = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSCF = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSAC = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGS1 = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSVM = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSPF = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSRF = new System.Windows.Forms.CheckBox();
-            this.AF = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSNT = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSZF = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSIOPL14 = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSIOPL13 = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSOF = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSSF = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSEF = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSIF = new System.Windows.Forms.CheckBox();
-            this.CheckBoxEFLAGSTF = new System.Windows.Forms.CheckBox();
-            this.GroupBoxData = new System.Windows.Forms.GroupBox();
-            this.TextBoxData = new System.Windows.Forms.TextBox();
-            this.ComboBoxData = new System.Windows.Forms.ComboBox();
-            this.GroupBoxCounter = new System.Windows.Forms.GroupBox();
-            this.TextBoxCounter = new System.Windows.Forms.TextBox();
-            this.ComboBoxCounter = new System.Windows.Forms.ComboBox();
-            this.GroupBoxBase = new System.Windows.Forms.GroupBox();
-            this.TextBoxBase = new System.Windows.Forms.TextBox();
-            this.ComboBoxBase = new System.Windows.Forms.ComboBox();
-            this.GroupBoxAccumulator = new System.Windows.Forms.GroupBox();
-            this.TextBoxAccumulator = new System.Windows.Forms.TextBox();
-            this.ComboBoxAccumulator = new System.Windows.Forms.ComboBox();
-            this.GroupBoxRegisters.SuspendLayout();
-            this.GroupBoxR9.SuspendLayout();
-            this.GroupBoxR10.SuspendLayout();
-            this.GroupBoxR11.SuspendLayout();
-            this.GroupBoxR14.SuspendLayout();
-            this.GroupBoxR12.SuspendLayout();
-            this.GroupBoxR13.SuspendLayout();
-            this.GroupBoxR15.SuspendLayout();
-            this.GroupBoxR8.SuspendLayout();
-            this.GroupBoxEFLAGS.SuspendLayout();
-            this.GroupBoxData.SuspendLayout();
-            this.GroupBoxCounter.SuspendLayout();
-            this.GroupBoxBase.SuspendLayout();
-            this.GroupBoxAccumulator.SuspendLayout();
-            this.SuspendLayout();
-            // 
-            // ButtonUpdateRegisters
-            // 
-            this.ButtonUpdateRegisters.Location = new System.Drawing.Point(12, 303);
-            this.ButtonUpdateRegisters.Name = "ButtonUpdateRegisters";
-            this.ButtonUpdateRegisters.Size = new System.Drawing.Size(776, 23);
-            this.ButtonUpdateRegisters.TabIndex = 0;
-            this.ButtonUpdateRegisters.Text = "Update Registers";
-            this.ButtonUpdateRegisters.UseVisualStyleBackColor = true;
-            this.ButtonUpdateRegisters.Click += new System.EventHandler(this.ButtonUpdateRegisters_Click);
-            // 
-            // GroupBoxRegisters
-            // 
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxR9);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxR10);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxR11);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxR14);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxR12);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxR13);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxR15);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxR8);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxEFLAGS);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxData);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxCounter);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxBase);
-            this.GroupBoxRegisters.Controls.Add(this.GroupBoxAccumulator);
-            this.GroupBoxRegisters.Location = new System.Drawing.Point(12, 12);
-            this.GroupBoxRegisters.Name = "GroupBoxRegisters";
-            this.GroupBoxRegisters.Size = new System.Drawing.Size(776, 285);
-            this.GroupBoxRegisters.TabIndex = 1;
-            this.GroupBoxRegisters.TabStop = false;
-            this.GroupBoxRegisters.Text = "Registers";
-            // 
-            // GroupBoxR9
-            // 
-            this.GroupBoxR9.Controls.Add(this.ComboBoxR9);
-            this.GroupBoxR9.Controls.Add(this.TextBoxR9);
-            this.GroupBoxR9.Location = new System.Drawing.Point(344, 87);
-            this.GroupBoxR9.Name = "GroupBoxR9";
-            this.GroupBoxR9.Size = new System.Drawing.Size(160, 59);
-            this.GroupBoxR9.TabIndex = 11;
-            this.GroupBoxR9.TabStop = false;
-            this.GroupBoxR9.Text = "R9";
-            // 
-            // ComboBoxR9
-            // 
-            this.ComboBoxR9.FormattingEnabled = true;
-            this.ComboBoxR9.Items.AddRange(new object[] {
-            "R9",
-            "R9D",
-            "R9W",
-            "R9B"});
-            this.ComboBoxR9.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxR9.Name = "ComboBoxR9";
-            this.ComboBoxR9.Size = new System.Drawing.Size(47, 23);
-            this.ComboBoxR9.TabIndex = 29;
-            // 
-            // TextBoxR9
-            // 
-            this.TextBoxR9.Location = new System.Drawing.Point(59, 23);
-            this.TextBoxR9.Name = "TextBoxR9";
-            this.TextBoxR9.Size = new System.Drawing.Size(95, 23);
-            this.TextBoxR9.TabIndex = 30;
-            // 
-            // GroupBoxR10
-            // 
-            this.GroupBoxR10.Controls.Add(this.ComboBoxR10);
-            this.GroupBoxR10.Controls.Add(this.TextBoxR10);
-            this.GroupBoxR10.Location = new System.Drawing.Point(510, 87);
-            this.GroupBoxR10.Name = "GroupBoxR10";
-            this.GroupBoxR10.Size = new System.Drawing.Size(160, 59);
-            this.GroupBoxR10.TabIndex = 11;
-            this.GroupBoxR10.TabStop = false;
-            this.GroupBoxR10.Text = "R10";
-            // 
-            // ComboBoxR10
-            // 
-            this.ComboBoxR10.FormattingEnabled = true;
-            this.ComboBoxR10.Items.AddRange(new object[] {
-            "R10",
-            "R10D",
-            "R10W",
-            "R10B"});
-            this.ComboBoxR10.Location = new System.Drawing.Point(6, 23);
-            this.ComboBoxR10.Name = "ComboBoxR10";
-            this.ComboBoxR10.Size = new System.Drawing.Size(53, 23);
-            this.ComboBoxR10.TabIndex = 31;
-            // 
-            // TextBoxR10
-            // 
-            this.TextBoxR10.Location = new System.Drawing.Point(65, 23);
-            this.TextBoxR10.Name = "TextBoxR10";
-            this.TextBoxR10.Size = new System.Drawing.Size(89, 23);
-            this.TextBoxR10.TabIndex = 32;
-            // 
-            // GroupBoxR11
-            // 
-            this.GroupBoxR11.Controls.Add(this.ComboBoxR11);
-            this.GroupBoxR11.Controls.Add(this.TextBoxR11);
-            this.GroupBoxR11.Location = new System.Drawing.Point(178, 152);
-            this.GroupBoxR11.Name = "GroupBoxR11";
-            this.GroupBoxR11.Size = new System.Drawing.Size(160, 59);
-            this.GroupBoxR11.TabIndex = 11;
-            this.GroupBoxR11.TabStop = false;
-            this.GroupBoxR11.Text = "R11";
-            // 
-            // ComboBoxR11
-            // 
-            this.ComboBoxR11.FormattingEnabled = true;
-            this.ComboBoxR11.Items.AddRange(new object[] {
-            "R11",
-            "R11D",
-            "R11W",
-            "R11B"});
-            this.ComboBoxR11.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxR11.Name = "ComboBoxR11";
-            this.ComboBoxR11.Size = new System.Drawing.Size(53, 23);
-            this.ComboBoxR11.TabIndex = 33;
-            // 
-            // TextBoxR11
-            // 
-            this.TextBoxR11.Location = new System.Drawing.Point(65, 22);
-            this.TextBoxR11.Name = "TextBoxR11";
-            this.TextBoxR11.Size = new System.Drawing.Size(89, 23);
-            this.TextBoxR11.TabIndex = 34;
-            // 
-            // GroupBoxR14
-            // 
-            this.GroupBoxR14.Controls.Add(this.ComboBoxR14);
-            this.GroupBoxR14.Controls.Add(this.TextBoxR14);
-            this.GroupBoxR14.Location = new System.Drawing.Point(178, 217);
-            this.GroupBoxR14.Name = "GroupBoxR14";
-            this.GroupBoxR14.Size = new System.Drawing.Size(160, 59);
-            this.GroupBoxR14.TabIndex = 11;
-            this.GroupBoxR14.TabStop = false;
-            this.GroupBoxR14.Text = "R14";
-            // 
-            // ComboBoxR14
-            // 
-            this.ComboBoxR14.FormattingEnabled = true;
-            this.ComboBoxR14.Items.AddRange(new object[] {
-            "R14",
-            "R14D",
-            "R14W",
-            "R14B"});
-            this.ComboBoxR14.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxR14.Name = "ComboBoxR14";
-            this.ComboBoxR14.Size = new System.Drawing.Size(53, 23);
-            this.ComboBoxR14.TabIndex = 39;
-            // 
-            // TextBoxR14
-            // 
-            this.TextBoxR14.Location = new System.Drawing.Point(65, 22);
-            this.TextBoxR14.Name = "TextBoxR14";
-            this.TextBoxR14.Size = new System.Drawing.Size(89, 23);
-            this.TextBoxR14.TabIndex = 40;
-            // 
-            // GroupBoxR12
-            // 
-            this.GroupBoxR12.Controls.Add(this.ComboBoxR12);
-            this.GroupBoxR12.Controls.Add(this.TextBoxR12);
-            this.GroupBoxR12.Location = new System.Drawing.Point(344, 152);
-            this.GroupBoxR12.Name = "GroupBoxR12";
-            this.GroupBoxR12.Size = new System.Drawing.Size(160, 59);
-            this.GroupBoxR12.TabIndex = 11;
-            this.GroupBoxR12.TabStop = false;
-            this.GroupBoxR12.Text = "R12";
-            // 
-            // ComboBoxR12
-            // 
-            this.ComboBoxR12.FormattingEnabled = true;
-            this.ComboBoxR12.Items.AddRange(new object[] {
-            "R12",
-            "R12D",
-            "R12W",
-            "R12B"});
-            this.ComboBoxR12.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxR12.Name = "ComboBoxR12";
-            this.ComboBoxR12.Size = new System.Drawing.Size(53, 23);
-            this.ComboBoxR12.TabIndex = 35;
-            // 
-            // TextBoxR12
-            // 
-            this.TextBoxR12.Location = new System.Drawing.Point(65, 22);
-            this.TextBoxR12.Name = "TextBoxR12";
-            this.TextBoxR12.Size = new System.Drawing.Size(89, 23);
-            this.TextBoxR12.TabIndex = 36;
-            // 
-            // GroupBoxR13
-            // 
-            this.GroupBoxR13.Controls.Add(this.ComboBoxR13);
-            this.GroupBoxR13.Controls.Add(this.TextBoxR13);
-            this.GroupBoxR13.Location = new System.Drawing.Point(510, 152);
-            this.GroupBoxR13.Name = "GroupBoxR13";
-            this.GroupBoxR13.Size = new System.Drawing.Size(160, 59);
-            this.GroupBoxR13.TabIndex = 11;
-            this.GroupBoxR13.TabStop = false;
-            this.GroupBoxR13.Text = "R13";
-            // 
-            // ComboBoxR13
-            // 
-            this.ComboBoxR13.FormattingEnabled = true;
-            this.ComboBoxR13.Items.AddRange(new object[] {
-            "R13",
-            "R13D",
-            "R13W",
-            "R13B"});
-            this.ComboBoxR13.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxR13.Name = "ComboBoxR13";
-            this.ComboBoxR13.Size = new System.Drawing.Size(53, 23);
-            this.ComboBoxR13.TabIndex = 37;
-            // 
-            // TextBoxR13
-            // 
-            this.TextBoxR13.Location = new System.Drawing.Point(65, 22);
-            this.TextBoxR13.Name = "TextBoxR13";
-            this.TextBoxR13.Size = new System.Drawing.Size(89, 23);
-            this.TextBoxR13.TabIndex = 38;
-            // 
-            // GroupBoxR15
-            // 
-            this.GroupBoxR15.Controls.Add(this.TextBoxR15);
-            this.GroupBoxR15.Controls.Add(this.ComboBoxR15);
-            this.GroupBoxR15.Location = new System.Drawing.Point(344, 217);
-            this.GroupBoxR15.Name = "GroupBoxR15";
-            this.GroupBoxR15.Size = new System.Drawing.Size(160, 59);
-            this.GroupBoxR15.TabIndex = 11;
-            this.GroupBoxR15.TabStop = false;
-            this.GroupBoxR15.Text = "R15";
-            // 
-            // TextBoxR15
-            // 
-            this.TextBoxR15.Location = new System.Drawing.Point(65, 22);
-            this.TextBoxR15.Name = "TextBoxR15";
-            this.TextBoxR15.Size = new System.Drawing.Size(89, 23);
-            this.TextBoxR15.TabIndex = 42;
-            // 
-            // ComboBoxR15
-            // 
-            this.ComboBoxR15.FormattingEnabled = true;
-            this.ComboBoxR15.Items.AddRange(new object[] {
-            "R15",
-            "R15D",
-            "R15W",
-            "R15B"});
-            this.ComboBoxR15.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxR15.Name = "ComboBoxR15";
-            this.ComboBoxR15.Size = new System.Drawing.Size(53, 23);
-            this.ComboBoxR15.TabIndex = 41;
-            // 
-            // GroupBoxR8
-            // 
-            this.GroupBoxR8.Controls.Add(this.ComboBoxR8);
-            this.GroupBoxR8.Controls.Add(this.TextBoxR8);
-            this.GroupBoxR8.Location = new System.Drawing.Point(178, 87);
-            this.GroupBoxR8.Name = "GroupBoxR8";
-            this.GroupBoxR8.Size = new System.Drawing.Size(160, 59);
-            this.GroupBoxR8.TabIndex = 10;
-            this.GroupBoxR8.TabStop = false;
-            this.GroupBoxR8.Text = "R8";
-            // 
-            // ComboBoxR8
-            // 
-            this.ComboBoxR8.FormattingEnabled = true;
-            this.ComboBoxR8.Items.AddRange(new object[] {
-            "R8",
-            "R8D",
-            "R8W",
-            "R8B"});
-            this.ComboBoxR8.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxR8.Name = "ComboBoxR8";
-            this.ComboBoxR8.Size = new System.Drawing.Size(47, 23);
-            this.ComboBoxR8.TabIndex = 27;
-            // 
-            // TextBoxR8
-            // 
-            this.TextBoxR8.Location = new System.Drawing.Point(59, 22);
-            this.TextBoxR8.Name = "TextBoxR8";
-            this.TextBoxR8.Size = new System.Drawing.Size(95, 23);
-            this.TextBoxR8.TabIndex = 28;
+            GroupBoxEFLAGS = new GroupBox();
+            CheckBoxID = new CheckBox();
+            CheckBoxVIP = new CheckBox();
+            CheckBoxVIF = new CheckBox();
+            LabelID = new Label();
+            LabelVIP = new Label();
+            LabelVIF = new Label();
+            CheckBoxAC = new CheckBox();
+            LabelAC = new Label();
+            CheckBoxVM = new CheckBox();
+            LabelVM = new Label();
+            CheckBoxRF = new CheckBox();
+            LabelRF = new Label();
+            CheckBoxNT = new CheckBox();
+            LabelNT = new Label();
+            CheckBoxIOPL = new CheckBox();
+            LabelIOPL = new Label();
+            CheckBoxOF = new CheckBox();
+            LabelOF = new Label();
+            CheckBoxDF = new CheckBox();
+            LabelDF = new Label();
+            CheckBoxIF = new CheckBox();
+            LabelIF = new Label();
+            CheckBoxTF = new CheckBox();
+            LabelTF = new Label();
+            CheckBoxSF = new CheckBox();
+            LabelSF = new Label();
+            CheckBoxZF = new CheckBox();
+            LabelZF = new Label();
+            CheckBoxAF = new CheckBox();
+            LabelAF = new Label();
+            CheckBoxPF = new CheckBox();
+            LabelPF = new Label();
+            CheckBoxCF = new CheckBox();
+            LabelCF = new Label();
+            ButtonSetRegisterValues = new Button();
+            GroupBoxGeneralPurposeRegisters = new GroupBox();
+            TextBoxR15 = new TextBox();
+            LabelR15 = new Label();
+            TextBoxR14 = new TextBox();
+            LabelR14 = new Label();
+            TextBoxR13 = new TextBox();
+            LabelR13 = new Label();
+            TextBoxR12 = new TextBox();
+            LabelR12 = new Label();
+            TextBoxR11 = new TextBox();
+            LabelR11 = new Label();
+            TextBoxR10 = new TextBox();
+            LabelR10 = new Label();
+            TextBoxR9 = new TextBox();
+            LabelR9 = new Label();
+            TextBoxR8 = new TextBox();
+            LabelR8 = new Label();
+            LabelRAX = new Label();
+            TextBoxRIP = new TextBox();
+            TextBoxRAX = new TextBox();
+            LabelRIP = new Label();
+            LabelRBX = new Label();
+            TextBoxRBP = new TextBox();
+            TextBoxRBX = new TextBox();
+            LabelRBP = new Label();
+            LabelRCX = new Label();
+            TextBoxRSP = new TextBox();
+            TextBoxRCX = new TextBox();
+            LabelRSP = new Label();
+            LabelRDX = new Label();
+            TextBoxRDI = new TextBox();
+            TextBoxRDX = new TextBox();
+            LabelRDI = new Label();
+            LabelRSI = new Label();
+            TextBoxRSI = new TextBox();
+            GroupBoxEFLAGS.SuspendLayout();
+            GroupBoxGeneralPurposeRegisters.SuspendLayout();
+            SuspendLayout();
             // 
             // GroupBoxEFLAGS
             // 
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSVIP);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSID);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSVIF);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSCF);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSAC);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGS1);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSVM);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSPF);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSRF);
-            this.GroupBoxEFLAGS.Controls.Add(this.AF);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSNT);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSZF);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSIOPL14);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSIOPL13);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSOF);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSSF);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSEF);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSIF);
-            this.GroupBoxEFLAGS.Controls.Add(this.CheckBoxEFLAGSTF);
-            this.GroupBoxEFLAGS.Location = new System.Drawing.Point(178, 22);
-            this.GroupBoxEFLAGS.Name = "GroupBoxEFLAGS";
-            this.GroupBoxEFLAGS.Size = new System.Drawing.Size(592, 59);
-            this.GroupBoxEFLAGS.TabIndex = 9;
-            this.GroupBoxEFLAGS.TabStop = false;
-            this.GroupBoxEFLAGS.Text = "EFLAGS";
+            GroupBoxEFLAGS.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Right;
+            GroupBoxEFLAGS.Controls.Add(CheckBoxID);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxVIP);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxVIF);
+            GroupBoxEFLAGS.Controls.Add(LabelID);
+            GroupBoxEFLAGS.Controls.Add(LabelVIP);
+            GroupBoxEFLAGS.Controls.Add(LabelVIF);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxAC);
+            GroupBoxEFLAGS.Controls.Add(LabelAC);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxVM);
+            GroupBoxEFLAGS.Controls.Add(LabelVM);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxRF);
+            GroupBoxEFLAGS.Controls.Add(LabelRF);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxNT);
+            GroupBoxEFLAGS.Controls.Add(LabelNT);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxIOPL);
+            GroupBoxEFLAGS.Controls.Add(LabelIOPL);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxOF);
+            GroupBoxEFLAGS.Controls.Add(LabelOF);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxDF);
+            GroupBoxEFLAGS.Controls.Add(LabelDF);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxIF);
+            GroupBoxEFLAGS.Controls.Add(LabelIF);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxTF);
+            GroupBoxEFLAGS.Controls.Add(LabelTF);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxSF);
+            GroupBoxEFLAGS.Controls.Add(LabelSF);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxZF);
+            GroupBoxEFLAGS.Controls.Add(LabelZF);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxAF);
+            GroupBoxEFLAGS.Controls.Add(LabelAF);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxPF);
+            GroupBoxEFLAGS.Controls.Add(LabelPF);
+            GroupBoxEFLAGS.Controls.Add(CheckBoxCF);
+            GroupBoxEFLAGS.Controls.Add(LabelCF);
+            GroupBoxEFLAGS.Location = new Point(483, 12);
+            GroupBoxEFLAGS.Name = "GroupBoxEFLAGS";
+            GroupBoxEFLAGS.Size = new Size(146, 193);
+            GroupBoxEFLAGS.TabIndex = 23;
+            GroupBoxEFLAGS.TabStop = false;
+            GroupBoxEFLAGS.Text = "EFLAGS";
             // 
-            // CheckBoxEFLAGSVIP
+            // CheckBoxID
             // 
-            this.CheckBoxEFLAGSVIP.AutoSize = true;
-            this.CheckBoxEFLAGSVIP.Location = new System.Drawing.Point(49, 13);
-            this.CheckBoxEFLAGSVIP.Name = "CheckBoxEFLAGSVIP";
-            this.CheckBoxEFLAGSVIP.Size = new System.Drawing.Size(43, 19);
-            this.CheckBoxEFLAGSVIP.TabIndex = 1;
-            this.CheckBoxEFLAGSVIP.Text = "VIP";
-            this.CheckBoxEFLAGSVIP.UseVisualStyleBackColor = true;
+            CheckBoxID.AutoSize = true;
+            CheckBoxID.Location = new Point(126, 92);
+            CheckBoxID.Name = "CheckBoxID";
+            CheckBoxID.Size = new Size(15, 14);
+            CheckBoxID.TabIndex = 33;
+            CheckBoxID.UseVisualStyleBackColor = true;
             // 
-            // CheckBoxEFLAGSID
+            // CheckBoxVIP
             // 
-            this.CheckBoxEFLAGSID.AutoSize = true;
-            this.CheckBoxEFLAGSID.Location = new System.Drawing.Point(6, 13);
-            this.CheckBoxEFLAGSID.Name = "CheckBoxEFLAGSID";
-            this.CheckBoxEFLAGSID.Size = new System.Drawing.Size(37, 19);
-            this.CheckBoxEFLAGSID.TabIndex = 0;
-            this.CheckBoxEFLAGSID.Text = "ID";
-            this.CheckBoxEFLAGSID.UseVisualStyleBackColor = true;
+            CheckBoxVIP.AutoSize = true;
+            CheckBoxVIP.Location = new Point(126, 77);
+            CheckBoxVIP.Name = "CheckBoxVIP";
+            CheckBoxVIP.Size = new Size(15, 14);
+            CheckBoxVIP.TabIndex = 32;
+            CheckBoxVIP.UseVisualStyleBackColor = true;
             // 
-            // CheckBoxEFLAGSVIF
+            // CheckBoxVIF
             // 
-            this.CheckBoxEFLAGSVIF.AutoSize = true;
-            this.CheckBoxEFLAGSVIF.Location = new System.Drawing.Point(98, 13);
-            this.CheckBoxEFLAGSVIF.Name = "CheckBoxEFLAGSVIF";
-            this.CheckBoxEFLAGSVIF.Size = new System.Drawing.Size(42, 19);
-            this.CheckBoxEFLAGSVIF.TabIndex = 10;
-            this.CheckBoxEFLAGSVIF.Text = "VIF";
-            this.CheckBoxEFLAGSVIF.UseVisualStyleBackColor = true;
+            CheckBoxVIF.AutoSize = true;
+            CheckBoxVIF.Location = new Point(126, 62);
+            CheckBoxVIF.Name = "CheckBoxVIF";
+            CheckBoxVIF.Size = new Size(15, 14);
+            CheckBoxVIF.TabIndex = 31;
+            CheckBoxVIF.UseVisualStyleBackColor = true;
             // 
-            // CheckBoxEFLAGSCF
+            // LabelID
             // 
-            this.CheckBoxEFLAGSCF.AutoSize = true;
-            this.CheckBoxEFLAGSCF.Location = new System.Drawing.Point(336, 31);
-            this.CheckBoxEFLAGSCF.Name = "CheckBoxEFLAGSCF";
-            this.CheckBoxEFLAGSCF.Size = new System.Drawing.Size(40, 19);
-            this.CheckBoxEFLAGSCF.TabIndex = 26;
-            this.CheckBoxEFLAGSCF.Text = "CF";
-            this.CheckBoxEFLAGSCF.UseVisualStyleBackColor = true;
+            LabelID.AutoSize = true;
+            LabelID.Location = new Point(84, 94);
+            LabelID.Name = "LabelID";
+            LabelID.Size = new Size(18, 15);
+            LabelID.TabIndex = 30;
+            LabelID.Text = "ID";
             // 
-            // CheckBoxEFLAGSAC
+            // LabelVIP
             // 
-            this.CheckBoxEFLAGSAC.AutoSize = true;
-            this.CheckBoxEFLAGSAC.Location = new System.Drawing.Point(146, 13);
-            this.CheckBoxEFLAGSAC.Name = "CheckBoxEFLAGSAC";
-            this.CheckBoxEFLAGSAC.Size = new System.Drawing.Size(42, 19);
-            this.CheckBoxEFLAGSAC.TabIndex = 11;
-            this.CheckBoxEFLAGSAC.Text = "AC";
-            this.CheckBoxEFLAGSAC.UseVisualStyleBackColor = true;
+            LabelVIP.AutoSize = true;
+            LabelVIP.Location = new Point(84, 79);
+            LabelVIP.Name = "LabelVIP";
+            LabelVIP.Size = new Size(24, 15);
+            LabelVIP.TabIndex = 29;
+            LabelVIP.Text = "VIP";
             // 
-            // CheckBoxEFLAGS1
+            // LabelVIF
             // 
-            this.CheckBoxEFLAGS1.AutoSize = true;
-            this.CheckBoxEFLAGS1.Location = new System.Drawing.Point(289, 31);
-            this.CheckBoxEFLAGS1.Name = "CheckBoxEFLAGS1";
-            this.CheckBoxEFLAGS1.Size = new System.Drawing.Size(32, 19);
-            this.CheckBoxEFLAGS1.TabIndex = 25;
-            this.CheckBoxEFLAGS1.Text = "1";
-            this.CheckBoxEFLAGS1.UseVisualStyleBackColor = true;
+            LabelVIF.AutoSize = true;
+            LabelVIF.Location = new Point(84, 64);
+            LabelVIF.Name = "LabelVIF";
+            LabelVIF.Size = new Size(23, 15);
+            LabelVIF.TabIndex = 28;
+            LabelVIF.Text = "VIF";
             // 
-            // CheckBoxEFLAGSVM
+            // CheckBoxAC
             // 
-            this.CheckBoxEFLAGSVM.AutoSize = true;
-            this.CheckBoxEFLAGSVM.Location = new System.Drawing.Point(194, 13);
-            this.CheckBoxEFLAGSVM.Name = "CheckBoxEFLAGSVM";
-            this.CheckBoxEFLAGSVM.Size = new System.Drawing.Size(44, 19);
-            this.CheckBoxEFLAGSVM.TabIndex = 12;
-            this.CheckBoxEFLAGSVM.Text = "VM";
-            this.CheckBoxEFLAGSVM.UseVisualStyleBackColor = true;
+            CheckBoxAC.AutoSize = true;
+            CheckBoxAC.Location = new Point(126, 47);
+            CheckBoxAC.Name = "CheckBoxAC";
+            CheckBoxAC.Size = new Size(15, 14);
+            CheckBoxAC.TabIndex = 27;
+            CheckBoxAC.UseVisualStyleBackColor = true;
             // 
-            // CheckBoxEFLAGSPF
+            // LabelAC
             // 
-            this.CheckBoxEFLAGSPF.AutoSize = true;
-            this.CheckBoxEFLAGSPF.Location = new System.Drawing.Point(244, 31);
-            this.CheckBoxEFLAGSPF.Name = "CheckBoxEFLAGSPF";
-            this.CheckBoxEFLAGSPF.Size = new System.Drawing.Size(39, 19);
-            this.CheckBoxEFLAGSPF.TabIndex = 24;
-            this.CheckBoxEFLAGSPF.Text = "PF";
-            this.CheckBoxEFLAGSPF.UseVisualStyleBackColor = true;
+            LabelAC.AutoSize = true;
+            LabelAC.Location = new Point(84, 49);
+            LabelAC.Name = "LabelAC";
+            LabelAC.Size = new Size(23, 15);
+            LabelAC.TabIndex = 26;
+            LabelAC.Text = "AC";
             // 
-            // CheckBoxEFLAGSRF
+            // CheckBoxVM
             // 
-            this.CheckBoxEFLAGSRF.AutoSize = true;
-            this.CheckBoxEFLAGSRF.Location = new System.Drawing.Point(244, 13);
-            this.CheckBoxEFLAGSRF.Name = "CheckBoxEFLAGSRF";
-            this.CheckBoxEFLAGSRF.Size = new System.Drawing.Size(39, 19);
-            this.CheckBoxEFLAGSRF.TabIndex = 13;
-            this.CheckBoxEFLAGSRF.Text = "RF";
-            this.CheckBoxEFLAGSRF.UseVisualStyleBackColor = true;
+            CheckBoxVM.AutoSize = true;
+            CheckBoxVM.Location = new Point(126, 32);
+            CheckBoxVM.Name = "CheckBoxVM";
+            CheckBoxVM.Size = new Size(15, 14);
+            CheckBoxVM.TabIndex = 25;
+            CheckBoxVM.UseVisualStyleBackColor = true;
             // 
-            // AF
+            // LabelVM
             // 
-            this.AF.AutoSize = true;
-            this.AF.Location = new System.Drawing.Point(194, 31);
-            this.AF.Name = "AF";
-            this.AF.Size = new System.Drawing.Size(40, 19);
-            this.AF.TabIndex = 23;
-            this.AF.Text = "AF";
-            this.AF.UseVisualStyleBackColor = true;
+            LabelVM.AutoSize = true;
+            LabelVM.Location = new Point(84, 33);
+            LabelVM.Name = "LabelVM";
+            LabelVM.Size = new Size(25, 15);
+            LabelVM.TabIndex = 24;
+            LabelVM.Text = "VM";
             // 
-            // CheckBoxEFLAGSNT
+            // CheckBoxRF
             // 
-            this.CheckBoxEFLAGSNT.AutoSize = true;
-            this.CheckBoxEFLAGSNT.Location = new System.Drawing.Point(289, 13);
-            this.CheckBoxEFLAGSNT.Name = "CheckBoxEFLAGSNT";
-            this.CheckBoxEFLAGSNT.Size = new System.Drawing.Size(41, 19);
-            this.CheckBoxEFLAGSNT.TabIndex = 14;
-            this.CheckBoxEFLAGSNT.Text = "NT";
-            this.CheckBoxEFLAGSNT.UseVisualStyleBackColor = true;
+            CheckBoxRF.AutoSize = true;
+            CheckBoxRF.Location = new Point(126, 17);
+            CheckBoxRF.Name = "CheckBoxRF";
+            CheckBoxRF.Size = new Size(15, 14);
+            CheckBoxRF.TabIndex = 23;
+            CheckBoxRF.UseVisualStyleBackColor = true;
             // 
-            // CheckBoxEFLAGSZF
+            // LabelRF
             // 
-            this.CheckBoxEFLAGSZF.AutoSize = true;
-            this.CheckBoxEFLAGSZF.Location = new System.Drawing.Point(146, 31);
-            this.CheckBoxEFLAGSZF.Name = "CheckBoxEFLAGSZF";
-            this.CheckBoxEFLAGSZF.Size = new System.Drawing.Size(39, 19);
-            this.CheckBoxEFLAGSZF.TabIndex = 22;
-            this.CheckBoxEFLAGSZF.Text = "ZF";
-            this.CheckBoxEFLAGSZF.UseVisualStyleBackColor = true;
+            LabelRF.AutoSize = true;
+            LabelRF.Location = new Point(84, 18);
+            LabelRF.Name = "LabelRF";
+            LabelRF.Size = new Size(20, 15);
+            LabelRF.TabIndex = 22;
+            LabelRF.Text = "RF";
             // 
-            // CheckBoxEFLAGSIOPL14
+            // CheckBoxNT
             // 
-            this.CheckBoxEFLAGSIOPL14.AutoSize = true;
-            this.CheckBoxEFLAGSIOPL14.Location = new System.Drawing.Point(336, 13);
-            this.CheckBoxEFLAGSIOPL14.Name = "CheckBoxEFLAGSIOPL14";
-            this.CheckBoxEFLAGSIOPL14.Size = new System.Drawing.Size(66, 19);
-            this.CheckBoxEFLAGSIOPL14.TabIndex = 15;
-            this.CheckBoxEFLAGSIOPL14.Text = "IOPL 14";
-            this.CheckBoxEFLAGSIOPL14.UseVisualStyleBackColor = true;
+            CheckBoxNT.AutoSize = true;
+            CheckBoxNT.Location = new Point(53, 169);
+            CheckBoxNT.Name = "CheckBoxNT";
+            CheckBoxNT.Size = new Size(15, 14);
+            CheckBoxNT.TabIndex = 21;
+            CheckBoxNT.UseVisualStyleBackColor = true;
             // 
-            // CheckBoxEFLAGSIOPL13
+            // LabelNT
             // 
-            this.CheckBoxEFLAGSIOPL13.AutoSize = true;
-            this.CheckBoxEFLAGSIOPL13.Location = new System.Drawing.Point(408, 13);
-            this.CheckBoxEFLAGSIOPL13.Name = "CheckBoxEFLAGSIOPL13";
-            this.CheckBoxEFLAGSIOPL13.Size = new System.Drawing.Size(66, 19);
-            this.CheckBoxEFLAGSIOPL13.TabIndex = 16;
-            this.CheckBoxEFLAGSIOPL13.Text = "IOPL 13";
-            this.CheckBoxEFLAGSIOPL13.UseVisualStyleBackColor = true;
+            LabelNT.AutoSize = true;
+            LabelNT.Location = new Point(7, 169);
+            LabelNT.Name = "LabelNT";
+            LabelNT.Size = new Size(22, 15);
+            LabelNT.TabIndex = 20;
+            LabelNT.Text = "NT";
             // 
-            // CheckBoxEFLAGSOF
+            // CheckBoxIOPL
             // 
-            this.CheckBoxEFLAGSOF.AutoSize = true;
-            this.CheckBoxEFLAGSOF.Location = new System.Drawing.Point(480, 13);
-            this.CheckBoxEFLAGSOF.Name = "CheckBoxEFLAGSOF";
-            this.CheckBoxEFLAGSOF.Size = new System.Drawing.Size(41, 19);
-            this.CheckBoxEFLAGSOF.TabIndex = 17;
-            this.CheckBoxEFLAGSOF.Text = "OF";
-            this.CheckBoxEFLAGSOF.UseVisualStyleBackColor = true;
+            CheckBoxIOPL.AutoSize = true;
+            CheckBoxIOPL.Location = new Point(53, 154);
+            CheckBoxIOPL.Name = "CheckBoxIOPL";
+            CheckBoxIOPL.Size = new Size(15, 14);
+            CheckBoxIOPL.TabIndex = 19;
+            CheckBoxIOPL.UseVisualStyleBackColor = true;
             // 
-            // CheckBoxEFLAGSSF
+            // LabelIOPL
             // 
-            this.CheckBoxEFLAGSSF.AutoSize = true;
-            this.CheckBoxEFLAGSSF.Location = new System.Drawing.Point(98, 31);
-            this.CheckBoxEFLAGSSF.Name = "CheckBoxEFLAGSSF";
-            this.CheckBoxEFLAGSSF.Size = new System.Drawing.Size(38, 19);
-            this.CheckBoxEFLAGSSF.TabIndex = 21;
-            this.CheckBoxEFLAGSSF.Text = "SF";
-            this.CheckBoxEFLAGSSF.UseVisualStyleBackColor = true;
+            LabelIOPL.AutoSize = true;
+            LabelIOPL.Location = new Point(7, 154);
+            LabelIOPL.Name = "LabelIOPL";
+            LabelIOPL.Size = new Size(32, 15);
+            LabelIOPL.TabIndex = 18;
+            LabelIOPL.Text = "IOPL";
             // 
-            // CheckBoxEFLAGSEF
+            // CheckBoxOF
             // 
-            this.CheckBoxEFLAGSEF.AutoSize = true;
-            this.CheckBoxEFLAGSEF.Location = new System.Drawing.Point(527, 13);
-            this.CheckBoxEFLAGSEF.Name = "CheckBoxEFLAGSEF";
-            this.CheckBoxEFLAGSEF.Size = new System.Drawing.Size(40, 19);
-            this.CheckBoxEFLAGSEF.TabIndex = 18;
-            this.CheckBoxEFLAGSEF.Text = "DF";
-            this.CheckBoxEFLAGSEF.UseVisualStyleBackColor = true;
+            CheckBoxOF.AutoSize = true;
+            CheckBoxOF.Location = new Point(53, 139);
+            CheckBoxOF.Name = "CheckBoxOF";
+            CheckBoxOF.Size = new Size(15, 14);
+            CheckBoxOF.TabIndex = 17;
+            CheckBoxOF.UseVisualStyleBackColor = true;
             // 
-            // CheckBoxEFLAGSIF
+            // LabelOF
             // 
-            this.CheckBoxEFLAGSIF.AutoSize = true;
-            this.CheckBoxEFLAGSIF.Location = new System.Drawing.Point(6, 31);
-            this.CheckBoxEFLAGSIF.Name = "CheckBoxEFLAGSIF";
-            this.CheckBoxEFLAGSIF.Size = new System.Drawing.Size(35, 19);
-            this.CheckBoxEFLAGSIF.TabIndex = 19;
-            this.CheckBoxEFLAGSIF.Text = "IF";
-            this.CheckBoxEFLAGSIF.UseVisualStyleBackColor = true;
+            LabelOF.AutoSize = true;
+            LabelOF.Location = new Point(7, 139);
+            LabelOF.Name = "LabelOF";
+            LabelOF.Size = new Size(22, 15);
+            LabelOF.TabIndex = 16;
+            LabelOF.Text = "OF";
             // 
-            // CheckBoxEFLAGSTF
+            // CheckBoxDF
             // 
-            this.CheckBoxEFLAGSTF.AutoSize = true;
-            this.CheckBoxEFLAGSTF.Location = new System.Drawing.Point(49, 31);
-            this.CheckBoxEFLAGSTF.Name = "CheckBoxEFLAGSTF";
-            this.CheckBoxEFLAGSTF.Size = new System.Drawing.Size(38, 19);
-            this.CheckBoxEFLAGSTF.TabIndex = 20;
-            this.CheckBoxEFLAGSTF.Text = "TF";
-            this.CheckBoxEFLAGSTF.UseVisualStyleBackColor = true;
+            CheckBoxDF.AutoSize = true;
+            CheckBoxDF.Location = new Point(53, 124);
+            CheckBoxDF.Name = "CheckBoxDF";
+            CheckBoxDF.Size = new Size(15, 14);
+            CheckBoxDF.TabIndex = 15;
+            CheckBoxDF.UseVisualStyleBackColor = true;
             // 
-            // GroupBoxData
+            // LabelDF
             // 
-            this.GroupBoxData.Controls.Add(this.TextBoxData);
-            this.GroupBoxData.Controls.Add(this.ComboBoxData);
-            this.GroupBoxData.Location = new System.Drawing.Point(6, 217);
-            this.GroupBoxData.Name = "GroupBoxData";
-            this.GroupBoxData.Size = new System.Drawing.Size(166, 59);
-            this.GroupBoxData.TabIndex = 8;
-            this.GroupBoxData.TabStop = false;
-            this.GroupBoxData.Text = "Data";
+            LabelDF.AutoSize = true;
+            LabelDF.Location = new Point(7, 124);
+            LabelDF.Name = "LabelDF";
+            LabelDF.Size = new Size(21, 15);
+            LabelDF.TabIndex = 14;
+            LabelDF.Text = "DF";
             // 
-            // TextBoxData
+            // CheckBoxIF
             // 
-            this.TextBoxData.Location = new System.Drawing.Point(59, 22);
-            this.TextBoxData.Name = "TextBoxData";
-            this.TextBoxData.Size = new System.Drawing.Size(100, 23);
-            this.TextBoxData.TabIndex = 10;
+            CheckBoxIF.AutoSize = true;
+            CheckBoxIF.Location = new Point(53, 109);
+            CheckBoxIF.Name = "CheckBoxIF";
+            CheckBoxIF.Size = new Size(15, 14);
+            CheckBoxIF.TabIndex = 13;
+            CheckBoxIF.UseVisualStyleBackColor = true;
             // 
-            // ComboBoxData
+            // LabelIF
             // 
-            this.ComboBoxData.FormattingEnabled = true;
-            this.ComboBoxData.Items.AddRange(new object[] {
-            "RDX",
-            "EDX",
-            "DX",
-            "DH",
-            "DL"});
-            this.ComboBoxData.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxData.Name = "ComboBoxData";
-            this.ComboBoxData.Size = new System.Drawing.Size(47, 23);
-            this.ComboBoxData.TabIndex = 6;
+            LabelIF.AutoSize = true;
+            LabelIF.Location = new Point(7, 109);
+            LabelIF.Name = "LabelIF";
+            LabelIF.Size = new Size(16, 15);
+            LabelIF.TabIndex = 12;
+            LabelIF.Text = "IF";
             // 
-            // GroupBoxCounter
+            // CheckBoxTF
             // 
-            this.GroupBoxCounter.Controls.Add(this.TextBoxCounter);
-            this.GroupBoxCounter.Controls.Add(this.ComboBoxCounter);
-            this.GroupBoxCounter.Location = new System.Drawing.Point(6, 152);
-            this.GroupBoxCounter.Name = "GroupBoxCounter";
-            this.GroupBoxCounter.Size = new System.Drawing.Size(166, 59);
-            this.GroupBoxCounter.TabIndex = 7;
-            this.GroupBoxCounter.TabStop = false;
-            this.GroupBoxCounter.Text = "Counter";
+            CheckBoxTF.AutoSize = true;
+            CheckBoxTF.Location = new Point(53, 94);
+            CheckBoxTF.Name = "CheckBoxTF";
+            CheckBoxTF.Size = new Size(15, 14);
+            CheckBoxTF.TabIndex = 11;
+            CheckBoxTF.UseVisualStyleBackColor = true;
             // 
-            // TextBoxCounter
+            // LabelTF
             // 
-            this.TextBoxCounter.Location = new System.Drawing.Point(59, 22);
-            this.TextBoxCounter.Name = "TextBoxCounter";
-            this.TextBoxCounter.Size = new System.Drawing.Size(100, 23);
-            this.TextBoxCounter.TabIndex = 10;
+            LabelTF.AutoSize = true;
+            LabelTF.Location = new Point(6, 94);
+            LabelTF.Name = "LabelTF";
+            LabelTF.Size = new Size(19, 15);
+            LabelTF.TabIndex = 10;
+            LabelTF.Text = "TF";
             // 
-            // ComboBoxCounter
+            // CheckBoxSF
             // 
-            this.ComboBoxCounter.FormattingEnabled = true;
-            this.ComboBoxCounter.Items.AddRange(new object[] {
-            "RCX",
-            "ECX",
-            "CX",
-            "CH",
-            "CL"});
-            this.ComboBoxCounter.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxCounter.Name = "ComboBoxCounter";
-            this.ComboBoxCounter.Size = new System.Drawing.Size(47, 23);
-            this.ComboBoxCounter.TabIndex = 5;
+            CheckBoxSF.AutoSize = true;
+            CheckBoxSF.Location = new Point(53, 79);
+            CheckBoxSF.Name = "CheckBoxSF";
+            CheckBoxSF.Size = new Size(15, 14);
+            CheckBoxSF.TabIndex = 9;
+            CheckBoxSF.UseVisualStyleBackColor = true;
             // 
-            // GroupBoxBase
+            // LabelSF
             // 
-            this.GroupBoxBase.Controls.Add(this.TextBoxBase);
-            this.GroupBoxBase.Controls.Add(this.ComboBoxBase);
-            this.GroupBoxBase.Location = new System.Drawing.Point(6, 87);
-            this.GroupBoxBase.Name = "GroupBoxBase";
-            this.GroupBoxBase.Size = new System.Drawing.Size(166, 59);
-            this.GroupBoxBase.TabIndex = 3;
-            this.GroupBoxBase.TabStop = false;
-            this.GroupBoxBase.Text = "Base";
+            LabelSF.AutoSize = true;
+            LabelSF.Location = new Point(6, 79);
+            LabelSF.Name = "LabelSF";
+            LabelSF.Size = new Size(19, 15);
+            LabelSF.TabIndex = 8;
+            LabelSF.Text = "SF";
             // 
-            // TextBoxBase
+            // CheckBoxZF
             // 
-            this.TextBoxBase.Location = new System.Drawing.Point(59, 22);
-            this.TextBoxBase.Name = "TextBoxBase";
-            this.TextBoxBase.Size = new System.Drawing.Size(100, 23);
-            this.TextBoxBase.TabIndex = 10;
+            CheckBoxZF.AutoSize = true;
+            CheckBoxZF.Location = new Point(53, 64);
+            CheckBoxZF.Name = "CheckBoxZF";
+            CheckBoxZF.Size = new Size(15, 14);
+            CheckBoxZF.TabIndex = 7;
+            CheckBoxZF.UseVisualStyleBackColor = true;
             // 
-            // ComboBoxBase
+            // LabelZF
             // 
-            this.ComboBoxBase.FormattingEnabled = true;
-            this.ComboBoxBase.Items.AddRange(new object[] {
-            "RBX",
-            "EBX",
-            "BX",
-            "BH",
-            "BL"});
-            this.ComboBoxBase.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxBase.Name = "ComboBoxBase";
-            this.ComboBoxBase.Size = new System.Drawing.Size(47, 23);
-            this.ComboBoxBase.TabIndex = 4;
+            LabelZF.AutoSize = true;
+            LabelZF.Location = new Point(6, 64);
+            LabelZF.Name = "LabelZF";
+            LabelZF.Size = new Size(20, 15);
+            LabelZF.TabIndex = 6;
+            LabelZF.Text = "ZF";
             // 
-            // GroupBoxAccumulator
+            // CheckBoxAF
             // 
-            this.GroupBoxAccumulator.Controls.Add(this.TextBoxAccumulator);
-            this.GroupBoxAccumulator.Controls.Add(this.ComboBoxAccumulator);
-            this.GroupBoxAccumulator.Location = new System.Drawing.Point(6, 22);
-            this.GroupBoxAccumulator.Name = "GroupBoxAccumulator";
-            this.GroupBoxAccumulator.Size = new System.Drawing.Size(166, 59);
-            this.GroupBoxAccumulator.TabIndex = 0;
-            this.GroupBoxAccumulator.TabStop = false;
-            this.GroupBoxAccumulator.Text = "Accumulator";
+            CheckBoxAF.AutoSize = true;
+            CheckBoxAF.Location = new Point(53, 49);
+            CheckBoxAF.Name = "CheckBoxAF";
+            CheckBoxAF.Size = new Size(15, 14);
+            CheckBoxAF.TabIndex = 5;
+            CheckBoxAF.UseVisualStyleBackColor = true;
             // 
-            // TextBoxAccumulator
+            // LabelAF
             // 
-            this.TextBoxAccumulator.Location = new System.Drawing.Point(59, 22);
-            this.TextBoxAccumulator.Name = "TextBoxAccumulator";
-            this.TextBoxAccumulator.Size = new System.Drawing.Size(100, 23);
-            this.TextBoxAccumulator.TabIndex = 2;
+            LabelAF.AutoSize = true;
+            LabelAF.Location = new Point(6, 49);
+            LabelAF.Name = "LabelAF";
+            LabelAF.Size = new Size(21, 15);
+            LabelAF.TabIndex = 4;
+            LabelAF.Text = "AF";
             // 
-            // ComboBoxAccumulator
+            // CheckBoxPF
             // 
-            this.ComboBoxAccumulator.FormattingEnabled = true;
-            this.ComboBoxAccumulator.Items.AddRange(new object[] {
-            "RAX",
-            "EAX",
-            "AX",
-            "AH",
-            "AL"});
-            this.ComboBoxAccumulator.Location = new System.Drawing.Point(6, 22);
-            this.ComboBoxAccumulator.Name = "ComboBoxAccumulator";
-            this.ComboBoxAccumulator.Size = new System.Drawing.Size(47, 23);
-            this.ComboBoxAccumulator.TabIndex = 1;
+            CheckBoxPF.AutoSize = true;
+            CheckBoxPF.Location = new Point(53, 34);
+            CheckBoxPF.Name = "CheckBoxPF";
+            CheckBoxPF.Size = new Size(15, 14);
+            CheckBoxPF.TabIndex = 3;
+            CheckBoxPF.UseVisualStyleBackColor = true;
+            // 
+            // LabelPF
+            // 
+            LabelPF.AutoSize = true;
+            LabelPF.Location = new Point(7, 33);
+            LabelPF.Name = "LabelPF";
+            LabelPF.Size = new Size(20, 15);
+            LabelPF.TabIndex = 2;
+            LabelPF.Text = "PF";
+            // 
+            // CheckBoxCF
+            // 
+            CheckBoxCF.AutoSize = true;
+            CheckBoxCF.Location = new Point(53, 19);
+            CheckBoxCF.Name = "CheckBoxCF";
+            CheckBoxCF.Size = new Size(15, 14);
+            CheckBoxCF.TabIndex = 1;
+            CheckBoxCF.UseVisualStyleBackColor = true;
+            // 
+            // LabelCF
+            // 
+            LabelCF.AutoSize = true;
+            LabelCF.Location = new Point(7, 19);
+            LabelCF.Name = "LabelCF";
+            LabelCF.Size = new Size(21, 15);
+            LabelCF.TabIndex = 0;
+            LabelCF.Text = "CF";
+            // 
+            // ButtonSetRegisterValues
+            // 
+            ButtonSetRegisterValues.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            ButtonSetRegisterValues.Location = new Point(12, 211);
+            ButtonSetRegisterValues.Name = "ButtonSetRegisterValues";
+            ButtonSetRegisterValues.Size = new Size(617, 46);
+            ButtonSetRegisterValues.TabIndex = 22;
+            ButtonSetRegisterValues.Text = "Set Register Values";
+            ButtonSetRegisterValues.UseVisualStyleBackColor = true;
+            ButtonSetRegisterValues.Click += ButtonSetRegisterValues_Click;
+            // 
+            // GroupBoxGeneralPurposeRegisters
+            // 
+            GroupBoxGeneralPurposeRegisters.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxR15);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelR15);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxR14);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelR14);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxR13);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelR13);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxR12);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelR12);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxR11);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelR11);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxR10);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelR10);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxR9);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelR9);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxR8);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelR8);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRAX);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxRIP);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxRAX);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRIP);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRBX);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxRBP);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxRBX);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRBP);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRCX);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxRSP);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxRCX);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRSP);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRDX);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxRDI);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxRDX);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRDI);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(LabelRSI);
+            GroupBoxGeneralPurposeRegisters.Controls.Add(TextBoxRSI);
+            GroupBoxGeneralPurposeRegisters.Location = new Point(12, 12);
+            GroupBoxGeneralPurposeRegisters.Name = "GroupBoxGeneralPurposeRegisters";
+            GroupBoxGeneralPurposeRegisters.Size = new Size(465, 193);
+            GroupBoxGeneralPurposeRegisters.TabIndex = 21;
+            GroupBoxGeneralPurposeRegisters.TabStop = false;
+            GroupBoxGeneralPurposeRegisters.Text = "General Purpose Register";
+            // 
+            // TextBoxR15
+            // 
+            TextBoxR15.Location = new Point(357, 132);
+            TextBoxR15.Name = "TextBoxR15";
+            TextBoxR15.Size = new Size(100, 23);
+            TextBoxR15.TabIndex = 33;
+            TextBoxR15.Text = "0";
+            // 
+            // LabelR15
+            // 
+            LabelR15.AutoSize = true;
+            LabelR15.Location = new Point(313, 135);
+            LabelR15.Name = "LabelR15";
+            LabelR15.Size = new Size(26, 15);
+            LabelR15.TabIndex = 32;
+            LabelR15.Text = "R15";
+            // 
+            // TextBoxR14
+            // 
+            TextBoxR14.Location = new Point(357, 103);
+            TextBoxR14.Name = "TextBoxR14";
+            TextBoxR14.Size = new Size(100, 23);
+            TextBoxR14.TabIndex = 31;
+            TextBoxR14.Text = "0";
+            // 
+            // LabelR14
+            // 
+            LabelR14.AutoSize = true;
+            LabelR14.Location = new Point(313, 106);
+            LabelR14.Name = "LabelR14";
+            LabelR14.Size = new Size(26, 15);
+            LabelR14.TabIndex = 30;
+            LabelR14.Text = "R14";
+            // 
+            // TextBoxR13
+            // 
+            TextBoxR13.Location = new Point(357, 74);
+            TextBoxR13.Name = "TextBoxR13";
+            TextBoxR13.Size = new Size(100, 23);
+            TextBoxR13.TabIndex = 29;
+            TextBoxR13.Text = "0";
+            // 
+            // LabelR13
+            // 
+            LabelR13.AutoSize = true;
+            LabelR13.Location = new Point(313, 77);
+            LabelR13.Name = "LabelR13";
+            LabelR13.Size = new Size(26, 15);
+            LabelR13.TabIndex = 28;
+            LabelR13.Text = "R13";
+            // 
+            // TextBoxR12
+            // 
+            TextBoxR12.Location = new Point(357, 45);
+            TextBoxR12.Name = "TextBoxR12";
+            TextBoxR12.Size = new Size(100, 23);
+            TextBoxR12.TabIndex = 27;
+            TextBoxR12.Text = "0";
+            // 
+            // LabelR12
+            // 
+            LabelR12.AutoSize = true;
+            LabelR12.Location = new Point(313, 48);
+            LabelR12.Name = "LabelR12";
+            LabelR12.Size = new Size(26, 15);
+            LabelR12.TabIndex = 26;
+            LabelR12.Text = "R12";
+            // 
+            // TextBoxR11
+            // 
+            TextBoxR11.Location = new Point(357, 16);
+            TextBoxR11.Name = "TextBoxR11";
+            TextBoxR11.Size = new Size(100, 23);
+            TextBoxR11.TabIndex = 25;
+            TextBoxR11.Text = "0";
+            // 
+            // LabelR11
+            // 
+            LabelR11.AutoSize = true;
+            LabelR11.Location = new Point(313, 19);
+            LabelR11.Name = "LabelR11";
+            LabelR11.Size = new Size(26, 15);
+            LabelR11.TabIndex = 24;
+            LabelR11.Text = "R11";
+            // 
+            // TextBoxR10
+            // 
+            TextBoxR10.Location = new Point(204, 161);
+            TextBoxR10.Name = "TextBoxR10";
+            TextBoxR10.Size = new Size(100, 23);
+            TextBoxR10.TabIndex = 23;
+            TextBoxR10.Text = "0";
+            // 
+            // LabelR10
+            // 
+            LabelR10.AutoSize = true;
+            LabelR10.Location = new Point(160, 164);
+            LabelR10.Name = "LabelR10";
+            LabelR10.Size = new Size(26, 15);
+            LabelR10.TabIndex = 22;
+            LabelR10.Text = "R10";
+            // 
+            // TextBoxR9
+            // 
+            TextBoxR9.Location = new Point(204, 132);
+            TextBoxR9.Name = "TextBoxR9";
+            TextBoxR9.Size = new Size(100, 23);
+            TextBoxR9.TabIndex = 21;
+            TextBoxR9.Text = "0";
+            // 
+            // LabelR9
+            // 
+            LabelR9.AutoSize = true;
+            LabelR9.Location = new Point(160, 135);
+            LabelR9.Name = "LabelR9";
+            LabelR9.Size = new Size(20, 15);
+            LabelR9.TabIndex = 20;
+            LabelR9.Text = "R9";
+            // 
+            // TextBoxR8
+            // 
+            TextBoxR8.Location = new Point(204, 103);
+            TextBoxR8.Name = "TextBoxR8";
+            TextBoxR8.Size = new Size(100, 23);
+            TextBoxR8.TabIndex = 19;
+            TextBoxR8.Text = "0";
+            // 
+            // LabelR8
+            // 
+            LabelR8.AutoSize = true;
+            LabelR8.Location = new Point(160, 106);
+            LabelR8.Name = "LabelR8";
+            LabelR8.Size = new Size(20, 15);
+            LabelR8.TabIndex = 18;
+            LabelR8.Text = "R8";
+            // 
+            // LabelRAX
+            // 
+            LabelRAX.AutoSize = true;
+            LabelRAX.Location = new Point(6, 19);
+            LabelRAX.Name = "LabelRAX";
+            LabelRAX.Size = new Size(29, 15);
+            LabelRAX.TabIndex = 0;
+            LabelRAX.Text = "RAX";
+            // 
+            // TextBoxRIP
+            // 
+            TextBoxRIP.Location = new Point(204, 74);
+            TextBoxRIP.Name = "TextBoxRIP";
+            TextBoxRIP.Size = new Size(100, 23);
+            TextBoxRIP.TabIndex = 17;
+            TextBoxRIP.Text = "0";
+            // 
+            // TextBoxRAX
+            // 
+            TextBoxRAX.Location = new Point(50, 16);
+            TextBoxRAX.Name = "TextBoxRAX";
+            TextBoxRAX.Size = new Size(100, 23);
+            TextBoxRAX.TabIndex = 1;
+            TextBoxRAX.Text = "0";
+            // 
+            // LabelRIP
+            // 
+            LabelRIP.AutoSize = true;
+            LabelRIP.Location = new Point(160, 77);
+            LabelRIP.Name = "LabelRIP";
+            LabelRIP.Size = new Size(24, 15);
+            LabelRIP.TabIndex = 16;
+            LabelRIP.Text = "RIP";
+            // 
+            // LabelRBX
+            // 
+            LabelRBX.AutoSize = true;
+            LabelRBX.Location = new Point(6, 48);
+            LabelRBX.Name = "LabelRBX";
+            LabelRBX.Size = new Size(28, 15);
+            LabelRBX.TabIndex = 2;
+            LabelRBX.Text = "RBX";
+            // 
+            // TextBoxRBP
+            // 
+            TextBoxRBP.Location = new Point(204, 45);
+            TextBoxRBP.Name = "TextBoxRBP";
+            TextBoxRBP.Size = new Size(100, 23);
+            TextBoxRBP.TabIndex = 15;
+            TextBoxRBP.Text = "0";
+            // 
+            // TextBoxRBX
+            // 
+            TextBoxRBX.Location = new Point(50, 45);
+            TextBoxRBX.Name = "TextBoxRBX";
+            TextBoxRBX.Size = new Size(100, 23);
+            TextBoxRBX.TabIndex = 3;
+            TextBoxRBX.Text = "0";
+            // 
+            // LabelRBP
+            // 
+            LabelRBP.AutoSize = true;
+            LabelRBP.Location = new Point(160, 48);
+            LabelRBP.Name = "LabelRBP";
+            LabelRBP.Size = new Size(28, 15);
+            LabelRBP.TabIndex = 14;
+            LabelRBP.Text = "RBP";
+            // 
+            // LabelRCX
+            // 
+            LabelRCX.AutoSize = true;
+            LabelRCX.Location = new Point(6, 77);
+            LabelRCX.Name = "LabelRCX";
+            LabelRCX.Size = new Size(29, 15);
+            LabelRCX.TabIndex = 4;
+            LabelRCX.Text = "RCX";
+            // 
+            // TextBoxRSP
+            // 
+            TextBoxRSP.Location = new Point(204, 16);
+            TextBoxRSP.Name = "TextBoxRSP";
+            TextBoxRSP.Size = new Size(100, 23);
+            TextBoxRSP.TabIndex = 13;
+            TextBoxRSP.Text = "0";
+            // 
+            // TextBoxRCX
+            // 
+            TextBoxRCX.Location = new Point(50, 74);
+            TextBoxRCX.Name = "TextBoxRCX";
+            TextBoxRCX.Size = new Size(100, 23);
+            TextBoxRCX.TabIndex = 5;
+            TextBoxRCX.Text = "0";
+            // 
+            // LabelRSP
+            // 
+            LabelRSP.AutoSize = true;
+            LabelRSP.Location = new Point(160, 19);
+            LabelRSP.Name = "LabelRSP";
+            LabelRSP.Size = new Size(27, 15);
+            LabelRSP.TabIndex = 12;
+            LabelRSP.Text = "RSP";
+            // 
+            // LabelRDX
+            // 
+            LabelRDX.AutoSize = true;
+            LabelRDX.Location = new Point(6, 106);
+            LabelRDX.Name = "LabelRDX";
+            LabelRDX.Size = new Size(29, 15);
+            LabelRDX.TabIndex = 6;
+            LabelRDX.Text = "RDX";
+            // 
+            // TextBoxRDI
+            // 
+            TextBoxRDI.Location = new Point(50, 161);
+            TextBoxRDI.Name = "TextBoxRDI";
+            TextBoxRDI.Size = new Size(100, 23);
+            TextBoxRDI.TabIndex = 11;
+            TextBoxRDI.Text = "0";
+            // 
+            // TextBoxRDX
+            // 
+            TextBoxRDX.Location = new Point(50, 103);
+            TextBoxRDX.Name = "TextBoxRDX";
+            TextBoxRDX.Size = new Size(100, 23);
+            TextBoxRDX.TabIndex = 7;
+            TextBoxRDX.Text = "0";
+            // 
+            // LabelRDI
+            // 
+            LabelRDI.AutoSize = true;
+            LabelRDI.Location = new Point(6, 164);
+            LabelRDI.Name = "LabelRDI";
+            LabelRDI.Size = new Size(25, 15);
+            LabelRDI.TabIndex = 10;
+            LabelRDI.Text = "RDI";
+            // 
+            // LabelRSI
+            // 
+            LabelRSI.AutoSize = true;
+            LabelRSI.Location = new Point(6, 135);
+            LabelRSI.Name = "LabelRSI";
+            LabelRSI.Size = new Size(23, 15);
+            LabelRSI.TabIndex = 8;
+            LabelRSI.Text = "RSI";
+            // 
+            // TextBoxRSI
+            // 
+            TextBoxRSI.Location = new Point(50, 132);
+            TextBoxRSI.Name = "TextBoxRSI";
+            TextBoxRSI.Size = new Size(100, 23);
+            TextBoxRSI.TabIndex = 9;
+            TextBoxRSI.Text = "0";
             // 
             // Registers_Form
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 334);
-            this.Controls.Add(this.GroupBoxRegisters);
-            this.Controls.Add(this.ButtonUpdateRegisters);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Registers_Form";
-            this.Text = "Registers Form";
-            this.Load += new System.EventHandler(this.Registers_Form_Load);
-            this.GroupBoxRegisters.ResumeLayout(false);
-            this.GroupBoxR9.ResumeLayout(false);
-            this.GroupBoxR9.PerformLayout();
-            this.GroupBoxR10.ResumeLayout(false);
-            this.GroupBoxR10.PerformLayout();
-            this.GroupBoxR11.ResumeLayout(false);
-            this.GroupBoxR11.PerformLayout();
-            this.GroupBoxR14.ResumeLayout(false);
-            this.GroupBoxR14.PerformLayout();
-            this.GroupBoxR12.ResumeLayout(false);
-            this.GroupBoxR12.PerformLayout();
-            this.GroupBoxR13.ResumeLayout(false);
-            this.GroupBoxR13.PerformLayout();
-            this.GroupBoxR15.ResumeLayout(false);
-            this.GroupBoxR15.PerformLayout();
-            this.GroupBoxR8.ResumeLayout(false);
-            this.GroupBoxR8.PerformLayout();
-            this.GroupBoxEFLAGS.ResumeLayout(false);
-            this.GroupBoxEFLAGS.PerformLayout();
-            this.GroupBoxData.ResumeLayout(false);
-            this.GroupBoxData.PerformLayout();
-            this.GroupBoxCounter.ResumeLayout(false);
-            this.GroupBoxCounter.PerformLayout();
-            this.GroupBoxBase.ResumeLayout(false);
-            this.GroupBoxBase.PerformLayout();
-            this.GroupBoxAccumulator.ResumeLayout(false);
-            this.GroupBoxAccumulator.PerformLayout();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(638, 264);
+            Controls.Add(GroupBoxEFLAGS);
+            Controls.Add(ButtonSetRegisterValues);
+            Controls.Add(GroupBoxGeneralPurposeRegisters);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Name = "Registers_Form";
+            Text = "Registers Form";
+            Load += Registers_Form_Load;
+            GroupBoxEFLAGS.ResumeLayout(false);
+            GroupBoxEFLAGS.PerformLayout();
+            GroupBoxGeneralPurposeRegisters.ResumeLayout(false);
+            GroupBoxGeneralPurposeRegisters.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
 
-        private Button ButtonUpdateRegisters;
-        private GroupBox GroupBoxRegisters;
-        private GroupBox GroupBoxAccumulator;
-        private GroupBox GroupBoxBase;
-        private TextBox TextBoxAccumulator;
-        private ComboBox ComboBoxAccumulator;
         private GroupBox GroupBoxEFLAGS;
-        private CheckBox CheckBoxEFLAGSVIP;
-        private CheckBox CheckBoxEFLAGSID;
-        private GroupBox GroupBoxData;
-        private ComboBox ComboBoxData;
-        private GroupBox GroupBoxCounter;
-        private ComboBox ComboBoxCounter;
-        private ComboBox ComboBoxBase;
-        private TextBox TextBoxBase;
-        private TextBox TextBoxData;
-        private TextBox TextBoxCounter;
-        private CheckBox CheckBoxEFLAGSVIF;
-        private CheckBox CheckBoxEFLAGSCF;
-        private CheckBox CheckBoxEFLAGSAC;
-        private CheckBox CheckBoxEFLAGS1;
-        private CheckBox CheckBoxEFLAGSVM;
-        private CheckBox CheckBoxEFLAGSPF;
-        private CheckBox CheckBoxEFLAGSRF;
-        private CheckBox AF;
-        private CheckBox CheckBoxEFLAGSNT;
-        private CheckBox CheckBoxEFLAGSZF;
-        private CheckBox CheckBoxEFLAGSIOPL14;
-        private CheckBox CheckBoxEFLAGSIOPL13;
-        private CheckBox CheckBoxEFLAGSOF;
-        private CheckBox CheckBoxEFLAGSSF;
-        private CheckBox CheckBoxEFLAGSEF;
-        private CheckBox CheckBoxEFLAGSIF;
-        private CheckBox CheckBoxEFLAGSTF;
-        private GroupBox GroupBoxR8;
-        private GroupBox GroupBoxR9;
-        private GroupBox GroupBoxR10;
-        private GroupBox GroupBoxR11;
-        private GroupBox GroupBoxR14;
-        private GroupBox GroupBoxR12;
-        private GroupBox GroupBoxR13;
-        private GroupBox GroupBoxR15;
-        private ComboBox ComboBoxR9;
-        private TextBox TextBoxR9;
-        private ComboBox ComboBoxR10;
-        private TextBox TextBoxR10;
-        private ComboBox ComboBoxR11;
-        private TextBox TextBoxR11;
-        private ComboBox ComboBoxR14;
-        private TextBox TextBoxR14;
-        private ComboBox ComboBoxR12;
-        private TextBox TextBoxR12;
-        private ComboBox ComboBoxR13;
-        private TextBox TextBoxR13;
+        private CheckBox CheckBoxID;
+        private CheckBox CheckBoxVIP;
+        private CheckBox CheckBoxVIF;
+        private Label LabelID;
+        private Label LabelVIP;
+        private Label LabelVIF;
+        private CheckBox CheckBoxAC;
+        private Label LabelAC;
+        private CheckBox CheckBoxVM;
+        private Label LabelVM;
+        private CheckBox CheckBoxRF;
+        private Label LabelRF;
+        private CheckBox CheckBoxNT;
+        private Label LabelNT;
+        private CheckBox CheckBoxIOPL;
+        private Label LabelIOPL;
+        private CheckBox CheckBoxOF;
+        private Label LabelOF;
+        private CheckBox CheckBoxDF;
+        private Label LabelDF;
+        private CheckBox CheckBoxIF;
+        private Label LabelIF;
+        private CheckBox CheckBoxTF;
+        private Label LabelTF;
+        private CheckBox CheckBoxSF;
+        private Label LabelSF;
+        private CheckBox CheckBoxZF;
+        private Label LabelZF;
+        private CheckBox CheckBoxAF;
+        private Label LabelAF;
+        private CheckBox CheckBoxPF;
+        private Label LabelPF;
+        private CheckBox CheckBoxCF;
+        private Label LabelCF;
+        private Button ButtonSetRegisterValues;
+        private GroupBox GroupBoxGeneralPurposeRegisters;
         private TextBox TextBoxR15;
-        private ComboBox ComboBoxR15;
-        private ComboBox ComboBoxR8;
+        private Label LabelR15;
+        private TextBox TextBoxR14;
+        private Label LabelR14;
+        private TextBox TextBoxR13;
+        private Label LabelR13;
+        private TextBox TextBoxR12;
+        private Label LabelR12;
+        private TextBox TextBoxR11;
+        private Label LabelR11;
+        private TextBox TextBoxR10;
+        private Label LabelR10;
+        private TextBox TextBoxR9;
+        private Label LabelR9;
         private TextBox TextBoxR8;
+        private Label LabelR8;
+        private Label LabelRAX;
+        private TextBox TextBoxRIP;
+        private TextBox TextBoxRAX;
+        private Label LabelRIP;
+        private Label LabelRBX;
+        private TextBox TextBoxRBP;
+        private TextBox TextBoxRBX;
+        private Label LabelRBP;
+        private Label LabelRCX;
+        private TextBox TextBoxRSP;
+        private TextBox TextBoxRCX;
+        private Label LabelRSP;
+        private Label LabelRDX;
+        private TextBox TextBoxRDI;
+        private TextBox TextBoxRDX;
+        private Label LabelRDI;
+        private Label LabelRSI;
+        private TextBox TextBoxRSI;
     }
 }

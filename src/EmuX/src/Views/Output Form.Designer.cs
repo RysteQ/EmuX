@@ -49,7 +49,7 @@
             Controls.Add(OutputRichTextbox);
             FormBorderStyle = FormBorderStyle.SizableToolWindow;
             Name = "Output_Form";
-            Text = "Output_Form";
+            Text = "Output Form";
             TopMost = true;
             FormClosing += Output_Form_FormClosing;
             Load += Output_Form_Load;

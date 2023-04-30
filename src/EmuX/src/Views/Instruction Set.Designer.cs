@@ -28,37 +28,34 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.WebViewInstructionSet = new Microsoft.Web.WebView2.WinForms.WebView2();
-            ((System.ComponentModel.ISupportInitialize)(this.WebViewInstructionSet)).BeginInit();
-            this.SuspendLayout();
+            WebViewInstructionSet = new Microsoft.Web.WebView2.WinForms.WebView2();
+            ((System.ComponentModel.ISupportInitialize)WebViewInstructionSet).BeginInit();
+            SuspendLayout();
             // 
             // WebViewInstructionSet
             // 
-            this.WebViewInstructionSet.AllowExternalDrop = true;
-            this.WebViewInstructionSet.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.WebViewInstructionSet.CreationProperties = null;
-            this.WebViewInstructionSet.DefaultBackgroundColor = System.Drawing.Color.White;
-            this.WebViewInstructionSet.Location = new System.Drawing.Point(-1, -2);
-            this.WebViewInstructionSet.Name = "WebViewInstructionSet";
-            this.WebViewInstructionSet.Size = new System.Drawing.Size(804, 453);
-            this.WebViewInstructionSet.TabIndex = 0;
-            this.WebViewInstructionSet.ZoomFactor = 1D;
+            WebViewInstructionSet.AllowExternalDrop = true;
+            WebViewInstructionSet.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            WebViewInstructionSet.CreationProperties = null;
+            WebViewInstructionSet.DefaultBackgroundColor = Color.White;
+            WebViewInstructionSet.Location = new Point(-1, -2);
+            WebViewInstructionSet.Name = "WebViewInstructionSet";
+            WebViewInstructionSet.Size = new Size(804, 453);
+            WebViewInstructionSet.TabIndex = 0;
+            WebViewInstructionSet.ZoomFactor = 1D;
             // 
             // Instruction_Set
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Controls.Add(this.WebViewInstructionSet);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
-            this.Name = "Instruction_Set";
-            this.Text = "Instruction_Set";
-            this.Load += new System.EventHandler(this.Instruction_Set_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.WebViewInstructionSet)).EndInit();
-            this.ResumeLayout(false);
-
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            ClientSize = new Size(800, 450);
+            Controls.Add(WebViewInstructionSet);
+            FormBorderStyle = FormBorderStyle.FixedToolWindow;
+            Name = "Instruction_Set";
+            Text = "Instruction Set";
+            Load += Instruction_Set_Load;
+            ((System.ComponentModel.ISupportInitialize)WebViewInstructionSet).EndInit();
+            ResumeLayout(false);
         }
 
         #endregion

@@ -4,7 +4,7 @@ using System;
 
 namespace EmuX.src.Services.Emulator
 {
-    internal class Emulator
+    public class Emulator
     {
         public void PrepareEmulator(List<Instruction> instructions, List<StaticData> static_data, List<Models.Label> labels)
         {

@@ -180,6 +180,8 @@ namespace EmuX
 
             if (this.emulator.HasInstructions())
                 UpdateOutput("Execution Completed...");
+
+            UpdateDetachableWindows();
         }
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
@@ -344,6 +346,8 @@ namespace EmuX
 
             for (int index = memory_start; index < memory_end; index++)
                 this.virtual_system.SetByteMemory(index, value_to_set);
+
+            UpdateDetachableWindows();
         }
 
         private void ButtonSetRegisterValues_Click(object sender, EventArgs e)
@@ -414,8 +418,9 @@ namespace EmuX
                     EFLAGS_to_set += masks[i];
 
             this.virtual_system.EFLAGS = EFLAGS_to_set;
-
             this.emulator.SetVirtualSystem(this.virtual_system);
+
+            UpdateDetachableWindows();
         }
 
         private void increaseSizeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -484,6 +489,8 @@ namespace EmuX
 
                 UpdateOutput("Stepped");
             }
+
+            UpdateDetachableWindows();
         }
 
         private void ButtonExecuteOnAnotherTab_Click(object sender, EventArgs e)
@@ -537,9 +544,24 @@ namespace EmuX
         {
             if (e.Button == MouseButtons.Right)
             {
-                if (EmuXTabControl.SelectedIndex == 3)
+                switch (EmuXTabControl.SelectedIndex)
                 {
-                    outputToolStripMenuItem_Click(null, null);
+                    case 1:
+                        this.memory_form = new MemoryForm(ref this.virtual_system);
+                        this.memory_form.Show();
+                        break;
+
+                    case 2:
+                        this.registers_form = new Registers_Form(ref this.virtual_system, ref this.emulator);
+                        this.registers_form.Show();
+                        break;
+
+                    case 3:
+                        outputToolStripMenuItem_Click(null, null);
+                        break;
+
+                    default:
+                        break;
                 }
             }
         }
@@ -559,7 +581,18 @@ namespace EmuX
             this.assembly_analyzed = false;
         }
 
+        private void UpdateDetachableWindows()
+        {
+            if (this.registers_form != null)
+                if (this.registers_form.IsOpen())
+                    this.registers_form.SetVirtualSystem(this.virtual_system);
+
+
+        }
+
         private Output_Form output_form = new Output_Form();
+        private Registers_Form registers_form;
+        private MemoryForm memory_form;
 
         private VideoForm video_form = new VideoForm();
         private VirtualSystem virtual_system = new VirtualSystem();
