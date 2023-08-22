@@ -13,9 +13,6 @@
     <Compile Update="src\Views\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="src\Views\Instruction Set.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="src\Views\Memory Form.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -1,12 +1,11 @@
-﻿public class Memory_Type
-{
-    public enum Memory_Type_ENUM
-    {
-        VALUE,
-        ADDRESS,
+﻿namespace EmuX.src.Enums.Instruction_Data;
 
-        LABEL,
-        Mem,
-        NoN
-    }
+public enum MemoryType
+{
+    VALUE,
+    ADDRESS,
+
+    LABEL,
+    Mem,
+    NoN
 }

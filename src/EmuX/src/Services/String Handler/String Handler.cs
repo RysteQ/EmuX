@@ -14,7 +14,7 @@
 
         public static string ReverseString(string string_to_reverse)
         {
-            return string.Join("", string_to_reverse.Reverse());
+            return string.Join(string.Empty, string_to_reverse.Reverse());
         }
     }
 }

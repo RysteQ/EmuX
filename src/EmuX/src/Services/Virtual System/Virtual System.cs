@@ -1,4 +1,4 @@
-﻿using EmuX;
+﻿using EmuX.src.Enums.VM;
 
 public class VirtualSystem
 {
@@ -32,8 +32,6 @@ public class VirtualSystem
     {
         return this.call_stack;
     }
-
-    // memory getters
 
     public byte[] GetAllMemory()
     {
@@ -90,8 +88,8 @@ public class VirtualSystem
 
     public void PushByte(byte value_to_push)
     {
-        this.memory[this.registers[(int)Registers.Registers_ENUM.RSP]] = value_to_push;
-        this.registers[(int)Registers.Registers_ENUM.RSP]++;
+        this.memory[this.registers[(int)Registers.RSP]] = value_to_push;
+        this.registers[(int)Registers.RSP]++;
     }
 
     public void PushWord(ushort value_to_push)
@@ -114,8 +112,8 @@ public class VirtualSystem
 
     public byte PopByte()
     {
-        registers[(int)Registers.Registers_ENUM.RSP]--;
-        return this.memory[this.registers[(int)Registers.Registers_ENUM.RSP]];
+        registers[(int)Registers.RSP]--;
+        return this.memory[this.registers[(int)Registers.RSP]];
     }
 
     public ushort PopWord()
@@ -133,7 +131,7 @@ public class VirtualSystem
         return (PopDouble() << 32) + PopDouble();
     }
 
-    public byte GetRegisterByte(Registers.Registers_ENUM register_to_get, bool high_or_low)
+    public byte GetRegisterByte(Registers register_to_get, bool high_or_low)
     {
         if (high_or_low)
             return (byte)((ushort)registers[(int)register_to_get] >> 8);
@@ -141,17 +139,17 @@ public class VirtualSystem
         return (byte)this.registers[(int)register_to_get];
     }
 
-    public ushort GetRegisterWord(Registers.Registers_ENUM register_to_get)
+    public ushort GetRegisterWord(Registers register_to_get)
     {
         return (ushort)this.registers[(int)register_to_get];
     }
 
-    public uint GetRegisterDouble(Registers.Registers_ENUM register_to_get)
+    public uint GetRegisterDouble(Registers register_to_get)
     {
         return (uint)this.registers[(int)register_to_get];
     }
 
-    public ulong GetRegisterQuad(Registers.Registers_ENUM register_to_get)
+    public ulong GetRegisterQuad(Registers register_to_get)
     {
         return this.registers[(int)register_to_get];
     }
@@ -161,7 +159,7 @@ public class VirtualSystem
         return this.registers;
     }
 
-    public void SetRegisterByte(Registers.Registers_ENUM register_to_get, byte value, bool high_or_low)
+    public void SetRegisterByte(Registers register_to_get, byte value, bool high_or_low)
     {
         ulong value_to_set;
 
@@ -179,19 +177,19 @@ public class VirtualSystem
         this.registers[(int)register_to_get] = value_to_set;
     }
 
-    public void SetRegisterWord(Registers.Registers_ENUM register_to_get, ushort value)
+    public void SetRegisterWord(Registers register_to_get, ushort value)
     {
         ulong value_to_set = this.registers[(int)register_to_get] & 0xFFFFFFFFFFFF0000;
         this.registers[(int)register_to_get] = value_to_set + value;
     }
 
-    public void SetRegisterDouble(Registers.Registers_ENUM register_to_get, uint value)
+    public void SetRegisterDouble(Registers register_to_get, uint value)
     {
         ulong value_to_set = this.registers[(int)register_to_get] & 0xFFFFFFFF00000000;
         this.registers[(int)register_to_get] = value_to_set + value;
     }
 
-    public void SetRegisterQuad(Registers.Registers_ENUM register_to_get, ulong value)
+    public void SetRegisterQuad(Registers register_to_get, ulong value)
     {
         this.registers[(int)register_to_get] = value;
     }
@@ -246,7 +244,7 @@ public class VirtualSystem
     }
 
     // REGISTERS
-    private ulong[] registers = new ulong[(int)Registers.Registers_ENUM.LAST - 2];
+    private ulong[] registers = new ulong[(int)Registers.LAST - 2];
 
     // EFLAGS
     public uint EFLAGS;

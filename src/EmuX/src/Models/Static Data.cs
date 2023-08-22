@@ -1,12 +1,13 @@
-﻿namespace EmuX.src.Models
+﻿using Size = EmuX.src.Enums.Size;
+
+namespace EmuX.src.Models;
+
+public struct StaticData
 {
-    public class StaticData : SIZE
-    {
-        public string name = string.Empty;
-        public int memory_location;
-        public Size_ENUM size_in_bits;
-        public bool is_string_array;
-        public ulong value;
-        public List<char> characters = new List<char>();
-    }
+    public string name;
+    public int memory_location;
+    public Size size_in_bits;
+    public bool is_string_array;
+    public ulong value;
+    public List<char> characters;
 }

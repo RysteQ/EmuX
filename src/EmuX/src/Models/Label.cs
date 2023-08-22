@@ -1,20 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace EmuX.src.Models;
 
-namespace EmuX.src.Models
+public readonly struct Label
 {
-    public class Label
-    {
-        public Label(string name, int line)
-        {
-            this.name = name;
-            this.line = line;
-        }
-
-        public string name = string.Empty;
-        public int line;
-    }
+    public string name { get; init; }
+    public int line { get; init; }
 }

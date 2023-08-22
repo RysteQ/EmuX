@@ -51,7 +51,6 @@
             toolsToolStripMenuItem = new ToolStripMenuItem();
             converterToolStripMenuItem = new ToolStripMenuItem();
             aSCIITableToolStripMenuItem = new ToolStripMenuItem();
-            instructionsToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             GroupboxInput = new GroupBox();
             RichTextboxAssemblyCode = new RichTextBox();
@@ -315,7 +314,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { converterToolStripMenuItem, aSCIITableToolStripMenuItem, instructionsToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { converterToolStripMenuItem, aSCIITableToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(46, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -324,7 +323,7 @@
             // 
             converterToolStripMenuItem.Name = "converterToolStripMenuItem";
             converterToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.C;
-            converterToolStripMenuItem.Size = new Size(170, 22);
+            converterToolStripMenuItem.Size = new Size(180, 22);
             converterToolStripMenuItem.Text = "Converter";
             converterToolStripMenuItem.Click += converterToolStripMenuItem_Click;
             // 
@@ -332,17 +331,9 @@
             // 
             aSCIITableToolStripMenuItem.Name = "aSCIITableToolStripMenuItem";
             aSCIITableToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.A;
-            aSCIITableToolStripMenuItem.Size = new Size(170, 22);
+            aSCIITableToolStripMenuItem.Size = new Size(180, 22);
             aSCIITableToolStripMenuItem.Text = "ASCII Table";
             aSCIITableToolStripMenuItem.Click += aSCIITableToolStripMenuItem_Click;
-            // 
-            // instructionsToolStripMenuItem
-            // 
-            instructionsToolStripMenuItem.Name = "instructionsToolStripMenuItem";
-            instructionsToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.I;
-            instructionsToolStripMenuItem.Size = new Size(170, 22);
-            instructionsToolStripMenuItem.Text = "Instructions";
-            instructionsToolStripMenuItem.Click += instructionsToolStripMenuItem_Click;
             // 
             // aboutToolStripMenuItem
             // 
@@ -1513,7 +1504,6 @@
         private ToolStripMenuItem converterToolStripMenuItem;
         private ToolStripMenuItem aSCIITableToolStripMenuItem;
         private Button ButtonExecuteOnAnotherTab;
-        private ToolStripMenuItem instructionsToolStripMenuItem;
         private ToolStripMenuItem tabsToolStripMenuItem;
         private ToolStripMenuItem memoryToolStripMenuItem;
         private ToolStripMenuItem registersToolStripMenuItem;

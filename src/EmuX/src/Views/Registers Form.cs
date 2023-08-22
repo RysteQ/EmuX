@@ -56,13 +56,6 @@ namespace EmuX
                 TextBoxR15
             };
 
-            for (int i = 0; i < textbox_to_update.Length; i++)
-            {
-                textbox_to_update[i].Text = values_to_display[i].ToString();
-                textbox_to_update[i].BackColor = Color.White;
-            }
-
-            uint EFLAGS = this.virtual_system.EFLAGS;
             CheckBox[] checkboxes_to_update = new CheckBox[]
             {
                 CheckBoxCF,
@@ -85,6 +78,13 @@ namespace EmuX
             };
 
             uint[] masks = this.virtual_system.GetEFLAGSMasks();
+            uint EFLAGS = this.virtual_system.EFLAGS;
+
+            for (int i = 0; i < textbox_to_update.Length; i++)
+            {
+                textbox_to_update[i].Text = values_to_display[i].ToString();
+                textbox_to_update[i].BackColor = Color.White;
+            }
 
             for (int i = 0; i < checkboxes_to_update.Length; i++)
                 checkboxes_to_update[i].Checked = (EFLAGS & masks[i]) != 0;
@@ -158,8 +158,7 @@ namespace EmuX
                     EFLAGS_to_set += masks[i];
 
             this.virtual_system.EFLAGS = EFLAGS_to_set;
-
-            this.emulator.SetVirtualSystem(this.virtual_system);
+            this.emulator.VirtualSystem = this.virtual_system;
         }
 
         private VirtualSystem virtual_system;

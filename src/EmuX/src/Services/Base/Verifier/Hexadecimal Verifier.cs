@@ -1,21 +1,11 @@
-﻿using EmuX.src.Services.Base.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace EmuX.src.Services.Base.Verifier;
 
-namespace EmuX.src.Services.Base.Verifier
+public class HexadecimalVerifier
 {
-    public class Hexadecimal_Verifier : Hexadecimal
+    public static bool IsBase(string to_check)
     {
-        public static bool IsBase(string to_check)
-        {
-            foreach (char character in to_check.ToUpper())
-                if (valid_characters.Contains(character) == false)
-                    return false;
+        char[] chars = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
-            return true;
-        }
+        return to_check.ToUpper().Where(character => chars.Contains(character) == false).Any();
     }
 }

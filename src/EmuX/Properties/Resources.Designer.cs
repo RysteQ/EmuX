@@ -69,32 +69,5 @@ namespace EmuX.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to &lt;!DOCTYPE html&gt;
-        ///&lt;html&gt;
-        ///&lt;head&gt;
-        ///    &lt;style&gt;
-        ///        a {
-        ///            margin: 20px;
-        ///        }
-        ///    &lt;/style&gt;
-        ///&lt;/head&gt;
-        ///&lt;body&gt;
-        ///    &lt;table&gt;
-        ///        &lt;!-- Each &lt;tr&gt; will only have 8 instructions AKA eight &lt;td&gt;&lt;a&gt;INSSTRUCTION&lt;/a&gt;&lt;/td&gt; --&gt;
-        ///        &lt;tr&gt;
-        ///            &lt;td&gt;&lt;a href=&quot;#AAA&quot;&gt;AAA&lt;/a&gt;&lt;/td&gt;
-        ///            &lt;td&gt;&lt;a href=&quot;#AAD&quot;&gt;AAD&lt;/a&gt;&lt;/td&gt;
-        ///            &lt;td&gt;&lt;a href=&quot;#AAM&quot;&gt;AAM&lt;/a&gt;&lt;/td&gt;
-        ///            &lt;td&gt;&lt;a href=&quot;#AAS&quot;&gt;AAS&lt;/a&gt;&lt;/td&gt;
-        ///            &lt;td&gt;&lt;a href=&quot;#ADC&quot;&gt;ADC&lt;/a&gt;&lt;/td&gt;
-        ///            &lt;td&gt;&lt;a href=&quot;#ADD&quot;&gt;ADD&lt; [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string InstructionSetHtmlPage {
-            get {
-                return ResourceManager.GetString("InstructionSetHtmlPage", resourceCulture);
-            }
-        }
     }
 }

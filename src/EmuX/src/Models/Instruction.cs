@@ -1,19 +1,22 @@
-﻿namespace EmuX.src.Models
+﻿using EmuX.src.Enums.Instruction_Data;
+using EmuX.src.Enums.VM;
+using Size = EmuX.src.Enums.Size;
+
+namespace EmuX.src.Models;
+
+public struct Instruction
 {
-    public class Instruction
-    {
-        public Opcodes.Opcodes_ENUM opcode;
-        public Variants.Variants_ENUM variant;
-        public Registers.Registers_ENUM destination_register;
-        public Registers.Registers_ENUM source_register;
-        public Memory_Type.Memory_Type_ENUM destination_memory_type;
-        public Memory_Type.Memory_Type_ENUM source_memory_type;
-        public SIZE.Size_ENUM bit_mode;
-        public bool destination_pointer;
-        public bool source_pointer;
-        public string destination_memory_name = string.Empty;
-        public string source_memory_name = string.Empty;
-        public bool destination_high_or_low;
-        public bool source_high_or_low;
-    }
+    public Opcodes opcode;
+    public Variants variant;
+    public Registers destination_register;
+    public Registers source_register;
+    public MemoryType destination_memory_type;
+    public MemoryType source_memory_type;
+    public Size bit_mode;
+    public bool destination_pointer;
+    public bool source_pointer;
+    public string destination_memory_name;
+    public string source_memory_name;
+    public bool destination_high_or_low;
+    public bool source_high_or_low;
 }

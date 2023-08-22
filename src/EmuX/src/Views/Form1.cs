@@ -1,9 +1,10 @@
 using EmuX.Services;
 using EmuX.src.Models;
 using EmuX.src.Services.Analyzer;
-using EmuX.src.Services.Base_Converter;
+using EmuX.src.Services.Base.Converter;
 using EmuX.src.Services.Emulator;
 using EmuX.src.Views;
+using Label = EmuX.src.Models.Label;
 
 namespace EmuX
 {
@@ -16,13 +17,13 @@ namespace EmuX
 
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            openFD.FileName = "";
+            openFD.FileName = string.Empty;
             openFD.Filter = "Text file (*.txt)|*.txt|Assenbly file (*.asm)|*.asm|All files (*.*)|*.*";
 
             if (openFD.ShowDialog() == DialogResult.OK)
             {
                 RichTextboxAssemblyCode.Text = File.ReadAllText(openFD.FileName);
-                mainForm.ActiveForm.Text = openFD.FileName.Split('\\')[openFD.FileName.Split('\\').Length - 1] + " - EmuX";
+                Text = openFD.FileName.Split('\\')[openFD.FileName.Split('\\').Length - 1] + " - EmuX";
                 this.save_path = openFD.FileName;
 
                 UpdateOutput("Opened file " + this.save_path + " ...");
@@ -31,7 +32,7 @@ namespace EmuX
 
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            saveFD.FileName = "";
+            saveFD.FileName = string.Empty;
             saveFD.Filter = "Text file (*.txt)|*.txt|Assenbly file (*.asm)|*.asm|All files (*.*)|*.*";
 
             if (saveFD.ShowDialog() == DialogResult.OK)
@@ -76,36 +77,32 @@ namespace EmuX
 
         private bool AnalyzeInstructions()
         {
-            string code_to_analyze = RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n";
+            this.analyzer.AnalyzeInstructions(RichTextboxAssemblyCode.Text.TrimEnd('\n') + "\n");
 
-            this.analyzer.AnalyzeInstructions(code_to_analyze);
-
-            if (this.analyzer.AnalyzingSuccessful() == false)
+            if (this.analyzer.Successful == false)
             {
-                string error_line_text = this.analyzer.GetErrorLineData();
-                string error_message = "There was an error at line " + (this.analyzer.GetErrorLine() + 1).ToString() + "\nLine: " + error_line_text;
+                string error_message = $"There was an error at line {this.analyzer.ErrorLine + 1}\nError: {this.analyzer.ErrorMessage}";
 
                 MessageBox.Show(error_message, "Error - Analyzer", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 UpdateOutput(error_message);
-
                 return false;
             }
 
-            if (Instruction_Verifier.VerifyInstructions(this.analyzer.GetInstructions()) == false)
+            if (InstructionVerifier.VerifyInstructions(this.analyzer.Instructions) == false)
             {
                 MessageBox.Show("There was an error, invalid opcode / parameter combination", "Error - Verifier", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 UpdateOutput("There was an error, invalid opcode / parameter combination");
                 return false;
             }
 
-            List<Instruction> instructions = this.analyzer.GetInstructions();
-            List<StaticData> static_data = this.analyzer.GetStaticData();
-            List<src.Models.Label> labels = this.analyzer.GetLabelData();
+            List<Instruction> instructions = this.analyzer.Instructions;
+            List<StaticData> static_data = this.analyzer.StaticData;
+            List<Label> labels = this.analyzer.Labels;
 
             this.interrupt_handler.ResetInterrupt();
             this.assembly_analyzed = true;
 
-            this.emulator.SetVirtualSystem(this.virtual_system);
+            this.emulator.VirtualSystem = this.virtual_system;
             this.emulator.PrepareEmulator(instructions, static_data, labels);
 
             return true;
@@ -116,17 +113,14 @@ namespace EmuX
             if (CheckBoxResetVirtualSystemBeforeExecution.Checked)
                 this.virtual_system.Reset();
 
-            if (this.assembly_analyzed)
-            {
-                if (MessageBox.Show("The source code has not changed, analyze the source code again ?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (this.assembly_analyzed && MessageBox.Show("The source code has not changed, analyze the source code again ?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     AnalyzeInstructions();
-            }
             else
                 AnalyzeInstructions();
 
             ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
 
-            while (this.emulator.ErrorEncountered() == false && this.emulator.GetExit() == false && this.emulator.GetIndex() != this.emulator.GetInstructionCount())
+            while (this.emulator.Error == false && this.emulator.ExitFound == false && this.emulator.CurrentInstructionIndex != this.emulator.GetInstructionCount())
             {
                 this.emulator.Execute();
                 this.emulator.NextInstruction();
@@ -135,7 +129,7 @@ namespace EmuX
                 {
                     if (this.video_form.IsOpen() == false)
                     {
-                        this.video_form = new VideoForm();
+                        this.video_form = new();
 
                         this.video_form.InitVideo(this.interrupt_handler.GetVideoOutput().Width, this.interrupt_handler.GetVideoOutput().Height);
                         this.video_form.Show();
@@ -145,37 +139,35 @@ namespace EmuX
                     // ......
                     try
                     {
-                        this.interrupt_handler.SetVirtualSystem(this.emulator.GetVirtualSystem());
-                        this.interrupt_handler.SetInterrupt(this.emulator.GetInterrupt());
+                        this.interrupt_handler.VirtualSystem = this.emulator.VirtualSystem;
+                        this.interrupt_handler.Interrupt = this.emulator.Interrupt;
                         this.interrupt_handler.ExecuteInterrupt();
 
                         this.video_form.UpdateVideo(this.interrupt_handler.GetVideoOutput());
 
-                        this.emulator.SetVirtualSystem(this.interrupt_handler.GetVirtualSystem());
+                        this.emulator.VirtualSystem = this.interrupt_handler.VirtualSystem;
                         this.emulator.ResetInterrupt();
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show("There was an error in the interrupt handler\n\nError: " + ex.ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show($"There was an error in the interrupt handler\n\nError: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         break;
                     }
                 }
 
-                ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
+                ProgressBarExecutionProgress.Value = this.emulator.CurrentInstructionIndex;
             }
 
-            this.virtual_system = this.emulator.GetVirtualSystem();
+            this.virtual_system = this.emulator.VirtualSystem;
 
-            if (this.emulator.ErrorEncountered())
+            if (this.emulator.Error)
             {
-                string error_line_text = (this.emulator.GetIndex() + 1).ToString();
-
-                MessageBox.Show("An error was encountered at command " + (this.emulator.GetIndex() + 1).ToString(), "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                UpdateOutput("An error was encountered at command " + error_line_text);
+                MessageBox.Show($"An error was encountered at command {this.emulator.CurrentInstructionIndex + 1}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                UpdateOutput($"An error was encountered at command {this.emulator.CurrentInstructionIndex + 1}");
             }
 
             // update the progress bar if the HLT instruction was found or any other early exit conditions
-            if (this.emulator.GetExit())
+            if (this.emulator.ExitFound)
                 ProgressBarExecutionProgress.Value = ProgressBarExecutionProgress.Maximum;
 
             if (this.emulator.HasInstructions())
@@ -186,17 +178,11 @@ namespace EmuX
 
         private void EmuXTabControl_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (EmuXTabControl.SelectedIndex != 0)
-                ButtonExecuteOnAnotherTab.Visible = true;
-            else
-                ButtonExecuteOnAnotherTab.Visible = false;
+            ButtonExecuteOnAnotherTab.Visible = EmuXTabControl.SelectedIndex != 0;
 
             // this section is focused solely on the registers tab
             if (EmuXTabControl.SelectedIndex != 2)
                 return;
-
-            this.virtual_system = this.emulator.GetVirtualSystem();
-            ulong[] values_to_display = virtual_system.GetAllRegisterValues();
 
             TextBox[] textbox_to_update = new TextBox[]
             {
@@ -219,13 +205,6 @@ namespace EmuX
                 TextBoxR15
             };
 
-            for (int i = 0; i < textbox_to_update.Length; i++)
-            {
-                textbox_to_update[i].Text = values_to_display[i].ToString();
-                textbox_to_update[i].BackColor = Color.White;
-            }
-
-            uint EFLAGS = this.virtual_system.EFLAGS;
             CheckBox[] checkboxes_to_update = new CheckBox[]
             {
                 CheckBoxCF,
@@ -247,10 +226,20 @@ namespace EmuX
                 CheckBoxID
             };
 
+            this.virtual_system = this.emulator.VirtualSystem;
+
+            ulong[] values_to_display = virtual_system.GetAllRegisterValues();
+            uint EFLAGS = this.virtual_system.EFLAGS;
             uint[] masks = this.virtual_system.GetEFLAGSMasks();
 
             for (int i = 0; i < checkboxes_to_update.Length; i++)
                 checkboxes_to_update[i].Checked = (EFLAGS & masks[i]) != 0;
+
+            for (int i = 0; i < textbox_to_update.Length; i++)
+            {
+                textbox_to_update[i].Text = values_to_display[i].ToString();
+                textbox_to_update[i].BackColor = Color.White;
+            }
         }
 
         private void ButtonSearchMemoryRange_Click(object sender, EventArgs e)
@@ -260,12 +249,12 @@ namespace EmuX
             int start = 0;
             int end = 0;
 
-            if ((TextBoxMemoryRangeStart.Text.Trim() == "" && TextBoxMemoryRangeEnd.Text.Trim() == "") || ComboBoxMemoryRepresentation.SelectedIndex == -1)
+            if ((TextBoxMemoryRangeStart.Text.Trim() == string.Empty && TextBoxMemoryRangeEnd.Text.Trim() == string.Empty) || ComboBoxMemoryRepresentation.SelectedIndex == -1)
                 return;
 
             if (TextBoxMemoryRangeEnd.Text.Trim().Length != 0 && TextBoxMemoryRangeStart.Text.Trim().Length != 0)
             {
-                if (int.TryParse(TextBoxMemoryRangeEnd.Text, out end) == false || int.TryParse(TextBoxMemoryRangeStart.Text, out start) == false)
+                if ((int.TryParse(TextBoxMemoryRangeEnd.Text, out end) && int.TryParse(TextBoxMemoryRangeStart.Text, out start)) == false)
                 {
                     MessageBox.Show("Error converting memory range end to int", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
@@ -295,7 +284,6 @@ namespace EmuX
                 List<string> to_add = new();
                 to_add.Add((row * 8).ToString());
 
-                // check which representation the user wants
                 // 0 = decimal, 1 = binary and 2 = hexadecimal
                 switch (ComboBoxMemoryRepresentation.SelectedIndex)
                 {
@@ -307,13 +295,13 @@ namespace EmuX
 
                     case 1:
                         for (int column = 0; column < 8; column++)
-                            to_add.Add("0b" + BaseConverter.ConvertUlongToBinary(bytes_to_show[row * 8 + column]));
+                            to_add.Add("0b" + BinaryConverter.ConvertUlongToBase(bytes_to_show[row * 8 + column]));
 
                         break;
 
                     case 2:
                         for (int column = 0; column < 8; column++)
-                            to_add.Add("0x" + BaseConverter.ConvertUlongToHex(bytes_to_show[row * 8 + column]));
+                            to_add.Add("0x" + HexadecimalConverter.ConvertUlongToBase(bytes_to_show[row * 8 + column]));
 
                         break;
                 }
@@ -338,7 +326,7 @@ namespace EmuX
             bool valid_start_range = int.TryParse(TextBoxMemoryRangeStart.Text, out memory_start);
             bool valid_value = byte.TryParse(TextBoxMemoryValue.Text, out value_to_set);
 
-            if ((valid_end_range == false || valid_start_range == false || valid_value == false) && memory_end < memory_start)
+            if ((valid_end_range && valid_start_range && valid_value) == false && memory_end < memory_start)
             {
                 MessageBox.Show("Please enter a valid memory range / value to set the memory range at", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -418,7 +406,7 @@ namespace EmuX
                     EFLAGS_to_set += masks[i];
 
             this.virtual_system.EFLAGS = EFLAGS_to_set;
-            this.emulator.SetVirtualSystem(this.virtual_system);
+            this.emulator.VirtualSystem = this.virtual_system;
 
             UpdateDetachableWindows();
         }
@@ -473,19 +461,18 @@ namespace EmuX
             // count the labels as lines of code AKA instructions
             string[] lines_of_code = StringHandler.RemoveEmptyLines(
                 RichTextboxAssemblyCode.Text.Split("section.text")[1].Split('\n')
-                .Where(line => line.Trim().StartsWith(';') == false)
-                .ToArray());
+                .Where(line => line.Trim().StartsWith(';') == false).ToArray());
 
             ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
 
             // cheks if the instructions is within bounds
-            if (this.emulator.GetInstructionCount() != this.emulator.GetIndex())
+            if (this.emulator.GetInstructionCount() != this.emulator.CurrentInstructionIndex)
             {
                 this.emulator.Execute();
                 this.emulator.NextInstruction();
 
-                LabelCurrentInstruction.Text = "Current Instruction: " + lines_of_code[this.emulator.GetIndex() - 1];
-                ProgressBarExecutionProgress.Value = this.emulator.GetIndex();
+                LabelCurrentInstruction.Text = "Current Instruction: " + lines_of_code[this.emulator.CurrentInstructionIndex - 1];
+                ProgressBarExecutionProgress.Value = this.emulator.CurrentInstructionIndex;
 
                 UpdateOutput("Stepped");
             }
@@ -510,11 +497,6 @@ namespace EmuX
         private void aSCIITableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new ASCII_Table().Show();
-        }
-
-        private void instructionsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new Instruction_Set().Show();
         }
 
         private void UpdateOutput(string message_to_append)
@@ -547,12 +529,12 @@ namespace EmuX
                 switch (EmuXTabControl.SelectedIndex)
                 {
                     case 1:
-                        this.memory_form = new MemoryForm(ref this.virtual_system);
+                        this.memory_form = new(ref this.virtual_system);
                         this.memory_form.Show();
                         break;
 
                     case 2:
-                        this.registers_form = new Registers_Form(ref this.virtual_system, ref this.emulator);
+                        this.registers_form = new(ref this.virtual_system, ref this.emulator);
                         this.registers_form.Show();
                         break;
 
@@ -583,22 +565,19 @@ namespace EmuX
 
         private void UpdateDetachableWindows()
         {
-            if (this.registers_form != null)
-                if (this.registers_form.IsOpen())
-                    this.registers_form.SetVirtualSystem(this.virtual_system);
-
-
+            if (this.registers_form != null && this.registers_form.IsOpen())
+                this.registers_form.SetVirtualSystem(this.virtual_system);
         }
 
-        private Output_Form output_form = new Output_Form();
+        private Output_Form output_form = new();
         private Registers_Form registers_form;
         private MemoryForm memory_form;
 
-        private VideoForm video_form = new VideoForm();
-        private VirtualSystem virtual_system = new VirtualSystem();
-        private Analyzer analyzer = new Analyzer();
-        private Emulator emulator = new Emulator();
-        private Interrupt_Handler interrupt_handler = new Interrupt_Handler();
+        private VideoForm video_form = new();
+        private VirtualSystem virtual_system = new();
+        private Analyzer analyzer = new();
+        private Emulator emulator = new();
+        private Interrupt_Handler interrupt_handler = new();
         private string save_path = string.Empty;
         private bool assembly_analyzed = false;
     }
