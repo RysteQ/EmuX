@@ -1,6 +1,6 @@
 # Emux
 
-EmuX is a x86 emulator which gives the programmer the oppurtunity to write and execute x86 code and also debug the code or even modify the memory or registers of the system.
+EmuX is a x86 emulator which gives the programmer the oppurtunity to write and execute x86 code and also debug the code or even modify the memory or registers of the system. It supports almost every instruction of the original x86 instruction set.
 
 ![EmuX](/misc/EmuX%20screenshot.png)
 
@@ -8,7 +8,6 @@ Contents
 
 - [Emux](#emux)
   - [Memory Map](#memory-map)
-  - [Instructions](#instructions)
   - [Future Goals](#future-goals)
   
 ## Memory Map
@@ -19,12 +18,8 @@ Contents
 🟦 **(0x00400 - 0x02000)** General Purpose Memory <br>
 🟨 **(0x02000 - 0xC4E00)** Screen Memory <br>
 
-## Instructions
-
-EmuX supports almost every instruction of the original x86 instruction set, the supported instruction list and what each instruction does can be found in the application under the Tools -> Instruction Set section.
-
 ## Future Goals
 
-The future goals of this project of mine will be adding detachable tabs, having the option to actually compile your program as a .exe file and the ability to take a snapshot of the memory each time an instruction is executed for debugging purposes.
+The future goals of this project is having the option to actually compile your program as a .exe file and the ability to take a snapshot of the memory each time an instruction is executed for debugging purposes. Also, this might come first, making the UI look better with winforms since I have been thinking of using MAUI but I decided not to, it uses quite a bit of RAM.
 
-Also a lot, and I mean a **lot** of debugging.
+And of course, a lot, and I mean a **lot** of debugging.
