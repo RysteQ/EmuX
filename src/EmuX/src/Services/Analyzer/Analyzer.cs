@@ -148,7 +148,6 @@ public class Analyzer
         // the name of the static data
         StaticData_tokens[0] = StaticData_name.TrimEnd(':');
 
-        // check if the static data name is valid or not aka if the static data name is a register name or not
         if (RegisterVerifier.IsRegister(StaticData_tokens[0]))
         {
             AnalyzerError(line, StaticData_to_analyze);
@@ -225,7 +224,6 @@ public class Analyzer
             }
         }
 
-        // add the new static data to the list
         StaticData.Add(StaticData_to_add);
 
         return offset;
@@ -233,13 +231,7 @@ public class Analyzer
 
     private Instruction AssignLabelInstruction(Instruction instruction, string[] label_names, string label, int line)
     {
-        bool label_found = false;
-
-        for (int i = 0; i < label_names.Length; i++)
-            if (label_names[i] == label)
-                label_found = true;
-
-        if (label_found == false)
+        if (label_names.Where(label_name => label_name == label).Any() == false)
         {
             AnalyzerError(line, label);
             return instruction;
@@ -593,8 +585,8 @@ public class Analyzer
 
     private Registers GetRegister(string register_name)
     {
-        // the register types
-        Registers[] register_type = new Registers[] {
+        Registers[] register_type = new[] 
+        {
             Registers.RAX,
             Registers.RBX,
             Registers.RCX,
@@ -614,7 +606,6 @@ public class Analyzer
             Registers.R15
         };
 
-        // the lookup table
         string[][] register_lookup = new string[][]
         {
             new string[] { "RAX", "EAX", "AX", "AH", "AL" },
@@ -636,14 +627,11 @@ public class Analyzer
             new string[] { "R15", "R15D", "R15W", "R15B" }
         };
 
-        // goes through every element of the lookup table until it finds a match
-        // then it returns the register type
         for (int i = 0; i < register_lookup.Length; i++)
             foreach (string register_title in register_lookup[i])
                 if (register_title == register_name.ToUpper())
                     return register_type[i];
 
-        // return NoN if a match wasnt found
         return Registers.NoN;
     }
 
@@ -728,21 +716,18 @@ public class Analyzer
         ulong value;
         bool analyzed_Successfuly = ulong.TryParse(token_to_analyze, out value);
 
-        // check if the token is in hex
         if (token_to_analyze.ToUpper().EndsWith('H'))
         {
             value = HexadecimalConverter.ConvertBaseToUlong(token_to_analyze);
             analyzed_Successfuly = true;
         }
 
-        // check if the token is in binary
         if (token_to_analyze.ToUpper().EndsWith('B'))
         {
             value = BinaryConverter.ConvertBaseToUlong(token_to_analyze);
             analyzed_Successfuly = true;
         }
 
-        // check if the token is a character
         if (token_to_analyze.Length == 3 && token_to_analyze.StartsWith('\'') && token_to_analyze.EndsWith('\''))
         {
             value = token_to_analyze[1];
@@ -778,7 +763,7 @@ public class Analyzer
         private set => this.error_line = value;
     }
 
-    private string error_message;
+    private string error_message = string.Empty;
     public string ErrorMessage
     {
         get
@@ -796,7 +781,4 @@ public class Analyzer
     public List<StaticData> StaticData = new();
     public List<Label> Labels = new();
     public bool Successful;
-
-    private string[] StaticData_to_analyze = Array.Empty<string>();
-    private string[] Instructions_to_analyze = Array.Empty<string>();
 }

@@ -43,7 +43,7 @@ public class Emulator
         }
     }
 
-    public bool GetInterruptOccurance() => this.Interrupt.GetInterruptCode() != InterruptCode.NoN;
+    public bool GetInterruptOccurance() => this.Interrupt.interrupt_code != InterruptCode.NoN;
     
     public bool HasInstructions() => this.instructions.Count != 0;
 
@@ -57,7 +57,7 @@ public class Emulator
 
     public void ResetInterrupt()
     {
-        this.Interrupt.SetInterruptCode(InterruptCode.NoN);
+        this.Interrupt.interrupt_code = InterruptCode.NoN;
     }
 
     public void Execute()
@@ -191,7 +191,7 @@ public class Emulator
 
             case Opcodes.INT:
                 this.Interrupt.SetInterruptCode(destination_value);
-                this.Error = this.Interrupt.GetInterruptCode() == InterruptCode.NoN;
+                this.Error = this.Interrupt.interrupt_code == InterruptCode.NoN;
 
                 break;
 
@@ -711,11 +711,7 @@ public class Emulator
         }
     }
 
-    private bool GetFlag(EFLAGS flag)
-    {
-        return (this.VirtualSystem.EFLAGS & ((int) flag)) != 0;
-    }
-
+    private bool GetFlag(EFLAGS flag) => (this.VirtualSystem.EFLAGS & ((int) flag)) != 0;
 
     public VirtualSystem VirtualSystem = new();
     public Interrupt Interrupt = new();

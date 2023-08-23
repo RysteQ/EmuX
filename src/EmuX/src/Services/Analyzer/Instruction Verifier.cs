@@ -6,10 +6,7 @@ namespace EmuX.src.Services.Analyzer;
 
 public class InstructionVerifier
 {
-    public static bool VerifyInstructions(List<Instruction> instructions)
-    {
-        return instructions.Where(instruction => ContainsVariant(instruction) == false || ContainsBitmode(instruction) == false).Any() == false;
-    }
+    public static bool VerifyInstructions(List<Instruction> instructions) => instructions.Where(instruction => ContainsVariant(instruction) == false || ContainsBitmode(instruction) == false).Any() == false;
 
     private static bool ContainsVariant(Instruction instruction)
     {

@@ -12,7 +12,7 @@ public class HexadecimalConverter
             to_convert = to_convert >> 4;
         } while (to_convert > 0);
 
-        return new string(to_return.Reverse().ToArray());
+        return new(to_return.Reverse().ToArray());
     }
 
     public static ulong ConvertBaseToUlong(string to_convert)

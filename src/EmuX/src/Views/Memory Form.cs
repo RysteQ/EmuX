@@ -18,12 +18,12 @@ public partial class MemoryForm : Form
         int start = 0;
         int end = 0;
 
-        if ((TextBoxMemoryRangeStart.Text.Trim() == "" && TextBoxMemoryRangeEnd.Text.Trim() == "") || ComboBoxMemoryRepresentation.SelectedIndex == -1)
+        if ((TextBoxMemoryRangeStart.Text.Trim() == string.Empty && TextBoxMemoryRangeEnd.Text.Trim() == string.Empty) || ComboBoxMemoryRepresentation.SelectedIndex == -1)
             return;
 
         if (TextBoxMemoryRangeEnd.Text.Trim().Length != 0 && TextBoxMemoryRangeStart.Text.Trim().Length != 0)
         {
-            if (int.TryParse(TextBoxMemoryRangeEnd.Text, out end) == false || int.TryParse(TextBoxMemoryRangeStart.Text, out start) == false)
+            if ((int.TryParse(TextBoxMemoryRangeEnd.Text, out end) && int.TryParse(TextBoxMemoryRangeStart.Text, out start)) == false)
             {
                 MessageBox.Show("Error converting memory range end to int", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -40,7 +40,7 @@ public partial class MemoryForm : Form
         // init the data grid view
         DataGridViewMemory.Rows.Clear();
         DataGridViewMemory.Columns.Clear();
-        DataGridViewMemory.Columns.Add("empty", "");
+        DataGridViewMemory.Columns.Add("empty", string.Empty);
 
         for (int i = start; i < end; i++)
             bytes_to_show.Add(this.virtual_system.GetByteMemory(i));
@@ -96,7 +96,7 @@ public partial class MemoryForm : Form
         bool valid_start_range = int.TryParse(TextBoxMemoryRangeStart.Text, out memory_start);
         bool valid_value = byte.TryParse(TextBoxMemoryValue.Text, out value_to_set);
 
-        if ((valid_end_range == false || valid_start_range == false || valid_value == false) && memory_end < memory_start)
+        if ((valid_end_range && valid_start_range && valid_value) == false && memory_end < memory_start)
         {
             MessageBox.Show("Please enter a valid memory range / value to set the memory range at", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;

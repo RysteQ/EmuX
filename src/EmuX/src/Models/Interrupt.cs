@@ -51,15 +51,5 @@ public class Interrupt
         }
     }
 
-    public void SetInterruptCode(InterruptCode interrupt_code)
-    {
-        this.interrupt_code = interrupt_code;
-    }
-
-    public InterruptCode GetInterruptCode()
-    {
-        return interrupt_code;
-    }
-
-    private InterruptCode interrupt_code;
+    public InterruptCode interrupt_code;
 }

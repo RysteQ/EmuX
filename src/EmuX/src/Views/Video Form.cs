@@ -19,17 +19,12 @@ namespace EmuX
 
         private void VideoForm_Load(object sender, EventArgs e)
         {
-            this.is_open = true;
+            this.IsOpen = true;
         }
 
         private void VideoForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.is_open = false;
-        }
-
-        public bool IsOpen()
-        {
-            return this.is_open;
+            this.IsOpen = false;
         }
 
         public void InitVideo(int width, int height)
@@ -43,6 +38,6 @@ namespace EmuX
             this.PictureBoxVideoOutput.Image = video_to_set;
         }
 
-        private bool is_open = false;
+        public bool IsOpen = false;
     }
 }
