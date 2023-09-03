@@ -1,4 +1,4 @@
-﻿namespace EmuX.src.Enums.VM;
+﻿namespace EmuX.src.Enums.Emulators.VM;
 
 public enum Registers
 {

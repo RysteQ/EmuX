@@ -1,8 +1,8 @@
-﻿using EmuX.src.Enums.Instruction_Data;
-using EmuX.src.Enums.VM;
-using Size = EmuX.src.Enums.Size;
+﻿using EmuX.src.Enums.Emulators.VM;
+using EmuX.src.Enums.Instruction_Data;
+using Size = EmuX.src.Enums.Emulators.Size;
 
-namespace EmuX.src.Models;
+namespace EmuX.src.Models.Emulator;
 
 public struct Instruction
 {

@@ -85,5 +85,6 @@ public enum Opcodes
     XOR,
 
     LABEL,
+    MDUMP,
     NoN
 }

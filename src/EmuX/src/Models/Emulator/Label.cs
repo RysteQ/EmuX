@@ -1,4 +1,4 @@
-﻿namespace EmuX.src.Models;
+﻿namespace EmuX.src.Models.Emulator;
 
 public readonly struct Label
 {

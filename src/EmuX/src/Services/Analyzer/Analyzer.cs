@@ -1,12 +1,12 @@
 ﻿using EmuX.Services;
 using EmuX.src.Enums;
+using EmuX.src.Enums.Emulators.VM;
 using EmuX.src.Enums.Instruction_Data;
-using EmuX.src.Enums.VM;
-using EmuX.src.Models;
+using EmuX.src.Models.Emulator;
 using EmuX.src.Services.Base.Converter;
 using EmuX.src.Services.Base.Verifier;
-using Label = EmuX.src.Models.Label;
-using Size = EmuX.src.Enums.Size;
+using Label = EmuX.src.Models.Emulator.Label;
+using Size = EmuX.src.Enums.Emulators.Size;
 
 namespace EmuX.src.Services.Analyzer;
 
@@ -305,7 +305,8 @@ public class Analyzer
                     instruction.bit_mode = GetUserAssignedBitmode(tokens[1]);
 
                 instruction.destination_memory_type = MemoryType.ADDRESS;
-
+                instruction.destination_memory_name = tokens.Last().Trim('[', ']');
+                
                 break;
         }
 

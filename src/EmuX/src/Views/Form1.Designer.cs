@@ -51,6 +51,11 @@
             toolsToolStripMenuItem = new ToolStripMenuItem();
             converterToolStripMenuItem = new ToolStripMenuItem();
             aSCIITableToolStripMenuItem = new ToolStripMenuItem();
+            memoryDumpToolStripMenuItem = new ToolStripMenuItem();
+            examplesToolStripMenuItem = new ToolStripMenuItem();
+            helloWorldToolStripMenuItem = new ToolStripMenuItem();
+            helloFilesToolStripMenuItem = new ToolStripMenuItem();
+            helloGraphicsToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             GroupboxInput = new GroupBox();
             RichTextboxAssemblyCode = new RichTextBox();
@@ -175,7 +180,7 @@
             // mainMenuStrip
             // 
             mainMenuStrip.ImageScalingSize = new Size(24, 24);
-            mainMenuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, textToolStripMenuItem, tabsToolStripMenuItem, toolsToolStripMenuItem, aboutToolStripMenuItem });
+            mainMenuStrip.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, textToolStripMenuItem, tabsToolStripMenuItem, toolsToolStripMenuItem, examplesToolStripMenuItem, aboutToolStripMenuItem });
             mainMenuStrip.Location = new Point(0, 0);
             mainMenuStrip.Name = "mainMenuStrip";
             mainMenuStrip.Size = new Size(644, 24);
@@ -314,7 +319,7 @@
             // 
             // toolsToolStripMenuItem
             // 
-            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { converterToolStripMenuItem, aSCIITableToolStripMenuItem });
+            toolsToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { converterToolStripMenuItem, aSCIITableToolStripMenuItem, memoryDumpToolStripMenuItem });
             toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             toolsToolStripMenuItem.Size = new Size(46, 20);
             toolsToolStripMenuItem.Text = "Tools";
@@ -323,7 +328,7 @@
             // 
             converterToolStripMenuItem.Name = "converterToolStripMenuItem";
             converterToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.C;
-            converterToolStripMenuItem.Size = new Size(180, 22);
+            converterToolStripMenuItem.Size = new Size(196, 22);
             converterToolStripMenuItem.Text = "Converter";
             converterToolStripMenuItem.Click += converterToolStripMenuItem_Click;
             // 
@@ -331,9 +336,45 @@
             // 
             aSCIITableToolStripMenuItem.Name = "aSCIITableToolStripMenuItem";
             aSCIITableToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.A;
-            aSCIITableToolStripMenuItem.Size = new Size(180, 22);
+            aSCIITableToolStripMenuItem.Size = new Size(196, 22);
             aSCIITableToolStripMenuItem.Text = "ASCII Table";
             aSCIITableToolStripMenuItem.Click += aSCIITableToolStripMenuItem_Click;
+            // 
+            // memoryDumpToolStripMenuItem
+            // 
+            memoryDumpToolStripMenuItem.Name = "memoryDumpToolStripMenuItem";
+            memoryDumpToolStripMenuItem.ShortcutKeys = Keys.Alt | Keys.M;
+            memoryDumpToolStripMenuItem.Size = new Size(196, 22);
+            memoryDumpToolStripMenuItem.Text = "Memory Dump";
+            memoryDumpToolStripMenuItem.Click += memoryDumpToolStripMenuItem_Click;
+            // 
+            // examplesToolStripMenuItem
+            // 
+            examplesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { helloWorldToolStripMenuItem, helloFilesToolStripMenuItem, helloGraphicsToolStripMenuItem });
+            examplesToolStripMenuItem.Name = "examplesToolStripMenuItem";
+            examplesToolStripMenuItem.Size = new Size(69, 20);
+            examplesToolStripMenuItem.Text = "Examples";
+            // 
+            // helloWorldToolStripMenuItem
+            // 
+            helloWorldToolStripMenuItem.Name = "helloWorldToolStripMenuItem";
+            helloWorldToolStripMenuItem.Size = new Size(180, 22);
+            helloWorldToolStripMenuItem.Text = "Hello World";
+            helloWorldToolStripMenuItem.Click += helloWorldToolStripMenuItem_Click;
+            // 
+            // helloFilesToolStripMenuItem
+            // 
+            helloFilesToolStripMenuItem.Name = "helloFilesToolStripMenuItem";
+            helloFilesToolStripMenuItem.Size = new Size(180, 22);
+            helloFilesToolStripMenuItem.Text = "Hello Files";
+            helloFilesToolStripMenuItem.Click += helloFilesToolStripMenuItem_Click;
+            // 
+            // helloGraphicsToolStripMenuItem
+            // 
+            helloGraphicsToolStripMenuItem.Name = "helloGraphicsToolStripMenuItem";
+            helloGraphicsToolStripMenuItem.Size = new Size(180, 22);
+            helloGraphicsToolStripMenuItem.Text = "Hello Graphics";
+            helloGraphicsToolStripMenuItem.Click += helloGraphicsToolStripMenuItem_Click;
             // 
             // aboutToolStripMenuItem
             // 
@@ -361,7 +402,6 @@
             RichTextboxAssemblyCode.Size = new Size(384, 214);
             RichTextboxAssemblyCode.TabIndex = 0;
             RichTextboxAssemblyCode.Text = "; the static data goes here\n; for example\n; number_ten: db 10\n\nsection.text\n\n; the instructions go here\n; for example\n; mov al, byte [number_ten]\n; inc byte al";
-            RichTextboxAssemblyCode.TextChanged += RichTextboxAssemblyCode_TextChanged;
             // 
             // GroupboxControls
             // 
@@ -1510,5 +1550,10 @@
         private System.Windows.Forms.Timer refreshVideoFormTimer;
         private ToolStripMenuItem outputToolStripMenuItem;
         private CheckBox CheckBoxResetVirtualSystemBeforeExecution;
+        private ToolStripMenuItem memoryDumpToolStripMenuItem;
+        private ToolStripMenuItem examplesToolStripMenuItem;
+        private ToolStripMenuItem helloWorldToolStripMenuItem;
+        private ToolStripMenuItem helloFilesToolStripMenuItem;
+        private ToolStripMenuItem helloGraphicsToolStripMenuItem;
     }
 }

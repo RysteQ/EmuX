@@ -1,14 +1,15 @@
-﻿using EmuX.src.Enums.Instruction_Data;
-using EmuX.src.Enums.VM;
-using EmuX.src.Models;
-using Label = EmuX.src.Models.Label;
-using Size = EmuX.src.Enums.Size;
+﻿using EmuX.src.Enums.Emulators.VM;
+using EmuX.src.Enums.Instruction_Data;
+using EmuX.src.Models.Application;
+using EmuX.src.Models.Emulator;
+using Label = EmuX.src.Models.Emulator.Label;
+using Size = EmuX.src.Enums.Emulators.Size;
 
 namespace EmuX.src.Services.Emulator;
 
 public class Emulator
 {
-    public void PrepareEmulator(List<Instruction> instructions, List<StaticData> static_data, List<Models.Label> labels)
+    public void PrepareEmulator(List<Instruction> instructions, List<StaticData> static_data, List<Label> labels)
     {
         this.instructions = instructions;
         this.static_data = static_data;
@@ -18,32 +19,15 @@ public class Emulator
         this.Error = false;
         this.ExitFound = false;
 
+        this.memory_indexes.Clear();
+        this.mdump_enabled = this.instructions.Select(instruction => instruction.opcode).Where(opcode => opcode == Opcodes.MDUMP).Any();
+
         InitStaticData();
     }
 
-    private void InitStaticData()
-    {
-        foreach (StaticData to_init in this.static_data)
-        {
-            switch (to_init.size_in_bits)
-            {
-                case Size._8_BIT:
-                    if (to_init.is_string_array)
-                        for (int char_index = 0; char_index < to_init.characters.Count; char_index++)
-                            this.VirtualSystem.SetByteMemory(to_init.memory_location + char_index, (byte)to_init.characters[char_index]);
-                    else
-                        this.VirtualSystem.SetByteMemory(to_init.memory_location, (byte)to_init.value);
+    public void SetMDumpPreferences(MDump memory_dump_preferences) => this.memory_dumper.MemoryDumpPreference = memory_dump_preferences;
 
-                    break;
-
-                case Size._16_BIT: this.VirtualSystem.SetWordMemory(to_init.memory_location, (ushort)to_init.value); break;
-                case Size._32_BIT: this.VirtualSystem.SetDoubleMemory(to_init.memory_location, (uint)to_init.value); break;
-                case Size._64_BIT: this.VirtualSystem.SetQuadMemory(to_init.memory_location, to_init.value); break;
-            }
-        }
-    }
-
-    public bool GetInterruptOccurance() => this.Interrupt.interrupt_code != InterruptCode.NoN;
+    public bool VideoInterruptOccured() => ((int)this.Interrupt.interrupt_code) < 15;
     
     public bool HasInstructions() => this.instructions.Count != 0;
 
@@ -72,10 +56,10 @@ public class Emulator
         if (instruction_to_execute.opcode == Opcodes.LABEL)
             return;
 
-        ulong destination_value = AnalyzeInstructionDestination(instruction_to_execute, this.VirtualSystem);
-        ulong source_value = AnalyzeInstructionSource(instruction_to_execute, this.VirtualSystem);
-        int to_return_to = 0;
+        ulong destination_value = AnalyzeInstructionDestination(instruction_to_execute);
+        ulong source_value = AnalyzeInstructionSource(instruction_to_execute);
         int destination_memory_index = GetMemoryIndex(instruction_to_execute, instruction_to_execute.destination_memory_name);
+        int to_return_to = 0;
         int index_to_jump_to = 0;
 
         if (this.Error)
@@ -543,20 +527,47 @@ public class Emulator
                 SetValue(instruction_to_execute, destination_memory_index, actions.XOR(destination_value, source_value));
                 break;
 
+            case Opcodes.MDUMP:
+                this.memory_dumper.Dump(this.VirtualSystem, this.memory_indexes);
+                this.memory_indexes.Clear();
+                break;
+
             default:
                 break;
         }
     }
 
-    private int GetMemoryIndex(Instruction instruction, string label_name_to_find)
+    private void InitStaticData()
+    {
+        foreach (StaticData to_init in this.static_data)
+        {
+            switch (to_init.size_in_bits)
+            {
+                case Size._8_BIT:
+                    if (to_init.is_string_array)
+                        for (int char_index = 0; char_index < to_init.characters.Count; char_index++)
+                            this.VirtualSystem.SetByteMemory(to_init.memory_location + char_index, (byte)to_init.characters[char_index]);
+                    else
+                        this.VirtualSystem.SetByteMemory(to_init.memory_location, (byte)to_init.value);
+
+                    break;
+
+                case Size._16_BIT: this.VirtualSystem.SetWordMemory(to_init.memory_location, (ushort)to_init.value); break;
+                case Size._32_BIT: this.VirtualSystem.SetDoubleMemory(to_init.memory_location, (uint)to_init.value); break;
+                case Size._64_BIT: this.VirtualSystem.SetQuadMemory(to_init.memory_location, to_init.value); break;
+            }
+        }
+    }
+
+    private int GetMemoryIndex(Instruction instruction, string static_data_to_find)
     {
         // check if the destination is a register pointer
         if (instruction.destination_pointer)
             return (int)this.VirtualSystem.GetRegisterQuad(instruction.destination_register);
 
-        foreach (Label label in this.labels)
-            if (label.name == label_name_to_find)
-                return label.line;
+        foreach (StaticData static_data in this.static_data)
+            if (static_data.name == static_data_to_find)
+                return static_data.memory_location;
 
         return -1;
     }
@@ -591,9 +602,12 @@ public class Emulator
             case Size._32_BIT: this.VirtualSystem.SetDoubleMemory(memory_index, (uint)value_to_set); break;
             case Size._64_BIT: this.VirtualSystem.SetQuadMemory(memory_index, value_to_set); break;
         }
+
+        if (this.mdump_enabled)
+            this.memory_indexes.Add(memory_index);
     }
 
-    private ulong AnalyzeInstructionDestination(Instruction instruction, VirtualSystem VirtualSystem)
+    private ulong AnalyzeInstructionDestination(Instruction instruction)
     {
         switch (instruction.variant)
         {
@@ -645,7 +659,7 @@ public class Emulator
         return 0;
     }
 
-    private ulong AnalyzeInstructionSource(Instruction instruction, VirtualSystem VirtualSystem)
+    private ulong AnalyzeInstructionSource(Instruction instruction)
     {
         if (new Variants[] {
             Variants.SINGLE,
@@ -718,6 +732,10 @@ public class Emulator
     public int CurrentInstructionIndex;
     public bool Error;
     public bool ExitFound;
+
+    private MemoryDumper memory_dumper = new();
+    private List<int> memory_indexes = new();
+    private bool mdump_enabled = false;
 
     private List<Instruction> instructions = new();
     private List<StaticData> static_data = new();

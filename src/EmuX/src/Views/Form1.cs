@@ -1,10 +1,11 @@
 using EmuX.Services;
-using EmuX.src.Models;
+using EmuX.src.Models.Application;
+using EmuX.src.Models.Emulator;
 using EmuX.src.Services.Analyzer;
 using EmuX.src.Services.Base.Converter;
 using EmuX.src.Services.Emulator;
 using EmuX.src.Views;
-using Label = EmuX.src.Models.Label;
+using Label = EmuX.src.Models.Emulator.Label;
 
 namespace EmuX;
 
@@ -100,7 +101,7 @@ public partial class mainForm : Form
         List<Label> labels = this.analyzer.Labels;
 
         this.interrupt_handler.ResetInterrupt();
-        this.assembly_analyzed = true;
+        this.memory_dump_enabled = instructions.Select(instruction => instruction.opcode).Where(opcode => opcode == src.Enums.Instruction_Data.Opcodes.MDUMP).Any();
 
         this.emulator.VirtualSystem = this.virtual_system;
         this.emulator.PrepareEmulator(instructions, static_data, labels);
@@ -113,19 +114,17 @@ public partial class mainForm : Form
         if (CheckBoxResetVirtualSystemBeforeExecution.Checked)
             this.virtual_system.Reset();
 
-        if (this.assembly_analyzed && MessageBox.Show("The source code has not changed, analyze the source code again ?", "Information", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                AnalyzeInstructions();
-        else
-            AnalyzeInstructions();
+        AnalyzeInstructions();
 
         ProgressBarExecutionProgress.Maximum = this.emulator.GetInstructionCount();
+        this.emulator.SetMDumpPreferences(this.memory_dump_preferences);
 
         while (this.emulator.Error == false && this.emulator.ExitFound == false && this.emulator.CurrentInstructionIndex != this.emulator.GetInstructionCount())
         {
             this.emulator.Execute();
             this.emulator.NextInstruction();
 
-            if (this.emulator.GetInterruptOccurance())
+            if (this.emulator.VideoInterruptOccured())
             {
                 if (this.video_form.IsOpen == false)
                 {
@@ -172,6 +171,9 @@ public partial class mainForm : Form
 
         if (this.emulator.HasInstructions())
             UpdateOutput("Execution Completed...");
+
+        if (this.memory_dump_enabled)
+            UpdateOutput($"Memory Dump Created At {Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}...");
 
         UpdateDetachableWindows();
     }
@@ -454,9 +456,8 @@ public partial class mainForm : Form
 
     private void ButtonNextInstruction_Click(object sender, EventArgs e)
     {
-        if (this.assembly_analyzed == false)
-            if (AnalyzeInstructions() == false)
-                return;
+        if (AnalyzeInstructions() == false)
+            return;
 
         // count the labels as lines of code AKA instructions
         string[] lines_of_code = StringHandler.RemoveEmptyLines(
@@ -560,26 +561,44 @@ public partial class mainForm : Form
         this.output_form.Show();
     }
 
-    private void RichTextboxAssemblyCode_TextChanged(object sender, EventArgs e)
-    {
-        this.assembly_analyzed = false;
-    }
-
     private void UpdateDetachableWindows()
     {
         if (this.registers_form != null && this.registers_form.IsOpen)
             this.registers_form.SetVirtualSystem(this.virtual_system);
     }
 
+    private void memoryDumpToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        this.memory_dump_form = new(this.memory_dump_preferences);
+        this.memory_dump_form.Show();
+    }
+
+    private void helloWorldToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // TODO
+    }
+
+    private void helloFilesToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // TODO
+    }
+
+    private void helloGraphicsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // TODO
+    }
+
     private Output_Form output_form = new();
     private Registers_Form registers_form;
     private MemoryForm memory_form;
+    private MemoryDumpForm memory_dump_form;
 
     private VideoForm video_form = new();
     private VirtualSystem virtual_system = new();
     private Analyzer analyzer = new();
     private Emulator emulator = new();
     private Interrupt_Handler interrupt_handler = new();
+    private MDump memory_dump_preferences = new();
     private string save_path = string.Empty;
-    private bool assembly_analyzed = false;
+    private bool memory_dump_enabled = false;
 }

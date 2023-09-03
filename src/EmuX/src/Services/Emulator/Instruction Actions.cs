@@ -1,7 +1,6 @@
-﻿using Size = EmuX.src.Enums.Size;
-
-using EmuX.src.Models;
-using EmuX.src.Enums.VM;
+﻿using Size = EmuX.src.Enums.Emulators.Size;
+using EmuX.src.Enums.Emulators.VM;
+using EmuX.src.Models.Emulator;
 
 namespace EmuX.src.Services.Emulator;
 
@@ -76,9 +75,9 @@ public class InstructionActions
         return toReturn;
     }
 
-    public (bool, int) CALL(List<Models.Label> labels, string label_to_find)
+    public (bool, int) CALL(List<Models.Emulator.Label> labels, string label_to_find)
     {
-        foreach (Models.Label label in labels)
+        foreach (Models.Emulator.Label label in labels)
             if (label.name == label_to_find)
                 return (true, label.line);
 
@@ -262,299 +261,299 @@ public class InstructionActions
         return value_to_increment + 1;
     }
 
-    public int JA(List<Models.Label> labels, string label_to_jump_to, bool cf_flag_status, bool zf_flag_status)
+    public int JA(List<Models.Emulator.Label> labels, string label_to_jump_to, bool cf_flag_status, bool zf_flag_status)
     {
         if ((cf_flag_status || zf_flag_status) == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JAE(List<Models.Label> labels, string label_to_jump_to, bool cf_flag_status)
+    public int JAE(List<Models.Emulator.Label> labels, string label_to_jump_to, bool cf_flag_status)
     {
         if (cf_flag_status == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JB(List<Models.Label> labels, string label_to_jump_to, bool cf_flag_status)
+    public int JB(List<Models.Emulator.Label> labels, string label_to_jump_to, bool cf_flag_status)
     {
         if (cf_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JBE(List<Models.Label> labels, string label_to_jump_to, bool cf_flag_status, bool zf_flag_status)
+    public int JBE(List<Models.Emulator.Label> labels, string label_to_jump_to, bool cf_flag_status, bool zf_flag_status)
     {
         if (cf_flag_status&& zf_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JC(List<Models.Label> labels, string label_to_jump_to, bool cf_flag_status)
+    public int JC(List<Models.Emulator.Label> labels, string label_to_jump_to, bool cf_flag_status)
     {
         if (cf_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JE(List<Models.Label> labels, string label_to_jump_to, bool zf_flag_status)
+    public int JE(List<Models.Emulator.Label> labels, string label_to_jump_to, bool zf_flag_status)
     {
         if (zf_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JG(List<Models.Label> labels, string label_to_jump_to, bool zf_flag_status, bool sf_flag_status, bool of_status_flag)
+    public int JG(List<Models.Emulator.Label> labels, string label_to_jump_to, bool zf_flag_status, bool sf_flag_status, bool of_status_flag)
     {
         if (zf_flag_status == false || sf_flag_status == of_status_flag)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JGE(List<Models.Label> labels, string label_to_jump_to, bool sf_flag_status, bool of_flag_status)
+    public int JGE(List<Models.Emulator.Label> labels, string label_to_jump_to, bool sf_flag_status, bool of_flag_status)
     {
         if (sf_flag_status == of_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JL(List<Models.Label> labels, string label_to_jump_to, bool sf_flag_status, bool of_flag_status)
+    public int JL(List<Models.Emulator.Label> labels, string label_to_jump_to, bool sf_flag_status, bool of_flag_status)
     {
         if (sf_flag_status != of_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNA(List<Models.Label> labels, string label_to_jump_to, bool cf_flag_status, bool zf_flag_status)
+    public int JNA(List<Models.Emulator.Label> labels, string label_to_jump_to, bool cf_flag_status, bool zf_flag_status)
     {
         if (cf_flag_status && zf_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNAE(List<Models.Label> labels, string label_to_jump_to, bool cf_flag_status)
+    public int JNAE(List<Models.Emulator.Label> labels, string label_to_jump_to, bool cf_flag_status)
     {
         if (cf_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNB(List<Models.Label> labels, string label_to_jump_to, bool cf_flag_status)
+    public int JNB(List<Models.Emulator.Label> labels, string label_to_jump_to, bool cf_flag_status)
     {
         if (cf_flag_status == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNBE(List<Models.Label> labels, string label_to_jump_to, bool cf_flag_status, bool zf_flag_status)
+    public int JNBE(List<Models.Emulator.Label> labels, string label_to_jump_to, bool cf_flag_status, bool zf_flag_status)
     {
         if ((cf_flag_status || zf_flag_status) == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNC(List<Models.Label> labels, string label_to_jump_to, bool cf_flag_status)
+    public int JNC(List<Models.Emulator.Label> labels, string label_to_jump_to, bool cf_flag_status)
     {
         if (cf_flag_status == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNE(List<Models.Label> labels, string label_to_jump_to, bool zf_flag_status)
+    public int JNE(List<Models.Emulator.Label> labels, string label_to_jump_to, bool zf_flag_status)
     {
         if (zf_flag_status == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNG(List<Models.Label> labels, string label_to_jump_to, bool zf_flag_status, bool sf_flag_status, bool of_flag_status)
+    public int JNG(List<Models.Emulator.Label> labels, string label_to_jump_to, bool zf_flag_status, bool sf_flag_status, bool of_flag_status)
     {
         if (zf_flag_status && sf_flag_status != of_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNGE(List<Models.Label> labels, string label_to_jump_to, bool sf_flag_status, bool of_flag_status)
+    public int JNGE(List<Models.Emulator.Label> labels, string label_to_jump_to, bool sf_flag_status, bool of_flag_status)
     {
         if (sf_flag_status != of_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNL(List<Models.Label> labels, string label_to_jump_to, bool sf_flag_status, bool of_flag_status)
+    public int JNL(List<Models.Emulator.Label> labels, string label_to_jump_to, bool sf_flag_status, bool of_flag_status)
     {
         if (sf_flag_status == of_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNLE(List<Models.Label> labels, string label_to_jump_to, bool zf_status_flag, bool sf_flag_status, bool of_flag_status)
+    public int JNLE(List<Models.Emulator.Label> labels, string label_to_jump_to, bool zf_status_flag, bool sf_flag_status, bool of_flag_status)
     {
         if (zf_status_flag == false || sf_flag_status == of_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNO(List<Models.Label> labels, string label_to_jump_to, bool of_flag_status)
+    public int JNO(List<Models.Emulator.Label> labels, string label_to_jump_to, bool of_flag_status)
     {
         if (of_flag_status == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNP(List<Models.Label> labels, string label_to_jump_to, bool pf_flag_status)
+    public int JNP(List<Models.Emulator.Label> labels, string label_to_jump_to, bool pf_flag_status)
     {
         if (pf_flag_status == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNS(List<Models.Label> labels, string label_to_jump_to, bool sf_flag_status)
+    public int JNS(List<Models.Emulator.Label> labels, string label_to_jump_to, bool sf_flag_status)
     {
         if (sf_flag_status == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JNZ(List<Models.Label> labels, string label_to_jump_to, bool zf_flag_status)
+    public int JNZ(List<Models.Emulator.Label> labels, string label_to_jump_to, bool zf_flag_status)
     {
         if (zf_flag_status == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JO(List<Models.Label> labels, string label_to_jump_to, bool of_flag_status)
+    public int JO(List<Models.Emulator.Label> labels, string label_to_jump_to, bool of_flag_status)
     {
         if (of_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JP(List<Models.Label> labels, string label_to_jump_to, bool pf_flag_status)
+    public int JP(List<Models.Emulator.Label> labels, string label_to_jump_to, bool pf_flag_status)
     {
         if (pf_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JPE(List<Models.Label> labels, string label_to_jump_to, bool pf_flag_status)
+    public int JPE(List<Models.Emulator.Label> labels, string label_to_jump_to, bool pf_flag_status)
     {
         if (pf_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JPO(List<Models.Label> labels, string label_to_jump_to, bool pf_flag_status)
+    public int JPO(List<Models.Emulator.Label> labels, string label_to_jump_to, bool pf_flag_status)
     {
         if (pf_flag_status == false)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JS(List<Models.Label> labels, string label_to_jump_to, bool sf_flag_status)
+    public int JS(List<Models.Emulator.Label> labels, string label_to_jump_to, bool sf_flag_status)
     {
         if (sf_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JZ(List<Models.Label> labels, string label_to_jump_to, bool zf_flag_status)
+    public int JZ(List<Models.Emulator.Label> labels, string label_to_jump_to, bool zf_flag_status)
     {
         if (zf_flag_status)
-            foreach (Models.Label label in labels)
+            foreach (Models.Emulator.Label label in labels)
                 if (label.name == label_to_jump_to)
                     return label.line;
 
         return -1;
     }
 
-    public int JMP(List<Models.Label> labels, string label_to_jump_to)
+    public int JMP(List<Models.Emulator.Label> labels, string label_to_jump_to)
     {
-        foreach (Models.Label label in labels)
+        foreach (Models.Emulator.Label label in labels)
             if (label.name == label_to_jump_to)
                 return label.line;
 

@@ -1,7 +1,7 @@
 ﻿using EmuX.src.Enums;
-using EmuX.src.Enums.VM;
+using EmuX.src.Enums.Emulators.VM;
 
-namespace EmuX.src.Models;
+namespace EmuX.src.Models.Emulator;
 
 public class Interrupt
 {
@@ -51,5 +51,5 @@ public class Interrupt
         }
     }
 
-    public InterruptCode interrupt_code;
+    public InterruptCode interrupt_code = InterruptCode.NoN;
 }

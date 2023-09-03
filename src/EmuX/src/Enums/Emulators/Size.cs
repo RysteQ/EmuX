@@ -1,4 +1,4 @@
-﻿namespace EmuX.src.Enums;
+﻿namespace EmuX.src.Enums.Emulators;
 
 public enum Size
 {

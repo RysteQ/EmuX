@@ -28,6 +28,8 @@ public class Instruction_Groups
         Opcodes.STC,
         Opcodes.STD,
         Opcodes.STI,
+
+        Opcodes.MDUMP
     };
 
     public readonly static Opcodes[] one_label = new Opcodes[]
@@ -100,12 +102,5 @@ public class Instruction_Groups
         Opcodes.SHR,
         Opcodes.SUB,
         Opcodes.XOR
-    };
-
-    public enum InstructionGroupEnum
-    {
-        NO_OPERANDS,
-        ONE_OPERAND,
-        TWO_OPERANDS
     };
 }

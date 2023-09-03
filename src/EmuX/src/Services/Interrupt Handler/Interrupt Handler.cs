@@ -1,5 +1,5 @@
-﻿using EmuX.src.Enums.VM;
-using EmuX.src.Models;
+﻿using EmuX.src.Enums.Emulators.VM;
+using EmuX.src.Models.Emulator;
 using EmuX.src.Services.Interrupt_Handler;
 
 namespace EmuX;

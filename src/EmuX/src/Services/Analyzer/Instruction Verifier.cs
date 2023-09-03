@@ -1,6 +1,6 @@
 ﻿using EmuX.src.Enums.Instruction_Data;
-using EmuX.src.Models;
-using Size = EmuX.src.Enums.Size;
+using EmuX.src.Models.Emulator;
+using Size = EmuX.src.Enums.Emulators.Size;
 
 namespace EmuX.src.Services.Analyzer;
 
@@ -10,20 +10,20 @@ public class InstructionVerifier
 
     private static bool ContainsVariant(Instruction instruction)
     {
-        if (instruction.opcode == Opcodes.LABEL)
-            return true;
-
         Variants[] specific_instruction_variants = Allowed_Instruction_Variants.AllInstructionVariants()[(int)instruction.opcode];
+
+        if (specific_instruction_variants.First() == Variants.NoN)
+            return true;
 
         return specific_instruction_variants.Contains(instruction.variant);
     }
 
     private static bool ContainsBitmode(Instruction instruction)
     {
-        if (instruction.opcode == Opcodes.LABEL)
-            return true;
-
         Size[] specific_instruction_bitmodes = Allowed_Instruction_Bitmodes.AllAllowedBitmodes()[(int)instruction.opcode];
+        
+        if (specific_instruction_bitmodes.First() == Size.NoN)
+            return true;
 
         return specific_instruction_bitmodes.Contains(instruction.bit_mode);
     }
@@ -116,7 +116,8 @@ public class Allowed_Instruction_Variants
             STI_ALLOWED_VARIANTS,
             SUB_ALLOWED_VARIANTS,
             XOR_ALLOWED_VARIANTS,
-            LABEL_ALLOWED_VARIANTS
+            LABEL_ALLOWED_VARIANTS,
+            MDUMP_ALLOWED_VARIANTS
         };
 
         return toReturn;
@@ -608,6 +609,11 @@ public class Allowed_Instruction_Variants
     {
         Variants.NoN
     };
+
+    private static readonly Variants[] MDUMP_ALLOWED_VARIANTS = new Variants[]
+    {
+        Variants.NoN
+    };
 }
 
 class Allowed_Instruction_Bitmodes 
@@ -697,7 +703,8 @@ class Allowed_Instruction_Bitmodes
             STI_ALLOWED_BITMODES,
             SUB_ALLOWED_BITMODES,
             XOR_ALLOWED_BITMODES,
-            LABEL_ALLOWED_BITMODES
+            LABEL_ALLOWED_BITMODES,
+            MDUMP_ALLOWED_BITMODES
         };
 
         return toReturn;
@@ -1198,6 +1205,11 @@ class Allowed_Instruction_Bitmodes
     };
 
     private static readonly Size[] LABEL_ALLOWED_BITMODES = new Size[]
+    {
+        Size.NoN
+    };
+
+    private static readonly Size[] MDUMP_ALLOWED_BITMODES = new Size[]
     {
         Size.NoN
     };

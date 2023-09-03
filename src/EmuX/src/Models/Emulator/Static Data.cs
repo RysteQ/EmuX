@@ -1,6 +1,6 @@
-﻿using Size = EmuX.src.Enums.Size;
+﻿using Size = EmuX.src.Enums.Emulators.Size;
 
-namespace EmuX.src.Models;
+namespace EmuX.src.Models.Emulator;
 
 public struct StaticData
 {

@@ -1,4 +1,5 @@
-﻿using EmuX.src.Enums.VM;
+﻿using EmuX.src.Enums.Emulators.VM;
+
 namespace EmuX.src.Services.Interrupt_Handler;
 
 public class DiskHandler

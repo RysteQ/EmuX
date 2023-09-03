@@ -1,4 +1,4 @@
-﻿using EmuX.src.Enums.VM;
+﻿using EmuX.src.Enums.Emulators.VM;
 
 public class VirtualSystem
 {
@@ -28,35 +28,17 @@ public class VirtualSystem
         this.EFLAGS = 0;
     }
 
-    public List<int> GetCallStack()
-    {
-        return this.call_stack;
-    }
+    public List<int> GetCallStack() => this.call_stack;
 
-    public byte[] GetAllMemory()
-    {
-        return this.memory;
-    }
+    public byte[] GetAllMemory() => this.memory;
 
-    public byte GetByteMemory(int index)
-    {
-        return this.memory[index];
-    }
+    public byte GetByteMemory(int index) => this.memory[index];
 
-    public ushort GetWordMemory(int index)
-    {
-        return (ushort)((GetByteMemory(index) << 8) + GetByteMemory(index + 1));
-    }
+    public ushort GetWordMemory(int index) => (ushort)((GetByteMemory(index) << 8) + GetByteMemory(index + 1));
 
-    public uint GetDoubleMemory(int index)
-    {
-        return (uint)((GetWordMemory(index) << 16) + GetWordMemory(index + 2));
-    }
+    public uint GetDoubleMemory(int index) => (uint)((GetWordMemory(index) << 16) + GetWordMemory(index + 2));
 
-    public ulong GetQuadMemory(int index)
-    {
-        return (GetDoubleMemory(index) << 32) + GetDoubleMemory(index + 4);
-    }
+    public ulong GetQuadMemory(int index) => (GetDoubleMemory(index) << 32) + GetDoubleMemory(index + 4);
 
     public void SetAllMemory(byte[] memory)
     {
@@ -116,20 +98,11 @@ public class VirtualSystem
         return this.memory[this.registers[(int)Registers.RSP]];
     }
 
-    public ushort PopWord()
-    {
-        return (ushort)((PopByte() << 8) + PopByte());
-    }
+    public ushort PopWord() => (ushort)((PopByte() << 8) + PopByte());
 
-    public uint PopDouble()
-    {
-        return (uint)((PopWord() << 16) + PopWord());
-    }
+    public uint PopDouble() => (uint)((PopWord() << 16) + PopWord());
 
-    public ulong PopQuad()
-    {
-        return (PopDouble() << 32) + PopDouble();
-    }
+    public ulong PopQuad() => (PopDouble() << 32) + PopDouble();
 
     public byte GetRegisterByte(Registers register_to_get, bool high_or_low)
     {
@@ -139,25 +112,13 @@ public class VirtualSystem
         return (byte)this.registers[(int)register_to_get];
     }
 
-    public ushort GetRegisterWord(Registers register_to_get)
-    {
-        return (ushort)this.registers[(int)register_to_get];
-    }
+    public ushort GetRegisterWord(Registers register_to_get) => (ushort)this.registers[(int)register_to_get];
 
-    public uint GetRegisterDouble(Registers register_to_get)
-    {
-        return (uint)this.registers[(int)register_to_get];
-    }
+    public uint GetRegisterDouble(Registers register_to_get) => (uint)this.registers[(int)register_to_get];
 
-    public ulong GetRegisterQuad(Registers register_to_get)
-    {
-        return this.registers[(int)register_to_get];
-    }
+    public ulong GetRegisterQuad(Registers register_to_get) => this.registers[(int)register_to_get];
 
-    public ulong[] GetAllRegisterValues()
-    {
-        return this.registers;
-    }
+    public ulong[] GetAllRegisterValues() => this.registers;
 
     public void SetRegisterByte(Registers register_to_get, byte value, bool high_or_low)
     {
