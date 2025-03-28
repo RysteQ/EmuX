@@ -1,0 +1,36 @@
+﻿using EmuXCore.Common.Interfaces;
+using EmuXCore.Instructions.Interfaces;
+using EmuXCore.Instructions.Internal;
+using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
+
+namespace EmuXCore.Instructions;
+
+public class InstructionCWDE(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperandDecoder operandDecoder) : IInstruction
+{
+    public void Execute(IVirtualMachine virtualMachine)
+    {
+        if (virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX >= 0b_1000_0000_0000_0000_0000_0000_0000_0000)
+        {
+            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0x_ff_ff_ff_ff_00_00_00_00 | virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX;
+        }
+    }
+
+    public bool IsValid()
+    {
+        InstructionVariant[] allowedVariants =
+        [
+            InstructionVariant.NoOperands()
+        ];
+
+        return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand == null && SecondOperand == null;
+    }
+
+    public IOperandDecoder OperandDecoder { get; init; } = operandDecoder;
+
+    public string Opcode => "CWDE";
+
+    public InstructionVariant Variant { get; init; } = variant;
+    public IOperand? FirstOperand { get; init; } = firstOperand;
+    public IOperand? SecondOperand { get; init; } = secondOperand;
+}

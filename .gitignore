@@ -1,3 +1,7 @@
 src/.vs
+src/EmuXCore/bin
+src/EmuXCore/obj
+src/EmuX Unit Tests/bin
+src/EmuX Unit Tests/obj
 src/EmuX/bin
 src/EmuX/obj
