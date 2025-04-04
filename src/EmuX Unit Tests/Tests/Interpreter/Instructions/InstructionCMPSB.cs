@@ -93,7 +93,7 @@ public sealed class InstructionCMPSBTests : InstructionConstants<InstructionCMPS
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRSI>().RSI = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDI>().RDI = 0;
-        virtualMachine.SetFlag(EFlagsEnum.DF, true);
+        virtualMachine.SetFlag(EFlags.DF, true);
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<ulong>(1, virtualMachine.CPU.GetRegister<VirtualRegisterRSI>().RSI);
@@ -108,7 +108,7 @@ public sealed class InstructionCMPSBTests : InstructionConstants<InstructionCMPS
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRSI>().RSI = 1;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDI>().RDI = 1;
-        virtualMachine.SetFlag(EFlagsEnum.DF, false);
+        virtualMachine.SetFlag(EFlags.DF, false);
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRSI>().RSI);

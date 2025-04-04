@@ -3,23 +3,22 @@ using EmuXCore.Instructions.Interfaces;
 using EmuXCore.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Enums;
-using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
 namespace EmuXCore.Instructions;
 
-public class InstructionCMP(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperandDecoder operandDecoder) : IInstruction
+public class InstructionCMP(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
         ulong firstOperandValue = OperandDecoder.GetOperandQuad(virtualMachine, FirstOperand);
         ulong secondOperandValue = OperandDecoder.GetOperandQuad(virtualMachine, SecondOperand);
 
-        virtualMachine.SetFlag(EFlagsEnum.CF, VirtualRegisterEFLAGS.TestCarryFlag(firstOperandValue, secondOperandValue, FirstOperand.OperandSize));
-        virtualMachine.SetFlag(EFlagsEnum.OF, VirtualRegisterEFLAGS.TestOverflowFlag(firstOperandValue, secondOperandValue, FirstOperand.OperandSize));
-        virtualMachine.SetFlag(EFlagsEnum.SF, VirtualRegisterEFLAGS.TestSignFlag(~(firstOperandValue - secondOperandValue), FirstOperand.OperandSize));
-        virtualMachine.SetFlag(EFlagsEnum.ZF, VirtualRegisterEFLAGS.TestZeroFlag(firstOperandValue - secondOperandValue));
-        virtualMachine.SetFlag(EFlagsEnum.AF, VirtualRegisterEFLAGS.TestAuxilliaryFlag(firstOperandValue, secondOperandValue));
-        virtualMachine.SetFlag(EFlagsEnum.PF, VirtualRegisterEFLAGS.TestParityFlag(firstOperandValue - secondOperandValue));
+        virtualMachine.SetFlag(EFlags.CF, FlagStateProcessor.TestCarryFlag(firstOperandValue, secondOperandValue, FirstOperand.OperandSize));
+        virtualMachine.SetFlag(EFlags.OF, FlagStateProcessor.TestOverflowFlag(firstOperandValue, secondOperandValue, firstOperandValue < secondOperandValue ? ~(firstOperandValue - secondOperandValue) : (firstOperandValue - secondOperandValue), FirstOperand.OperandSize));
+        virtualMachine.SetFlag(EFlags.SF, FlagStateProcessor.TestSignFlag(~(firstOperandValue - secondOperandValue), FirstOperand.OperandSize));
+        virtualMachine.SetFlag(EFlags.ZF, FlagStateProcessor.TestZeroFlag(firstOperandValue - secondOperandValue));
+        virtualMachine.SetFlag(EFlags.AF, FlagStateProcessor.TestAuxilliaryFlag(firstOperandValue, secondOperandValue));
+        virtualMachine.SetFlag(EFlags.PF, FlagStateProcessor.TestParityFlag(firstOperandValue - secondOperandValue));
     }
 
     public bool IsValid()
@@ -36,10 +35,12 @@ public class InstructionCMP(InstructionVariant variant, IOperand? firstOperand, 
     }
 
     public IOperandDecoder OperandDecoder { get; init; } = operandDecoder;
+    public IFlagStateProcessor FlagStateProcessor { get; init; } = flagStateProcessor;
 
     public string Opcode => "CMP";
 
     public InstructionVariant Variant { get; init; } = variant;
     public IOperand? FirstOperand { get; init; } = firstOperand;
     public IOperand? SecondOperand { get; init; } = secondOperand;
+    public IOperand? ThirdOperand { get; init; } = thirdOperand;
 }

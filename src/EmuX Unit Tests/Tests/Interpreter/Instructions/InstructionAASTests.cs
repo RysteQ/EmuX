@@ -92,13 +92,13 @@ public sealed class InstructionAASTests : InstructionConstants<InstructionAAS>
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = 10;
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = 9;
-        virtualMachine.SetFlag(EFlagsEnum.AF, true);
+        virtualMachine.SetFlag(EFlags.AF, true);
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<ushort>(9, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH);
         Assert.AreEqual<byte>(3, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL);
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.AF));
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.CF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.AF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.CF));
     }
 
     [TestMethod]
@@ -113,7 +113,7 @@ public sealed class InstructionAASTests : InstructionConstants<InstructionAAS>
 
         Assert.AreEqual<ushort>(10, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH);
         Assert.AreEqual<byte>(9, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL);
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.AF));
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.CF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.AF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.CF));
     }
 }

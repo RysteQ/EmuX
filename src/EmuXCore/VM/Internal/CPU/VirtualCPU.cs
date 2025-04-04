@@ -54,4 +54,6 @@ public class VirtualCPU : IVirtualCPU
         new VirtualRegisterGS(),
         new VirtualRegisterEFLAGS()
     ];
+
+    public bool Halted { get; set; }
 }

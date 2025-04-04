@@ -95,7 +95,7 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.CF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.CF));
     }
 
     [TestMethod]
@@ -108,7 +108,7 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0x_80_00_00_00_00_00_00_00;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.OF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.OF));
     }
 
     [TestMethod]
@@ -121,7 +121,7 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 1;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.SF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.SF));
     }
 
     [TestMethod]
@@ -134,7 +134,7 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 1;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.ZF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.ZF));
     }
 
     [TestMethod]
@@ -147,7 +147,7 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 1;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.AF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.AF));
     }
 
     [TestMethod]
@@ -160,7 +160,7 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 1;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.PF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.PF));
     }
 
     [TestMethod]
@@ -171,10 +171,10 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
 
         virtualMachine.CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 100;
-        virtualMachine.SetFlag(EFlagsEnum.CF, true);
+        virtualMachine.SetFlag(EFlags.CF, true);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.CF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.CF));
     }
 
     [TestMethod]
@@ -185,10 +185,10 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
 
         virtualMachine.CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 1;
-        virtualMachine.SetFlag(EFlagsEnum.OF, true);
+        virtualMachine.SetFlag(EFlags.OF, true);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.OF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.OF));
     }
 
     [TestMethod]
@@ -199,10 +199,10 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
 
         virtualMachine.CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0x_80_00_00_00_00_00_00_00;
-        virtualMachine.SetFlag(EFlagsEnum.SF, true);
+        virtualMachine.SetFlag(EFlags.SF, true);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.SF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.SF));
     }
 
     [TestMethod]
@@ -213,10 +213,10 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
 
         virtualMachine.CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 2;
-        virtualMachine.SetFlag(EFlagsEnum.ZF, true);
+        virtualMachine.SetFlag(EFlags.ZF, true);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.ZF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.ZF));
     }
 
     [TestMethod]
@@ -227,10 +227,10 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
 
         virtualMachine.CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
-        virtualMachine.SetFlag(EFlagsEnum.AF, true);
+        virtualMachine.SetFlag(EFlags.AF, true);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.AF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.AF));
     }
 
     [TestMethod]
@@ -241,9 +241,9 @@ public sealed class InstructionCMPTests : InstructionConstants<InstructionCMP>
 
         virtualMachine.CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
-        virtualMachine.SetFlag(EFlagsEnum.PF, true);
+        virtualMachine.SetFlag(EFlags.PF, true);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.PF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.PF));
     }
 }

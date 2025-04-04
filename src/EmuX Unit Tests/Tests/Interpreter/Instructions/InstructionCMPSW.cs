@@ -95,7 +95,7 @@ public sealed class InstructionCMPSWTests : InstructionConstants<InstructionCMPS
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.CF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.CF));
     }
 
     [TestMethod]
@@ -108,6 +108,6 @@ public sealed class InstructionCMPSWTests : InstructionConstants<InstructionCMPS
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0x_80_00_00_00_00_00_00_00;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.OF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.OF));
     }
 }

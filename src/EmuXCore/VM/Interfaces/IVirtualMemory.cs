@@ -5,7 +5,7 @@ public interface IVirtualMemory
     public Dictionary<string, IMemoryLabel> LabelMemoryLocations { get; set; }
 
     /// <summary>
-    /// The RAM of the VMemory, must be the size of VIDEO_MEMORY + GENERAL_PURPOSE_MEMORY
+    /// The RAM of the VMemory, must be the size of VIDEO_MEMORY + GENERAL_PURPOSE_MEMORY. It is not recommended to read / write directly to RAM, please use the Read / Write methods instead
     /// </summary>
     byte[] RAM { get; set; }
 

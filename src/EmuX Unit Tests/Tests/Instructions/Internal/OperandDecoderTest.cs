@@ -8,7 +8,7 @@ using EmuXCore.VM.Interfaces;
 namespace EmuX_Unit_Tests.Tests.Instructions;
 
 [TestClass]
-public sealed class OperandGenericsTest : TestWideInternalConstants
+public sealed class OperandDecoderTest : TestWideInternalConstants
 {
     [TestMethod]
     public void GetImmediateOperandQuadTest()

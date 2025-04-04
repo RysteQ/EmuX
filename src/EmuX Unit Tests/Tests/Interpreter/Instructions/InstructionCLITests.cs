@@ -88,13 +88,13 @@ public sealed class InstructionCLITests : InstructionConstants<InstructionCLI>
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.SetFlag(EFlagsEnum.IF, true);
-        virtualMachine.SetFlag(EFlagsEnum.VIF, true);
+        virtualMachine.SetFlag(EFlags.IF, true);
+        virtualMachine.SetFlag(EFlags.VIF, true);
         virtualMachine.SetIOPL(true, true);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.IF));
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.VIF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.IF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.VIF));
     }
 
     [TestMethod]
@@ -103,13 +103,13 @@ public sealed class InstructionCLITests : InstructionConstants<InstructionCLI>
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.SetFlag(EFlagsEnum.CF, true);
-        virtualMachine.SetFlag(EFlagsEnum.IF, true);
-        virtualMachine.SetFlag(EFlagsEnum.VIF, true);
+        virtualMachine.SetFlag(EFlags.CF, true);
+        virtualMachine.SetFlag(EFlags.IF, true);
+        virtualMachine.SetFlag(EFlags.VIF, true);
         virtualMachine.SetIOPL(false, false);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.IF));
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.VIF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.IF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.VIF));
     }
 }

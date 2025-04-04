@@ -10,14 +10,16 @@ using System.Diagnostics;
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
-public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLine, string opcode, string firstOperand, string secondOperand) : ILexeme
+public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLine, string opcode, string firstOperand, string secondOperand, string thirdOperand) : ILexeme
 {
     public IInstruction ToIInstruction()
     {
         InstructionVariant instructionVariant = GetInstructionVariant();
         IOperandDecoder operandDecoder = GenerateOperandDecoder();
+        IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
         IOperand? firstOperand = null;
         IOperand? secondOperand = null;
+        IOperand? thirdOperand = null;
         IInstruction instruction;
 
         if (!string.IsNullOrEmpty(FirstOperand))
@@ -30,33 +32,38 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
             secondOperand = ParseOperand(SecondOperand);
         }
 
+        if (!string.IsNullOrEmpty(ThirdOperand))
+        {
+            thirdOperand = ParseOperand(ThirdOperand);
+        }
+
         // 81 (85) instructions total, 20 completed, 25% completed
         instruction = Opcode switch
         {
-            "AAA" => new InstructionAAA(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "AAD" => new InstructionAAD(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "AAM" => new InstructionAAM(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "AAS" => new InstructionAAS(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "ADC" => new InstructionADC(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "ADD" => new InstructionADD(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "AND" => new InstructionAND(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CALL" => new InstructionCALL(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CBW" => new InstructionCBW(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CDQE" => new InstructionCDQE(instructionVariant, firstOperand, secondOperand, operandDecoder), // *
-            "CWDE" => new InstructionCWDE(instructionVariant, firstOperand, secondOperand, operandDecoder), // *
-            "CLC" => new InstructionCLC(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CLD" => new InstructionCLD(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CLI" => new InstructionCLI(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CMC" => new InstructionCMC(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CMP" => new InstructionCMC(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CMPSB" => new InstructionCMPSB(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CMPSW" => new InstructionCMPSW(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CWD" => new InstructionCWD(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "CDQ" => new InstructionCDQ(instructionVariant, firstOperand, secondOperand, operandDecoder), // *
-            "CDO" => new InstructionCDO(instructionVariant, firstOperand, secondOperand, operandDecoder), // *
-            "DAA" => new InstructionDAA(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "DAS" => new InstructionDAS(instructionVariant, firstOperand, secondOperand, operandDecoder),
-            "DEC" => new InstructionDEC(instructionVariant, firstOperand, secondOperand, operandDecoder),
+            "AAA" => new InstructionAAA(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "AAD" => new InstructionAAD(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "AAM" => new InstructionAAM(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "AAS" => new InstructionAAS(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "ADC" => new InstructionADC(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "ADD" => new InstructionADD(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "AND" => new InstructionAND(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CALL" => new InstructionCALL(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CBW" => new InstructionCBW(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CDQE" => new InstructionCDQE(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "CWDE" => new InstructionCWDE(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "CLC" => new InstructionCLC(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CLD" => new InstructionCLD(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CLI" => new InstructionCLI(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CMC" => new InstructionCMC(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CMP" => new InstructionCMC(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CMPSB" => new InstructionCMPSB(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CMPSW" => new InstructionCMPSW(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CWD" => new InstructionCWD(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CDQ" => new InstructionCDQ(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "CDO" => new InstructionCDO(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "DAA" => new InstructionDAA(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "DAS" => new InstructionDAS(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "DEC" => new InstructionDEC(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             _ => throw new Exception($"Unknown opcode \"{SourceCodeLine.SourceCode}\" : {SourceCodeLine.Line}"),
         };
 
@@ -67,6 +74,7 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
     {
         IOperand firstOperand;
         IOperand secondOperand;
+        IOperand thirdOperand;
         
         if (string.IsNullOrEmpty(FirstOperand))
         {
@@ -82,18 +90,32 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
                 return firstOperand.Variant != OperandVariant.NaN;
             }
 
+            if (!string.IsNullOrEmpty(FirstOperand) && !string.IsNullOrEmpty(SecondOperand) && string.IsNullOrEmpty(ThirdOperand))
+            {
+                firstOperand = ParseOperand(FirstOperand);
+                secondOperand = ParseOperand(SecondOperand);
+
+                if (firstOperand.OperandSize < secondOperand.OperandSize)
+                {
+                    return false;
+                }
+
+                return firstOperand.Variant != OperandVariant.NaN && secondOperand.Variant != OperandVariant.NaN;
+            }
+
             firstOperand = ParseOperand(FirstOperand);
             secondOperand = ParseOperand(SecondOperand);
+            thirdOperand = ParseOperand(ThirdOperand);
 
-            if (firstOperand.Variant != OperandVariant.NaN && secondOperand.Variant != OperandVariant.NaN)
+            if (!string.IsNullOrEmpty(FirstOperand) && !string.IsNullOrEmpty(SecondOperand) && !string.IsNullOrEmpty(ThirdOperand))
             {
-                if (firstOperand.OperandSize < secondOperand.OperandSize)
+                if (firstOperand.OperandSize < secondOperand.OperandSize && secondOperand.OperandSize < thirdOperand.OperandSize)
                 {
                     return false;
                 }
             }
 
-            return firstOperand.Variant != OperandVariant.NaN && secondOperand.Variant != OperandVariant.NaN;
+            return firstOperand.Variant != OperandVariant.NaN && secondOperand.Variant != OperandVariant.NaN && thirdOperand.Variant != OperandVariant.NaN;
         }
         catch (Exception ex)
         {
@@ -242,7 +264,7 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
 
         foreach (IVirtualRegister virtualRegister in virtualCPU.Registers)
         {
-            if (virtualRegister.RegisterNamesAndSizes.ContainsKey(operand))
+            if (virtualRegister.RegisterNamesAndSizes.ContainsKey(operand.ToUpper()))
             {
                 return virtualRegister;
             }
@@ -348,7 +370,7 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
     {
         IVirtualRegister virtualRegister = GetRegister(expression);
 
-        return new Operand(expression, OperandVariant.Register, virtualRegister.RegisterNamesAndSizes[expression], [], string.Empty);
+        return new Operand(expression, OperandVariant.Register, virtualRegister.RegisterNamesAndSizes[expression.ToUpper()], [], string.Empty);
     }
 
     private IOperandDecoder GenerateOperandDecoder()
@@ -356,10 +378,16 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
         return new OperandDecoder();
     }
 
+    private IFlagStateProcessor GenerateFlagStateProcessor()
+    {
+        return new FlagStateProcessor();
+    }
+
     public ISourceCodeLine SourceCodeLine { get; init; } = sourceCodeLine;
     public string Opcode { get; init; } = opcode;
     public string FirstOperand { get; init; } = firstOperand;
     public string SecondOperand { get; init; } = secondOperand;
+    public string ThirdOperand { get; init; } = thirdOperand;
 
     private readonly IVirtualCPU _cpu = cpuToTranslateFor;
 }

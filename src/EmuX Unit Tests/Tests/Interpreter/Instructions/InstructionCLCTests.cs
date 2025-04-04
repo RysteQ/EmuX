@@ -102,9 +102,9 @@ public sealed class InstructionCLCTests : InstructionConstants<InstructionCLC>
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.SetFlag(EFlagsEnum.CF, true);
+        virtualMachine.SetFlag(EFlags.CF, true);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.CF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.CF));
     }
 }

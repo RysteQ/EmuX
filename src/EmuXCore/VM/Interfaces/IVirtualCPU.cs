@@ -21,4 +21,6 @@ public interface IVirtualCPU
     /// All of the registers of the VCPU
     /// </summary>
     IReadOnlyCollection<IVirtualRegister> Registers { get; init; }
+
+    bool Halted { get; set; }
 }

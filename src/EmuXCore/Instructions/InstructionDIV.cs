@@ -7,33 +7,71 @@ using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuXCore.Instructions;
 
-public class InstructionDIV(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperandDecoder operandDecoder) : IInstruction
+public class InstructionDIV(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        if (FirstOperand.Variant == OperandVariant.Register)
-        {
-            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand);
+        ulong toDivideBy = OperandDecoder.GetOperandQuad(virtualMachine, FirstOperand);
+        (ulong Quotient, ulong Remainder) divisionResult = (0, 0);
 
-            switch (FirstOperand.OperandSize)
-            {
-                case Size.Byte: register.Set((register.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00) | (ulong)(((byte)register.Get() & 0x_00_00_00_00_00_00_00_ff) - 1)); break;
-                case Size.Word: register.Set((register.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00) | (ulong)(((ushort)register.Get() & 0x_00_00_00_00_00_00_ff_ff) - 1)); break;
-                case Size.Double: register.Set((register.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00) | (ulong)(((uint)register.Get() & 0x_00_00_00_00_ff_ff_ff_ff) - 1)); break;
-                case Size.Quad: register.Set((register.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00) | (register.Get() - 1)); break;
-            }
+        if (toDivideBy == 0)
+        {
+            throw new Exception("Cannot divide by zero");
         }
-        else
-        {
-            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand);
 
-            switch (FirstOperand.OperandSize)
-            {
-                case Size.Byte: virtualMachine.SetByte(OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (byte)(OperandDecoder.GetOperandByte(virtualMachine, FirstOperand) - 1)); break;
-                case Size.Word: virtualMachine.SetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (ushort)(OperandDecoder.GetOperandWord(virtualMachine, FirstOperand) - 1)); break;
-                case Size.Double: virtualMachine.SetDouble(OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), OperandDecoder.GetOperandDouble(virtualMachine, FirstOperand) - 1); break;
-                case Size.Quad: virtualMachine.SetQuad(OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), OperandDecoder.GetOperandQuad(virtualMachine, FirstOperand) - 1); ; break;
-            }
+        switch (FirstOperand.OperandSize)
+        {
+            case Size.Byte:
+                divisionResult = ulong.DivRem(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX, toDivideBy);
+
+                if (divisionResult.Quotient > byte.MaxValue)
+                {
+                    throw new Exception($"Result is larger than what a {Size.Byte} can handle");
+                }
+
+                virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)divisionResult.Quotient;
+                virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)divisionResult.Remainder;
+
+                break;
+            
+            case Size.Word:
+                divisionResult = ulong.DivRem(((ulong)virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX << 16) | ((ulong)virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX), toDivideBy);
+
+                if (divisionResult.Quotient > ushort.MaxValue)
+                {
+                    throw new Exception($"Result is larger than what a {Size.Word} can handle");
+                }
+
+                virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = (ushort)divisionResult.Quotient;
+                virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().DX = (ushort)divisionResult.Remainder;
+
+                break;
+            
+            case Size.Double:
+                divisionResult = ulong.DivRem(((ulong)virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX << 32) | ((ulong)virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX), toDivideBy);
+
+                if (divisionResult.Quotient > uint.MaxValue)
+                {
+                    throw new Exception($"Result is larger than what a {Size.Double} can handle");
+                }
+
+                virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX = (uint)divisionResult.Quotient;
+                virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = (uint)divisionResult.Remainder;
+
+                break;
+            
+            case Size.Quad:
+                (UInt128 Quotient, UInt128 Remainder) bigDivisionResult = UInt128.DivRem(new(virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().RDX, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX), new(0, toDivideBy));
+                
+                if (bigDivisionResult.Quotient > ulong.MaxValue)
+                {
+                    throw new Exception($"Result is larger than what a {Size.Quad} can handle");
+                }
+
+                virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = (ulong)bigDivisionResult.Quotient;
+                virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().RDX = (ulong)bigDivisionResult.Quotient;
+
+                break;
         }
     }
 
@@ -49,10 +87,12 @@ public class InstructionDIV(InstructionVariant variant, IOperand? firstOperand, 
     }
 
     public IOperandDecoder OperandDecoder { get; init; } = operandDecoder;
+    public IFlagStateProcessor FlagStateProcessor { get; init; } = flagStateProcessor;
 
     public string Opcode => "DIV";
 
     public InstructionVariant Variant { get; init; } = variant;
     public IOperand? FirstOperand { get; init; } = firstOperand;
     public IOperand? SecondOperand { get; init; } = secondOperand;
+    public IOperand? ThirdOperand { get; init; } = thirdOperand;
 }

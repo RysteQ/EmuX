@@ -1,4 +1,5 @@
-﻿using EmuXCore.Common.Interfaces;
+﻿using EmuXCore.Common.Enums;
+using EmuXCore.Common.Interfaces;
 using EmuXCore.Instructions.Interfaces;
 using EmuXCore.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
@@ -7,7 +8,7 @@ using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuXCore.Instructions;
 
-public class InstructionAAD(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperandDecoder operandDecoder) : IInstruction
+public class InstructionAAD(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
@@ -23,9 +24,9 @@ public class InstructionAAD(InstructionVariant variant, IOperand? firstOperand, 
             virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)(al + ah * OperandDecoder.GetOperandByte(virtualMachine, FirstOperand) & 0xff);
         }
 
-        virtualMachine.SetFlag(EFlagsEnum.SF, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL >> 7 == 1);
-        virtualMachine.SetFlag(EFlagsEnum.ZF, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL == 0);
-        virtualMachine.SetFlag(EFlagsEnum.PF, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL % 2 == 0);
+        virtualMachine.SetFlag(EFlags.SF, FlagStateProcessor.TestSignFlag(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL, Size.Byte));
+        virtualMachine.SetFlag(EFlags.ZF, FlagStateProcessor.TestZeroFlag(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL));
+        virtualMachine.SetFlag(EFlags.PF, FlagStateProcessor.TestParityFlag(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL));
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = 0;
     }
@@ -42,10 +43,12 @@ public class InstructionAAD(InstructionVariant variant, IOperand? firstOperand, 
     }
 
     public IOperandDecoder OperandDecoder { get; init; } = operandDecoder;
+    public IFlagStateProcessor FlagStateProcessor { get; init; } = flagStateProcessor;
 
     public string Opcode => "AAD";
 
     public InstructionVariant Variant { get; init; } = variant;
     public IOperand? FirstOperand { get; init; } = firstOperand;
     public IOperand? SecondOperand { get; init; } = secondOperand;
+    public IOperand? ThirdOperand { get; init; } = thirdOperand;
 }

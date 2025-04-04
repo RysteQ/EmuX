@@ -1,6 +1,6 @@
 ﻿namespace EmuXCore.VM.Internal.CPU.Enums;
 
-public enum EFlagsEnum : int
+public enum EFlags : int
 {
     CF = 1 << 0,
     PF = 1 << 2,

@@ -1,4 +1,6 @@
 ﻿using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Internal.BIOS.Enums;
+using EmuXCore.VM.Internal.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Enums;
 using EmuXCore.VM.Internal.CPU.Registers;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
@@ -7,15 +9,17 @@ namespace EmuXCore.VM;
 
 public class VirtualMachine : IVirtualMachine
 {
-    public VirtualMachine(IVirtualCPU cpu, IVirtualMemory memory)
+    public VirtualMachine(IVirtualCPU cpu, IVirtualMemory memory, IVirtualDisk[] disks, IVirtualBIOS bios)
     {
         CPU = cpu;
         Memory = memory;
+        Disks = disks;
+        BIOS = bios;
 
         CPU.GetRegister<VirtualRegisterRSP>().RSP = (ulong)(Memory.RAM.Length - 1);
     }
 
-    public void SetFlag(EFlagsEnum flag, bool value)
+    public void SetFlag(EFlags flag, bool value)
     {
         CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & ~(uint)flag;
         CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS | (uint)(value ? (uint)flag : 0);
@@ -25,19 +29,19 @@ public class VirtualMachine : IVirtualMachine
     /// <param name="secondBit">secondBit is the MSB</param>
     public void SetIOPL(bool firstBit, bool secondBit)
     {
-        CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & ~(uint)EFlagsEnum.IOPL;
+        CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & ~(uint)EFlags.IOPL;
         CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS | (uint)((firstBit ? 1 : 0) << 13);
         CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS | (uint)((secondBit ? 1 : 0) << 12);
     }
 
-    public bool GetFlag(EFlagsEnum flag)
+    public bool GetFlag(EFlags flag)
     {
         return (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)flag) != 0;
     }
 
     public byte GetIOPL()
     {
-        return (byte)((CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)EFlagsEnum.IOPL) >> 12);
+        return (byte)((CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)EFlags.IOPL) >> 12);
     }
 
     public void SetByte(int memoryLocation, byte value)
@@ -147,6 +151,35 @@ public class VirtualMachine : IVirtualMachine
         return (ulong)(partOne << 64 + partTwo);
     }
 
+    public void Interrupt(InterruptCode interruptCode, object subInterruptCode)
+    {
+        Dictionary<InterruptCode, Type> interruptCodeLookup = new()
+        {
+            { InterruptCode.Keyboard, typeof(KeyboardInterrupt) },
+            { InterruptCode.Video, typeof(VideoInterrupt) },
+            { InterruptCode.Disk, typeof(DiskInterrupt) },
+            { InterruptCode.Serial, typeof(SerialInterrupt) },
+            { InterruptCode.RTC, typeof(RTCInterrupt) },
+        };
+
+        if (!Enum.IsDefined(interruptCodeLookup[interruptCode], subInterruptCode))
+        {
+            throw new Exception($"Sub interrupt code {interruptCode} of interrupt {nameof(subInterruptCode)} has not been defined");
+        }
+
+        switch (interruptCode)
+        {
+            case InterruptCode.Keyboard: BIOS.HandleKeyboardInterrupt(CPU, Memory, Disks, (KeyboardInterrupt)subInterruptCode); break;
+            case InterruptCode.Video: BIOS.HandleVideoInterrupt(CPU, Memory, Disks, (VideoInterrupt)subInterruptCode); break;
+            case InterruptCode.Disk: BIOS.HandleDiskInterrupt(CPU, Memory, Disks, (DiskInterrupt)subInterruptCode); break;
+            case InterruptCode.Serial: BIOS.HandleSerialInterrupt(CPU, Memory, Disks, (SerialInterrupt)subInterruptCode); break;
+            case InterruptCode.RTC: BIOS.HandleRTCInterrupt(CPU, Memory, Disks, (RTCInterrupt)subInterruptCode); break;
+            default: throw new NotImplementedException($"Interrupt code of type {nameof(interruptCode)} has not yet been implemented");
+        }
+    }
+
     public IVirtualMemory Memory { get; init; }
     public IVirtualCPU CPU { get; init; }
+    public IVirtualDisk[] Disks { get; init; }
+    public IVirtualBIOS BIOS { get; init; }
 }

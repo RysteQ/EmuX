@@ -91,13 +91,13 @@ public sealed class InstructionAAATests : InstructionConstants<InstructionAAA>
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = 256;
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = 255;
-        virtualMachine.SetFlag(EFlagsEnum.AF, true);
+        virtualMachine.SetFlag(EFlags.AF, true);
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<ushort>(256 + 255 + 0x_106, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX);
         Assert.AreEqual<byte>(5, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL);
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.AF));
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.CF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.AF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.CF));
     }
 
     [TestMethod]
@@ -107,12 +107,12 @@ public sealed class InstructionAAATests : InstructionConstants<InstructionAAA>
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 8;
-        virtualMachine.SetFlag(EFlagsEnum.AF, false);
+        virtualMachine.SetFlag(EFlags.AF, false);
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<ushort>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH);
         Assert.AreEqual<byte>(8, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL);
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.AF));
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.CF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.AF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.CF));
     }
 }

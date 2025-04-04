@@ -8,7 +8,7 @@ using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
 namespace EmuXCore.Instructions;
 
-public class InstructionAND(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperandDecoder operandDecoder) : IInstruction
+public class InstructionAND(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
@@ -34,11 +34,11 @@ public class InstructionAND(InstructionVariant variant, IOperand? firstOperand, 
             }
         }
 
-        virtualMachine.SetFlag(EFlagsEnum.CF, false);
-        virtualMachine.SetFlag(EFlagsEnum.OF, false);
-        virtualMachine.SetFlag(EFlagsEnum.SF, VirtualRegisterEFLAGS.TestSignFlag(firstOperandValue & secondOperandValue, FirstOperand.OperandSize));
-        virtualMachine.SetFlag(EFlagsEnum.ZF, VirtualRegisterEFLAGS.TestZeroFlag(firstOperandValue & secondOperandValue));
-        virtualMachine.SetFlag(EFlagsEnum.PF, VirtualRegisterEFLAGS.TestParityFlag(firstOperandValue & secondOperandValue));
+        virtualMachine.SetFlag(EFlags.CF, false);
+        virtualMachine.SetFlag(EFlags.OF, false);
+        virtualMachine.SetFlag(EFlags.SF, FlagStateProcessor.TestSignFlag(firstOperandValue & secondOperandValue, FirstOperand.OperandSize));
+        virtualMachine.SetFlag(EFlags.ZF, FlagStateProcessor.TestZeroFlag(firstOperandValue & secondOperandValue));
+        virtualMachine.SetFlag(EFlags.PF, FlagStateProcessor.TestParityFlag(firstOperandValue & secondOperandValue));
     }
 
     public bool IsValid()
@@ -55,10 +55,12 @@ public class InstructionAND(InstructionVariant variant, IOperand? firstOperand, 
     }
 
     public IOperandDecoder OperandDecoder { get; init; } = operandDecoder;
+    public IFlagStateProcessor FlagStateProcessor { get; init; } = flagStateProcessor;
 
     public string Opcode => "AND";
 
     public InstructionVariant Variant { get; init; } = variant;
     public IOperand? FirstOperand { get; init; } = firstOperand;
     public IOperand? SecondOperand { get; init; } = secondOperand;
+    public IOperand? ThirdOperand { get; init; } = thirdOperand;
 }

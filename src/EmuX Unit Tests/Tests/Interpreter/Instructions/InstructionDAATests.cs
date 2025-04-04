@@ -90,13 +90,13 @@ public sealed class InstructionDAATests : InstructionConstants<InstructionDAA>
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
-        virtualMachine.SetFlag(EFlagsEnum.CF, true);
-        virtualMachine.SetFlag(EFlagsEnum.AF, true);
+        virtualMachine.SetFlag(EFlags.CF, true);
+        virtualMachine.SetFlag(EFlags.AF, true);
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<byte>(0x60 + 6, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL);
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.CF));
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.AF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.CF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.AF));
     }
 
     [TestMethod]
@@ -106,13 +106,13 @@ public sealed class InstructionDAATests : InstructionConstants<InstructionDAA>
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
-        virtualMachine.SetFlag(EFlagsEnum.CF, false);
-        virtualMachine.SetFlag(EFlagsEnum.AF, true);
+        virtualMachine.SetFlag(EFlags.CF, false);
+        virtualMachine.SetFlag(EFlags.AF, true);
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<byte>(6, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL);
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.CF));
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.AF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.CF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.AF));
     }
 
     [TestMethod]
@@ -122,13 +122,13 @@ public sealed class InstructionDAATests : InstructionConstants<InstructionDAA>
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
-        virtualMachine.SetFlag(EFlagsEnum.CF, true);
-        virtualMachine.SetFlag(EFlagsEnum.AF, false);
+        virtualMachine.SetFlag(EFlags.CF, true);
+        virtualMachine.SetFlag(EFlags.AF, false);
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<byte>(0x60, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL);
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.CF));
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.AF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.CF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.AF));
     }
 
     [TestMethod]
@@ -138,12 +138,12 @@ public sealed class InstructionDAATests : InstructionConstants<InstructionDAA>
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
-        virtualMachine.SetFlag(EFlagsEnum.CF, false);
-        virtualMachine.SetFlag(EFlagsEnum.AF, false);
+        virtualMachine.SetFlag(EFlags.CF, false);
+        virtualMachine.SetFlag(EFlags.AF, false);
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<byte>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL);
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.CF));
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.AF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.CF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.AF));
     }
 }

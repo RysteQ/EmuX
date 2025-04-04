@@ -88,10 +88,10 @@ public sealed class InstructionCMCTests : InstructionConstants<InstructionCMC>
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.SetFlag(EFlagsEnum.CF, true);
+        virtualMachine.SetFlag(EFlags.CF, true);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlagsEnum.CF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.CF));
     }
 
     [TestMethod]
@@ -100,9 +100,9 @@ public sealed class InstructionCMCTests : InstructionConstants<InstructionCMC>
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.SetFlag(EFlagsEnum.CF, false);
+        virtualMachine.SetFlag(EFlags.CF, false);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlagsEnum.CF));
+        Assert.AreEqual<bool>(true, virtualMachine.GetFlag(EFlags.CF));
     }
 }

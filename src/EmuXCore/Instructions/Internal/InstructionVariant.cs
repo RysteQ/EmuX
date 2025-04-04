@@ -2,7 +2,7 @@
 
 namespace EmuXCore.Instructions.Internal;
 
-public class InstructionVariant(int id, OperandVariant? firstOperand = null, OperandVariant? secondOperand = null) : IComparable
+public class InstructionVariant(int id, OperandVariant? firstOperand = null, OperandVariant? secondOperand = null, OperandVariant? thirdOperand = null) : IComparable
 {
     public static InstructionVariant NoOperands() => new(1);
 
@@ -15,6 +15,9 @@ public class InstructionVariant(int id, OperandVariant? firstOperand = null, Ope
     public static InstructionVariant TwoOperandsRegisterMemory() => new(7, OperandVariant.Register, OperandVariant.Memory);
     public static InstructionVariant TwoOperandsMemoryValue() => new(8, OperandVariant.Memory, OperandVariant.Value);
     public static InstructionVariant TwoOperandsMemoryRegister() => new(9, OperandVariant.Memory, OperandVariant.Register);
+
+    public static InstructionVariant ThreeOperandsRegisterRegisterValue() => new(9, OperandVariant.Register, OperandVariant.Register, OperandVariant.Value);
+    public static InstructionVariant ThreeOperandsRegisterMemoryValue() => new(9, OperandVariant.Register, OperandVariant.Memory, OperandVariant.Value);
 
     public static InstructionVariant NaN() => new(-1);
 
@@ -49,7 +52,8 @@ public class InstructionVariant(int id, OperandVariant? firstOperand = null, Ope
     }
 
     public int Id { get; init; } = id;
-    public int AmountOfOperands { get => FirstOperand == null ? 0 : 1 + SecondOperand == null ? 0 : 1; }
+    public int AmountOfOperands { get => FirstOperand == null ? 0 : 1 + SecondOperand == null ? 0 : 1 + ThirdOperand == null ? 0 : 1; }
     public OperandVariant? FirstOperand { get; init; } = firstOperand;
     public OperandVariant? SecondOperand { get; init; } = secondOperand;
+    public OperandVariant? ThirdOperand { get; init; } = thirdOperand;
 }

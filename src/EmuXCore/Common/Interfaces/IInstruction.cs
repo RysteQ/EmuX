@@ -15,9 +15,14 @@ public interface IInstruction
     bool IsValid();
 
     /// <summary>
-    /// Any class that implements the OperandGenerics interface
+    /// Any class that implements the OperandDecoder interface
     /// </summary>
     IOperandDecoder OperandDecoder { get; init; }
+
+    /// <summary>
+    /// Any class that implements the FlagStateProcessor interface
+    /// </summary>
+    IFlagStateProcessor FlagStateProcessor { get; init; }
 
     /// <summary>
     /// The opcode for the instruction, hardcoded using a lambda expression
@@ -27,4 +32,5 @@ public interface IInstruction
     InstructionVariant Variant { get; init; }
     IOperand? FirstOperand { get; init; }
     IOperand? SecondOperand { get; init; }
+    IOperand? ThirdOperand { get; init; }
 }

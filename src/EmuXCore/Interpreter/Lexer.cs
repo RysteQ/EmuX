@@ -97,6 +97,7 @@ public class Lexer(IVirtualCPU cpu) : ILexer
         string opcode;
         string operandOne;
         string operandTwo;
+        string operandThree;
         int selector;
 
         foreach (ISourceCodeLine line in lines)
@@ -104,6 +105,7 @@ public class Lexer(IVirtualCPU cpu) : ILexer
             opcode = string.Empty;
             operandOne = string.Empty;
             operandTwo = string.Empty;
+            operandThree = string.Empty;
             selector = 0;
 
             for (int i = 0; i < line.SourceCode.Length; i++)
@@ -120,15 +122,22 @@ public class Lexer(IVirtualCPU cpu) : ILexer
                     continue;
                 }
 
+                if (line.SourceCode[i] == ',' && selector == 2)
+                {
+                    selector++;
+                    continue;
+                }
+
                 switch (selector)
                 {
                     case 0: opcode += line.SourceCode[i]; break;
                     case 1: operandOne += line.SourceCode[i]; break;
                     case 2: operandTwo += line.SourceCode[i]; break;
+                    case 3: operandThree += line.SourceCode[i]; break;
                 }
             }
 
-            lexemes.Add(NewLexeme(line, opcode.ToUpper(), operandOne.Trim(), operandTwo.Trim()));
+            lexemes.Add(NewLexeme(line, opcode.ToUpper(), operandOne.Trim(), operandTwo.Trim(), operandThree.Trim()));
         }
 
         return lexemes;
@@ -180,9 +189,9 @@ public class Lexer(IVirtualCPU cpu) : ILexer
         return new SourceCodeLine(sourceCode, line);
     }
 
-    private ILexeme NewLexeme(ISourceCodeLine sourceCodeLine, string opcode, string firstOperand, string secondOperand)
+    private ILexeme NewLexeme(ISourceCodeLine sourceCodeLine, string opcode, string firstOperand, string secondOperand, string thirdOperand)
     {
-        return new Lexeme(_cpu, sourceCodeLine, opcode, firstOperand, secondOperand);
+        return new Lexeme(_cpu, sourceCodeLine, opcode, firstOperand, secondOperand, thirdOperand);
     }
 
     public bool Success { get => _success; }

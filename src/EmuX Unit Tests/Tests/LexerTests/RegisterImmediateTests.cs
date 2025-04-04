@@ -8,6 +8,19 @@ namespace EmuX_Unit_Tests.Tests.LexerTests;
 public sealed class RegisterImmediate : TestWideInternalConstants
 {
     [TestMethod]
+    public void TestParseMethod_SignleInstructionWithInvalidOperands_OneInstructionParsed()
+    {
+        string inputString = "add al, 255";
+        List<IInstruction> instructions = [];
+        ILexer lexer = GenerateLexer();
+
+        instructions = lexer.Parse(inputString);
+
+        Assert.AreEqual(1, instructions.Count);
+        Assert.AreEqual(true, lexer.Success);
+    }
+
+    [TestMethod]
     public void TestParseMethod_SignleInstructionWithInvalidOperands_ParseError()
     {
         string inputString = "add al, 1364";
