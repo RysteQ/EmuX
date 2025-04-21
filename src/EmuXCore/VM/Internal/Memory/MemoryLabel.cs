@@ -1,4 +1,4 @@
-﻿using EmuXCore.VM.Interfaces;
+﻿using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM.Internal.Memory;
 

@@ -1,5 +1,6 @@
 ﻿using EmuXCore.Common.Enums;
-using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
@@ -13,7 +14,7 @@ public class VirtualRegisterRIP : IVirtualRegister
     public uint EIP
     {
         get => (uint)(RIP & 0x00000000ffffffff);
-        set => RIP = (RIP & 0xffffffff00000000) + value;
+        set => RIP = value;
     }
 
     public ushort IP

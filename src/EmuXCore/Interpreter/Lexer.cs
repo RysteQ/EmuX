@@ -1,29 +1,28 @@
 ﻿using EmuXCore.Common.Interfaces;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Internal.Models;
-using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
 
 namespace EmuXCore.Interpreter;
 
 public class Lexer(IVirtualCPU cpu) : ILexer
 {
-    public List<IInstruction> Parse(string codeToParse)
+    public ILexerResult Parse(string codeToParse)
     {
         List<ISourceCodeLine> lines = [];
         List<ILexeme> lexemes = [];
-        List<IInstruction> bytecode = [];
+        List<IBytecode> bytecode = [];
 
         lines = GetLines(codeToParse);
         lines = RemoveEmptyLines(lines);
         lines = RemoveComments(lines);
 
-        _success = true;
         _errorLog.Clear();
 
         lexemes = ParseSourceCode(lines);
         bytecode = ParseLexemes(lexemes);
 
-        return bytecode;
+        return NewLexerResult(bytecode.Where(selectedBytecode => selectedBytecode.Type == typeof(IInstruction)).Select(selectedBytecode => selectedBytecode.Instruction).ToList(), bytecode.Where(selectedBytecode => selectedBytecode.Type == typeof(ILabel)).Select(selectedBytecode => selectedBytecode.Label).ToList(), _errorLog);
     }
 
     private List<ISourceCodeLine> GetLines(string stringToProcess)
@@ -137,38 +136,56 @@ public class Lexer(IVirtualCPU cpu) : ILexer
                 }
             }
 
-            lexemes.Add(NewLexeme(line, opcode.ToUpper(), operandOne.Trim(), operandTwo.Trim(), operandThree.Trim()));
+            lexemes.Add(NewLexeme(line, opcode, operandOne.Trim(), operandTwo.Trim(), operandThree.Trim()));
         }
 
         return lexemes;
     }
 
-    private List<IInstruction> ParseLexemes(List<ILexeme> lexemes)
+    private List<IBytecode> ParseLexemes(List<ILexeme> lexemes)
     {
-        List<IInstruction> instructions = [];
-        IInstruction toAdd;
+        List<IBytecode> bytecode = [];
+        IInstruction instruction;
 
         foreach (ILexeme lexeme in lexemes)
         {
-            if (lexeme.AreOperandsValid())
+            if (lexeme.AreInstructionOperandsValid())
             {
                 try
                 {
-                    toAdd = lexeme.ToIInstruction();
+                    instruction = lexeme.ToIInstruction();
 
-                    if (toAdd.IsValid())
+                    if (instruction.IsValid())
                     {
-                        instructions.Add(toAdd);
+                        bytecode.Add(NewBytecode(instruction, null));
                     }
                     else
                     {
-                        _success = false;
                         _errorLog.Add($"Invalid instruction at \"{lexeme.SourceCodeLine.SourceCode}\" : {lexeme.SourceCodeLine.Line}");
                     }
                 }
                 catch (Exception ex)
                 {
-                    _success = false;
+                    _errorLog.Add(ex.Message);
+
+                    continue;
+                }
+            }
+            else if (lexeme.IsLabelValid())
+            {
+                try
+                {
+                    if (lexeme.IsLabelValid())
+                    {
+                        bytecode.Add(NewBytecode(null, lexeme.ToILabel()));
+                    }
+                    else
+                    {
+                        _errorLog.Add($"Invalid label at \"{lexeme.SourceCodeLine.SourceCode}\" : {lexeme.SourceCodeLine.Line}");
+                    }
+                }
+                catch (Exception ex)
+                {
                     _errorLog.Add(ex.Message);
 
                     continue;
@@ -176,12 +193,11 @@ public class Lexer(IVirtualCPU cpu) : ILexer
             }
             else
             {
-                _success = false;
-                _errorLog.Add($"Invalid operands at \"{lexeme.SourceCodeLine.SourceCode}\" : {lexeme.SourceCodeLine.Line}");
+                _errorLog.Add($"Invalid line at \"{lexeme.SourceCodeLine.SourceCode}\" : {lexeme.SourceCodeLine.Line}");
             }
         }
 
-        return instructions;
+        return bytecode;
     }
 
     private ISourceCodeLine NewISourceCodeLine(string sourceCode, int line)
@@ -194,10 +210,16 @@ public class Lexer(IVirtualCPU cpu) : ILexer
         return new Lexeme(_cpu, sourceCodeLine, opcode, firstOperand, secondOperand, thirdOperand);
     }
 
-    public bool Success { get => _success; }
-    public List<string> ErrorLog { get => _errorLog; }
+    private IBytecode NewBytecode(IInstruction? instruction = null, ILabel? label = null)
+    {
+        return new Bytecode(instruction, label);
+    }
 
-    private bool _success = true;
+    private ILexerResult NewLexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors)
+    {
+        return new LexerResult(instructions, labels, errors);
+    }
+
     private List<string> _errorLog = [];
 
     private readonly IVirtualCPU _cpu = cpu;

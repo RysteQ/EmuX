@@ -4,7 +4,7 @@ using EmuXCore.VM.Interfaces;
 namespace EmuX_Unit_Tests.Tests.VM.Memory;
 
 [TestClass]
-public class VirtualMachineMemoryTest : TestWideInternalConstants
+public sealed class VirtualMachineMemoryTest : TestWideInternalConstants
 {
     [TestMethod]
     public void Randomness()

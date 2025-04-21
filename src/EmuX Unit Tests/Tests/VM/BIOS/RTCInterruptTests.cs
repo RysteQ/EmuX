@@ -3,7 +3,7 @@
 namespace EmuX_Unit_Tests.Tests.VM.BIOS;
 
 [TestClass]
-public class RTCInterruptTests : TestWideInternalConstants
+public sealed class RTCInterruptTests : TestWideInternalConstants
 {
     // TODO
 }

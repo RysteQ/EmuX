@@ -8,19 +8,19 @@ using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuXCore.Instructions;
 
-public class InstructionIMUL(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
+public sealed class InstructionIMUL(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        ulong firstOperandValue = OperandDecoder.GetOperandQuad(virtualMachine, FirstOperand);
-        ulong secondOperandValue = OperandDecoder.GetOperandQuad(virtualMachine, SecondOperand);
-        ulong thirdOperandValue = OperandDecoder.GetOperandQuad(virtualMachine, ThirdOperand);
+        ulong firstOperandValue = FirstOperand != null ? OperandDecoder.GetOperandValue(virtualMachine, FirstOperand) : 0;
+        ulong secondOperandValue = SecondOperand != null ? OperandDecoder.GetOperandValue(virtualMachine, SecondOperand) : 0;
+        ulong thirdOperandValue = ThirdOperand != null ? OperandDecoder.GetOperandValue(virtualMachine, ThirdOperand) : 0;
         UInt128 valueToSet = 0;
         bool updateFlags = false;
 
         if (SecondOperand == null)
         {
-            switch (FirstOperand.OperandSize)
+            switch (FirstOperand!.OperandSize)
             {
                 case Size.Byte:
                     valueToSet = virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL * firstOperandValue;
@@ -63,7 +63,7 @@ public class InstructionIMUL(InstructionVariant variant, IOperand? firstOperand,
             valueToSet = ThirdOperand == null ? firstOperandValue * secondOperandValue : secondOperandValue * thirdOperandValue;
             updateFlags = ((ulong)valueToSet >> 64) == valueToSet;
 
-            virtualMachine.CPU.GetRegister(FirstOperand.FullOperand).Set((ulong)valueToSet);
+            virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand)!.Set((ulong)valueToSet);
         }
 
         virtualMachine.SetFlag(EFlags.CF, !updateFlags);
@@ -78,10 +78,35 @@ public class InstructionIMUL(InstructionVariant variant, IOperand? firstOperand,
             InstructionVariant.OneOperandMemory(),
             InstructionVariant.TwoOperandsRegisterRegister(),
             InstructionVariant.TwoOperandsRegisterMemory(),
-            InstructionVariant.TwoOperandsRegisterValue(),
             InstructionVariant.ThreeOperandsRegisterRegisterValue(),
             InstructionVariant.ThreeOperandsRegisterMemoryValue(),
         ];
+
+        // r - r/m
+        if (Variant.FirstOperand == OperandVariant.Register && Variant.FirstOperand == FirstOperand?.Variant
+            && (Variant.SecondOperand == OperandVariant.Register || Variant.SecondOperand == OperandVariant.Memory) && Variant.SecondOperand == SecondOperand?.Variant)
+        {
+            if (FirstOperand?.OperandSize != SecondOperand?.OperandSize || FirstOperand?.OperandSize == Size.Byte)
+            {
+                return false;
+            }
+        }
+
+        // r - r/m - i
+        if (Variant.FirstOperand == OperandVariant.Register && Variant.FirstOperand == FirstOperand?.Variant
+            && (Variant.SecondOperand == OperandVariant.Register || Variant.SecondOperand == OperandVariant.Memory) && Variant.SecondOperand == SecondOperand?.Variant
+            && Variant.ThirdOperand == OperandVariant.Value && Variant.ThirdOperand == ThirdOperand?.Variant)
+        {
+            if (FirstOperand?.OperandSize != SecondOperand?.OperandSize || FirstOperand?.OperandSize == Size.Byte)
+            {
+                return false;
+            }
+
+            if (SecondOperand?.OperandSize < ThirdOperand?.OperandSize)
+            {
+                return false;
+            }
+        }
 
         return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand?.Variant == Variant.FirstOperand && SecondOperand?.Variant == Variant.SecondOperand && ThirdOperand?.Variant == Variant.ThirdOperand;
     }

@@ -1,10 +1,19 @@
 ﻿using EmuXCore.Common.Interfaces;
 using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
 
 namespace EmuXCore.Instructions.Interfaces;
 
 public interface IOperandDecoder
 {
+    /// <summary>
+    /// Gets the value of the operand regardless of size, it does automatic casting
+    /// </summary>
+    /// <param name="virtualMachine">The virtual machine to get the value of the operand from</param>
+    /// <param name="operand">The operand to get the value of</param>
+    /// <returns>The value of the operand</returns>
+    public ulong GetOperandValue(IVirtualMachine virtualMachine, IOperand operand);
+
     /// <summary>
     /// Gets the value of the operand
     /// </summary>

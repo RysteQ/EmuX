@@ -2,6 +2,8 @@
 
 public enum RTCInterrupt : byte
 {
-    ReadRTC = 0x_00,
-    SetRTC = 0x_01
+    ReadSystemClock = 0x_00,
+    SetSystemClock = 0x_01,
+    ReadRTC = 0x_02,
+    SetRTC = 0x_03
 }

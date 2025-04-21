@@ -3,14 +3,22 @@ using EmuXCore.Common.Interfaces;
 using EmuXCore.Instructions.Interfaces;
 using EmuXCore.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuXCore.Instructions;
 
-public class InstructionIN(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
+public sealed class InstructionIN(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        // TODO
+        ulong ioValue = virtualMachine.GetQuad((int)OperandDecoder.GetOperandValue(virtualMachine, SecondOperand));
+
+        switch (FirstOperand!.OperandSize)
+        {
+            case Size.Byte: virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)ioValue; break;
+            case Size.Word: virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = (ushort)ioValue; break;
+            case Size.Double: virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX = (uint)ioValue; break;
+        }
     }
 
     public bool IsValid()
@@ -20,6 +28,27 @@ public class InstructionIN(InstructionVariant variant, IOperand? firstOperand, I
             InstructionVariant.TwoOperandsRegisterValue(),
             InstructionVariant.TwoOperandsRegisterRegister()
         ];
+
+        if (!new List<string>(["AL", "AX", "EAX"]).Any(selectedRegister => selectedRegister == FirstOperand?.FullOperand.ToUpper().Trim()))
+        {
+            return false;
+        }
+
+        if (Variant == InstructionVariant.TwoOperandsRegisterValue())
+        {
+            if (SecondOperand?.OperandSize != Size.Byte)
+            {
+                return false;
+            }
+        }
+
+        if (Variant == InstructionVariant.TwoOperandsRegisterRegister())
+        {
+            if (SecondOperand?.FullOperand.ToUpper().Trim() != "DX")
+            {
+                return false;
+            }
+        }
 
         return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand?.Variant == Variant.FirstOperand && SecondOperand?.Variant == Variant.SecondOperand && ThirdOperand == null;
     }

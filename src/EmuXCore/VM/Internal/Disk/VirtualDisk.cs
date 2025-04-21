@@ -1,10 +1,11 @@
 ﻿using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
 
 namespace EmuXCore.VM.Internal.Disk;
 
 public class VirtualDisk : IVirtualDisk
 {
-    public VirtualDisk(byte diskNumber, byte platters, ushort tracksPerPlatter, byte sectorsPerTrack)
+    public VirtualDisk(byte diskNumber, byte platters, ushort tracksPerPlatter, byte sectorsPerTrack, IVirtualMachine? parentVirtualMachine = null)
     {
         DiskNumber = diskNumber;
         Platters = platters;
@@ -29,6 +30,8 @@ public class VirtualDisk : IVirtualDisk
                 }
             }
         }
+
+        ParentVirtualMachine = parentVirtualMachine;
     }
 
     public byte[] ReadSector(byte platter, ushort track, byte sector)
@@ -63,6 +66,7 @@ public class VirtualDisk : IVirtualDisk
         }
     }
 
+    public IVirtualMachine? ParentVirtualMachine { get; set; }
     public byte DiskNumber { get; init; }
     public byte Platters { get; init; }
     public ushort Tracks { get; init; }

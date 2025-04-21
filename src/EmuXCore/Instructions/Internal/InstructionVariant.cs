@@ -16,8 +16,8 @@ public class InstructionVariant(int id, OperandVariant? firstOperand = null, Ope
     public static InstructionVariant TwoOperandsMemoryValue() => new(8, OperandVariant.Memory, OperandVariant.Value);
     public static InstructionVariant TwoOperandsMemoryRegister() => new(9, OperandVariant.Memory, OperandVariant.Register);
 
-    public static InstructionVariant ThreeOperandsRegisterRegisterValue() => new(9, OperandVariant.Register, OperandVariant.Register, OperandVariant.Value);
-    public static InstructionVariant ThreeOperandsRegisterMemoryValue() => new(9, OperandVariant.Register, OperandVariant.Memory, OperandVariant.Value);
+    public static InstructionVariant ThreeOperandsRegisterRegisterValue() => new(10, OperandVariant.Register, OperandVariant.Register, OperandVariant.Value);
+    public static InstructionVariant ThreeOperandsRegisterMemoryValue() => new(11, OperandVariant.Register, OperandVariant.Memory, OperandVariant.Value);
 
     public static InstructionVariant NaN() => new(-1);
 

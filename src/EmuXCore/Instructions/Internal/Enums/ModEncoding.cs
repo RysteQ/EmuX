@@ -2,9 +2,9 @@
 
 public enum ModEncoding : byte
 {
-    Memory = 0b00,
-    MemoryDisplacementByte = 0b01,
-    MemoryDisplacementDouble = 0b10,
-    DirectRegister = 0b11,
+    Memory = 0b_00,
+    MemoryDisplacementByte = 0b_01,
+    MemoryDisplacementDouble = 0b_10,
+    DirectRegister = 0b_11,
     NaN // Internal use
 }

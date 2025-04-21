@@ -5,7 +5,7 @@ using EmuXCore.VM.Internal.CPU.Registers;
 namespace EmuX_Unit_Tests.Tests.VM.Memory;
 
 [TestClass]
-public class VirtualMachineStackTest : TestWideInternalConstants
+public sealed class VirtualMachineStackTest : TestWideInternalConstants
 {
     [TestMethod]
     public void PushAndPopBytes()

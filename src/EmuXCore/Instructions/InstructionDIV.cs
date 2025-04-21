@@ -7,11 +7,11 @@ using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuXCore.Instructions;
 
-public class InstructionDIV(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
+public sealed class InstructionDIV(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        ulong toDivideBy = OperandDecoder.GetOperandQuad(virtualMachine, FirstOperand);
+        ulong toDivideBy = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand); // TODO - FIX THIS SHIT
         (ulong Quotient, ulong Remainder) divisionResult = (0, 0);
 
         if (toDivideBy == 0)
@@ -19,7 +19,7 @@ public class InstructionDIV(InstructionVariant variant, IOperand? firstOperand, 
             throw new Exception("Cannot divide by zero");
         }
 
-        switch (FirstOperand.OperandSize)
+        switch (FirstOperand!.OperandSize)
         {
             case Size.Byte:
                 divisionResult = ulong.DivRem(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX, toDivideBy);
@@ -83,7 +83,7 @@ public class InstructionDIV(InstructionVariant variant, IOperand? firstOperand, 
             InstructionVariant.OneOperandMemory()
         ];
 
-        return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand?.Variant == Variant.FirstOperand && SecondOperand == null;
+        return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand?.Variant == Variant.FirstOperand && SecondOperand == null && ThirdOperand == null;
     }
 
     public IOperandDecoder OperandDecoder { get; init; } = operandDecoder;

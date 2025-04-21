@@ -13,30 +13,30 @@ public sealed class NoOperandsTests : TestWideInternalConstants
     public void TestParseMethod_SingleInstruction_OneInstructionParsed()
     {
         string inputString = "aaa";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(1, instructions.Count);
-        Assert.AreEqual(InstructionVariant.NoOperands(), instructions[0].Variant);
-        Assert.IsInstanceOfType<InstructionAAA>(instructions[0]);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
+        Assert.IsInstanceOfType<InstructionAAA>(lexerResult.Instructions[0]);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
     public void TestParseMethod_SingleInstructionWithAComment_OneInstructionParsed()
     {
         string inputString = "aaa ; test";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(1, instructions.Count);
-        Assert.AreEqual(InstructionVariant.NoOperands(), instructions[0].Variant);
-        Assert.IsInstanceOfType<InstructionAAA>(instructions[0]);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
+        Assert.IsInstanceOfType<InstructionAAA>(lexerResult.Instructions[0]);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
@@ -44,17 +44,17 @@ public sealed class NoOperandsTests : TestWideInternalConstants
     {
         string inputString = "aaa ; test\n" +
             "aaa";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(2, instructions.Count);
-        Assert.AreEqual(InstructionVariant.NoOperands(), instructions[0].Variant);
-        Assert.AreEqual(InstructionVariant.NoOperands(), instructions[1].Variant);
-        Assert.IsInstanceOfType<InstructionAAA>(instructions[0]);
-        Assert.IsInstanceOfType<InstructionAAA>(instructions[1]);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(2, lexerResult.Instructions.Count);
+        Assert.AreEqual(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
+        Assert.AreEqual(InstructionVariant.NoOperands(), lexerResult.Instructions[1].Variant);
+        Assert.IsInstanceOfType<InstructionAAA>(lexerResult.Instructions[0]);
+        Assert.IsInstanceOfType<InstructionAAA>(lexerResult.Instructions[1]);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
@@ -67,19 +67,19 @@ public sealed class NoOperandsTests : TestWideInternalConstants
             "   ;  332321\n" +
             "aaa\n" +
             "   ";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(3, instructions.Count);
-        Assert.AreEqual(InstructionVariant.NoOperands(), instructions[0].Variant);
-        Assert.AreEqual(InstructionVariant.NoOperands(), instructions[1].Variant);
-        Assert.AreEqual(InstructionVariant.NoOperands(), instructions[2].Variant);
-        Assert.IsInstanceOfType<InstructionAAA>(instructions[0]);
-        Assert.IsInstanceOfType<InstructionAAA>(instructions[1]);
-        Assert.IsInstanceOfType<InstructionAAA>(instructions[2]);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(3, lexerResult.Instructions.Count);
+        Assert.AreEqual(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
+        Assert.AreEqual(InstructionVariant.NoOperands(), lexerResult.Instructions[1].Variant);
+        Assert.AreEqual(InstructionVariant.NoOperands(), lexerResult.Instructions[2].Variant);
+        Assert.IsInstanceOfType<InstructionAAA>(lexerResult.Instructions[0]);
+        Assert.IsInstanceOfType<InstructionAAA>(lexerResult.Instructions[1]);
+        Assert.IsInstanceOfType<InstructionAAA>(lexerResult.Instructions[2]);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
@@ -87,16 +87,16 @@ public sealed class NoOperandsTests : TestWideInternalConstants
     {
         string inputString = "aaa\n" +
             "aad";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(2, instructions.Count);
-        Assert.AreEqual(InstructionVariant.NoOperands(), instructions[0].Variant);
-        Assert.AreEqual(InstructionVariant.NoOperands(), instructions[1].Variant);
-        Assert.IsInstanceOfType<InstructionAAA>(instructions[0]);
-        Assert.IsInstanceOfType<InstructionAAD>(instructions[1]);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(2, lexerResult.Instructions.Count);
+        Assert.AreEqual(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
+        Assert.AreEqual(InstructionVariant.NoOperands(), lexerResult.Instructions[1].Variant);
+        Assert.IsInstanceOfType<InstructionAAA>(lexerResult.Instructions[0]);
+        Assert.IsInstanceOfType<InstructionAAD>(lexerResult.Instructions[1]);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 }

@@ -4,7 +4,8 @@ using EmuXCore.Instructions;
 using EmuXCore.Instructions.Interfaces;
 using EmuXCore.Instructions.Internal;
 using EmuXCore.Interpreter.Interfaces;
-using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU;
 using System.Diagnostics;
 
@@ -37,8 +38,8 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
             thirdOperand = ParseOperand(ThirdOperand);
         }
 
-        // 81 (85) instructions total, 20 completed, 25% completed
-        instruction = Opcode switch
+        // 80 (84) instructions total, 27 completed, 34% completed
+        instruction = Opcode.ToUpper() switch
         {
             "AAA" => new InstructionAAA(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "AAD" => new InstructionAAD(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
@@ -64,18 +65,35 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
             "DAA" => new InstructionDAA(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "DAS" => new InstructionDAS(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "DEC" => new InstructionDEC(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "DIV" => new InstructionDIV(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "HLT" => new InstructionHLT(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "IDIV" => new InstructionIDIV(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "IMUL" => new InstructionIMUL(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "IN" => new InstructionIN(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "INC" => new InstructionINC(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "INT" => new InstructionINT(instructionVariant, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             _ => throw new Exception($"Unknown opcode \"{SourceCodeLine.SourceCode}\" : {SourceCodeLine.Line}"),
         };
 
         return instruction;
     }
 
-    public bool AreOperandsValid()
+    public ILabel ToILabel()
+    {
+        return new Label(Opcode.TrimEnd(':'), SourceCodeLine.Line);
+    }
+
+    public bool AreInstructionOperandsValid()
     {
         IOperand firstOperand;
         IOperand secondOperand;
         IOperand thirdOperand;
         
+        if (Opcode.Last() == ':')
+        {
+            return false;
+        }
+
         if (string.IsNullOrEmpty(FirstOperand))
         {
             return true;
@@ -124,7 +142,27 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
             return false;
         }
     }
-    
+
+    public bool IsLabelValid()
+    {
+        if (string.IsNullOrEmpty(Opcode))
+        {
+            return false;
+        }
+
+        if (Opcode.Length == 1)
+        {
+            return false;
+        }
+
+        if (!string.IsNullOrEmpty(FirstOperand) || !string.IsNullOrEmpty(SecondOperand) || !string.IsNullOrEmpty(ThirdOperand))
+        {
+            return false;
+        }
+
+        return Opcode.Last() == ':' && !string.IsNullOrEmpty(Opcode) && !Opcode.Any(selectedChar => Char.IsAscii(selectedChar) == false && Char.IsAsciiDigit(selectedChar) == false);
+    }
+
     private InstructionVariant GetInstructionVariant()
     {
         if (string.IsNullOrEmpty(FirstOperand) && string.IsNullOrEmpty(SecondOperand))

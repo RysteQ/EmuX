@@ -11,51 +11,51 @@ public sealed class BasicLexerTests : TestWideInternalConstants
     public void TestParseMethod_Empty_Nothing()
     {
         string inputString = string.Empty;
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(0, instructions.Count);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(0, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
     public void TestParseMethod_Spaces_Nothing()
     {
         string inputString = "   ";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(0, instructions.Count);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(0, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
     public void TestParseMethod_NewLines_Nothing()
     {
         string inputString = "\n\n\n";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(0, instructions.Count);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(0, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
     public void TestParseMethod_Comment_Nothing()
     {
         string inputString = " ; test";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(0, instructions.Count);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(0, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 }

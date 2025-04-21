@@ -11,51 +11,51 @@ public sealed class MemoryRegisterOperandsTests : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithMemoryRegisterAccess_OneInstructionParsed()
     {
         string inputString = "add byte ptr [rbx], al";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(1, instructions.Count);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryRegisterAccess_NoInstructionParsed()
     {
         string inputString = "dec byte ptr [rpl], rax";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(0, instructions.Count);
-        Assert.AreEqual(false, lexer.Success);
+        Assert.AreEqual(0, lexerResult.Instructions.Count);
+        Assert.AreEqual(false, lexerResult.Success);
     }
 
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithLabelMemoryRegisterAccess_OneInstructionParsed()
     {
         string inputString = "add byte ptr [test_label], al";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(1, instructions.Count);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithLabelMemoryRegisterAccess_NoInstructionParsed()
     {
         string inputString = "dec byte ptr test_label], rax";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(0, instructions.Count);
-        Assert.AreEqual(false, lexer.Success);
+        Assert.AreEqual(0, lexerResult.Instructions.Count);
+        Assert.AreEqual(false, lexerResult.Success);
     }
 }

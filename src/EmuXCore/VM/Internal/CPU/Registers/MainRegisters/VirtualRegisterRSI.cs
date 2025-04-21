@@ -1,5 +1,6 @@
 ﻿using EmuXCore.Common.Enums;
-using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
@@ -18,7 +19,7 @@ public class VirtualRegisterRSI : IVirtualRegister
     public uint ESI
     {
         get => (uint)(RSI & 0x00000000ffffffff);
-        set => RSI = (RSI & 0xffffffff00000000) + value;
+        set => RSI = value;
     }
 
     public ushort SI

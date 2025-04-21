@@ -1,5 +1,6 @@
 ﻿using EmuXCore.Common.Enums;
-using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM.Internal.CPU.Registers;
 
@@ -13,7 +14,7 @@ public class VirtualRegisterRSP : IVirtualRegister
     public uint ESP
     {
         get => (uint)(RSP & 0x00000000ffffffff);
-        set => RSP = (RSP & 0xffffffff00000000) + value;
+        set => RSP = value;
     }
 
     public ushort SP

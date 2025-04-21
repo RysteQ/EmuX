@@ -5,7 +5,7 @@ using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 namespace EmuX_Unit_Tests.Tests.VM.Registers;
 
 [TestClass]
-public class FlagsIOPLTest : TestWideInternalConstants
+public sealed class FlagsIOPLTest : TestWideInternalConstants
 {
     [TestMethod]
     public void SetIOPLToZero()

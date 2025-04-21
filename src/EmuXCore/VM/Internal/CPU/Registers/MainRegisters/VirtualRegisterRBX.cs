@@ -1,5 +1,6 @@
 ﻿using EmuXCore.Common.Enums;
-using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
@@ -18,7 +19,7 @@ public class VirtualRegisterRBX : IVirtualRegister
     public uint EBX
     {
         get => (uint)(RBX & 0x00000000ffffffff);
-        set => RBX = (RBX & 0xffffffff00000000) + value;
+        set => RBX = value;
     }
 
     public ushort BX

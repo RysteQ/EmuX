@@ -8,7 +8,7 @@ using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuXCore.Instructions;
 
-public class InstructionAAM(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
+public sealed class InstructionAAM(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
@@ -36,7 +36,7 @@ public class InstructionAAM(InstructionVariant variant, IOperand? firstOperand, 
             InstructionVariant.OneOperandValue()
         ];
 
-        return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && SecondOperand == null;
+        return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && Variant.FirstOperand == FirstOperand?.Variant && SecondOperand == null && ThirdOperand == null;
     }
 
     public IOperandDecoder OperandDecoder { get; init; } = operandDecoder;

@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Internal.BIOS.Enums;
+﻿using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Internal.BIOS.Enums;
 using EmuXCore.VM.Internal.CPU.Enums;
 
 namespace EmuXCore.VM.Interfaces;
@@ -148,7 +149,7 @@ public interface IVirtualMachine
     /// The virtual CPU of the virtual machine that inherits from the IVirtualCPU interface
     /// </summary>
     IVirtualCPU CPU { get; init; }
-    
+
     /// <summary>
     /// The virtual disks of the virtual machine that inherits from the IVirtualDisk interface
     /// </summary>
@@ -158,4 +159,14 @@ public interface IVirtualMachine
     /// The virtual BIOS of the virtual machine that inherits from the IVirtualBIOS interface
     /// </summary>
     IVirtualBIOS BIOS { get; init; }
+
+    /// <summary>
+    /// The virtual RTC of the virtual machine that inherits from the IVirtualRTC interface
+    /// </summary>
+    IVirtualRTC RTC { get; init; }
+
+    /// <summary>
+    /// The virtual devices of the virtual machine that inherits from the IVirtualDevice interface
+    /// </summary>
+    IVirtualDevice[] Devices { get; init; }
 }

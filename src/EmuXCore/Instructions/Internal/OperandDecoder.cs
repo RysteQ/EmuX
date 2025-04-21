@@ -2,33 +2,45 @@
 using EmuXCore.Common.Interfaces;
 using EmuXCore.Instructions.Interfaces;
 using EmuXCore.VM.Interfaces;
-using System.Numerics;
+using EmuXCore.VM.Interfaces.Components;
 
 namespace EmuXCore.Instructions.Internal;
 
 public class OperandDecoder : IOperandDecoder
 {
+    public ulong GetOperandValue(IVirtualMachine virtualMachine, IOperand operand)
+    {
+        return operand.OperandSize switch
+        {
+            Size.Byte => GetOperandByte(virtualMachine, operand),
+            Size.Word => GetOperandWord(virtualMachine, operand),
+            Size.Double => GetOperandDouble(virtualMachine, operand),
+            Size.Quad => GetOperandQuad(virtualMachine, operand),
+            _ => throw new NotImplementedException()
+        };
+    }
+
     public ulong GetOperandQuad(IVirtualMachine virtualMachine, IOperand operand)
     {
-        return GetOperandValue(virtualMachine, operand);
+        return GetOperandValueInternal(virtualMachine, operand);
     }
 
     public uint GetOperandDouble(IVirtualMachine virtualMachine, IOperand operand)
     {
-        return (uint)GetOperandValue(virtualMachine, operand);
+        return (uint)GetOperandValueInternal(virtualMachine, operand);
     }
 
     public ushort GetOperandWord(IVirtualMachine virtualMachine, IOperand operand)
     {
-        return (ushort)GetOperandValue(virtualMachine, operand);
+        return (ushort)GetOperandValueInternal(virtualMachine, operand);
     }
 
     public byte GetOperandByte(IVirtualMachine virtualMachine, IOperand operand)
     {
-        return (byte)GetOperandValue(virtualMachine, operand);
+        return (byte)GetOperandValueInternal(virtualMachine, operand);
     }
     
-    private ulong GetOperandValue(IVirtualMachine virtualMachine, IOperand operand)
+    private ulong GetOperandValueInternal(IVirtualMachine virtualMachine, IOperand operand)
     {
         return operand.Variant switch
         {

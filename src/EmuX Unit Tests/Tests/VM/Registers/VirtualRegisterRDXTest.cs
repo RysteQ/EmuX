@@ -4,7 +4,7 @@ using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 namespace EmuX_Unit_Tests.Tests.VM.Registers;
 
 [TestClass]
-public class VirtualRegisterRDXTest : TestWideInternalConstants
+public sealed class VirtualRegisterRDXTest : TestWideInternalConstants
 {
     [TestMethod]
     public void Randomness()

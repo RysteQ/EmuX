@@ -11,25 +11,25 @@ public sealed class InvalidInstructionsTests : TestWideInternalConstants
     public void TestParseMethod_SingleIncorrectInstruction_ParseError()
     {
         string inputString = "bbb";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(0, instructions.Count);
-        Assert.AreEqual(false, lexer.Success);
+        Assert.AreEqual(0, lexerResult.Instructions.Count);
+        Assert.AreEqual(false, lexerResult.Success);
     }
 
     [TestMethod]
     public void TestParseMethod_InvalidInstruction_ParseError()
     {
         string inputString = "3333";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(0, instructions.Count);
-        Assert.AreEqual(false, lexer.Success);
+        Assert.AreEqual(0, lexerResult.Instructions.Count);
+        Assert.AreEqual(false, lexerResult.Success);
     }
 }

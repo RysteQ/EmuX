@@ -7,7 +7,7 @@ using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
 namespace EmuX_Unit_Tests.Tests.VM.BIOS;
 
 [TestClass]
-public class DiskInterruptTests : TestWideInternalConstants
+public sealed class DiskInterruptTests : TestWideInternalConstants
 {
     [TestMethod]
     public void TestDiskWriteRead_Random_Success()
@@ -30,8 +30,8 @@ public class DiskInterruptTests : TestWideInternalConstants
             virtualMachine.SetByte(i, randomBuffer[i]);
         }
 
-        virtualMachine.BIOS.HandleDiskInterrupt(virtualMachine.CPU, virtualMachine.Memory, virtualMachine.Disks, DiskInterrupt.WriteTrack);
-        virtualMachine.BIOS.HandleDiskInterrupt(virtualMachine.CPU, virtualMachine.Memory, virtualMachine.Disks, DiskInterrupt.ReadTrack);
+        virtualMachine.BIOS.HandleDiskInterrupt(DiskInterrupt.WriteTrack);
+        virtualMachine.BIOS.HandleDiskInterrupt(DiskInterrupt.ReadTrack);
 
         CollectionAssert.AreEqual(randomBuffer, virtualMachine.Memory.RAM[0..(int)virtualMachine.Disks[0].BytesPerSector]);
     }

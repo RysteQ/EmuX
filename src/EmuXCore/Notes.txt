@@ -1,0 +1,7 @@
+﻿This file is meant to inform the programmer, for whom that may be, of things to have in mind before doing any changes to the source code.
+
+1) Please follow the C# conventions as described by Microsoft
+2) Keep in mind this solution is supposed to be cross platform, so no specific platform dependencies should ever be added to the source code
+3) The class KeyboardInterruptHandler must be the only class, as of now, to be inherited from to add the platform specific functionality outside of the EmuXCore solution
+4) All instructions must inherit from the IInstruction interface and be a sealed class
+5) All components of the IVirtualMachine must inherit the IVirtualComponent interface

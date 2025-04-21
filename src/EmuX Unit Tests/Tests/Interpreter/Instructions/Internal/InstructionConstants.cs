@@ -2,7 +2,7 @@
 using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.Instructions.Internal;
-using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.Memory;
 
 namespace EmuX_Unit_Tests.Tests.Interpreter.Instructions.Internal;

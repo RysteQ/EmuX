@@ -1,93 +1,47 @@
 ﻿using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Internal.BIOS.Enums.SubInterrupts;
-using EmuXCore.VM.Internal.BIOS.Internal;
-using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
-using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
-
+using EmuXCore.VM.Internal.BIOS.Interfaces;
+using EmuXCore.VM.Internal.CPU.Enums;
 namespace EmuXCore.VM.Internal.BIOS;
 
-public class VirtualBIOS : IVirtualBIOS
+public class VirtualBIOS(IDiskInterruptHandler diskInterruptHandler, IRTCInterruptHandler rtcInterruptHandler, IVirtualMachine? parentVirtualMachine = null) : IVirtualBIOS
 {
-    public VirtualBIOS()
+    public void HandleDiskInterrupt(DiskInterrupt interruptCode)
     {
-        _diskInterruptHandler = new();
-        _keyboardInterruptHandler = new();
-        _rtcInterruptHandler = new();
-        _serialInterruptHandler = new();
-        _videoInterruptHandler = new();
-    }
-
-    public void HandleDiskInterrupt(IVirtualCPU virtualCPU, IVirtualMemory virtualMemory, IVirtualDisk[] virtualDisks, DiskInterrupt interruptCode)
-    {
-        byte totalAmountOfSectors = virtualCPU.GetRegister<VirtualRegisterRAX>().AL;
-        byte selectedPlatter = virtualCPU.GetRegister<VirtualRegisterRDX>().DH;
-        byte selectedTrack = virtualCPU.GetRegister<VirtualRegisterRCX>().CH;
-        byte selectedSector = virtualCPU.GetRegister<VirtualRegisterRCX>().CL;
-        byte disk = virtualCPU.GetRegister<VirtualRegisterRDX>().DL;
-        uint addressReference = (uint)(virtualCPU.GetRegister<VirtualRegisterES>().ES << 16 | virtualCPU.GetRegister<VirtualRegisterRBX>().BX);
-        IVirtualDisk? selectedDisk = virtualDisks.Where(selectedDisk => selectedDisk.DiskNumber == disk).FirstOrDefault();
-        byte[] buffer;
-
-        if (selectedDisk == null)
+        if (ParentVirtualMachine == null)
         {
-            throw new DriveNotFoundException($"Drive with drive number {disk} not found");
+            throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
         }
-
-        buffer = new byte[selectedDisk.BytesPerSector];
 
         switch (interruptCode)
         {
-            case DiskInterrupt.ReadTrack:
-                for (int i = 0; i < totalAmountOfSectors; i++)
-                {
-                    buffer = selectedDisk.ReadSector(selectedPlatter, selectedTrack, selectedSector);
-
-                    for (int j = 0; j < buffer.Length; j++)
-                    {
-                        virtualMemory.RAM[i * selectedDisk.BytesPerSector + j + addressReference] = buffer[j];
-                    }
-                }
-
-                break;
-
-            case DiskInterrupt.WriteTrack:
-                for (int i = 0; i < totalAmountOfSectors; i++)
-                {
-                    for (int j = 0; j < buffer.Length; j++)
-                    {
-                        buffer[j] = virtualMemory.RAM[i * selectedDisk.BytesPerSector + j + addressReference];
-                    }
-
-                    selectedDisk.WriteSector(selectedPlatter, selectedTrack, selectedSector, buffer);
-                }
-
-                break;
+            case DiskInterrupt.ReadTrack: _diskInterruptHandler.ReadTrack(ParentVirtualMachine.CPU, ParentVirtualMachine.Memory, ParentVirtualMachine.Disks); break;
+            case DiskInterrupt.WriteTrack: _diskInterruptHandler.WriteTrack(ParentVirtualMachine.CPU, ParentVirtualMachine.Memory, ParentVirtualMachine.Disks); break;
         }
     }
 
-    public void HandleKeyboardInterrupt(IVirtualCPU virtualCPU, IVirtualMemory virtualMemory, IVirtualDisk[] virtualDisks, KeyboardInterrupt interruptCode)
+    public void HandleRTCInterrupt(RTCInterrupt interruptCode)
     {
-        throw new NotImplementedException();
+        if (ParentVirtualMachine == null)
+        {
+            throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
+        }
+
+        // It is granted that the virtual machine is going to have an operational virtual RTC unit
+        ParentVirtualMachine.SetFlag(EFlags.CF, false);
+
+        switch (interruptCode)
+        {
+            case RTCInterrupt.ReadSystemClock: _rtcInterruptHandler.ReadSystemClock(ParentVirtualMachine.CPU, ParentVirtualMachine.RTC); break;
+            case RTCInterrupt.SetSystemClock: _rtcInterruptHandler.SetSystemClock(ParentVirtualMachine.CPU, ParentVirtualMachine.RTC); break;
+            case RTCInterrupt.ReadRTC: _rtcInterruptHandler.ReadRTC(ParentVirtualMachine.CPU, ParentVirtualMachine.RTC); break;
+            case RTCInterrupt.SetRTC: _rtcInterruptHandler.SetRTC(ParentVirtualMachine.CPU, ParentVirtualMachine.RTC); break;
+        }
     }
 
-    public void HandleRTCInterrupt(IVirtualCPU virtualCPU, IVirtualMemory virtualMemory, IVirtualDisk[] virtualDisks, RTCInterrupt interruptCode)
-    {
-        throw new NotImplementedException();
-    }
+    public IVirtualMachine? ParentVirtualMachine { get; set; } = parentVirtualMachine;
 
-    public void HandleSerialInterrupt(IVirtualCPU virtualCPU, IVirtualMemory virtualMemory, IVirtualDisk[] virtualDisks, SerialInterrupt interruptCode)
-    {
-        throw new NotImplementedException();
-    }
-
-    public void HandleVideoInterrupt(IVirtualCPU virtualCPU, IVirtualMemory virtualMemory, IVirtualDisk[] virtualDisks, VideoInterrupt interruptCode)
-    {
-        throw new NotImplementedException();
-    }
-
-    private DiskInterruptHandler _diskInterruptHandler;
-    private KeyboardInterruptHandler _keyboardInterruptHandler;
-    private RTCInterruptHandler _rtcInterruptHandler;
-    private SerialInterruptHandler _serialInterruptHandler;
-    private VideoInterruptHandler _videoInterruptHandler;
+    private IDiskInterruptHandler _diskInterruptHandler = diskInterruptHandler;
+    private IRTCInterruptHandler _rtcInterruptHandler = rtcInterruptHandler;
 }

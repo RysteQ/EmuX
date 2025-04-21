@@ -2,10 +2,10 @@
 
 public enum Size : byte
 {
-    Byte,
-    Word,
-    Double,
-    Quad,
+    Byte = 1,
+    Word = 2,
+    Double = 4,
+    Quad = 8,
 
-    NaN
+    NaN = 0
 }

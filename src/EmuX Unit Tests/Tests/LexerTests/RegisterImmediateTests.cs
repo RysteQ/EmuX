@@ -11,25 +11,25 @@ public sealed class RegisterImmediate : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithInvalidOperands_OneInstructionParsed()
     {
         string inputString = "add al, 255";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(1, instructions.Count);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithInvalidOperands_ParseError()
     {
         string inputString = "add al, 1364";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(0, instructions.Count);
-        Assert.AreEqual(false, lexer.Success);
+        Assert.AreEqual(0, lexerResult.Instructions.Count);
+        Assert.AreEqual(false, lexerResult.Success);
     }
 }

@@ -3,29 +3,30 @@ using EmuXCore.Common.Interfaces;
 using EmuXCore.Instructions.Interfaces;
 using EmuXCore.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU.Enums;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
 namespace EmuXCore.Instructions;
 
-public class InstructionAND(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
+public sealed class InstructionAND(InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        ulong firstOperandValue = OperandDecoder.GetOperandQuad(virtualMachine, FirstOperand);
-        ulong secondOperandValue = OperandDecoder.GetOperandQuad(virtualMachine, SecondOperand);
+        ulong firstOperandValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
+        ulong secondOperandValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
 
         if (Variant.FirstOperand == OperandVariant.Register)
         {
-            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand?.FullOperand);
+            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
-            register.Set(register.Get() & OperandDecoder.GetOperandQuad(virtualMachine, SecondOperand));
+            register!.Set(register!.Get() & OperandDecoder.GetOperandValue(virtualMachine, SecondOperand));
         }
         else
         {
-            ulong valueToSet = OperandDecoder.GetOperandQuad(virtualMachine, FirstOperand) & OperandDecoder.GetOperandQuad(virtualMachine, SecondOperand);
+            ulong valueToSet = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand) & OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
 
-            switch (SecondOperand?.OperandSize)
+            switch (SecondOperand!.OperandSize)
             {
                 case Size.Byte: virtualMachine.SetByte((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (byte)valueToSet); break;
                 case Size.Word: virtualMachine.SetWord((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (ushort)valueToSet); break;
@@ -36,7 +37,7 @@ public class InstructionAND(InstructionVariant variant, IOperand? firstOperand, 
 
         virtualMachine.SetFlag(EFlags.CF, false);
         virtualMachine.SetFlag(EFlags.OF, false);
-        virtualMachine.SetFlag(EFlags.SF, FlagStateProcessor.TestSignFlag(firstOperandValue & secondOperandValue, FirstOperand.OperandSize));
+        virtualMachine.SetFlag(EFlags.SF, FlagStateProcessor.TestSignFlag(firstOperandValue & secondOperandValue, FirstOperand!.OperandSize));
         virtualMachine.SetFlag(EFlags.ZF, FlagStateProcessor.TestZeroFlag(firstOperandValue & secondOperandValue));
         virtualMachine.SetFlag(EFlags.PF, FlagStateProcessor.TestParityFlag(firstOperandValue & secondOperandValue));
     }
@@ -51,7 +52,42 @@ public class InstructionAND(InstructionVariant variant, IOperand? firstOperand, 
             InstructionVariant.TwoOperandsMemoryRegister()
         ];
 
-        return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand?.Variant == Variant.FirstOperand && SecondOperand?.Variant == Variant.SecondOperand;
+        // r/m - i
+        if ((Variant.FirstOperand == OperandVariant.Register || Variant.FirstOperand == OperandVariant.Memory) && Variant.FirstOperand == FirstOperand?.Variant
+            && Variant.SecondOperand == OperandVariant.Value && Variant.SecondOperand == SecondOperand?.Variant)
+        {
+            if (FirstOperand.OperandSize == Size.Quad && SecondOperand?.OperandSize == Size.Quad)
+            {
+                return false;
+            }
+
+            if (FirstOperand.OperandSize < SecondOperand?.OperandSize)
+            {
+                return false;
+            }
+        }
+
+        // r/m - r
+        if ((Variant.FirstOperand == OperandVariant.Register || Variant.FirstOperand == OperandVariant.Memory) && Variant.FirstOperand == FirstOperand?.Variant
+            && Variant.SecondOperand == OperandVariant.Register && Variant.SecondOperand == SecondOperand?.Variant)
+        {
+            if (FirstOperand?.OperandSize != SecondOperand?.OperandSize)
+            {
+                return false;
+            }
+        }
+
+        // r - r/m
+        if (Variant.FirstOperand == OperandVariant.Register && Variant.FirstOperand == FirstOperand?.Variant
+            && (Variant.SecondOperand == OperandVariant.Register || Variant.SecondOperand == OperandVariant.Memory) && Variant.SecondOperand == SecondOperand?.Variant)
+        {
+            if (FirstOperand?.OperandSize != SecondOperand?.OperandSize)
+            {
+                return false;
+            }
+        }
+
+        return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand?.Variant == Variant.FirstOperand && SecondOperand?.Variant == Variant.SecondOperand && ThirdOperand == null;
     }
 
     public IOperandDecoder OperandDecoder { get; init; } = operandDecoder;

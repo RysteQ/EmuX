@@ -1,6 +1,7 @@
 ﻿using EmuX_Unit_Tests.Tests.InternalConstants;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.Interpreter.Interfaces;
+using EmuXCore.Interpreter.Internal.Models;
 
 namespace EmuX_Unit_Tests.Tests.LexerTests;
 
@@ -11,25 +12,25 @@ public sealed class RegisterRegisterOperands : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithRegisterRegisterAccess_OneInstructionParsed()
     {
         string inputString = "adc rax, rax";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(1, instructions.Count);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithRegisterRegisterAccess_NoInstructionParsed()
     {
         string inputString = "adc rax, rrax";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(0, instructions.Count);
-        Assert.AreEqual(false, lexer.Success);
+        Assert.AreEqual(0, lexerResult.Instructions.Count);
+        Assert.AreEqual(false, lexerResult.Success);
     }
 }

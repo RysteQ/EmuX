@@ -5,6 +5,7 @@ namespace EmuXCore.Instructions.Internal;
 
 public class Operand(string fullOperand, OperandVariant variant, Size operandSize, int[] offsets, string memoryLabel) : IOperand
 {
+    // TODO
     public bool IsMemoryPointerValid()
     {
         throw new NotImplementedException();

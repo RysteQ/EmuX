@@ -1,5 +1,6 @@
 ﻿using EmuXCore.Common.Enums;
-using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
@@ -18,7 +19,7 @@ public class VirtualRegisterRDI : IVirtualRegister
     public uint EDI
     {
         get => (uint)(RDI & 0x00000000ffffffff);
-        set => RDI = (RDI & 0xffffffff00000000) + value;
+        set => RDI = value;
     }
 
     public ushort DI

@@ -11,10 +11,22 @@ public interface ILexeme
     IInstruction ToIInstruction();
 
     /// <summary>
+    /// Converts the lexem to its ILabel counterpart
+    /// </summary>
+    /// <returns>The ILabel</returns>
+    ILabel ToILabel();
+
+    /// <summary>
     /// Checks if the operands are valid based on some common checks for all instruction types
     /// </summary>
     /// <returns>True if the operands are indeed valid</returns>
-    bool AreOperandsValid();
+    bool AreInstructionOperandsValid();
+
+    /// <summary>
+    /// Checks if the label name is valid based on some common checks
+    /// </summary>
+    /// <returns>True if the label name is indeed valid</returns>
+    bool IsLabelValid();
 
     /// <summary>
     /// The source code line

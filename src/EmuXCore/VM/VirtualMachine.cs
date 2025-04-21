@@ -1,4 +1,5 @@
 ﻿using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Internal.BIOS.Enums;
 using EmuXCore.VM.Internal.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Enums;
@@ -7,14 +8,19 @@ using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
 namespace EmuXCore.VM;
 
+/// <summary>
+/// Please use the VirtualMachineBuilder instead of the VirtualMachine directly if you want to create a new instance of it
+/// </summary>
 public class VirtualMachine : IVirtualMachine
 {
-    public VirtualMachine(IVirtualCPU cpu, IVirtualMemory memory, IVirtualDisk[] disks, IVirtualBIOS bios)
+    public VirtualMachine(IVirtualCPU cpu, IVirtualMemory memory, IVirtualDisk[] disks, IVirtualBIOS bios, IVirtualRTC virtualRTC, IVirtualDevice[] virtualDevices)
     {
         CPU = cpu;
         Memory = memory;
         Disks = disks;
         BIOS = bios;
+        RTC = virtualRTC;
+        Devices = virtualDevices;
 
         CPU.GetRegister<VirtualRegisterRSP>().RSP = (ulong)(Memory.RAM.Length - 1);
     }
@@ -155,10 +161,7 @@ public class VirtualMachine : IVirtualMachine
     {
         Dictionary<InterruptCode, Type> interruptCodeLookup = new()
         {
-            { InterruptCode.Keyboard, typeof(KeyboardInterrupt) },
-            { InterruptCode.Video, typeof(VideoInterrupt) },
             { InterruptCode.Disk, typeof(DiskInterrupt) },
-            { InterruptCode.Serial, typeof(SerialInterrupt) },
             { InterruptCode.RTC, typeof(RTCInterrupt) },
         };
 
@@ -169,11 +172,8 @@ public class VirtualMachine : IVirtualMachine
 
         switch (interruptCode)
         {
-            case InterruptCode.Keyboard: BIOS.HandleKeyboardInterrupt(CPU, Memory, Disks, (KeyboardInterrupt)subInterruptCode); break;
-            case InterruptCode.Video: BIOS.HandleVideoInterrupt(CPU, Memory, Disks, (VideoInterrupt)subInterruptCode); break;
-            case InterruptCode.Disk: BIOS.HandleDiskInterrupt(CPU, Memory, Disks, (DiskInterrupt)subInterruptCode); break;
-            case InterruptCode.Serial: BIOS.HandleSerialInterrupt(CPU, Memory, Disks, (SerialInterrupt)subInterruptCode); break;
-            case InterruptCode.RTC: BIOS.HandleRTCInterrupt(CPU, Memory, Disks, (RTCInterrupt)subInterruptCode); break;
+            case InterruptCode.Disk: BIOS.HandleDiskInterrupt((DiskInterrupt)subInterruptCode); break;
+            case InterruptCode.RTC: BIOS.HandleRTCInterrupt((RTCInterrupt)subInterruptCode); break;
             default: throw new NotImplementedException($"Interrupt code of type {nameof(interruptCode)} has not yet been implemented");
         }
     }
@@ -182,4 +182,6 @@ public class VirtualMachine : IVirtualMachine
     public IVirtualCPU CPU { get; init; }
     public IVirtualDisk[] Disks { get; init; }
     public IVirtualBIOS BIOS { get; init; }
+    public IVirtualRTC RTC { get; init; }
+    public IVirtualDevice[] Devices { get; init; }
 }

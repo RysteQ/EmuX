@@ -1,10 +1,10 @@
 ﻿using EmuX_Unit_Tests.Tests.InternalConstants;
-using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
 
 namespace EmuX_Unit_Tests.Tests.VM.Disk;
 
 [TestClass]
-public class DiskTests : TestWideInternalConstants
+public sealed class DiskTests : TestWideInternalConstants
 {
     [TestMethod]
     public void TestReadWriteRandomSector_Success()
@@ -25,7 +25,7 @@ public class DiskTests : TestWideInternalConstants
         }
         catch (IndexOutOfRangeException ex)
         {
-            Assert.AreEqual<bool>(true, true);
+            Assert.IsTrue(true);
         }
         catch (Exception ex)
         {

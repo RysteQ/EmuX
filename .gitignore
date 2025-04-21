@@ -1,7 +1,13 @@
 src/.vs
 src/EmuXCore/bin
 src/EmuXCore/obj
-src/EmuX Unit Tests/bin
-src/EmuX Unit Tests/obj
 src/EmuX/bin
 src/EmuX/obj
+src/EmuX Unit Tests/bin
+src/EmuX Unit Tests/obj
+src/EmuX - Console/bin
+src/EmuX - Console/obj
+src/EmuX - Winforms/bin
+src/EmuX - Winforms/obj
+src/EmuX - MAUI/bin
+src/EmuX - MAUI/obj

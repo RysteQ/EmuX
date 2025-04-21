@@ -11,12 +11,12 @@ public sealed class RegisterMemoryValueOperands : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithMemoryValueAccess_OneInstructionParsed()
     {
         string inputString = "add word ptr [test_label], 1000";
-        List<IInstruction> instructions = [];
         ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
 
-        instructions = lexer.Parse(inputString);
+        lexerResult = lexer.Parse(inputString);
 
-        Assert.AreEqual(1, instructions.Count);
-        Assert.AreEqual(true, lexer.Success);
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
     }
 }

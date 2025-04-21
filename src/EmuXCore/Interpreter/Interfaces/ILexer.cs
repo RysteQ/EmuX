@@ -9,15 +9,5 @@ public interface ILexer
     /// </summary>
     /// <param name="codeToParse">The source code to parse</param>
     /// <returns>The parsed instructions</returns>
-    List<IInstruction> Parse(string codeToParse);
-
-    /// <summary>
-    /// Indicates the status of the parser process
-    /// </summary>
-    bool Success { get; }
-
-    /// <summary>
-    /// Holds any errors during the parse process
-    /// </summary>
-    List<string> ErrorLog { get; }
+    ILexerResult Parse(string codeToParse);
 }
