@@ -1,6 +1,5 @@
 ﻿using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Internal.BIOS.Interfaces;
-using EmuXCore.VM.Internal.CPU.Enums;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuXCore.VM.Internal.BIOS.Internal;

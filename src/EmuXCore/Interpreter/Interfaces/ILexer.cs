@@ -1,6 +1,4 @@
-﻿using EmuXCore.Common.Interfaces;
-
-namespace EmuXCore.Interpreter.Interfaces;
+﻿namespace EmuXCore.Interpreter.Interfaces;
 
 public interface ILexer
 {

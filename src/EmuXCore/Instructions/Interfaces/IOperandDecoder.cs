@@ -51,7 +51,7 @@ public interface IOperandDecoder
     /// </summary>
     /// <param name="operand">The pointer operand</param>
     /// <returns>The address the operand is pointing at</returns>
-    public int GetPointerMemoryAddress(IVirtualMemory memory, IOperand operand);
+    public int GetPointerMemoryAddress(IVirtualMachine virtualMachine, IOperand operand);
 
     /// <summary>
     /// Gets the instruction line the label is pointing at

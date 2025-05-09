@@ -38,7 +38,7 @@ public sealed class InstructionDECTests : InstructionConstants<InstructionDEC>
     [TestMethod]
     public void TestIsValidMethod_VariantOneOperandMemory_Valid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
         Assert.AreEqual<bool>(true, instruction.IsValid());
     }
@@ -62,7 +62,7 @@ public sealed class InstructionDECTests : InstructionConstants<InstructionDEC>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsRegisterMemory_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -70,7 +70,7 @@ public sealed class InstructionDECTests : InstructionConstants<InstructionDEC>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsMemoryValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -78,7 +78,7 @@ public sealed class InstructionDECTests : InstructionConstants<InstructionDEC>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsMemoryRegister_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("al", OperandVariant.Register, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -94,7 +94,7 @@ public sealed class InstructionDECTests : InstructionConstants<InstructionDEC>
     [TestMethod]
     public void TestIsValidMethod_VariantThreeOperandsRegisterMemoryValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -150,10 +150,10 @@ public sealed class InstructionDECTests : InstructionConstants<InstructionDEC>
     [TestMethod]
     public void TestExecuteMethod_DecrementMemoryByte()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.Memory.LabelMemoryLocations.Add("test_label", GenerateMemoryLabel("test_label", 0, 0));
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 0));
         virtualMachine.SetByte(0, 100);
         instruction.Execute(virtualMachine);
 
@@ -163,10 +163,10 @@ public sealed class InstructionDECTests : InstructionConstants<InstructionDEC>
     [TestMethod]
     public void TestExecuteMethod_DecrementMemoryWord()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.Memory.LabelMemoryLocations.Add("test_label", GenerateMemoryLabel("test_label", 0, 0));
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 0));
         virtualMachine.SetWord(0, 1000);
         instruction.Execute(virtualMachine);
 
@@ -176,10 +176,10 @@ public sealed class InstructionDECTests : InstructionConstants<InstructionDEC>
     [TestMethod]
     public void TestExecuteMethod_DecrementMemoryDouble()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Double, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Double, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.Memory.LabelMemoryLocations.Add("test_label", GenerateMemoryLabel("test_label", 0, 0));
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 0));
         virtualMachine.SetDouble(0, 100000);
         instruction.Execute(virtualMachine);
 
@@ -189,10 +189,10 @@ public sealed class InstructionDECTests : InstructionConstants<InstructionDEC>
     [TestMethod]
     public void TestExecuteMethod_DecrementMemoryQuad()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Quad, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Quad, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.Memory.LabelMemoryLocations.Add("test_label", GenerateMemoryLabel("test_label", 0, 0));
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 0));
         virtualMachine.SetQuad(0, ulong.MaxValue);
         instruction.Execute(virtualMachine);
 

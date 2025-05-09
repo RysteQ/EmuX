@@ -45,6 +45,11 @@ public sealed class InstructionCMP(InstructionVariant variant, IOperand? firstOp
             {
                 return false;
             }
+
+            if (!FirstOperand!.AreMemoryOffsetValid())
+            {
+                return false;
+            }
         }
 
         // r/m - r
@@ -55,6 +60,11 @@ public sealed class InstructionCMP(InstructionVariant variant, IOperand? firstOp
             {
                 return false;
             }
+
+            if (!FirstOperand!.AreMemoryOffsetValid())
+            {
+                return false;
+            }
         }
 
         // r - r/m
@@ -62,6 +72,11 @@ public sealed class InstructionCMP(InstructionVariant variant, IOperand? firstOp
             && (Variant.SecondOperand == OperandVariant.Register || Variant.SecondOperand == OperandVariant.Memory) && Variant.SecondOperand == SecondOperand?.Variant)
         {
             if (FirstOperand?.OperandSize != SecondOperand?.OperandSize)
+            {
+                return false;
+            }
+
+            if (!SecondOperand!.AreMemoryOffsetValid())
             {
                 return false;
             }

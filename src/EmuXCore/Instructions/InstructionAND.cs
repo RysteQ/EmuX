@@ -5,7 +5,6 @@ using EmuXCore.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU.Enums;
-using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
 namespace EmuXCore.Instructions;
 
@@ -18,8 +17,8 @@ public sealed class InstructionAND(InstructionVariant variant, IOperand? firstOp
 
         if (Variant.FirstOperand == OperandVariant.Register)
         {
-            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
-
+            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+            
             register!.Set(register!.Get() & OperandDecoder.GetOperandValue(virtualMachine, SecondOperand));
         }
         else
@@ -28,10 +27,10 @@ public sealed class InstructionAND(InstructionVariant variant, IOperand? firstOp
 
             switch (SecondOperand!.OperandSize)
             {
-                case Size.Byte: virtualMachine.SetByte((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (byte)valueToSet); break;
-                case Size.Word: virtualMachine.SetWord((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (ushort)valueToSet); break;
-                case Size.Double: virtualMachine.SetDouble((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (uint)valueToSet); break;
-                case Size.Quad: virtualMachine.SetQuad((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), valueToSet); break;
+                case Size.Byte: virtualMachine.SetByte((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (byte)valueToSet); break;
+                case Size.Word: virtualMachine.SetWord((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (ushort)valueToSet); break;
+                case Size.Double: virtualMachine.SetDouble((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (uint)valueToSet); break;
+                case Size.Quad: virtualMachine.SetQuad((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), valueToSet); break;
             }
         }
 
@@ -65,6 +64,11 @@ public sealed class InstructionAND(InstructionVariant variant, IOperand? firstOp
             {
                 return false;
             }
+
+            if (!FirstOperand!.AreMemoryOffsetValid())
+            {
+                return false;
+            }
         }
 
         // r/m - r
@@ -75,6 +79,11 @@ public sealed class InstructionAND(InstructionVariant variant, IOperand? firstOp
             {
                 return false;
             }
+
+            if (!FirstOperand!.AreMemoryOffsetValid())
+            {
+                return false;
+            }
         }
 
         // r - r/m
@@ -82,6 +91,11 @@ public sealed class InstructionAND(InstructionVariant variant, IOperand? firstOp
             && (Variant.SecondOperand == OperandVariant.Register || Variant.SecondOperand == OperandVariant.Memory) && Variant.SecondOperand == SecondOperand?.Variant)
         {
             if (FirstOperand?.OperandSize != SecondOperand?.OperandSize)
+            {
+                return false;
+            }
+
+            if (!SecondOperand!.AreMemoryOffsetValid())
             {
                 return false;
             }

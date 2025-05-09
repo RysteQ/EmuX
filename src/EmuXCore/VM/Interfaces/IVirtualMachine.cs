@@ -86,12 +86,6 @@ public interface IVirtualMachine
     ulong GetQuad(int memoryLocation);
 
     /// <summary>
-    /// Pushed a byte onto the stack and updates the RSP register
-    /// </summary>
-    /// <param name="value">The byte to push</param>
-    void PushByte(byte value);
-
-    /// <summary>
     /// Pushed a word onto the stack and updates the RSP register
     /// </summary>
     /// <param name="value">The word to push</param>
@@ -101,19 +95,13 @@ public interface IVirtualMachine
     /// Pushed a double onto the stack and updates the RSP register
     /// </summary>
     /// <param name="value">The double to push</param>
-    void PushDoubleWord(uint value);
+    void PushDouble(uint value);
 
     /// <summary>
     /// Pushed a quad onto the stack and updates the RSP register
     /// </summary>
     /// <param name="value">The quad to push</param>
-    void PushQuadWord(ulong value);
-
-    /// <summary>
-    /// Pops a byte from the stack and updates the RSP register
-    /// </summary>
-    /// <returns>The byte popped from the stack</returns>
-    byte PopByte();
+    void PushQuad(ulong value);
 
     /// <summary>
     /// Pops a word from the stack and updates the RSP register
@@ -125,13 +113,13 @@ public interface IVirtualMachine
     /// Pops a double from the stack and updates the RSP register
     /// </summary>
     /// <returns>The double popped from the stack</returns>
-    uint PopDoubleWord();
+    uint PopDouble();
 
     /// <summary>
     /// Pops a quad from the stack and updates the RSP register
     /// </summary>
     /// <returns>The quad popped from the stack</returns>
-    ulong PopQuadWord();
+    ulong PopQuad();
 
     /// <summary>
     /// Triggers a BIOS interrupt

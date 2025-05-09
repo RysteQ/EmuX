@@ -9,15 +9,15 @@ public class VirtualMemory : IVirtualMemory
     public VirtualMemory(IVirtualMachine? parentVirtualMachine = null)
     {
         RAM = new byte[IO_MEMORY + VIDEO_MEMORY + GENERAL_PURPOSE_MEMORY];
-        LabelMemoryLocations = [];
+        LabelMemoryLocations = new Dictionary<string, IMemoryLabel>();
 
         Random.Shared.NextBytes(RAM);
-        
+
         ParentVirtualMachine = parentVirtualMachine;
     }
 
     public byte[] RAM { get; set; }
-    public Dictionary<string, IMemoryLabel> LabelMemoryLocations { get; set; }
+    public IDictionary<string, IMemoryLabel> LabelMemoryLocations { get; set; }
 
     public uint IO_MEMORY { get; } = 65_536;
     public uint VIDEO_MEMORY { get; } = 921_600;

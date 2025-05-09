@@ -4,7 +4,6 @@ using EmuXCore.Common.Interfaces;
 using EmuXCore.Instructions;
 using EmuXCore.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuX_Unit_Tests.Tests.Interpreter.Instructions;
 
@@ -38,7 +37,7 @@ public sealed class InstructionHLTTests : InstructionConstants<InstructionHLT>
     [TestMethod]
     public void TestIsValidMethod_VariantOneOperandMemory_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -62,7 +61,7 @@ public sealed class InstructionHLTTests : InstructionConstants<InstructionHLT>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsRegisterMemory_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -70,7 +69,7 @@ public sealed class InstructionHLTTests : InstructionConstants<InstructionHLT>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsMemoryValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -78,7 +77,7 @@ public sealed class InstructionHLTTests : InstructionConstants<InstructionHLT>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsMemoryRegister_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("al", OperandVariant.Register, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -94,7 +93,7 @@ public sealed class InstructionHLTTests : InstructionConstants<InstructionHLT>
     [TestMethod]
     public void TestIsValidMethod_VariantThreeOperandsRegisterMemoryValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }

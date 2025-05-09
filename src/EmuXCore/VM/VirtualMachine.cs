@@ -102,46 +102,38 @@ public class VirtualMachine : IVirtualMachine
         return partOne + partTwo;
     }
 
-    public void PushByte(byte value)
-    {
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP] = value;
-        CPU.GetRegister<VirtualRegisterRSP>().RSP--;
-    }
-
     public void PushWord(ushort value)
     {
-        PushByte((byte)(value & 0x_00ff));
-        PushByte((byte)((value & 0x_ff00) >> 8));
+        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 2] = (byte)(0x_00_ff & value);
+        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 3] = (byte)((0x_ff_00 & value) >> 8);
+        CPU.GetRegister<VirtualRegisterRSP>().RSP -= 2;
+        CPU.GetRegister<VirtualRegisterRSP>().RSP -= CPU.GetRegister<VirtualRegisterRSP>().RSP % 4;
     }
 
-    public void PushDoubleWord(uint value)
+    public void PushDouble(uint value)
     {
         PushWord((ushort)(value & 0x_0000_ffff));
         PushWord((ushort)((value & 0x_ffff_0000) >> 16));
     }
 
-    public void PushQuadWord(ulong value)
+    public void PushQuad(ulong value)
     {
-        PushDoubleWord((uint)(value & 0x_0000_0000_ffff_ffff));
-        PushDoubleWord((uint)((value & 0x_ffff_ffff_0000_0000) >> 32));
-    }
-
-    public byte PopByte()
-    {
-        CPU.GetRegister<VirtualRegisterRSP>().RSP++;
-
-        return Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP];
+        PushDouble((uint)(value & 0x_0000_0000_ffff_ffff));
+        PushDouble((uint)((value & 0x_ffff_ffff_0000_0000) >> 32));
     }
 
     public ushort PopWord()
     {
-        byte partOne = PopByte();
-        byte partTwo = PopByte();
+        byte partOne = Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 2];
+        byte partTwo = Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 3];
+
+        CPU.GetRegister<VirtualRegisterRSP>().RSP += 2;
+        CPU.GetRegister<VirtualRegisterRSP>().RSP += CPU.GetRegister<VirtualRegisterRSP>().RSP % 4;
 
         return (ushort)(partOne << 16 + partTwo);
     }
 
-    public uint PopDoubleWord()
+    public uint PopDouble()
     {
         ushort partOne = PopWord();
         ushort partTwo = PopWord();
@@ -149,10 +141,10 @@ public class VirtualMachine : IVirtualMachine
         return (uint)(partOne << 32 + partTwo);
     }
 
-    public ulong PopQuadWord()
+    public ulong PopQuad()
     {
-        int partOne = (int)PopDoubleWord();
-        int partTwo = (int)PopDoubleWord();
+        int partOne = (int)PopDouble();
+        int partTwo = (int)PopDouble();
 
         return (ulong)(partOne << 64 + partTwo);
     }

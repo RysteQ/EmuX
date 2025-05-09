@@ -1,5 +1,4 @@
 ﻿using EmuXCore.Common.Enums;
-using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.SubRegisters;

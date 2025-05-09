@@ -1,5 +1,4 @@
 ﻿using EmuX_Unit_Tests.Tests.InternalConstants;
-using EmuXCore.Common.Interfaces;
 using EmuXCore.Interpreter.Interfaces;
 
 namespace EmuX_Unit_Tests.Tests.LexerTests;

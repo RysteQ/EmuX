@@ -17,7 +17,8 @@ public sealed class InstructionADD(InstructionVariant variant, IOperand? firstOp
 
         if (Variant.FirstOperand == OperandVariant.Register)
         {
-            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
+            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+            
             valueToSet = register!.Get() + OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
 
             register!.Set(valueToSet);
@@ -28,10 +29,10 @@ public sealed class InstructionADD(InstructionVariant variant, IOperand? firstOp
 
             switch (SecondOperand!.OperandSize)
             {
-                case Size.Byte: virtualMachine.SetByte((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (byte)valueToSet); break;
-                case Size.Word: virtualMachine.SetWord((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (ushort)valueToSet); break;
-                case Size.Double: virtualMachine.SetDouble((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (uint)valueToSet); break;
-                case Size.Quad: virtualMachine.SetQuad((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine.Memory, FirstOperand), (ulong)valueToSet); break;
+                case Size.Byte: virtualMachine.SetByte((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (byte)valueToSet); break;
+                case Size.Word: virtualMachine.SetWord((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (ushort)valueToSet); break;
+                case Size.Double: virtualMachine.SetDouble((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (uint)valueToSet); break;
+                case Size.Quad: virtualMachine.SetQuad((int)OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (ulong)valueToSet); break;
             }
         }
 
@@ -66,6 +67,11 @@ public sealed class InstructionADD(InstructionVariant variant, IOperand? firstOp
             {
                 return false;
             }
+
+            if (!FirstOperand!.AreMemoryOffsetValid())
+            {
+                return false;
+            }
         }
 
         // r/m - r
@@ -76,6 +82,11 @@ public sealed class InstructionADD(InstructionVariant variant, IOperand? firstOp
             {
                 return false;
             }
+
+            if (!FirstOperand!.AreMemoryOffsetValid())
+            {
+                return false;
+            }
         }
 
         // r - r/m
@@ -83,6 +94,11 @@ public sealed class InstructionADD(InstructionVariant variant, IOperand? firstOp
             && (Variant.SecondOperand == OperandVariant.Register || Variant.SecondOperand == OperandVariant.Memory) && Variant.SecondOperand == SecondOperand?.Variant)
         {
             if (FirstOperand?.OperandSize != SecondOperand?.OperandSize)
+            {
+                return false;
+            }
+
+            if (!SecondOperand!.AreMemoryOffsetValid())
             {
                 return false;
             }

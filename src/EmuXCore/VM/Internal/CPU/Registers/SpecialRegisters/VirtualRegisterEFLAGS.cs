@@ -1,5 +1,4 @@
 ﻿using EmuXCore.Common.Enums;
-using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
@@ -8,13 +7,19 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
 {
     public VirtualRegisterEFLAGS()
     {
-        EFLAGS = 0x00000002;
+        RFLAGS = 0x0000000000000002;
     }
 
-    public ulong Get() => EFLAGS;
-    public void Set(ulong value) => EFLAGS = (uint)value;
+    public ulong Get() => RFLAGS;
+    public void Set(ulong value) => RFLAGS = value;
 
-    public uint EFLAGS { get; set; }
+    public ulong RFLAGS { get; set; }
+
+    public uint EFLAGS
+    {
+        get => (uint)(RFLAGS & 0x00000000ffffffff);
+        set => RFLAGS = value;
+    }
 
     public ushort FLAGS
     {

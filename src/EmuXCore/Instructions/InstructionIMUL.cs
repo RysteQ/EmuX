@@ -3,6 +3,7 @@ using EmuXCore.Common.Interfaces;
 using EmuXCore.Instructions.Interfaces;
 using EmuXCore.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU.Enums;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
@@ -15,6 +16,7 @@ public sealed class InstructionIMUL(InstructionVariant variant, IOperand? firstO
         ulong firstOperandValue = FirstOperand != null ? OperandDecoder.GetOperandValue(virtualMachine, FirstOperand) : 0;
         ulong secondOperandValue = SecondOperand != null ? OperandDecoder.GetOperandValue(virtualMachine, SecondOperand) : 0;
         ulong thirdOperandValue = ThirdOperand != null ? OperandDecoder.GetOperandValue(virtualMachine, ThirdOperand) : 0;
+        IVirtualRegister? register;
         UInt128 valueToSet = 0;
         bool updateFlags = false;
 
@@ -29,7 +31,7 @@ public sealed class InstructionIMUL(InstructionVariant variant, IOperand? firstO
                     virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = (ushort)valueToSet;
 
                     break;
-                
+
                 case Size.Word:
                     valueToSet = virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX * firstOperandValue;
                     updateFlags = (ushort)(valueToSet >> 16) == (ushort)valueToSet;
@@ -38,7 +40,7 @@ public sealed class InstructionIMUL(InstructionVariant variant, IOperand? firstO
                     virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = (ushort)valueToSet;
 
                     break;
-                
+
                 case Size.Double:
                     valueToSet = virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX * firstOperandValue;
                     updateFlags = (uint)(valueToSet >> 32) == (uint)valueToSet;
@@ -47,7 +49,7 @@ public sealed class InstructionIMUL(InstructionVariant variant, IOperand? firstO
                     virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX = (uint)valueToSet;
 
                     break;
-                
+
                 case Size.Quad:
                     valueToSet = virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX * firstOperandValue;
                     updateFlags = (ulong)(valueToSet >> 64) == (ulong)valueToSet;
@@ -60,10 +62,11 @@ public sealed class InstructionIMUL(InstructionVariant variant, IOperand? firstO
         }
         else
         {
+            register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
             valueToSet = ThirdOperand == null ? firstOperandValue * secondOperandValue : secondOperandValue * thirdOperandValue;
             updateFlags = ((ulong)valueToSet >> 64) == valueToSet;
 
-            virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand)!.Set((ulong)valueToSet);
+            register!.Set((ulong)valueToSet);
         }
 
         virtualMachine.SetFlag(EFlags.CF, !updateFlags);
@@ -90,6 +93,11 @@ public sealed class InstructionIMUL(InstructionVariant variant, IOperand? firstO
             {
                 return false;
             }
+
+            if (!SecondOperand!.AreMemoryOffsetValid())
+            {
+                return false;
+            }
         }
 
         // r - r/m - i
@@ -103,6 +111,11 @@ public sealed class InstructionIMUL(InstructionVariant variant, IOperand? firstO
             }
 
             if (SecondOperand?.OperandSize < ThirdOperand?.OperandSize)
+            {
+                return false;
+            }
+
+            if (!SecondOperand!.AreMemoryOffsetValid())
             {
                 return false;
             }

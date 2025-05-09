@@ -83,6 +83,14 @@ public sealed class InstructionIDIV(InstructionVariant variant, IOperand? firstO
             InstructionVariant.OneOperandMemory()
         ];
 
+        if (FirstOperand != null)
+        {
+            if (!FirstOperand!.AreMemoryOffsetValid())
+            {
+                return false;
+            }
+        }
+
         return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand?.Variant == Variant.FirstOperand && SecondOperand == null && ThirdOperand == null;
     }
 

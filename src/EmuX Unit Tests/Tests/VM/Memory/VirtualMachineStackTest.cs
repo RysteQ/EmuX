@@ -8,27 +8,6 @@ namespace EmuX_Unit_Tests.Tests.VM.Memory;
 public sealed class VirtualMachineStackTest : TestWideInternalConstants
 {
     [TestMethod]
-    public void PushAndPopBytes()
-    {
-        IVirtualMachine virtualMachine = GenerateVirtualMachine();
-
-        virtualMachine.PushByte(0x_00);
-        virtualMachine.PushByte(0x_0a);
-        virtualMachine.PushByte(0x_18);
-        virtualMachine.PushByte(0x_1e);
-
-        Assert.AreEqual<ulong>((ulong)(virtualMachine.Memory.RAM.Length - 5), virtualMachine.CPU.GetRegister<VirtualRegisterRSP>().RSP);
-        Assert.AreEqual<byte>(0x_1e, virtualMachine.PopByte());
-        Assert.AreEqual<ulong>((ulong)(virtualMachine.Memory.RAM.Length - 4), virtualMachine.CPU.GetRegister<VirtualRegisterRSP>().RSP);
-        Assert.AreEqual<byte>(0x_18, virtualMachine.PopByte());
-        Assert.AreEqual<ulong>((ulong)(virtualMachine.Memory.RAM.Length - 3), virtualMachine.CPU.GetRegister<VirtualRegisterRSP>().RSP);
-        Assert.AreEqual<byte>(0x_0a, virtualMachine.PopByte());
-        Assert.AreEqual<ulong>((ulong)(virtualMachine.Memory.RAM.Length - 2), virtualMachine.CPU.GetRegister<VirtualRegisterRSP>().RSP);
-        Assert.AreEqual<byte>(0x_00, virtualMachine.PopByte());
-        Assert.AreEqual<ulong>((ulong)(virtualMachine.Memory.RAM.Length - 1), virtualMachine.CPU.GetRegister<VirtualRegisterRSP>().RSP);
-    }
-
-    [TestMethod]
     public void PushAndPopWords()
     {
         IVirtualMachine virtualMachine = GenerateVirtualMachine();

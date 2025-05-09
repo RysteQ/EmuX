@@ -30,7 +30,7 @@ public interface IFlagStateProcessor
     /// <param name="size">The size of the values, doesn't matter if the method requires 64 bit unsigned integers, this value must be provided</param>
     /// <returns>The status of the overflow flag</returns>
     bool TestOverflowFlag(ulong firstValue, ulong secondValue, ulong newValue, Size size);
-    
+
     /// <summary>
     /// Checks the zero flag status
     /// </summary>
@@ -45,7 +45,7 @@ public interface IFlagStateProcessor
     /// <param name="secondValue">The second value to check</param>
     /// <returns>The status of the auxilliary flag</returns>
     bool TestAuxilliaryFlag(ulong firstValue, ulong secondValue);
-    
+
     /// <summary>
     /// Checks the partity flag status
     /// </summary>

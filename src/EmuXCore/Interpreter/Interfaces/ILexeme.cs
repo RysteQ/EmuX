@@ -32,12 +32,12 @@ public interface ILexeme
     /// The source code line
     /// </summary>
     ISourceCodeLine SourceCodeLine { get; init; }
-    
+
     /// <summary>
     /// The opcode of the instruction
     /// </summary>
     string Opcode { get; init; }
-    
+
     /// <summary>
     /// The first operand of the instruction, should be equal to string.Empty if this does not exist
     /// </summary>

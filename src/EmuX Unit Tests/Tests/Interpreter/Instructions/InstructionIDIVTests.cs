@@ -38,7 +38,7 @@ public sealed class InstructionIDIVTests : InstructionConstants<InstructionIDIV>
     [TestMethod]
     public void TestIsValidMethod_VariantOneOperandMemory_Valid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
         Assert.AreEqual<bool>(true, instruction.IsValid());
     }
@@ -62,7 +62,7 @@ public sealed class InstructionIDIVTests : InstructionConstants<InstructionIDIV>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsRegisterMemory_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -70,7 +70,7 @@ public sealed class InstructionIDIVTests : InstructionConstants<InstructionIDIV>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsMemoryValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -78,7 +78,7 @@ public sealed class InstructionIDIVTests : InstructionConstants<InstructionIDIV>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsMemoryRegister_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("al", OperandVariant.Register, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -94,7 +94,7 @@ public sealed class InstructionIDIVTests : InstructionConstants<InstructionIDIV>
     [TestMethod]
     public void TestIsValidMethod_VariantThreeOperandsRegisterMemoryValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -122,10 +122,10 @@ public sealed class InstructionIDIVTests : InstructionConstants<InstructionIDIV>
     [TestMethod]
     public void TestExecuteMethod_DivideByZeroMemory()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.Memory.LabelMemoryLocations.Add("test_label", GenerateMemoryLabel("test_label", 0, 0));
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 0));
         virtualMachine.SetByte(0, 0);
 
         try
@@ -158,10 +158,10 @@ public sealed class InstructionIDIVTests : InstructionConstants<InstructionIDIV>
     [TestMethod]
     public void TestExecuteMethod_DivideByOneMemory()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.Memory.LabelMemoryLocations.Add("test_label", GenerateMemoryLabel("test_label", 0, 0));
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 0));
         virtualMachine.SetByte(0, 1);
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = 100;
@@ -190,10 +190,10 @@ public sealed class InstructionIDIVTests : InstructionConstants<InstructionIDIV>
     [TestMethod]
     public void TestExecuteMethod_DivideByFourMemory()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.Memory.LabelMemoryLocations.Add("test_label", GenerateMemoryLabel("test_label", 0, 0));
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 0));
         virtualMachine.SetByte(0, 4);
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = 85;

@@ -37,7 +37,7 @@ public class VirtualDisk : IVirtualDisk
     public byte[] ReadSector(byte platter, ushort track, byte sector)
     {
         CheckIfAddressIsValid(platter, track, sector);
-    
+
         return _data[platter][track][sector];
     }
 

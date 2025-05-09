@@ -33,7 +33,7 @@ public sealed class InstructionDIV(InstructionVariant variant, IOperand? firstOp
                 virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)divisionResult.Remainder;
 
                 break;
-            
+
             case Size.Word:
                 divisionResult = ulong.DivRem(((ulong)virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX << 16) | ((ulong)virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX), toDivideBy);
 
@@ -46,7 +46,7 @@ public sealed class InstructionDIV(InstructionVariant variant, IOperand? firstOp
                 virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().DX = (ushort)divisionResult.Remainder;
 
                 break;
-            
+
             case Size.Double:
                 divisionResult = ulong.DivRem(((ulong)virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX << 32) | ((ulong)virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX), toDivideBy);
 
@@ -59,10 +59,10 @@ public sealed class InstructionDIV(InstructionVariant variant, IOperand? firstOp
                 virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = (uint)divisionResult.Remainder;
 
                 break;
-            
+
             case Size.Quad:
                 (UInt128 Quotient, UInt128 Remainder) bigDivisionResult = UInt128.DivRem(new(virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().RDX, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX), new(0, toDivideBy));
-                
+
                 if (bigDivisionResult.Quotient > ulong.MaxValue)
                 {
                     throw new Exception($"Result is larger than what a {Size.Quad} can handle");
@@ -82,6 +82,14 @@ public sealed class InstructionDIV(InstructionVariant variant, IOperand? firstOp
             InstructionVariant.OneOperandRegister(),
             InstructionVariant.OneOperandMemory()
         ];
+
+        if (FirstOperand != null)
+        {
+            if (!FirstOperand!.AreMemoryOffsetValid())
+            {
+                return false;
+            }
+        }
 
         return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand?.Variant == Variant.FirstOperand && SecondOperand == null && ThirdOperand == null;
     }

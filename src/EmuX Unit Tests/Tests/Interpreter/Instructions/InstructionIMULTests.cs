@@ -39,7 +39,7 @@ public sealed class InstructionIMULTests : InstructionConstants<InstructionIMUL>
     [TestMethod]
     public void TestIsValidMethod_VariantOneOperandMemory_Valid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
         Assert.AreEqual<bool>(true, instruction.IsValid());
     }
@@ -63,7 +63,7 @@ public sealed class InstructionIMULTests : InstructionConstants<InstructionIMUL>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsRegisterMemory_Valid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("ax", OperandVariant.Register, Size.Word), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("ax", OperandVariant.Register, Size.Word), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, []));
 
         Assert.AreEqual<bool>(true, instruction.IsValid());
     }
@@ -71,7 +71,7 @@ public sealed class InstructionIMULTests : InstructionConstants<InstructionIMUL>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsMemoryValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -79,7 +79,7 @@ public sealed class InstructionIMULTests : InstructionConstants<InstructionIMUL>
     [TestMethod]
     public void TestIsValidMethod_VariantTwoOperandsMemoryRegister_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [], "test_label"), GenerateOperand("al", OperandVariant.Register, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
@@ -95,7 +95,7 @@ public sealed class InstructionIMULTests : InstructionConstants<InstructionIMUL>
     [TestMethod]
     public void TestIsValidMethod_VariantThreeOperandsRegisterMemoryValue_Valid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("ax", OperandVariant.Register, Size.Word), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [], "test_label"), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("ax", OperandVariant.Register, Size.Word), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(true, instruction.IsValid());
     }
@@ -119,10 +119,10 @@ public sealed class InstructionIMULTests : InstructionConstants<InstructionIMUL>
     [TestMethod]
     public void TestExecuteMethod_MultiplyMemory()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.Memory.LabelMemoryLocations.Add("test_label", GenerateMemoryLabel("test_label"));
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 1));
         virtualMachine.SetWord(0, 5);
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = 10;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().DX = 0;
@@ -152,10 +152,10 @@ public sealed class InstructionIMULTests : InstructionConstants<InstructionIMUL>
     [TestMethod]
     public void TestExecuteMethod_MultiplyRegisterMemory()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [], "test_label"));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.Memory.LabelMemoryLocations.Add("test_label", GenerateMemoryLabel("test_label"));
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 1));
         virtualMachine.SetWord(0, 5);
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = 10;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().DX = 0;
@@ -185,10 +185,10 @@ public sealed class InstructionIMULTests : InstructionConstants<InstructionIMUL>
     [TestMethod]
     public void TestExecuteMethod_MultiplyRegisterMemoryValue()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("cx", OperandVariant.Register, Size.Word), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [], "test_label"), GenerateOperand("5", OperandVariant.Value, Size.Word));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("cx", OperandVariant.Register, Size.Word), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]), GenerateOperand("5", OperandVariant.Value, Size.Word));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.Memory.LabelMemoryLocations.Add("test_label", GenerateMemoryLabel("test_label"));
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 1));
         virtualMachine.SetWord(0, 5);
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().CX = 0;
         instruction.Execute(virtualMachine);

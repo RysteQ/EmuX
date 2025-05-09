@@ -10,7 +10,7 @@ public sealed class InstructionCALL(InstructionVariant variant, IOperand? firstO
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong) OperandDecoder.GetInstructionMemoryAddress(virtualMachine.Memory, FirstOperand);
+        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)OperandDecoder.GetInstructionMemoryAddress(virtualMachine.Memory, FirstOperand);
     }
 
     public bool IsValid()
@@ -19,6 +19,14 @@ public sealed class InstructionCALL(InstructionVariant variant, IOperand? firstO
         [
             InstructionVariant.OneOperandMemory()
         ];
+
+        if (FirstOperand != null)
+        {
+            if (!FirstOperand!.AreMemoryOffsetValid())
+            {
+                return false;
+            }
+        }
 
         return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && Variant.FirstOperand == FirstOperand?.Variant && SecondOperand == null && ThirdOperand == null;
     }
