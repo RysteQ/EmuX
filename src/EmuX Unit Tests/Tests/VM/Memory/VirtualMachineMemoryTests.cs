@@ -1,14 +1,38 @@
 using EmuX_Unit_Tests.Tests.InternalConstants;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Internal.CPU.Registers;
 
 namespace EmuX_Unit_Tests.Tests.VM.Memory;
 
 [TestClass]
-public sealed class VirtualMachineStackTest : TestWideInternalConstants
+public sealed class VirtualMachineMemoryTests : TestWideInternalConstants
 {
     [TestMethod]
-    public void PushAndPopWords()
+    public void Randomness()
+    {
+        IVirtualMachine firstVirtualMachine = GenerateVirtualMachine();
+        IVirtualMachine secondVirtualMachine = GenerateVirtualMachine();
+
+        Assert.AreNotEqual<byte[]>(firstVirtualMachine.Memory.RAM, secondVirtualMachine.Memory.RAM, $"Both arrays are equal, they should be randomised, the probability of both of those array being the same for all {firstVirtualMachine.Memory.RAM.Length} elements is basically zero, rerun this test case specifically to make sure that there is an issue with the randomiser");
+    }
+
+    [TestMethod]
+    public void SetAndGetBytes()
+    {
+        IVirtualMachine virtualMachine = GenerateVirtualMachine();
+
+        virtualMachine.SetByte(0, 0x_00);
+        virtualMachine.SetByte(1, 0x_0a);
+        virtualMachine.SetByte(2, 0x_18);
+        virtualMachine.SetByte(3, 0x_1e);
+
+        Assert.AreEqual<byte>(0x_00, virtualMachine.GetByte(0));
+        Assert.AreEqual<byte>(0x_0a, virtualMachine.GetByte(1));
+        Assert.AreEqual<byte>(0x_18, virtualMachine.GetByte(2));
+        Assert.AreEqual<byte>(0x_1e, virtualMachine.GetByte(3));
+    }
+
+    [TestMethod]
+    public void SetAndGetWords()
     {
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
@@ -24,7 +48,7 @@ public sealed class VirtualMachineStackTest : TestWideInternalConstants
     }
 
     [TestMethod]
-    public void PushAndPopDoubleWords()
+    public void SetAndGetDoubleWords()
     {
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
@@ -40,7 +64,7 @@ public sealed class VirtualMachineStackTest : TestWideInternalConstants
     }
 
     [TestMethod]
-    public void PushAndPopQuads()
+    public void SetAndGetQuads()
     {
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 

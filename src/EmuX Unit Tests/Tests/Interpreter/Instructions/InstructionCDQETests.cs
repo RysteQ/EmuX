@@ -84,6 +84,14 @@ public sealed class InstructionCDQETests : InstructionConstants<InstructionCDQE>
     }
 
     [TestMethod]
+    public void TestIsValidMethod_VariantTwoOperandsValueRegister_NotValid()
+    {
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsValueRegister(), GenerateOperand("10", OperandVariant.Value, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte));
+
+        Assert.AreEqual<bool>(false, instruction.IsValid());
+    }
+
+    [TestMethod]
     public void TestIsValidMethod_VariantThreeOperandsRegisterRegisterValue_NotValid()
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterRegisterValue(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("10", OperandVariant.Value, Size.Byte));

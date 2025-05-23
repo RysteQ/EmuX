@@ -5,6 +5,7 @@ using EmuXCore.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
+using System.Runtime;
 
 namespace EmuXCore.Instructions;
 
@@ -36,7 +37,7 @@ public sealed class InstructionOUT(InstructionVariant variant, IOperand? firstOp
             return false;
         }
 
-        if (!new List<string>(["AL", "AX", "EAX"]).Contains(SecondOperand?.FullOperand))
+        if (!new List<string>(["AL", "AX", "EAX"]).Contains(SecondOperand?.FullOperand.ToUpper()))
         {
             return false;
         }
@@ -55,7 +56,7 @@ public sealed class InstructionOUT(InstructionVariant variant, IOperand? firstOp
                 return false;
             }
 
-            if (FirstOperand?.FullOperand != "DX")
+            if (FirstOperand?.FullOperand.ToUpper() != "DX")
             {
                 return false;
             }

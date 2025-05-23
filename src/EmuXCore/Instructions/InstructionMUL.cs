@@ -14,7 +14,7 @@ public sealed class InstructionMUL(InstructionVariant variant, IOperand? firstOp
     {
         ulong upperhalf = 0;
 
-        switch (FirstOperand.OperandSize)
+        switch (FirstOperand!.OperandSize)
         {
             case Size.Byte:
                 virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = (ushort)(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL * (byte)OperandDecoder.GetOperandValue(virtualMachine, FirstOperand));

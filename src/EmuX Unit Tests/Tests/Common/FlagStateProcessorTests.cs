@@ -5,7 +5,7 @@ using EmuXCore.Instructions.Interfaces;
 namespace EmuX_Unit_Tests.Tests.Common;
 
 [TestClass]
-public sealed class FlagStateProcessorTest : TestWideInternalConstants
+public sealed class FlagStateProcessorTests : TestWideInternalConstants
 {
     [TestMethod]
     public void TestCarryFlag_True()

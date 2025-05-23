@@ -102,51 +102,62 @@ public class VirtualMachine : IVirtualMachine
         return partOne + partTwo;
     }
 
+    public void PushByte(byte value)
+    {
+        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 4] = value;
+        CPU.GetRegister<VirtualRegisterRSP>().RSP -= 4;
+    }
+
     public void PushWord(ushort value)
     {
+        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 1] = (byte)((0x_ff_00 & value) >> 8);
         Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 2] = (byte)(0x_00_ff & value);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 3] = (byte)((0x_ff_00 & value) >> 8);
         CPU.GetRegister<VirtualRegisterRSP>().RSP -= 2;
-        CPU.GetRegister<VirtualRegisterRSP>().RSP -= CPU.GetRegister<VirtualRegisterRSP>().RSP % 4;
     }
 
     public void PushDouble(uint value)
     {
-        PushWord((ushort)(value & 0x_0000_ffff));
         PushWord((ushort)((value & 0x_ffff_0000) >> 16));
+        PushWord((ushort)(value & 0x_0000_ffff));
     }
 
     public void PushQuad(ulong value)
     {
-        PushDouble((uint)(value & 0x_0000_0000_ffff_ffff));
         PushDouble((uint)((value & 0x_ffff_ffff_0000_0000) >> 32));
+        PushDouble((uint)(value & 0x_0000_0000_ffff_ffff));
+    }
+
+    public byte PopByte()
+    {
+        CPU.GetRegister<VirtualRegisterRSP>().RSP += 4;
+
+        return Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 4];
     }
 
     public ushort PopWord()
     {
-        byte partOne = Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 2];
-        byte partTwo = Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 3];
+        byte MS = Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 1];
+        byte LS = Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP];
 
         CPU.GetRegister<VirtualRegisterRSP>().RSP += 2;
-        CPU.GetRegister<VirtualRegisterRSP>().RSP += CPU.GetRegister<VirtualRegisterRSP>().RSP % 4;
 
-        return (ushort)(partOne << 16 + partTwo);
+        return (ushort)((MS << 8) + LS);
     }
 
     public uint PopDouble()
     {
-        ushort partOne = PopWord();
-        ushort partTwo = PopWord();
+        ushort LS = PopWord();
+        ushort MS = PopWord();
 
-        return (uint)(partOne << 32 + partTwo);
+        return (uint)((MS << 16) + LS);
     }
 
     public ulong PopQuad()
     {
-        int partOne = (int)PopDouble();
-        int partTwo = (int)PopDouble();
+        ulong LS = PopDouble();
+        ulong MS = PopDouble();
 
-        return (ulong)(partOne << 64 + partTwo);
+        return (ulong)((MS << 32) + LS);
     }
 
     public void Interrupt(InterruptCode interruptCode, object subInterruptCode)

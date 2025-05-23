@@ -15,7 +15,7 @@ public interface IVirtualCPU : IVirtualComponent
     /// <summary>
     /// Finds the specified register and returns it as IVirtualRegister
     /// </summary>
-    /// <param name="registerName">The register name, doesn't matter if it is AL or RAX, it will return the accumulator</param>
+    /// <param name="registerName">The register name, doesn't matter if it is AL or RAX or if it uppercase or lowercase, it will return the accumulator</param>
     /// <returns>The register if found, otherwise null</returns>
     IVirtualRegister? GetRegister(string registerName);
 

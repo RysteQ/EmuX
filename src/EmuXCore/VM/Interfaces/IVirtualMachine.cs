@@ -34,74 +34,86 @@ public interface IVirtualMachine
     byte GetIOPL();
 
     /// <summary>
-    /// Sets the value of the specified byte with MSB endianness
+    /// Sets the value of the specified byte
     /// </summary>
     /// <param name="memoryLocation">The memory location of the byte</param>
     /// <param name="value">The new value of the byte</param>
     void SetByte(int memoryLocation, byte value);
 
     /// <summary>
-    /// Sets the value of the specified word, the first byte is MSB of the lower byte at location + 0, the second byte is MSB of the higher byte at location + 1
+    /// Sets the value of the specified word, the first byte is of the lower byte at location + 0, the second byte is of the higher byte at location + 1
     /// </summary>
     /// <param name="memoryLocation">The memory location of the word</param>
     /// <param name="value">The new value of the word</param>
     void SetWord(int memoryLocation, ushort value);
 
     /// <summary>
-    /// Sets the value of the specified double, the first word is MSB of the lower word at location + 0, the second word is MSB of the higher word at location + 2
+    /// Sets the value of the specified double, the first word is of the lower word at location + 0, the second word is of the higher word at location + 2
     /// </summary>
     /// <param name="memoryLocation">The memory location of the word</param>
     /// <param name="value">The new value of the word</param>
     void SetDouble(int memoryLocation, uint value);
 
     /// <summary>
-    /// Sets the value of the specified quad, the first word is MSB of the lower double at location + 0, the second word is MSB of the higher double at location + 4
+    /// Sets the value of the specified quad, the first word is of the lower double at location + 0, the second word is of the higher double at location + 4
     /// </summary>
     /// <param name="memoryLocation">The memory location of the double</param>
     /// <param name="value">The new value of the double</param>
     void SetQuad(int memoryLocation, ulong value);
 
     /// <summary>
-    /// Gets the byte at the specified memory location with MSB endianness
+    /// Gets the byte at the specified memory location
     /// </summary>
     /// <param name="memoryLocation">The memory location of the byte</param>
     byte GetByte(int memoryLocation);
 
     /// <summary>
-    /// Gets the word at the specified memory location with MSB endianness, the lower byte is MSB at location + 0, the higher byte is MSB at location + 1
+    /// Gets the word at the specified memory location, the lower byte is at location + 0, the higher byte is at location + 1
     /// </summary>
     /// <param name="memoryLocation">The memory location of the word</param>
     ushort GetWord(int memoryLocation);
 
     /// <summary>
-    /// Gets the double at the specified memory location with MSB endianness, the lower word is MSB at location + 0, the higher word is MSB at location + 2
+    /// Gets the double at the specified memory location, the lower word is at location + 0, the higher word is at location + 2
     /// </summary>
     /// <param name="memoryLocation">The memory location of the double</param>
     uint GetDouble(int memoryLocation);
 
     /// <summary>
-    /// Gets the quad at the specified memory location with MSB endianness, the lower double is MSB at location + 0, the higher double is MSB at location + 2
+    /// Gets the quad at the specified memory location, the lower double is at location + 0, the higher double is at location + 2
     /// </summary>
     /// <param name="memoryLocation">The memory location of the quad</param>
     ulong GetQuad(int memoryLocation);
 
     /// <summary>
-    /// Pushed a word onto the stack and updates the RSP register
+    /// Pushes byte onto the stack and updates the RSP register
+    /// </summary>
+    /// <param name="value">The byte to push</param>
+    void PushByte(byte value);
+
+    /// <summary>
+    /// Pushes a word onto the stack and updates the RSP register
     /// </summary>
     /// <param name="value">The word to push</param>
     void PushWord(ushort value);
 
     /// <summary>
-    /// Pushed a double onto the stack and updates the RSP register
+    /// Pushes a double onto the stack and updates the RSP register
     /// </summary>
     /// <param name="value">The double to push</param>
     void PushDouble(uint value);
 
     /// <summary>
-    /// Pushed a quad onto the stack and updates the RSP register
+    /// Pushes a quad onto the stack and updates the RSP register
     /// </summary>
     /// <param name="value">The quad to push</param>
     void PushQuad(ulong value);
+
+    /// <summary>
+    /// Pops a word from the stack and updates the RSP register
+    /// </summary>
+    /// <returns>The word popped from the stack</returns>
+    byte PopByte();
 
     /// <summary>
     /// Pops a word from the stack and updates the RSP register

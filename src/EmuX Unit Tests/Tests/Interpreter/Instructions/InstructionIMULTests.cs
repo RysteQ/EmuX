@@ -85,6 +85,14 @@ public sealed class InstructionIMULTests : InstructionConstants<InstructionIMUL>
     }
 
     [TestMethod]
+    public void TestIsValidMethod_VariantTwoOperandsValueRegister_NotValid()
+    {
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsValueRegister(), GenerateOperand("10", OperandVariant.Value, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte));
+
+        Assert.AreEqual<bool>(false, instruction.IsValid());
+    }
+
+    [TestMethod]
     public void TestIsValidMethod_VariantThreeOperandsRegisterRegisterValue_Valid()
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterRegisterValue(), GenerateOperand("ax", OperandVariant.Register, Size.Word), GenerateOperand("ax", OperandVariant.Register, Size.Word), GenerateOperand("10", OperandVariant.Value, Size.Byte));

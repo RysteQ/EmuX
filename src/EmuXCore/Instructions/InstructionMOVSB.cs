@@ -12,8 +12,8 @@ public sealed class InstructionMOVSB(InstructionVariant variant, IOperand? first
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        int sourceMemoryOffset = (int)((virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS << 32) + virtualMachine.CPU.GetRegister<VirtualRegisterRSI>().ESI);
-        int destinationMemoryOffset = (int)((virtualMachine.CPU.GetRegister<VirtualRegisterES>().ES << 32) + virtualMachine.CPU.GetRegister<VirtualRegisterRDI>().EDI);
+        int sourceMemoryOffset = (int)virtualMachine.CPU.GetRegister<VirtualRegisterRSI>().ESI;
+        int destinationMemoryOffset = (int)virtualMachine.CPU.GetRegister<VirtualRegisterRDI>().EDI;
 
         virtualMachine.SetByte(destinationMemoryOffset, virtualMachine.GetByte(sourceMemoryOffset));
 

@@ -6,5 +6,6 @@ public enum MemoryOffsetOperand
     Subtraction,
     Multiplication,
 
+    // Indicates the first offset to be used as a base
     NaN
 }

@@ -4,6 +4,7 @@ using EmuXCore.Instructions.Interfaces;
 using EmuXCore.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Internal.CPU.Enums;
 
 namespace EmuXCore.Instructions;
 
@@ -11,23 +12,42 @@ public sealed class InstructionRCL(InstructionVariant variant, IOperand? firstOp
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        ulong sourceValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
-        ulong destinationValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
+        ulong valueToShift = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand!);
+        ulong bitsToShift = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!);
+        ulong valueToSet = valueToShift;
 
-        if (FirstOperand.Variant == OperandVariant.Register)
+        for (int i = 0; i < (int)bitsToShift; i++)
         {
-            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
-            
-            register!.Set(sourceValue | destinationValue);
+            valueToSet = valueToSet << 1;
+
+            if (virtualMachine.GetFlag(EFlags.CF))
+            {
+                valueToSet++;
+            }
+
+            virtualMachine.SetFlag(EFlags.CF, (valueToShift >> (((int)FirstOperand!.OperandSize * 8) - (i + 1))) % 2 == 1);
+        }
+
+        if (FirstOperand!.Variant == OperandVariant.Register)
+        {
+            IVirtualRegister? virtualRegister = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand!) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+
+            switch (FirstOperand!.OperandSize)
+            {
+                case Size.Byte: virtualRegister.Set((virtualRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00) + valueToSet); break;
+                case Size.Word: virtualRegister.Set((virtualRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_00_00) + valueToSet); break;
+                case Size.Double: virtualRegister.Set((virtualRegister.Get() & 0x_ff_ff_ff_ff_00_00_00_00) + valueToSet); break;
+                case Size.Quad: virtualRegister.Set(valueToSet); break;
+            }
         }
         else
         {
-            switch (FirstOperand.OperandSize)
+            switch (SecondOperand!.OperandSize)
             {
-                case Size.Byte: virtualMachine.SetByte(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (byte)(sourceValue | destinationValue)); break;
-                case Size.Word: virtualMachine.SetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (ushort)(sourceValue | destinationValue)); break;
-                case Size.Double: virtualMachine.SetDouble(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (uint)(sourceValue | destinationValue)); break;
-                case Size.Quad: virtualMachine.SetQuad(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), sourceValue | destinationValue); break;
+                case Size.Byte: virtualMachine.SetByte(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (byte)valueToShift); break;
+                case Size.Word: virtualMachine.SetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (ushort)valueToShift); break;
+                case Size.Double: virtualMachine.SetDouble(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (uint)valueToShift); break;
+                case Size.Quad: virtualMachine.SetQuad(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), valueToShift); break;
             }
         }
     }
@@ -37,60 +57,19 @@ public sealed class InstructionRCL(InstructionVariant variant, IOperand? firstOp
         InstructionVariant[] allowedVariants =
         [
             InstructionVariant.TwoOperandsRegisterValue(),
-            InstructionVariant.TwoOperandsRegisterRegister(),
-            InstructionVariant.TwoOperandsRegisterMemory(),
             InstructionVariant.TwoOperandsMemoryValue(),
+            InstructionVariant.TwoOperandsRegisterRegister(),
             InstructionVariant.TwoOperandsMemoryRegister()
         ];
 
-        // r/m - i
-        if ((Variant.FirstOperand == OperandVariant.Register || Variant.FirstOperand == OperandVariant.Memory) && Variant.FirstOperand == FirstOperand?.Variant
-            && Variant.SecondOperand == OperandVariant.Value && Variant.SecondOperand == SecondOperand?.Variant)
+        if (SecondOperand?.OperandSize != Size.Byte)
         {
-            if (FirstOperand?.OperandSize == Size.Quad && SecondOperand?.OperandSize == Size.Quad)
-            {
-                return false;
-            }
-
-            if (FirstOperand?.OperandSize < SecondOperand?.OperandSize)
-            {
-                return false;
-            }
-
-            if (!FirstOperand!.AreMemoryOffsetValid())
-            {
-                return false;
-            }
+            return false;
         }
 
-        // r/m - r
-        if ((Variant.FirstOperand == OperandVariant.Register || Variant.FirstOperand == OperandVariant.Memory) && Variant.FirstOperand == FirstOperand?.Variant
-            && Variant.SecondOperand == OperandVariant.Register && Variant.SecondOperand == SecondOperand?.Variant)
+        if (SecondOperand?.Variant == OperandVariant.Register && SecondOperand?.FullOperand.ToUpper() != "CL")
         {
-            if (FirstOperand?.OperandSize != SecondOperand?.OperandSize)
-            {
-                return false;
-            }
-
-            if (!FirstOperand!.AreMemoryOffsetValid())
-            {
-                return false;
-            }
-        }
-
-        // r - r/m
-        if (Variant.FirstOperand == OperandVariant.Register && Variant.FirstOperand == FirstOperand?.Variant
-            && (Variant.SecondOperand == OperandVariant.Register || Variant.SecondOperand == OperandVariant.Memory) && Variant.SecondOperand == SecondOperand?.Variant)
-        {
-            if (FirstOperand?.OperandSize != SecondOperand?.OperandSize)
-            {
-                return false;
-            }
-
-            if (!SecondOperand!.AreMemoryOffsetValid())
-            {
-                return false;
-            }
+            return false;
         }
 
         return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand?.Variant == Variant.FirstOperand && SecondOperand?.Variant == Variant.SecondOperand && ThirdOperand == null;
