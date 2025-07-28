@@ -2,6 +2,10 @@
 
 public interface ILabel
 {
-    string LabelName { get; init; }
+    string Name { get; init; }
+    
+    /// <summary>
+    /// The line the label is at in the source code
+    /// </summary>
     int Line { get; init; }
 }

@@ -1,7 +1,7 @@
 ﻿using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
-using EmuXCore.Instructions.Interfaces;
-using EmuXCore.Instructions.Internal;
+using EmuXCore.InstructionLogic.Instructions.Interfaces;
+using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.Interpreter;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.VM;
@@ -13,7 +13,9 @@ using EmuXCore.VM.Internal.BIOS.Interfaces;
 using EmuXCore.VM.Internal.BIOS.Internal;
 using EmuXCore.VM.Internal.CPU;
 using EmuXCore.VM.Internal.Device;
+using EmuXCore.VM.Internal.Device.USBDrives;
 using EmuXCore.VM.Internal.Disk;
+using EmuXCore.VM.Internal.GPUs;
 using EmuXCore.VM.Internal.Memory;
 using EmuXCore.VM.Internal.RTC;
 
@@ -34,8 +36,9 @@ public class TestWideInternalConstants
     protected IVirtualBIOS GenerateVirtualBIOS() => new VirtualBIOS(GenerateDiskInterruptHandler(), GenerateRTCInterruptHandler());
     protected IVirtualDisk GenerateVirtualDisk(byte diskNumber, byte platters = 1, ushort tracks = 16, byte sectorPerTrack = 16) => new VirtualDisk(diskNumber, platters, tracks, sectorPerTrack);
     protected IVirtualRTC GenerateVirtualRTC() => new VirtualRTC();
-    protected IVirtualDevice GenerateVirtualDevice() => new VirtualDevice();
+    protected IVirtualDevice GenerateVirtualDevice<T>(ushort deviceId = 0) where T : IVirtualDevice => (T)Activator.CreateInstance(typeof(T), new object[] { deviceId, null });
     protected IVirtualMachineBuilder GenerateVirtualMachineBuilder() => new VirtualMachineBuilder();
+    protected IVirtualGPU GenerateVirtualGPU() => new VirtualGPU();
 
     protected IVirtualMachine GenerateVirtualMachine()
     {
@@ -48,7 +51,8 @@ public class TestWideInternalConstants
             .SetRTC(GenerateVirtualRTC())
             .AddDisk(GenerateVirtualDisk(1))
             .AddDisk(GenerateVirtualDisk(2))
-            .AddVirtualDevice(GenerateVirtualDevice());
+            .SetGPU(GenerateVirtualGPU())
+            .AddVirtualDevice(GenerateVirtualDevice<UsbDrive64Kb>(1));
 
         return virtualMachineBuilder.Build();
     }

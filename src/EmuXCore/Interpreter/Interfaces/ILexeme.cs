@@ -34,6 +34,11 @@ public interface ILexeme
     ISourceCodeLine SourceCodeLine { get; init; }
 
     /// <summary>
+    /// The prefix of the instruction
+    /// </summary>
+    string Prefix { get; init; }
+
+    /// <summary>
     /// The opcode of the instruction
     /// </summary>
     string Opcode { get; init; }
@@ -47,4 +52,9 @@ public interface ILexeme
     /// The second operand of the instruction, should be equal to string.Empty if this does not exist
     /// </summary>
     string SecondOperand { get; init; }
+
+    /// <summary>
+    /// The third operand of the instruction, should be equal to string.Empty if this does not exist
+    /// </summary>
+    string ThirdOperand { get; init; }
 }

@@ -35,8 +35,8 @@ public class VirtualRegisterRSI : IVirtualRegister
 
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
-        { nameof(RSI), Size.Quad },
-        { nameof(ESI), Size.Double },
+        { nameof(RSI), Size.Qword },
+        { nameof(ESI), Size.Dword },
         { nameof(SI), Size.Word },
         { nameof(SIL), Size.Byte }
     };

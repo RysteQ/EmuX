@@ -41,8 +41,8 @@ public class VirtualRegisterRAX : IVirtualRegister
 
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
-        { nameof(RAX), Size.Quad },
-        { nameof(EAX), Size.Double },
+        { nameof(RAX), Size.Qword },
+        { nameof(EAX), Size.Dword },
         { nameof(AX), Size.Word },
         { nameof(AH), Size.Byte },
         { nameof(AL), Size.Byte }

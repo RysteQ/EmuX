@@ -1,6 +1,6 @@
 ﻿using EmuX_Unit_Tests.Tests.InternalConstants;
-using EmuXCore.Instructions;
-using EmuXCore.Instructions.Internal;
+using EmuXCore.InstructionLogic.Instructions;
+using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.Interpreter.Interfaces;
 
 namespace EmuX_Unit_Tests.Tests.LexerTests;
@@ -21,6 +21,22 @@ public sealed class ImmediateOperandTests : TestWideInternalConstants
         Assert.AreEqual(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
         Assert.IsInstanceOfType<InstructionAAD>(lexerResult.Instructions[0]);
         Assert.AreEqual("10h", lexerResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual(true, lexerResult.Success);
+    }
+
+    [TestMethod]
+    public void TestParseMethod_SingleInstructionWithOneHexOperand_OneInstructionParsedWithTheCorrectOperand_2()
+    {
+        string inputString = "aad 0x10";
+        ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
+
+        lexerResult = lexer.Parse(inputString);
+
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
+        Assert.IsInstanceOfType<InstructionAAD>(lexerResult.Instructions[0]);
+        Assert.AreEqual("0x10", lexerResult.Instructions[0].FirstOperand.FullOperand);
         Assert.AreEqual(true, lexerResult.Success);
     }
 

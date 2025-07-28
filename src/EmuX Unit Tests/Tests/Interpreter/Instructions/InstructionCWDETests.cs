@@ -1,8 +1,8 @@
 ﻿using EmuX_Unit_Tests.Tests.Interpreter.Instructions.Internal;
 using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
-using EmuXCore.Instructions;
-using EmuXCore.Instructions.Internal;
+using EmuXCore.InstructionLogic.Instructions;
+using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
@@ -12,7 +12,7 @@ namespace EmuX_Unit_Tests.Tests.Interpreter.Instructions;
 public sealed class InstructionCWDETests : InstructionConstants<InstructionCWDE>
 {
     [TestMethod]
-    public void TestIsValidMethod_VariantNoOperands_Valid()
+    public void TestIsValidMethod_NoPrefix_VariantNoOperands_Valid()
     {
         IInstruction instruction = GenerateInstruction();
 
@@ -20,91 +20,104 @@ public sealed class InstructionCWDETests : InstructionConstants<InstructionCWDE>
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantOneOperandValue_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantOneOperandValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandValue(), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandValue(), GeneratePrefix(), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantOneOperandRegister_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantOneOperandRegister_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandRegister(), GenerateOperand("al", OperandVariant.Register, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandRegister(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantOneOperandMemory_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantOneOperandMemory_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantTwoOperandsRegisterValue_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantTwoOperandsRegisterValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterValue(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterValue(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantTwoOperandsRegisterRegister_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantTwoOperandsRegisterRegister_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterRegister(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterRegister(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantTwoOperandsRegisterMemory_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantTwoOperandsRegisterMemory_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantTwoOperandsMemoryValue_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantTwoOperandsMemoryValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantTwoOperandsMemoryRegister_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantTwoOperandsMemoryRegister_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("al", OperandVariant.Register, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantTwoOperandsValueRegister_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantTwoOperandsValueRegister_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsValueRegister(), GenerateOperand("10", OperandVariant.Value, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsValueRegister(), GeneratePrefix(), GenerateOperand("10", OperandVariant.Value, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantThreeOperandsRegisterRegisterValue_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantThreeOperandsRegisterRegisterValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterRegisterValue(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterRegisterValue(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
-    public void TestIsValidMethod_VariantThreeOperandsRegisterMemoryValue_NotValid()
+    public void TestIsValidMethod_NoPrefix_VariantThreeOperandsRegisterMemoryValue_NotValid()
     {
-        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
+        IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
+    }
+
+    [TestMethod]
+    public void TestIsValidMethod_AllPrefixes_ValidVariant_CorrectPrefixCheck()
+    {
+        List<IPrefix> validPrefixes = [];
+
+        foreach (IPrefix prefix in AllPrefixes())
+        {
+            IInstruction instruction = GenerateInstruction(null, prefix);
+
+            Assert.AreEqual<bool>(validPrefixes.Any(selectedPrefix => selectedPrefix.Type == prefix.Type), instruction.IsValid());
+        }
     }
 
     [TestMethod]

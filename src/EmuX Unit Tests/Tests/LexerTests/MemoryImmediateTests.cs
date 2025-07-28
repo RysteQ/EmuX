@@ -87,7 +87,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_7_OneInstructionParsed()
     {
-        string inputString = "add double ptr [rbx], 10";
+        string inputString = "add dword ptr [rbx], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -100,7 +100,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_8_OneInstructionParsed()
     {
-        string inputString = "add double ptr [rbx + 10], 10";
+        string inputString = "add dword ptr [rbx + 10], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -113,7 +113,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_9_OneInstructionParsed()
     {
-        string inputString = "add double ptr [rbx - 20], 10";
+        string inputString = "add dword ptr [rbx - 20], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -126,7 +126,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_10_OneInstructionParsed()
     {
-        string inputString = "add quad ptr [rbx], 10";
+        string inputString = "add qword ptr [rbx], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -139,7 +139,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_11_OneInstructionParsed()
     {
-        string inputString = "add quad ptr [rbx + 10], 10";
+        string inputString = "add qword ptr [rbx + 10], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -152,7 +152,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_12_OneInstructionParsed()
     {
-        string inputString = "add quad ptr [rbx - 20], 10";
+        string inputString = "add qword ptr [rbx - 20], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -243,7 +243,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_19_OneInstructionParse()
     {
-        string inputString = "add double ptr [10h], 10";
+        string inputString = "add dword ptr [10h], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -256,7 +256,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_20_OneInstructionParse()
     {
-        string inputString = "add double ptr [rbx + rcx], 10";
+        string inputString = "add dword ptr [0x10], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -269,7 +269,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_21_OneInstructionParse()
     {
-        string inputString = "add double ptr [rbx - rcx], 10";
+        string inputString = "add dword ptr [rbx + rcx], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -282,7 +282,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_22_OneInstructionParse()
     {
-        string inputString = "add quad ptr [10h], 10";
+        string inputString = "add dword ptr [rbx - rcx], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -295,7 +295,7 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_23_OneInstructionParse()
     {
-        string inputString = "add quad ptr [rbx + rcx], 10";
+        string inputString = "add qword ptr [10h], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 
@@ -308,7 +308,33 @@ public sealed class MemoryImmediateTests : TestWideInternalConstants
     [TestMethod]
     public void TestParseMethod_SignleInstructionWithMemoryAccess_24_OneInstructionParse()
     {
-        string inputString = "add quad ptr [rbx - rcx], 10";
+        string inputString = "add qword ptr [0x10], 10";
+        ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
+
+        lexerResult = lexer.Parse(inputString);
+
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
+    }
+
+    [TestMethod]
+    public void TestParseMethod_SignleInstructionWithMemoryAccess_25_OneInstructionParse()
+    {
+        string inputString = "add qword ptr [rbx + rcx], 10";
+        ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
+
+        lexerResult = lexer.Parse(inputString);
+
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(true, lexerResult.Success);
+    }
+
+    [TestMethod]
+    public void TestParseMethod_SignleInstructionWithMemoryAccess_26_OneInstructionParse()
+    {
+        string inputString = "add qword ptr [rbx - rcx], 10";
         ILexer lexer = GenerateLexer();
         ILexerResult lexerResult;
 

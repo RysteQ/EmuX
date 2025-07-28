@@ -31,7 +31,6 @@ public class VirtualMachineBuilder : IVirtualMachineBuilder
         return this;
     }
 
-    // TODO - Think of a better way than the programmer just putting whatever junk the want inside of this method as a paremeter because the programmer is dumb as fuck
     public IVirtualMachineBuilder SetBios(IVirtualBIOS virtualBios)
     {
         _virtualBios = virtualBios;
@@ -42,6 +41,13 @@ public class VirtualMachineBuilder : IVirtualMachineBuilder
     public IVirtualMachineBuilder SetRTC(IVirtualRTC virtualRTC)
     {
         _virtualRTC = virtualRTC;
+
+        return this;
+    }
+
+    public IVirtualMachineBuilder SetGPU(IVirtualGPU virtualGPU)
+    {
+        _virtualGPU = virtualGPU;
 
         return this;
     }
@@ -82,11 +88,17 @@ public class VirtualMachineBuilder : IVirtualMachineBuilder
             throw new ArgumentNullException("Please add a virtual BIOS module before building");
         }
 
-        virtualMachine = new VirtualMachine(_virtualCPU, _virtualMemory, [.. _virtualDisks], _virtualBios, _virtualRTC, [.. _virtualDevices]);
+        if (_virtualGPU == null)
+        {
+            throw new ArgumentNullException("Please add a virtual GPU module before building");
+        }
+
+        virtualMachine = new VirtualMachine(_virtualCPU, _virtualMemory, [.. _virtualDisks], _virtualBios, _virtualRTC, _virtualGPU, [.. _virtualDevices]);
         virtualMachine.CPU.ParentVirtualMachine = virtualMachine;
         virtualMachine.Memory.ParentVirtualMachine = virtualMachine;
         virtualMachine.BIOS.ParentVirtualMachine = virtualMachine;
         virtualMachine.RTC.ParentVirtualMachine = virtualMachine;
+        virtualMachine.GPU.ParentVirtualMachine = virtualMachine;
 
         foreach (IVirtualDisk virtualDisk in virtualMachine.Disks)
         {
@@ -107,4 +119,5 @@ public class VirtualMachineBuilder : IVirtualMachineBuilder
     private IList<IVirtualDevice> _virtualDevices = []; // A virtual machine might have zero devices attached, this is allowed
     private IVirtualBIOS? _virtualBios = null;
     private IVirtualRTC? _virtualRTC = null;
+    private IVirtualGPU? _virtualGPU = null;
 }

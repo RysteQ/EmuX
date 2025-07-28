@@ -29,7 +29,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
 
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
-        { nameof(EFLAGS), Size.Quad },
-        { nameof(FLAGS), Size.Double }
+        { nameof(EFLAGS), Size.Qword },
+        { nameof(FLAGS), Size.Dword }
     };
 }

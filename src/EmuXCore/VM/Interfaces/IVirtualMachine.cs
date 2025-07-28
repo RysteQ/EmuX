@@ -166,6 +166,11 @@ public interface IVirtualMachine
     IVirtualRTC RTC { get; init; }
 
     /// <summary>
+    /// The virtual GPU of the virtual machine that inherits from the IVirtualGPU interface
+    /// </summary>
+    IVirtualGPU GPU { get; init; }
+
+    /// <summary>
     /// The virtual devices of the virtual machine that inherits from the IVirtualDevice interface
     /// </summary>
     IVirtualDevice[] Devices { get; init; }

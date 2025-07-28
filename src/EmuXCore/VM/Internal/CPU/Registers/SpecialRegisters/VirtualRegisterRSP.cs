@@ -30,8 +30,8 @@ public class VirtualRegisterRSP : IVirtualRegister
 
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
-        { nameof(RSP), Size.Quad },
-        { nameof(ESP), Size.Double },
+        { nameof(RSP), Size.Qword },
+        { nameof(ESP), Size.Dword },
         { nameof(SP), Size.Word },
         { nameof(SPL), Size.Byte }
     };

@@ -24,8 +24,8 @@ public class VirtualRegisterRIP : IVirtualRegister
 
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
-        { nameof(RIP), Size.Quad },
-        { nameof(EIP), Size.Double },
+        { nameof(RIP), Size.Qword },
+        { nameof(EIP), Size.Dword },
         { nameof(IP), Size.Word }
     };
 }

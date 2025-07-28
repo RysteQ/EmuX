@@ -1,6 +1,6 @@
 ﻿using EmuX_Unit_Tests.Tests.InternalConstants;
-using EmuXCore.Instructions;
-using EmuXCore.Instructions.Internal;
+using EmuXCore.InstructionLogic.Instructions;
+using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.Interpreter.Interfaces;
 
 namespace EmuX_Unit_Tests.Tests.LexerTests;

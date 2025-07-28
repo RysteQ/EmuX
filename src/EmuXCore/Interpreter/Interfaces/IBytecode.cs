@@ -4,8 +4,18 @@ namespace EmuXCore.Interpreter.Interfaces;
 
 public interface IBytecode
 {
+    /// <summary>
+    /// The type of the bytecode since it can either be an instruction or label before it gets processed in a later stage
+    /// </summary>
     Type Type { get => Instruction != null ? typeof(IInstruction) : typeof(ILabel); }
 
+    /// <summary>
+    /// The instruction the bytecode refers to, null if it isn't of type IInstruction
+    /// </summary>
     IInstruction? Instruction { get; init; }
+
+    /// <summary>
+    /// The label the bytecode refers to, null if it isn't of type ILabel
+    /// </summary>
     ILabel? Label { get; init; }
 }

@@ -13,7 +13,7 @@ namespace EmuXCore.VM;
 /// </summary>
 public class VirtualMachine : IVirtualMachine
 {
-    public VirtualMachine(IVirtualCPU cpu, IVirtualMemory memory, IVirtualDisk[] disks, IVirtualBIOS bios, IVirtualRTC virtualRTC, IVirtualDevice[] virtualDevices)
+    public VirtualMachine(IVirtualCPU cpu, IVirtualMemory memory, IVirtualDisk[] disks, IVirtualBIOS bios, IVirtualRTC virtualRTC, IVirtualGPU virtualGPU, IVirtualDevice[] virtualDevices)
     {
         CPU = cpu;
         Memory = memory;
@@ -21,6 +21,7 @@ public class VirtualMachine : IVirtualMachine
         BIOS = bios;
         RTC = virtualRTC;
         Devices = virtualDevices;
+        GPU = virtualGPU;
 
         CPU.GetRegister<VirtualRegisterRSP>().RSP = (ulong)(Memory.RAM.Length - 1);
     }
@@ -186,5 +187,6 @@ public class VirtualMachine : IVirtualMachine
     public IVirtualDisk[] Disks { get; init; }
     public IVirtualBIOS BIOS { get; init; }
     public IVirtualRTC RTC { get; init; }
+    public IVirtualGPU GPU { get; init; }
     public IVirtualDevice[] Devices { get; init; }
 }

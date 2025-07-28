@@ -2,6 +2,9 @@
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Internal.Models;
 using EmuXCore.VM.Interfaces.Components;
+using System.Collections.ObjectModel;
+using System.Reflection;
+using System.Runtime.Serialization;
 
 namespace EmuXCore.Interpreter;
 
@@ -92,20 +95,36 @@ public class Lexer(IVirtualCPU cpu) : ILexer
 
     private List<ILexeme> ParseSourceCode(List<ISourceCodeLine> lines)
     {
+        List<IPrefix> prefixLookup = [];
         List<ILexeme> lexemes = [];
+        string prefix;
         string opcode;
         string operandOne;
         string operandTwo;
         string operandThree;
         int selector;
 
+        foreach (Type prefixImplementationClass in Assembly.GetExecutingAssembly().GetTypes().Where(selectedType => selectedType.GetInterfaces().Contains(typeof(IPrefix))))
+        {
+            prefixLookup.Add((IPrefix)Activator.CreateInstance(prefixImplementationClass));
+        }
+
         foreach (ISourceCodeLine line in lines)
         {
+            prefix = string.Empty;
             opcode = string.Empty;
             operandOne = string.Empty;
             operandTwo = string.Empty;
             operandThree = string.Empty;
-            selector = 0;
+            selector = 1;
+
+            if (line.SourceCode.Split(' ').Count() >= 2)
+            {
+                if (prefixLookup.Any(selectedPrefix => selectedPrefix.Prefix == line.SourceCode.Split(' ').First().ToUpper()))
+                {
+                    selector--;
+                }
+            }
 
             for (int i = 0; i < line.SourceCode.Length; i++)
             {
@@ -115,7 +134,7 @@ public class Lexer(IVirtualCPU cpu) : ILexer
                     continue;
                 }
 
-                if (line.SourceCode[i] == ',' && selector == 1)
+                if (line.SourceCode[i] == ' ' && selector == 1)
                 {
                     selector++;
                     continue;
@@ -127,16 +146,23 @@ public class Lexer(IVirtualCPU cpu) : ILexer
                     continue;
                 }
 
+                if (line.SourceCode[i] == ',' && selector == 3)
+                {
+                    selector++;
+                    continue;
+                }
+
                 switch (selector)
                 {
-                    case 0: opcode += line.SourceCode[i]; break;
-                    case 1: operandOne += line.SourceCode[i]; break;
-                    case 2: operandTwo += line.SourceCode[i]; break;
-                    case 3: operandThree += line.SourceCode[i]; break;
+                    case 0: prefix += line.SourceCode[i]; break;
+                    case 1: opcode += line.SourceCode[i]; break;
+                    case 2: operandOne += line.SourceCode[i]; break;
+                    case 3: operandTwo += line.SourceCode[i]; break;
+                    case 4: operandThree += line.SourceCode[i]; break;
                 }
             }
 
-            lexemes.Add(NewLexeme(line, opcode, operandOne.Trim(), operandTwo.Trim(), operandThree.Trim()));
+            lexemes.Add(NewLexeme(line, prefix, opcode, operandOne.Trim(), operandTwo.Trim(), operandThree.Trim()));
         }
 
         return lexemes;
@@ -205,9 +231,9 @@ public class Lexer(IVirtualCPU cpu) : ILexer
         return new SourceCodeLine(sourceCode, line);
     }
 
-    private ILexeme NewLexeme(ISourceCodeLine sourceCodeLine, string opcode, string firstOperand, string secondOperand, string thirdOperand)
+    private ILexeme NewLexeme(ISourceCodeLine sourceCodeLine, string prefix, string opcode, string firstOperand, string secondOperand, string thirdOperand)
     {
-        return new Lexeme(_cpu, sourceCodeLine, opcode, firstOperand, secondOperand, thirdOperand);
+        return new Lexeme(_cpu, sourceCodeLine, prefix, opcode, firstOperand, secondOperand, thirdOperand);
     }
 
     private IBytecode NewBytecode(IInstruction? instruction = null, ILabel? label = null)
