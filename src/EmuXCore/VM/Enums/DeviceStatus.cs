@@ -1,4 +1,4 @@
-﻿namespace EmuXCore.VM.Internal.Enums;
+﻿namespace EmuXCore.VM.Enums;
 
 public enum DeviceStatus : byte
 {

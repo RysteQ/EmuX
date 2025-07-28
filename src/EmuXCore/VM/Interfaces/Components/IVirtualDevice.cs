@@ -1,4 +1,4 @@
-﻿using EmuXCore.VM.Internal.Enums;
+﻿using EmuXCore.VM.Enums;
 
 namespace EmuXCore.VM.Interfaces.Components;
 
