@@ -1,8 +1,8 @@
 ﻿using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
+using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Internal.CPU.Enums;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
 namespace EmuXCore.InstructionLogic.Instructions;
