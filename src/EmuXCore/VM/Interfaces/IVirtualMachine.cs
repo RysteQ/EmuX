@@ -1,4 +1,5 @@
 ﻿using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Internal.BIOS.Enums;
 using EmuXCore.VM.Internal.CPU.Enums;
 

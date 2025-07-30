@@ -1,6 +1,6 @@
 ﻿using EmuXCore.VM.Interfaces.Components;
 
-namespace EmuXCore.VM.Internal.BIOS.Interfaces;
+namespace EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 
 public interface IRTCInterruptHandler
 {

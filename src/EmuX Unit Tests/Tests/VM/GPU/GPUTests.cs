@@ -1,9 +1,9 @@
 ﻿using EmuX_Unit_Tests.Tests.InternalConstants;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
-using EmuXCore.VM.Internal.GPUs.Enums;
 using System.Drawing;
 
 namespace EmuX_Unit_Tests.Tests.VM.GPU;
@@ -28,7 +28,7 @@ public sealed class GPUTests : TestWideInternalConstants
         Color retrievedColour;
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Pixel;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawPixel;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
@@ -51,7 +51,7 @@ public sealed class GPUTests : TestWideInternalConstants
         Color retrievedColour;
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Pixel;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawPixel;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 10;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 11;
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
@@ -74,7 +74,7 @@ public sealed class GPUTests : TestWideInternalConstants
         Color retrievedColour;
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Pixel;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawPixel;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 200;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 200;
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
@@ -97,7 +97,7 @@ public sealed class GPUTests : TestWideInternalConstants
         Color retrievedColour;
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Pixel;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawPixel;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 20;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 13;
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 16;
@@ -132,7 +132,7 @@ public sealed class GPUTests : TestWideInternalConstants
         ];
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Line;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawLine;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0 + (10 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (10 << 16); // Y: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
@@ -172,7 +172,7 @@ public sealed class GPUTests : TestWideInternalConstants
         ];
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Line;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawLine;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0 + (10 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 10 + (0 << 16); // Y: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
@@ -212,7 +212,7 @@ public sealed class GPUTests : TestWideInternalConstants
         ];
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Line;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawLine;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 5 + (5 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (10 << 16); // Y: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
@@ -252,7 +252,7 @@ public sealed class GPUTests : TestWideInternalConstants
         ];
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Line;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawLine;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 5 + (15 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 5 + (5 << 16); // Y: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
@@ -285,7 +285,7 @@ public sealed class GPUTests : TestWideInternalConstants
         ];
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Box;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawBox;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0 + (10 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (10 << 16); // Y: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
@@ -318,7 +318,7 @@ public sealed class GPUTests : TestWideInternalConstants
         ];
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Box;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawBox;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0 + (5 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (5 << 16); // Y: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
@@ -351,7 +351,7 @@ public sealed class GPUTests : TestWideInternalConstants
         ];
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Box;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawBox;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 5 + (15 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (10 << 16); // Y: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
@@ -384,7 +384,7 @@ public sealed class GPUTests : TestWideInternalConstants
         ];
 
         virtualGPU.ParentVirtualMachine = virtualMachine;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = (byte)Shape.Box;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawBox;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 5 + (10 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (10 << 16); // Y: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;

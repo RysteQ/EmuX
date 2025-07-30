@@ -1,8 +1,8 @@
 ﻿using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
-using EmuXCore.VM.Internal.GPUs.Enums;
 using System.Drawing;
 
 namespace EmuXCore.VM.Internal.GPUs;
@@ -19,7 +19,7 @@ public class VirtualGPU : IVirtualGPU
 
     public void Execute()
     {
-        Shape shape = (Shape)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRAX>().AL);
+        VideoInterrupt shape = (VideoInterrupt)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRAX>().AH);
         (ushort StartX, ushort EndX) xCoordinates = ((ushort)ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRCX>().ECX, (ushort)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRCX>().ECX >> 16));
         (ushort StartY, ushort EndY) yCoordinates = ((ushort)ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRDX>().EDX, (ushort)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRDX>().EDX >> 16));
         byte red = (byte)ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterCS>().CS;
@@ -34,13 +34,13 @@ public class VirtualGPU : IVirtualGPU
         return Color.FromArgb(_data[(x + y * Width) * 3], _data[(x + y * Width) * 3 + 1], _data[(x + y * Width) * 3 + 2]);
     }
 
-    private void DrawShape(Shape shape, ushort startX, ushort startY, ushort endX, ushort endY, byte r, byte g, byte b)
+    private void DrawShape(VideoInterrupt shape, ushort startX, ushort startY, ushort endX, ushort endY, byte r, byte g, byte b)
     {
         switch (shape)
         {
-            case Shape.Pixel: DrawPixel(startX, startY, r, g, b); break;
-            case Shape.Line: DrawLine(startX, startY, endX, endY, r, g, b); break;
-            case Shape.Box: DrawBox(startX, startY, endX, endY, r, g, b); break;
+            case VideoInterrupt.DrawPixel: DrawPixel(startX, startY, r, g, b); break;
+            case VideoInterrupt.DrawLine: DrawLine(startX, startY, endX, endY, r, g, b); break;
+            case VideoInterrupt.DrawBox: DrawBox(startX, startY, endX, endY, r, g, b); break;
         }
     }
 

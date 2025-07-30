@@ -5,13 +5,13 @@ namespace EmuXCore.VM.Interfaces.Components;
 public interface IVirtualGPU : IVirtualComponent
 {
     /// <summary>
-    /// Executes the logic of the GPU and calls the inner DrawShape method. The parameters of the method are passed via IVirtualCPU registers in the IVirtualMachine, these are:
-    /// Shape: AL
-    /// StartX - EndX: ECX[0:15] - ECX[16:31] 
-    /// StartY - EndY: EDX[0:15] - EDX[16:31]
-    /// Red: CS[0:7]
-    /// Green: SS[0:7]
-    /// Blue: DS[0:7]
+    /// Executes the logic of the GPU and calls the inner DrawShape method. The parameters of the method are passed via IVirtualCPU registers in the IVirtualMachine, these are: <br/>
+    /// Shape: AH (Enum: VideoInterrupt) <br/>
+    /// StartX - EndX: ECX[0:15] - ECX[16:31] <br/>
+    /// StartY - EndY: EDX[0:15] - EDX[16:31] <br/>
+    /// Red: CS[0:7] <br/>
+    /// Green: SS[0:7] <br/>
+    /// Blue: DS[0:7] <br/>
     /// </summary>
     void Execute();
 

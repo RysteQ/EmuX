@@ -7,6 +7,8 @@ using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.VM;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.BIOS;
+using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.BIOS;
 using EmuXCore.VM.Internal.BIOS.Interfaces;
@@ -33,7 +35,7 @@ public class TestWideInternalConstants
 
     protected IVirtualCPU GenerateVirtualCPU() => new VirtualCPU();
     protected IVirtualMemory GenerateVirtualMemory() => new VirtualMemory();
-    protected IVirtualBIOS GenerateVirtualBIOS() => new VirtualBIOS(GenerateDiskInterruptHandler(), GenerateRTCInterruptHandler());
+    protected IVirtualBIOS GenerateVirtualBIOS() => new VirtualBIOS(GenerateDiskInterruptHandler(), GenerateRTCInterruptHandler(), GenerateVideoInterruptHandler());
     protected IVirtualDisk GenerateVirtualDisk(byte diskNumber, byte platters = 1, ushort tracks = 16, byte sectorPerTrack = 16) => new VirtualDisk(diskNumber, platters, tracks, sectorPerTrack);
     protected IVirtualRTC GenerateVirtualRTC() => new VirtualRTC();
     protected IVirtualDevice GenerateVirtualDevice<T>(ushort deviceId = 0) where T : IVirtualDevice => (T)Activator.CreateInstance(typeof(T), new object[] { deviceId, null });
@@ -59,4 +61,5 @@ public class TestWideInternalConstants
 
     protected IDiskInterruptHandler GenerateDiskInterruptHandler() => new DiskInterruptHandler();
     protected IRTCInterruptHandler GenerateRTCInterruptHandler() => new RTCInterruptHandler();
+    protected IVideoInterruptHandler GenerateVideoInterruptHandler() => new VideoInterruptHandler();
 }

@@ -1,5 +1,6 @@
 ﻿using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.BIOS;
 
 namespace EmuXCore.VM;
 
