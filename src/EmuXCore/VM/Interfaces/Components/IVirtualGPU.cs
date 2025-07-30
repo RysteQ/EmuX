@@ -2,6 +2,9 @@
 
 namespace EmuXCore.VM.Interfaces.Components;
 
+/// <summary>
+/// The IVirtualGPU is meant to emulate a real GPU
+/// </summary>
 public interface IVirtualGPU : IVirtualComponent
 {
     /// <summary>
@@ -13,6 +16,7 @@ public interface IVirtualGPU : IVirtualComponent
     /// Green: SS[0:7] <br/>
     /// Blue: DS[0:7] <br/>
     /// </summary>
+    /// <exception cref="IndexOutOfRangeException">Thrown if the coordinates are out of range / invalid</exception>
     void Execute();
 
     /// <summary>
@@ -20,6 +24,7 @@ public interface IVirtualGPU : IVirtualComponent
     /// </summary>
     /// <param name="x">The pixel to retrive the colour from in the X coordinate</param>
     /// <param name="y">The pixel to retrive the colour from in the Y coordinate</param>
+    /// <exception cref="IndexOutOfRangeException">Thrown if the coordinates are out of range / invalid</exception>
     /// <returns>The RGB value of the x:y pixel</returns>
     Color GetPixelColour(int x, int y);
 

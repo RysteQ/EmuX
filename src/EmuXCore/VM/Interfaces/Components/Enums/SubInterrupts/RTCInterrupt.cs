@@ -1,5 +1,8 @@
 ﻿namespace EmuXCore.VM.Internal.BIOS.Enums.SubInterrupts;
 
+/// <summary>
+/// All the available RTC interrupts
+/// </summary>
 public enum RTCInterrupt : byte
 {
     ReadSystemClock = 0x_00,

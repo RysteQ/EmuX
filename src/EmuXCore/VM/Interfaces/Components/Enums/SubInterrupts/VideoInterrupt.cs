@@ -1,5 +1,8 @@
 ﻿namespace EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 
+/// <summary>
+/// All the available video interrupts
+/// </summary>
 public enum VideoInterrupt : byte
 {
     DrawPixel = 0x_0c,

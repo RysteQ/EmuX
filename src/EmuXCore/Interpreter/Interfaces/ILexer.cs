@@ -1,5 +1,8 @@
 ﻿namespace EmuXCore.Interpreter.Interfaces;
 
+/// <summary>
+/// The ILexer is responsible for parsing the source code into the IL represenation of said code
+/// </summary>
 public interface ILexer
 {
     /// <summary>

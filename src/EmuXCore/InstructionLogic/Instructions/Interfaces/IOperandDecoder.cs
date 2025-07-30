@@ -4,6 +4,9 @@ using EmuXCore.VM.Interfaces.Components;
 
 namespace EmuXCore.InstructionLogic.Instructions.Interfaces;
 
+/// <summary>
+/// The purpose of the IOperandDecoder is for runtime decoding of the IOperand interface for the IInstruction.Execute method to emulate the proper behaviour of instructions
+/// </summary>
 public interface IOperandDecoder
 {
     /// <summary>

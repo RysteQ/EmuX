@@ -2,9 +2,15 @@
 
 namespace EmuXCore.VM.Interfaces.Components;
 
+/// <summary>
+/// The IVirtualMemory module meant to emulate the memory of a computer
+/// </summary>
 public interface IVirtualMemory : IVirtualComponent
 {
-    public IDictionary<string, IMemoryLabel> LabelMemoryLocations { get; set; }
+    /// <summary>
+    /// This property is used to find the labels and their properties during runtime and their name acting as a key to this collection
+    /// </summary>
+    IDictionary<string, IMemoryLabel> LabelMemoryLocations { get; set; }
 
     /// <summary>
     /// The RAM of the VMemory, must be the size of VIDEO_MEMORY + GENERAL_PURPOSE_MEMORY. It is not recommended to read / write directly to RAM, please use the Read / Write methods instead

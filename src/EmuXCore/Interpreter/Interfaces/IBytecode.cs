@@ -2,6 +2,9 @@
 
 namespace EmuXCore.Interpreter.Interfaces;
 
+/// <summary>
+/// This is used during the parsing process of the source code to an IL representation of it, its main purpose is for data transfer
+/// </summary>
 public interface IBytecode
 {
     /// <summary>

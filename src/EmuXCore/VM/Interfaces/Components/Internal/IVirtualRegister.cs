@@ -2,6 +2,9 @@
 
 namespace EmuXCore.VM.Interfaces.Components.Internal;
 
+/// <summary>
+/// This is used to implement any register for the IVirtualCPU module
+/// </summary>
 public interface IVirtualRegister
 {
     /// <summary>

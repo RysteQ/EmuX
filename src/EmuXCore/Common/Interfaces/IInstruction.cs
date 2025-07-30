@@ -4,6 +4,9 @@ using EmuXCore.VM.Interfaces;
 
 namespace EmuXCore.Common.Interfaces;
 
+/// <summary>
+/// The main interface used to emulate instructions and their logic
+/// </summary>
 public interface IInstruction
 {
     /// <summary>

@@ -26,11 +26,21 @@ public class VirtualGPU : IVirtualGPU
         byte green = (byte)ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterSS>().SS;
         byte blue = (byte)ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterDS>().DS;
 
+        if (xCoordinates.StartX < 0 || xCoordinates.StartX >= Width || yCoordinates.StartY < 0 || yCoordinates.StartY >= Width || xCoordinates.EndX < 0 || xCoordinates.EndX >= Width || yCoordinates.EndY < 0 || yCoordinates.EndY >= Width)
+        {
+            throw new IndexOutOfRangeException($"The X and Y coordinates must be width X[0:{Width - 1}] and Y[0:{Height - 1}");
+        }
+
         DrawShape(shape, xCoordinates.StartX, yCoordinates.StartY, xCoordinates.EndX, yCoordinates.EndY, red, green, blue);
     }
 
     public Color GetPixelColour(int x, int y)
     {
+        if ((x < 0 || x >= Width) || (y < 0 || y >= Width))
+        {
+            throw new IndexOutOfRangeException($"The X and Y coordinates must be width X[0:{Width - 1}] and Y[0:{Height - 1}");
+        }
+
         return Color.FromArgb(_data[(x + y * Width) * 3], _data[(x + y * Width) * 3 + 1], _data[(x + y * Width) * 3 + 2]);
     }
 

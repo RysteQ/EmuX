@@ -3,6 +3,9 @@ using EmuXCore.VM.Internal.BIOS.Enums.SubInterrupts;
 
 namespace EmuXCore.VM.Interfaces.Components.BIOS;
 
+/// <summary>
+/// The wrapper BIOS interface for all the sub-interrupt calls
+/// </summary>
 public interface IVirtualBIOS : IVirtualComponent
 {
     /// <summary>

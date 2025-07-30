@@ -2,6 +2,9 @@
 
 namespace EmuXCore.VM.Interfaces.Components;
 
+/// <summary>
+/// The IVirtualCPU module is meant to emulate a real CPU
+/// </summary>
 public interface IVirtualCPU : IVirtualComponent
 {
     /// <summary>
@@ -24,5 +27,8 @@ public interface IVirtualCPU : IVirtualComponent
     /// </summary>
     IReadOnlyCollection<IVirtualRegister> Registers { get; init; }
 
+    /// <summary>
+    /// A flag indicating if the processor has halted its execution of code
+    /// </summary>
     bool Halted { get; set; }
 }

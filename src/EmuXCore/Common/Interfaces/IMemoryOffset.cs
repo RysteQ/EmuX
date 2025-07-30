@@ -2,6 +2,9 @@
 
 namespace EmuXCore.Common.Interfaces;
 
+/// <summary>
+/// This is used to contain an entire token of a memory operand expression
+/// </summary>
 public interface IMemoryOffset
 {
     /// <summary>

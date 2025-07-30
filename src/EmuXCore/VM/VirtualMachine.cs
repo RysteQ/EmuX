@@ -1,10 +1,10 @@
-﻿using EmuXCore.VM.Interfaces;
+﻿using EmuXCore.VM.Enums;
+using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.BIOS.Enums;
 using EmuXCore.VM.Internal.BIOS.Enums.SubInterrupts;
-using EmuXCore.VM.Internal.CPU.Enums;
 using EmuXCore.VM.Internal.CPU.Registers;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
@@ -34,8 +34,6 @@ public class VirtualMachine : IVirtualMachine
         CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS | (uint)(value ? (uint)flag : 0);
     }
 
-    /// <param name="firstBit">firstBit is the LSB</param>
-    /// <param name="secondBit">secondBit is the MSB</param>
     public void SetIOPL(bool firstBit, bool secondBit)
     {
         CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & ~(uint)EFlags.IOPL;

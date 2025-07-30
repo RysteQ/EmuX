@@ -2,17 +2,20 @@
 
 namespace EmuXCore.Common.Interfaces;
 
+/// <summary>
+/// This is the operand structure of all operands for all instructions
+/// </summary>
 public interface IOperand
 {
     /// <summary>
-    /// Checks if the Offsets property has proper values or not given the following allowed patterns
-    /// LABEL
-    /// REG
-    /// INT
-    /// LABEL + INT
-    /// LABEL + REG + INT
-    /// LABEL + REG + REG + INT
-    /// LABEl + REG + REG * SCALE + INT
+    /// Checks if the Offsets property has proper values or not given the following allowed patterns <br/>
+    /// LABEL <br/>
+    /// REG <br/>
+    /// INT <br/>
+    /// LABEL + INT <br/>
+    /// LABEL + REG + INT <br/>
+    /// LABEL + REG + REG + INT <br/>
+    /// LABEl + REG + REG * SCALE + INT <br/>
     /// </summary>
     /// <returns>True if the offsets are valid, otherwise false</returns>
     bool AreMemoryOffsetValid();
