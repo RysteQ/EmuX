@@ -2,9 +2,7 @@
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Internal.Models;
 using EmuXCore.VM.Interfaces.Components;
-using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 namespace EmuXCore.Interpreter;
 

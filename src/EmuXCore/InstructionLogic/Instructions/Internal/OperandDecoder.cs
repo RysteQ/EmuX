@@ -4,7 +4,6 @@ using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using System.Collections.Generic;
 
 namespace EmuXCore.InstructionLogic.Instructions.Internal;
 

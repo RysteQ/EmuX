@@ -4,7 +4,6 @@ using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Internal.CPU.Enums;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 

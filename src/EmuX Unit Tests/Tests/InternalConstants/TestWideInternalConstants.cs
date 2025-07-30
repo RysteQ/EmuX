@@ -14,7 +14,6 @@ using EmuXCore.VM.Internal.BIOS;
 using EmuXCore.VM.Internal.BIOS.Interfaces;
 using EmuXCore.VM.Internal.BIOS.Internal;
 using EmuXCore.VM.Internal.CPU;
-using EmuXCore.VM.Internal.Device;
 using EmuXCore.VM.Internal.Device.USBDrives;
 using EmuXCore.VM.Internal.Disk;
 using EmuXCore.VM.Internal.GPUs;

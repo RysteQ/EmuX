@@ -16,7 +16,7 @@ public sealed class InstructionLODSB(InstructionVariant variant, IPrefix? prefix
         Prefix?.Loop(this, virtualMachine);
 
         int memoryOffset = 0;
-        
+
         if (Variant == InstructionVariant.OneOperandMemory())
         {
             memoryOffset = (int)OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);

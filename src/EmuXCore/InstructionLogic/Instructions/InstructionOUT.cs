@@ -4,8 +4,6 @@ using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
-using System.Runtime;
 
 namespace EmuXCore.InstructionLogic.Instructions;
 

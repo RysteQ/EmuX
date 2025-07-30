@@ -1,6 +1,5 @@
 using EmuX_Unit_Tests.Tests.InternalConstants;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Internal.CPU.Registers;
 
 namespace EmuX_Unit_Tests.Tests.VM.Memory;
 

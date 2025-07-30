@@ -3,7 +3,6 @@ using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Internal;
-using EmuXCore.InstructionLogic.Prefixes;
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 

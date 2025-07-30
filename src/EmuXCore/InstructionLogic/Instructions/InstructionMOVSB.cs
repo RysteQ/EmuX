@@ -5,7 +5,6 @@ using EmuXCore.InstructionLogic.Prefixes;
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
-using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
 
 namespace EmuXCore.InstructionLogic.Instructions;
 

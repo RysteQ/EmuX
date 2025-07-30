@@ -106,7 +106,7 @@ public sealed class InstructionCALLTests : InstructionConstants<InstructionCALL>
 
         Assert.AreEqual<bool>(false, instruction.IsValid());
     }
-    
+
     [TestMethod]
     public void TestIsValidMethod_AllPrefixes_ValidVariant_CorrectPrefixCheck()
     {

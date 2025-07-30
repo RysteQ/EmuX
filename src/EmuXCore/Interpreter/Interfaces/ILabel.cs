@@ -9,7 +9,7 @@ public interface ILabel
     /// The name of the label
     /// </summary>
     string Name { get; init; }
-    
+
     /// <summary>
     /// The line the label is at in the source code
     /// </summary>

@@ -1,14 +1,14 @@
 ﻿using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
+using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
-using EmuXCore.InstructionLogic.Instructions;
+using EmuXCore.InstructionLogic.Prefixes;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU;
 using System.Diagnostics;
-using EmuXCore.InstructionLogic.Prefixes;
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
@@ -261,7 +261,8 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
                 case OperandVariant.Memory: return InstructionVariant.OneOperandMemory();
                 case OperandVariant.Register: return InstructionVariant.OneOperandRegister();
                 case OperandVariant.NaN: return InstructionVariant.NaN();
-            };
+            }
+            ;
         }
 
         if (!string.IsNullOrEmpty(FirstOperand) && !string.IsNullOrEmpty(SecondOperand) && string.IsNullOrEmpty(ThirdOperand))
@@ -338,7 +339,7 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
             && !operand[..^1].Where(selectedChar => selectedChar != '0' && selectedChar != '1').Any())
             || (operand.EndsWith('H')
             && !operand[..^1].Where(selectedChar => int.TryParse(selectedChar.ToString(), out _) == false && selectedChar < 65 && selectedChar > 70).Any())
-            || (operand.StartsWith("0B") 
+            || (operand.StartsWith("0B")
             && !operand[2..].Where(selectedChar => selectedChar != '0' && selectedChar != '1').Any())
             || (operand.StartsWith("0X")
             && !operand[2..].Where(selectedChar => int.TryParse(selectedChar.ToString(), out _) == false && selectedChar < 65 && selectedChar > 70).Any())

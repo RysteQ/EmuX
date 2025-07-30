@@ -1,6 +1,4 @@
-﻿using EmuXCore.VM.Interfaces.Components;
-
-namespace EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
+﻿namespace EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 
 /// <summary>
 /// The disk interrupt handler is used to handle all the disk the sub-interrupt code function calls

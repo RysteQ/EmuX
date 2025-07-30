@@ -5,9 +5,7 @@ using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Internal.CPU.Enums;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
-using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
 
 namespace EmuX_Unit_Tests.Tests.Interpreter.Instructions;

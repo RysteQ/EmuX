@@ -13,7 +13,7 @@ public class VirtualGPU : IVirtualGPU
     {
         ParentVirtualMachine = parentVirtualMachine;
         _data = new byte[Height * Width * 3];
-        
+
         Random.Shared.NextBytes(_data);
     }
 
@@ -105,7 +105,7 @@ public class VirtualGPU : IVirtualGPU
         DrawLine(endX, startY, endX, endY, r, g, b);
         DrawLine(startX, endY, endX, endY, r, g, b);
     }
-    
+
     public ushort Height { get => 640; }
     public ushort Width { get => 480; }
     public byte[] Data { get => _data; }
