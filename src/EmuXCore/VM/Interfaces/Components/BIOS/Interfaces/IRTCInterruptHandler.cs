@@ -1,7 +1,7 @@
 ﻿namespace EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 
 /// <summary>
-/// The RTC interrupt handler is used to handle all the RTC the sub-interrupt code function calls
+/// The RTC interrupt handler is used to handle all the RTC sub-interrupt code function calls
 /// </summary>
 public interface IRTCInterruptHandler
 {

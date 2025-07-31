@@ -1,7 +1,7 @@
 ﻿namespace EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 
 /// <summary>
-/// The disk interrupt handler is used to handle all the disk the sub-interrupt code function calls
+/// The disk interrupt handler is used to handle all the disk sub-interrupt code function calls
 /// </summary>
 public interface IDiskInterruptHandler
 {

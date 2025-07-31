@@ -3,7 +3,7 @@
 namespace EmuXCore.VM.Internal.BIOS.Interfaces;
 
 /// <summary>
-/// The video interrupt handler is used to handle all the video the sub-interrupt code function calls
+/// The video interrupt handler is used to handle all the video sub-interrupt code function calls
 /// </summary>
 public interface IVideoInterruptHandler
 {
