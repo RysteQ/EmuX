@@ -32,4 +32,32 @@ public sealed class DiskTests : TestWideInternalConstants
             Assert.Fail(ex.Message);
         }
     }
+
+
+    [TestMethod]
+    public void TestWriteOutsideOfBounds_Success()
+    {
+        IVirtualDisk virtualDisk = GenerateVirtualDisk(1);
+        byte[] randomBytesBuffer = new byte[virtualDisk.BytesPerSector];
+        byte randomPlatter = byte.MaxValue;
+        ushort randomTrack = byte.MaxValue;
+        byte randomSector = byte.MaxValue;
+
+        Random.Shared.NextBytes(randomBytesBuffer);
+
+        try
+        {
+            virtualDisk.WriteSector(randomPlatter, randomTrack, randomSector, randomBytesBuffer);
+
+            CollectionAssert.AreEqual(randomBytesBuffer, virtualDisk.ReadSector(randomPlatter, randomTrack, randomSector));
+        }
+        catch (IndexOutOfRangeException ex)
+        {
+            Assert.IsTrue(true);
+        }
+        catch (Exception ex)
+        {
+            Assert.Fail(ex.Message);
+        }
+    }
 }
