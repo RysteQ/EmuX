@@ -1,4 +1,4 @@
-﻿namespace EmuXCore.VM.Internal.BIOS.Enums;
+﻿namespace EmuXCore.VM.Interfaces.Components.BIOS.Enums;
 
 /// <summary>
 /// All the available main interrupt codes to categorise the functionality into small singular compartments of code
@@ -7,5 +7,6 @@ public enum InterruptCode : byte
 {
     Video = 0x_10,
     Disk = 0x_13,
-    RTC = 0x_1a
+    RTC = 0x_1a,
+    Devices = 0x_14
 }

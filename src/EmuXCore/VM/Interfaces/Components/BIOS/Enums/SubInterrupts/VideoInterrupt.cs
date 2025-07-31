@@ -1,4 +1,4 @@
-﻿namespace EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
+﻿namespace EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 
 /// <summary>
 /// All the available video interrupts

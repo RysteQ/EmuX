@@ -2,9 +2,8 @@
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
-using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
-using EmuXCore.VM.Internal.BIOS.Enums;
-using EmuXCore.VM.Internal.BIOS.Enums.SubInterrupts;
+using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
+using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Registers;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 

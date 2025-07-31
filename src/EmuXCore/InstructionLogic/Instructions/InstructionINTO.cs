@@ -4,7 +4,7 @@ using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Internal.BIOS.Enums;
+using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuXCore.InstructionLogic.Instructions;

@@ -1,7 +1,7 @@
 ﻿using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
-using EmuXCore.VM.Internal.BIOS.Enums;
+using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
 
 namespace EmuXCore.VM.Interfaces;
 
