@@ -11,7 +11,7 @@ public sealed class InstructionLEA(InstructionVariant variant, IPrefix? prefix, 
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+        IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
         register!.Set((ulong)OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand));
     }

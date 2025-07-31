@@ -30,7 +30,7 @@ public sealed class InstructionSAL(InstructionVariant variant, IPrefix? prefix, 
 
         if (FirstOperand!.Variant == OperandVariant.Register)
         {
-            IVirtualRegister? virtualRegister = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand!) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+            IVirtualRegister virtualRegister = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand!);
 
             switch (FirstOperand!.OperandSize)
             {

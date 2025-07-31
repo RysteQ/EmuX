@@ -11,7 +11,7 @@ public sealed class InstructionOUT(InstructionVariant variant, IPrefix? prefix, 
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        IVirtualRegister sourceRegister = virtualMachine.CPU.GetRegister(SecondOperand!.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+        IVirtualRegister sourceRegister = virtualMachine.CPU.GetRegister(SecondOperand!.FullOperand);
         int addressToWriteTo = (int)OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
 
         switch (SecondOperand!.OperandSize)

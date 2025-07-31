@@ -14,7 +14,7 @@ public sealed class InstructionNEG(InstructionVariant variant, IPrefix? prefix, 
     {
         if (FirstOperand.Variant == OperandVariant.Register)
         {
-            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+            IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand);
 
             switch (FirstOperand.OperandSize)
             {

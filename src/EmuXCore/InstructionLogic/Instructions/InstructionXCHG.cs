@@ -15,7 +15,7 @@ public sealed class InstructionXCHG(InstructionVariant variant, IPrefix? prefix,
 
         if (Variant.FirstOperand == OperandVariant.Register)
         {
-            IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+            IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand);
 
             register.Set(OperandDecoder.GetOperandValue(virtualMachine, SecondOperand));
         }
@@ -32,7 +32,7 @@ public sealed class InstructionXCHG(InstructionVariant variant, IPrefix? prefix,
 
         if (Variant.SecondOperand == OperandVariant.Register)
         {
-            IVirtualRegister register = virtualMachine.CPU.GetRegister(SecondOperand.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {SecondOperand!.FullOperand}");
+            IVirtualRegister register = virtualMachine.CPU.GetRegister(SecondOperand.FullOperand);
 
             register.Set(firstOperandValue);
         }

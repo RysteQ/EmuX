@@ -18,7 +18,7 @@ public sealed class InstructionSUB(InstructionVariant variant, IPrefix? prefix, 
 
         if (Variant.FirstOperand == OperandVariant.Register)
         {
-            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+            IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
             valueToSet = register!.Get() - OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
 

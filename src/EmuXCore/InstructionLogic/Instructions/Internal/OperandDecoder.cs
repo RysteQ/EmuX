@@ -94,7 +94,7 @@ public class OperandDecoder : IOperandDecoder
             {
                 OperandVariant.Value => GetOperandValueOfTypeValue(operand.FullOperand),
                 OperandVariant.Memory => (ulong)virtualMachine.Memory.LabelMemoryLocations[operand.FullOperand].Address,
-                OperandVariant.Register => virtualMachine.CPU.GetRegister(operand.FullOperand) != null ? virtualMachine.CPU.GetRegister(operand.FullOperand)!.Get() : throw new InvalidDataException($"Register with the name {operand.FullOperand} has not been found"),
+                OperandVariant.Register => virtualMachine.CPU.GetRegister(operand.FullOperand)!.Get(),
                 _ => throw new InvalidDataException($"Invalid operand variant type {operand.Variant}")
             };
         }
@@ -120,7 +120,7 @@ public class OperandDecoder : IOperandDecoder
             {
                 OperandVariant.Value => (int)GetOperandValueOfTypeValue(operand.FullOperand),
                 OperandVariant.Memory => virtualMachine.Memory.LabelMemoryLocations[operand.FullOperand].Address,
-                OperandVariant.Register => virtualMachine.CPU.GetRegister(operand.FullOperand) != null ? (int)virtualMachine.CPU.GetRegister(operand.FullOperand)!.Get() : throw new InvalidDataException($"Register with the name {operand.FullOperand} has not been found"),
+                OperandVariant.Register => (int)virtualMachine.CPU.GetRegister(operand.FullOperand).Get(),
                 _ => throw new InvalidDataException($"Invalid operand variant type {operand.Variant}")
             };
         }

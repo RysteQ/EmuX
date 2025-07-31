@@ -62,7 +62,7 @@ public sealed class InstructionIMUL(InstructionVariant variant, IPrefix? prefix,
         }
         else
         {
-            register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+            register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
             valueToSet = ThirdOperand == null ? firstOperandValue * secondOperandValue : secondOperandValue * thirdOperandValue;
             updateFlags = (ulong)valueToSet >> 64 == valueToSet;
 

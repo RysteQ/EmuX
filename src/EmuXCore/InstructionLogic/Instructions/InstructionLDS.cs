@@ -12,7 +12,7 @@ public sealed class InstructionLDS(InstructionVariant variant, IPrefix? prefix, 
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+        IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
         register!.Set(virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand)));
         virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand) + 2);
