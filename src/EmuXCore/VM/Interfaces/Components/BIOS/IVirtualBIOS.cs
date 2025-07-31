@@ -1,5 +1,5 @@
-﻿using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
-using EmuXCore.VM.Internal.BIOS.Enums.SubInterrupts;
+﻿using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
+using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 
 namespace EmuXCore.VM.Interfaces.Components.BIOS;
 
@@ -29,4 +29,11 @@ public interface IVirtualBIOS : IVirtualComponent
     /// <param name="interruptCode">The video interrupt function to execute</param>
     /// <exception cref="ArgumentNullException">Thrown if the property ParentVirtualMachine is null</exception>
     void HandleVideoInterrupt(VideoInterrupt interruptCode);
+
+    /// <summary>
+    /// Handles the video interrupts <br/>
+    /// </summary>
+    /// <param name="interruptCode">The device interrupt function to execute</param>
+    /// <exception cref="ArgumentNullException">Thrown if the property ParentVirtualMachine is null</exception>
+    void HandleDeviceInterrupt(DeviceInterrupt interruptCode);
 }

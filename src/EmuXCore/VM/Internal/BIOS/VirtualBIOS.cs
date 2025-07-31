@@ -1,14 +1,14 @@
 ﻿using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.BIOS;
+using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
-using EmuXCore.VM.Internal.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.BIOS.Interfaces;
 
 namespace EmuXCore.VM.Internal.BIOS;
 
-public class VirtualBIOS(IDiskInterruptHandler diskInterruptHandler, IRTCInterruptHandler rtcInterruptHandler, IVideoInterruptHandler videoInterruptHandler, IVirtualMachine? parentVirtualMachine = null) : IVirtualBIOS
+public class VirtualBIOS(IDiskInterruptHandler diskInterruptHandler, IRTCInterruptHandler rtcInterruptHandler, IVideoInterruptHandler videoInterruptHandler, IDeviceInterruptHandler deviceInterruptHandler, IVirtualMachine? parentVirtualMachine = null) : IVirtualBIOS
 {
     public void HandleDiskInterrupt(DiskInterrupt interruptCode)
     {
@@ -60,9 +60,23 @@ public class VirtualBIOS(IDiskInterruptHandler diskInterruptHandler, IRTCInterru
         }
     }
 
+    public void HandleDeviceInterrupt(DeviceInterrupt interruptCode)
+    {
+        if (ParentVirtualMachine == null)
+        {
+            throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
+        }
+        
+        switch (interruptCode)
+        {
+            case DeviceInterrupt.ExecuteLogic: _deviceInterruptHandler.ExecuteLogic(ParentVirtualMachine.CPU, ParentVirtualMachine.Devices); break;
+        }
+    }
+
     public IVirtualMachine? ParentVirtualMachine { get; set; } = parentVirtualMachine;
 
     private IDiskInterruptHandler _diskInterruptHandler = diskInterruptHandler;
     private IRTCInterruptHandler _rtcInterruptHandler = rtcInterruptHandler;
     private IVideoInterruptHandler _videoInterruptHandler = videoInterruptHandler;
+    private IDeviceInterruptHandler _deviceInterruptHandler = deviceInterruptHandler;
 }
