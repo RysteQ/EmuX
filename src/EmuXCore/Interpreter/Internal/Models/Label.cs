@@ -2,7 +2,7 @@
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
-public class Label(string labelName, int line) : ILabel
+public record Label(string labelName, int line) : ILabel
 {
     public string Name { get; init; } = labelName;
     public int Line { get; init; } = line;

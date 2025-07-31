@@ -3,7 +3,7 @@ using EmuXCore.Interpreter.Interfaces;
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
-public class LexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors) : ILexerResult
+public record LexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors) : ILexerResult
 {
     public IList<IInstruction> Instructions { get; init; } = instructions;
     public IList<ILabel> Labels { get; init; } = labels;
