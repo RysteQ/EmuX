@@ -12,8 +12,19 @@ using System.Diagnostics;
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
-public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLine, string prefix, string opcode, string firstOperand, string secondOperand, string thirdOperand) : ILexeme
+public class Lexeme : ILexeme
 {
+    public Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLine, string prefix, string opcode, string firstOperand, string secondOperand, string thirdOperand)
+    {
+        _cpu = cpuToTranslateFor;
+        SourceCodeLine = sourceCodeLine;
+        Prefix = prefix;
+        Opcode = opcode;
+        FirstOperand = firstOperand;
+        SecondOperand = secondOperand;
+        ThirdOperand = thirdOperand;
+    }
+
     public IInstruction ToIInstruction()
     {
         InstructionVariant instructionVariant = GetInstructionVariant();
@@ -564,12 +575,12 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
         return new FlagStateProcessor();
     }
 
-    public ISourceCodeLine SourceCodeLine { get; init; } = sourceCodeLine;
-    public string Prefix { get; init; } = prefix;
-    public string Opcode { get; init; } = opcode;
-    public string FirstOperand { get; init; } = firstOperand;
-    public string SecondOperand { get; init; } = secondOperand;
-    public string ThirdOperand { get; init; } = thirdOperand;
+    public ISourceCodeLine SourceCodeLine { get; init; }
+    public string Prefix { get; init; }
+    public string Opcode { get; init; }
+    public string FirstOperand { get; init; }
+    public string SecondOperand { get; init; }
+    public string ThirdOperand { get; init; }
 
-    private readonly IVirtualCPU _cpu = cpuToTranslateFor;
+    private readonly IVirtualCPU _cpu;
 }

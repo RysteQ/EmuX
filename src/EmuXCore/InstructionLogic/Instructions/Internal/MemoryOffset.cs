@@ -3,9 +3,16 @@ using EmuXCore.Common.Interfaces;
 
 namespace EmuXCore.InstructionLogic.Instructions.Internal;
 
-public record MemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand) : IMemoryOffset
+public record MemoryOffset : IMemoryOffset
 {
-    public MemoryOffsetType Type { get; init; } = type;
-    public MemoryOffsetOperand Operand { get; init; } = operand;
-    public string FullOperand { get; init; } = fullOperand;
+    public MemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand)
+    {
+        Type = type;
+        Operand = operand;
+        FullOperand = fullOperand;
+    }
+
+    public MemoryOffsetType Type { get; init; }
+    public MemoryOffsetOperand Operand { get; init; }
+    public string FullOperand { get; init; }
 }

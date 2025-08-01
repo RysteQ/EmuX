@@ -6,8 +6,13 @@ using System.Reflection;
 
 namespace EmuXCore.Interpreter;
 
-public class Lexer(IVirtualCPU cpu) : ILexer
+public class Lexer : ILexer
 {
+    public Lexer(IVirtualCPU cpu)
+    {
+        _cpu = cpu;
+    }
+
     public ILexerResult Parse(string codeToParse)
     {
         List<ISourceCodeLine> lines = [];
@@ -246,5 +251,5 @@ public class Lexer(IVirtualCPU cpu) : ILexer
 
     private List<string> _errorLog = [];
 
-    private readonly IVirtualCPU _cpu = cpu;
+    private readonly IVirtualCPU _cpu;
 }

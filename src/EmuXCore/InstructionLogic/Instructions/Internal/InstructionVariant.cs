@@ -2,8 +2,16 @@
 
 namespace EmuXCore.InstructionLogic.Instructions.Internal;
 
-public class InstructionVariant(int id, OperandVariant? firstOperand = null, OperandVariant? secondOperand = null, OperandVariant? thirdOperand = null) : IComparable
+public class InstructionVariant : IComparable
 {
+    public InstructionVariant(int id, OperandVariant? firstOperand = null, OperandVariant? secondOperand = null, OperandVariant? thirdOperand = null)
+    {
+        Id = id;
+        FirstOperand = firstOperand;
+        SecondOperand = secondOperand;
+        ThirdOperand = thirdOperand;
+    }
+
     public static InstructionVariant NoOperands() => new(1);
 
     public static InstructionVariant OneOperandValue() => new(2, OperandVariant.Value);
@@ -52,9 +60,10 @@ public class InstructionVariant(int id, OperandVariant? firstOperand = null, Ope
         return left.Id != right.Id;
     }
 
-    public int Id { get; init; } = id;
     public int AmountOfOperands { get => FirstOperand == null ? 0 : 1 + SecondOperand == null ? 0 : 1 + ThirdOperand == null ? 0 : 1; }
-    public OperandVariant? FirstOperand { get; init; } = firstOperand;
-    public OperandVariant? SecondOperand { get; init; } = secondOperand;
-    public OperandVariant? ThirdOperand { get; init; } = thirdOperand;
+
+    public int Id { get; init; }
+    public OperandVariant? FirstOperand { get; init; }
+    public OperandVariant? SecondOperand { get; init; }
+    public OperandVariant? ThirdOperand { get; init; }
 }
