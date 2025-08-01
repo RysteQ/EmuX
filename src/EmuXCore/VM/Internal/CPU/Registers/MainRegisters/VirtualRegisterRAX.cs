@@ -39,6 +39,8 @@ public class VirtualRegisterRAX : IVirtualRegister
         set => AX = (ushort)((AX & 0xff00) + value);
     }
 
+    public string Name => "RAX";
+
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
         { nameof(RAX), Size.Qword },

@@ -22,6 +22,8 @@ public class VirtualRegisterRIP : IVirtualRegister
         set => EIP = (EIP & 0xffff0000) + value;
     }
 
+    public string Name => "RIP";
+
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
         { nameof(RIP), Size.Qword },

@@ -15,6 +15,8 @@ public class VirtualRegisterES : IVirtualRegister
 
     public ushort ES { get; set; }
 
+    public string Name => "ES";
+
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
         { nameof(ES), Size.Word }

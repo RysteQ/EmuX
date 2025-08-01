@@ -39,6 +39,8 @@ public class VirtualRegisterRBX : IVirtualRegister
         set => BX = (ushort)((BX & 0xff00) + value);
     }
 
+    public string Name => "RBX";
+
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
         { nameof(RBX), Size.Qword },

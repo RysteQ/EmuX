@@ -33,6 +33,8 @@ public class VirtualRegisterRDI : IVirtualRegister
         set => DI = (ushort)((DI & 0xff00) + value);
     }
 
+    public string Name => "RDI";
+
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
         { nameof(RDI), Size.Qword },

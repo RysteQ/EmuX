@@ -1,7 +1,7 @@
 using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
 
-namespace EmuXCoreUnitTests.Tests.VM.Registers;
+namespace EmuXCoreUnitTests.Tests.VM.Registers.SubRegisters;
 
 [TestClass]
 public sealed class VirtualRegisterGSTests : TestWideInternalConstants
@@ -12,6 +12,6 @@ public sealed class VirtualRegisterGSTests : TestWideInternalConstants
         VirtualRegisterGS registerOne = new();
         VirtualRegisterGS registerTwo = new();
 
-        Assert.AreNotEqual<ushort>(registerOne.GS, registerTwo.GS, "Rerun the test, if the test comes out negative then there is probably something going on with the randomness of the registers");
+        Assert.AreNotEqual(registerOne.GS, registerTwo.GS, "Rerun the test, if the test comes out negative then there is probably something going on with the randomness of the registers");
     }
 }

@@ -1,7 +1,7 @@
 using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
-namespace EmuXCoreUnitTests.Tests.VM.Registers;
+namespace EmuXCoreUnitTests.Tests.VM.Registers.MainRegisters;
 
 [TestClass]
 public sealed class VirtualRegisterRBXTests : TestWideInternalConstants
@@ -12,7 +12,7 @@ public sealed class VirtualRegisterRBXTests : TestWideInternalConstants
         VirtualRegisterRBX registerOne = new();
         VirtualRegisterRBX registerTwo = new();
 
-        Assert.AreNotEqual<ulong>(registerOne.RBX, registerTwo.RBX, "Rerun the test, if the test comes out negative then there is probably something going on with the randomness of the registers");
+        Assert.AreNotEqual(registerOne.RBX, registerTwo.RBX, "Rerun the test, if the test comes out negative then there is probably something going on with the randomness of the registers");
     }
 
     [TestMethod]
@@ -22,8 +22,8 @@ public sealed class VirtualRegisterRBXTests : TestWideInternalConstants
 
         register.RBX = 0x_ffff_0000_ff00_00ff;
 
-        Assert.AreEqual<ulong>(0x_ffff_0000_ff00_00ff, register.RBX);
-        Assert.AreEqual<uint>(0x_ff00_00ff, register.EBX);
+        Assert.AreEqual(0x_ffff_0000_ff00_00ff, register.RBX);
+        Assert.AreEqual(0x_ff00_00ff, register.EBX);
         Assert.AreEqual<ushort>(0x_00ff, register.BX);
         Assert.AreEqual<byte>(0x_00, register.BH);
         Assert.AreEqual<byte>(0x_ff, register.BL);
@@ -36,7 +36,7 @@ public sealed class VirtualRegisterRBXTests : TestWideInternalConstants
 
         register.EBX = 0x_ff00_00ff;
 
-        Assert.AreEqual<uint>(0x_ff00_00ff, register.EBX);
+        Assert.AreEqual(0x_ff00_00ff, register.EBX);
         Assert.AreEqual<ushort>(0x_00ff, register.BX);
         Assert.AreEqual<byte>(0x_00, register.BH);
         Assert.AreEqual<byte>(0x_ff, register.BL);

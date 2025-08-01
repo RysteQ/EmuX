@@ -20,7 +20,13 @@ public interface IVirtualRegister
     void Set(ulong value);
 
     /// <summary>
-    /// Must contain all of the register names, example given is the RAX register, in that case this must contain the RAX, EAX, AX, AH, and AL register names
+    /// The name of the register
+    /// </summary>
+    string Name { get; }
+
+    /// <summary>
+    /// Must contain all of the register names, example given is the RAX register, in that case this must contain the RAX, EAX, AX, AH, and AL register names <br/>
+    /// The first element is the largest size and the last element is of the smallest size
     /// </summary>
     Dictionary<string, Size> RegisterNamesAndSizes { get; }
 }

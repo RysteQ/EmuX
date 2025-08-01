@@ -1,7 +1,7 @@
 using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
-namespace EmuXCoreUnitTests.Tests.VM.Registers;
+namespace EmuXCoreUnitTests.Tests.VM.Registers.MainRegisters;
 
 [TestClass]
 public sealed class VirtualRegisterRDITests : TestWideInternalConstants
@@ -12,7 +12,7 @@ public sealed class VirtualRegisterRDITests : TestWideInternalConstants
         VirtualRegisterRDI registerOne = new();
         VirtualRegisterRDI registerTwo = new();
 
-        Assert.AreNotEqual<ulong>(registerOne.RDI, registerTwo.RDI, "Rerun the test, if the test comes out negative then there is probably something going on with the randomness of the registers");
+        Assert.AreNotEqual(registerOne.RDI, registerTwo.RDI, "Rerun the test, if the test comes out negative then there is probably something going on with the randomness of the registers");
     }
 
     [TestMethod]
@@ -22,8 +22,8 @@ public sealed class VirtualRegisterRDITests : TestWideInternalConstants
 
         register.RDI = 0x_ffff_0000_ff00_00ff;
 
-        Assert.AreEqual<ulong>(0x_ffff_0000_ff00_00ff, register.RDI);
-        Assert.AreEqual<uint>(0x_ff00_00ff, register.EDI);
+        Assert.AreEqual(0x_ffff_0000_ff00_00ff, register.RDI);
+        Assert.AreEqual(0x_ff00_00ff, register.EDI);
         Assert.AreEqual<ushort>(0x_00ff, register.DI);
         Assert.AreEqual<byte>(0x_ff, register.DIL);
     }
@@ -35,7 +35,7 @@ public sealed class VirtualRegisterRDITests : TestWideInternalConstants
 
         register.EDI = 0x_ff00_00ff;
 
-        Assert.AreEqual<uint>(0x_ff00_00ff, register.EDI);
+        Assert.AreEqual(0x_ff00_00ff, register.EDI);
         Assert.AreEqual<ushort>(0x_00ff, register.DI);
         Assert.AreEqual<byte>(0x_ff, register.DIL);
     }

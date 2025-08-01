@@ -27,6 +27,8 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         set => EFLAGS = (EFLAGS & 0xffff0000) + value;
     }
 
+    public string Name => "EFLAGS";
+
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
         { nameof(EFLAGS), Size.Qword },
