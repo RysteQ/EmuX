@@ -1,4 +1,4 @@
-﻿using EmuX_Unit_Tests.Tests.InternalConstants;
+﻿using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
@@ -6,7 +6,7 @@ using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
 using System.Drawing;
 
-namespace EmuX_Unit_Tests.Tests.VM.BIOS;
+namespace EmuXCoreUnitTests.Tests.VM.BIOS;
 
 [TestClass]
 public sealed class VideoInterruptTests : TestWideInternalConstants

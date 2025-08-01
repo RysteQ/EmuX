@@ -1,9 +1,9 @@
-﻿using EmuX_Unit_Tests.Tests.InternalConstants;
+﻿using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
-namespace EmuX_Unit_Tests.Tests.VM.BIOS;
+namespace EmuXCoreUnitTests.Tests.VM.BIOS;
 
 [TestClass]
 public sealed class RTCInterruptTests : TestWideInternalConstants

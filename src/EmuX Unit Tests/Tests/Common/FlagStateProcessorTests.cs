@@ -1,8 +1,8 @@
-﻿using EmuX_Unit_Tests.Tests.InternalConstants;
+﻿using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.Common.Enums;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 
-namespace EmuX_Unit_Tests.Tests.Common;
+namespace EmuXCoreUnitTests.Tests.Common;
 
 [TestClass]
 public sealed class FlagStateProcessorTests : TestWideInternalConstants

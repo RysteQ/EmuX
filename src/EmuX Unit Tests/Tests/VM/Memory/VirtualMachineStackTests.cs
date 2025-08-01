@@ -1,7 +1,7 @@
-using EmuX_Unit_Tests.Tests.InternalConstants;
+using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.VM.Interfaces;
 
-namespace EmuX_Unit_Tests.Tests.VM.Memory;
+namespace EmuXCoreUnitTests.Tests.VM.Memory;
 
 [TestClass]
 public sealed class VirtualMachineStackTests : TestWideInternalConstants

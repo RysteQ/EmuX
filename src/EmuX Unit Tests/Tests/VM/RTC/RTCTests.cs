@@ -1,7 +1,7 @@
-﻿using EmuX_Unit_Tests.Tests.InternalConstants;
+﻿using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.VM.Interfaces.Components;
 
-namespace EmuX_Unit_Tests.Tests.VM.RTC;
+namespace EmuXCoreUnitTests.Tests.VM.RTC;
 
 [TestClass]
 public sealed class RTCTests : TestWideInternalConstants

@@ -1,10 +1,10 @@
-﻿using EmuX_Unit_Tests.Tests.InternalConstants;
+﻿using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;
 
-namespace EmuX_Unit_Tests.Tests.Interpreter.Instructions.Internal;
+namespace EmuXCoreUnitTests.Tests.Interpreter.Instructions.Internal;
 
 public class InstructionConstants<T> : TestWideInternalConstants where T : IInstruction
 {

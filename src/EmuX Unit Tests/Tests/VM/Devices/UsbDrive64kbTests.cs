@@ -1,6 +1,6 @@
-﻿using EmuX_Unit_Tests.Tests.InternalConstants;
+﻿using EmuXCoreUnitTests.Tests.InternalConstants;
 
-namespace EmuX_Unit_Tests.Tests.VM.Devices;
+namespace EmuXCoreUnitTests.Tests.VM.Devices;
 
 [TestClass]
 public sealed class UsbDrive64kbTests : TestWideInternalConstants

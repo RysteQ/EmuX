@@ -1,7 +1,7 @@
-﻿using EmuX_Unit_Tests.Tests.InternalConstants;
+﻿using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.VM.Interfaces.Components;
 
-namespace EmuX_Unit_Tests.Tests.VM.Disk;
+namespace EmuXCoreUnitTests.Tests.VM.Disk;
 
 [TestClass]
 public sealed class DiskTests : TestWideInternalConstants

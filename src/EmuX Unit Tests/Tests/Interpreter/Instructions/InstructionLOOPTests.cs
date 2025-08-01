@@ -1,4 +1,4 @@
-﻿using EmuX_Unit_Tests.Tests.Interpreter.Instructions.Internal;
+﻿using EmuXCoreUnitTests.Tests.Interpreter.Instructions.Internal;
 using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions;
@@ -8,7 +8,7 @@ using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
-namespace EmuX_Unit_Tests.Tests.Interpreter.Instructions;
+namespace EmuXCoreUnitTests.Tests.Interpreter.Instructions;
 
 [TestClass]
 public sealed class InstructionLOOPTests : InstructionConstants<InstructionLOOP>
