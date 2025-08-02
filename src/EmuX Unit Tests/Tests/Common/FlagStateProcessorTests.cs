@@ -1,5 +1,4 @@
-﻿using EmuXCoreUnitTests.Tests.InternalConstants;
-using EmuXCore.Common.Enums;
+﻿using EmuXCore.Common.Enums;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 
 namespace EmuXCoreUnitTests.Tests.Common;

@@ -1,5 +1,5 @@
-﻿using EmuXCoreUnitTests.Tests.InternalConstants;
-using EmuXCore.VM.Interfaces.Components;
+﻿using EmuXCore.VM.Interfaces.Components;
+using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.VM.Disk;
 

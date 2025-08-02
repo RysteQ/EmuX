@@ -1,4 +1,4 @@
-﻿using EmuXCoreUnitTests.Tests.InternalConstants;
+﻿using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.VM.Devices;
 

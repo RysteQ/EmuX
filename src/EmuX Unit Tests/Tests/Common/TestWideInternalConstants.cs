@@ -20,7 +20,7 @@ using EmuXCore.VM.Internal.GPUs;
 using EmuXCore.VM.Internal.Memory;
 using EmuXCore.VM.Internal.RTC;
 
-namespace EmuXCoreUnitTests.Tests.InternalConstants;
+namespace EmuXCoreUnitTests.Tests.Common;
 
 public class TestWideInternalConstants
 {

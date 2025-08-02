@@ -1,5 +1,5 @@
-using EmuXCoreUnitTests.Tests.InternalConstants;
 using EmuXCore.VM.Interfaces;
+using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.VM.Memory;
 
