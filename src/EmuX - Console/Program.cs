@@ -1,15 +1,39 @@
-﻿using EmuXCore.Common.Enums;
-using EmuXCore.Common.Interfaces;
-using EmuXCore.InstructionLogic.Instructions;
-using EmuXCore.InstructionLogic.Instructions.Internal;
-using EmuXCore.Interpreter;
-using EmuXCore.Interpreter.Interfaces;
+﻿using EmuX_Console.Libraries;
+using EmuX_Console.Libraries.Enums;
+using EmuX_Console.Libraries.Interfaces;
+using EmuXCore.VM;
 using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Internal.BIOS;
+using EmuXCore.VM.Internal.BIOS.Internal;
 using EmuXCore.VM.Internal.CPU;
-using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
+using EmuXCore.VM.Internal.Device.USBDrives;
+using EmuXCore.VM.Internal.Disk;
+using EmuXCore.VM.Internal.GPUs;
+using EmuXCore.VM.Internal.Memory;
+using EmuXCore.VM.Internal.RTC;
 
-VirtualCPU cpu = new();
-Lexer lexer = new(cpu);
-ILexerResult result = lexer.Parse("add dword ptr [0x1020], 5");
+string input = string.Empty;
+ITerminalIOHandler terminalIOHandler = new TerminalIOHandler("> ", ConsoleKey.UpArrow, ConsoleKey.DownArrow);
+IVirtualMachineBuilder virtualMachineBuilder = new VirtualMachineBuilder();
+IVirtualMachine virtualMachine = virtualMachineBuilder
+            .SetCpu(new VirtualCPU())
+            .SetMemory(new VirtualMemory())
+            .SetBios(new VirtualBIOS(new DiskInterruptHandler(), new RTCInterruptHandler(), new VideoInterruptHandler(), new DeviceInterruptHandler()))
+            .SetRTC(new VirtualRTC())
+            .AddDisk(new VirtualDisk(1, 4, 16, 64))
+            .AddDisk(new VirtualDisk(2, 4, 12, 24))
+            .SetGPU(new VirtualGPU())
+            .AddVirtualDevice(new UsbDrive64Kb(1))
+            .Build();
 
-Console.WriteLine(result.Instructions.Count);
+Console.Clear();
+
+terminalIOHandler.Output(virtualMachine);
+
+while (true)
+{
+    input = terminalIOHandler.GetUserInput();
+
+    terminalIOHandler.Output("Input -> " + input, OutputSeverity.Normal);
+    terminalIOHandler.Output("Input -> " + input, OutputSeverity.Error);
+}
