@@ -1,19 +1,30 @@
 ﻿using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
+using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
-using EmuXCore.InstructionLogic.Instructions;
+using EmuXCore.InstructionLogic.Prefixes;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU;
 using System.Diagnostics;
-using EmuXCore.InstructionLogic.Prefixes;
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
-public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLine, string prefix, string opcode, string firstOperand, string secondOperand, string thirdOperand) : ILexeme
+public class Lexeme : ILexeme
 {
+    public Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLine, string prefix, string opcode, string firstOperand, string secondOperand, string thirdOperand)
+    {
+        _cpu = cpuToTranslateFor;
+        SourceCodeLine = sourceCodeLine;
+        Prefix = prefix;
+        Opcode = opcode;
+        FirstOperand = firstOperand;
+        SecondOperand = secondOperand;
+        ThirdOperand = thirdOperand;
+    }
+
     public IInstruction ToIInstruction()
     {
         InstructionVariant instructionVariant = GetInstructionVariant();
@@ -261,7 +272,8 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
                 case OperandVariant.Memory: return InstructionVariant.OneOperandMemory();
                 case OperandVariant.Register: return InstructionVariant.OneOperandRegister();
                 case OperandVariant.NaN: return InstructionVariant.NaN();
-            };
+            }
+            ;
         }
 
         if (!string.IsNullOrEmpty(FirstOperand) && !string.IsNullOrEmpty(SecondOperand) && string.IsNullOrEmpty(ThirdOperand))
@@ -338,7 +350,7 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
             && !operand[..^1].Where(selectedChar => selectedChar != '0' && selectedChar != '1').Any())
             || (operand.EndsWith('H')
             && !operand[..^1].Where(selectedChar => int.TryParse(selectedChar.ToString(), out _) == false && selectedChar < 65 && selectedChar > 70).Any())
-            || (operand.StartsWith("0B") 
+            || (operand.StartsWith("0B")
             && !operand[2..].Where(selectedChar => selectedChar != '0' && selectedChar != '1').Any())
             || (operand.StartsWith("0X")
             && !operand[2..].Where(selectedChar => int.TryParse(selectedChar.ToString(), out _) == false && selectedChar < 65 && selectedChar > 70).Any())
@@ -563,12 +575,12 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
         return new FlagStateProcessor();
     }
 
-    public ISourceCodeLine SourceCodeLine { get; init; } = sourceCodeLine;
-    public string Prefix { get; init; } = prefix;
-    public string Opcode { get; init; } = opcode;
-    public string FirstOperand { get; init; } = firstOperand;
-    public string SecondOperand { get; init; } = secondOperand;
-    public string ThirdOperand { get; init; } = thirdOperand;
+    public ISourceCodeLine SourceCodeLine { get; init; }
+    public string Prefix { get; init; }
+    public string Opcode { get; init; }
+    public string FirstOperand { get; init; }
+    public string SecondOperand { get; init; }
+    public string ThirdOperand { get; init; }
 
-    private readonly IVirtualCPU _cpu = cpuToTranslateFor;
+    private readonly IVirtualCPU _cpu;
 }

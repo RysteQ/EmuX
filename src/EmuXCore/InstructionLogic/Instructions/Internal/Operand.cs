@@ -3,8 +3,16 @@ using EmuXCore.Common.Interfaces;
 
 namespace EmuXCore.InstructionLogic.Instructions.Internal;
 
-public class Operand(string fullOperand, OperandVariant variant, Size operandSize, IMemoryOffset[] offsets) : IOperand
+public class Operand : IOperand
 {
+    public Operand(string fullOperand, OperandVariant variant, Size operandSize, IMemoryOffset[] offsets)
+    {
+        FullOperand = fullOperand;
+        Variant = variant;
+        OperandSize = operandSize;
+        Offsets = offsets;
+    }
+
     public bool AreMemoryOffsetValid()
     {
         Dictionary<MemoryOffsetType, int> offsetTypeAndMaximumAllowedOccurences = new()
@@ -37,8 +45,8 @@ public class Operand(string fullOperand, OperandVariant variant, Size operandSiz
         return true;
     }
 
-    public string FullOperand { get; init; } = fullOperand;
-    public OperandVariant Variant { get; init; } = variant;
-    public Size OperandSize { get; init; } = operandSize;
-    public IMemoryOffset[] Offsets { get; init; } = offsets;
+    public string FullOperand { get; init; }
+    public OperandVariant Variant { get; init; }
+    public Size OperandSize { get; init; }
+    public IMemoryOffset[] Offsets { get; init; }
 }

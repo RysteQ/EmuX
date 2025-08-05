@@ -1,5 +1,8 @@
 ﻿namespace EmuXCore.Common.Enums;
 
+/// <summary>
+/// Used for calculating the memory offset by indicating the operations needed for the expression
+/// </summary>
 public enum MemoryOffsetOperand
 {
     Addition,

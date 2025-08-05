@@ -2,8 +2,15 @@
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
-public class SourceCodeLine(string sourceCode, int line) : ISourceCodeLine
+public record SourceCodeLine : ISourceCodeLine
 {
-    public string SourceCode { get; init; } = sourceCode;
-    public int Line { get; init; } = line;
+    public SourceCodeLine(string sourceCode, int line)
+    {
+        SourceCode = sourceCode;
+        Line = line;
+    }
+
+
+    public string SourceCode { get; init; }
+    public int Line { get; init; }
 }

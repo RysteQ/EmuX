@@ -2,6 +2,9 @@
 
 namespace EmuXCore.Interpreter.Interfaces;
 
+/// <summary>
+/// This is used during the late stages of the parsing process to check if the instruction is valid and to parse said instruction to its IInstruction counterpart
+/// </summary>
 public interface ILexeme
 {
     /// <summary>
@@ -11,7 +14,7 @@ public interface ILexeme
     IInstruction ToIInstruction();
 
     /// <summary>
-    /// Converts the lexem to its ILabel counterpart
+    /// Converts the lexeme to its ILabel counterpart
     /// </summary>
     /// <returns>The ILabel</returns>
     ILabel ToILabel();

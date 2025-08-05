@@ -1,5 +1,8 @@
 ﻿namespace EmuXCore.VM.Interfaces.Components;
 
+/// <summary>
+/// The IVirtualDisk module is meant to emulate a real hard drive
+/// </summary>
 public interface IVirtualDisk : IVirtualComponent
 {
     /// <summary>

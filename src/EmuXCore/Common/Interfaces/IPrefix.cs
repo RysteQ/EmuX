@@ -2,6 +2,9 @@
 
 namespace EmuXCore.Common.Interfaces;
 
+/// <summary>
+/// This is used to structure prefixes for all instruction types
+/// </summary>
 public interface IPrefix
 {
     /// <summary>

@@ -1,13 +1,13 @@
-﻿using EmuX_Unit_Tests.Tests.Interpreter.Instructions.Internal;
+﻿using EmuXCoreUnitTests.Tests.Interpreter.Instructions.Internal;
 using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Internal;
+using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Internal.CPU.Enums;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
-namespace EmuX_Unit_Tests.Tests.Interpreter.Instructions;
+namespace EmuXCoreUnitTests.Tests.Interpreter.Instructions;
 
 [TestClass]
 public sealed class InstructionCLDTests : InstructionConstants<InstructionCLD>

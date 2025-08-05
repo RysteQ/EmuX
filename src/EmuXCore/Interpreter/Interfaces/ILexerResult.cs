@@ -2,9 +2,19 @@
 
 namespace EmuXCore.Interpreter.Interfaces;
 
+/// <summary>
+/// This is used to hold the parsing results into a singular, easy to use, object
+/// </summary>
 public interface ILexerResult
 {
+    /// <summary>
+    /// The instructions that have been parsed
+    /// </summary>
     IList<IInstruction> Instructions { get; init; }
+
+    /// <summary>
+    /// The labels that have been parsed
+    /// </summary>
     IList<ILabel> Labels { get; init; }
 
     /// <summary>

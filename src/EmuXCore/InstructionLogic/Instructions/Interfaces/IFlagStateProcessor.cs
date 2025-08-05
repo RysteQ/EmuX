@@ -2,6 +2,9 @@
 
 namespace EmuXCore.InstructionLogic.Instructions.Interfaces;
 
+/// <summary>
+/// This is useful to minimise the code required to check for the state of the flags in the entire codebase by promoting a singular self contained solution
+/// </summary>
 public interface IFlagStateProcessor
 {
     /// <summary>

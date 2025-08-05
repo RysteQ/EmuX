@@ -1,11 +1,14 @@
-﻿using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Interfaces.Components;
-using EmuXCore.VM.Internal.BIOS.Enums.SubInterrupts;
+﻿using EmuXCore.VM.Enums;
+using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components.BIOS;
+using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
+using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
+using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.BIOS.Interfaces;
-using EmuXCore.VM.Internal.CPU.Enums;
+
 namespace EmuXCore.VM.Internal.BIOS;
 
-public class VirtualBIOS(IDiskInterruptHandler diskInterruptHandler, IRTCInterruptHandler rtcInterruptHandler, IVirtualMachine? parentVirtualMachine = null) : IVirtualBIOS
+public class VirtualBIOS(IDiskInterruptHandler diskInterruptHandler, IRTCInterruptHandler rtcInterruptHandler, IVideoInterruptHandler videoInterruptHandler, IDeviceInterruptHandler deviceInterruptHandler, IVirtualMachine? parentVirtualMachine = null) : IVirtualBIOS
 {
     public void HandleDiskInterrupt(DiskInterrupt interruptCode)
     {
@@ -40,8 +43,40 @@ public class VirtualBIOS(IDiskInterruptHandler diskInterruptHandler, IRTCInterru
         }
     }
 
+    public void HandleVideoInterrupt(VideoInterrupt interruptCode)
+    {
+        if (ParentVirtualMachine == null)
+        {
+            throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
+        }
+
+        switch (interruptCode)
+        {
+            case VideoInterrupt.ReadPixel: _videoInterruptHandler.ReadPixel(ParentVirtualMachine.CPU, ParentVirtualMachine.GPU); break;
+            case VideoInterrupt.GetResolution: _videoInterruptHandler.GetResolution(ParentVirtualMachine.CPU, ParentVirtualMachine.GPU); break;
+            case VideoInterrupt.DrawPixel: _videoInterruptHandler.DrawPixel(ParentVirtualMachine.CPU, ParentVirtualMachine.GPU); break;
+            case VideoInterrupt.DrawLine: _videoInterruptHandler.DrawLine(ParentVirtualMachine.CPU, ParentVirtualMachine.GPU); break;
+            case VideoInterrupt.DrawBox: _videoInterruptHandler.DrawBox(ParentVirtualMachine.CPU, ParentVirtualMachine.GPU); break;
+        }
+    }
+
+    public void HandleDeviceInterrupt(DeviceInterrupt interruptCode)
+    {
+        if (ParentVirtualMachine == null)
+        {
+            throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
+        }
+        
+        switch (interruptCode)
+        {
+            case DeviceInterrupt.ExecuteLogic: _deviceInterruptHandler.ExecuteLogic(ParentVirtualMachine.CPU, ParentVirtualMachine.Devices); break;
+        }
+    }
+
     public IVirtualMachine? ParentVirtualMachine { get; set; } = parentVirtualMachine;
 
     private IDiskInterruptHandler _diskInterruptHandler = diskInterruptHandler;
     private IRTCInterruptHandler _rtcInterruptHandler = rtcInterruptHandler;
+    private IVideoInterruptHandler _videoInterruptHandler = videoInterruptHandler;
+    private IDeviceInterruptHandler _deviceInterruptHandler = deviceInterruptHandler;
 }

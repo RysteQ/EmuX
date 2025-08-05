@@ -1,12 +1,7 @@
 ﻿using EmuXCore.Common.Interfaces;
+using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Internal.CPU.Enums;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmuXCore.InstructionLogic.Prefixes;
 

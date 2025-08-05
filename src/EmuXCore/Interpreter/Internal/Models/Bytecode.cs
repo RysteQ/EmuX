@@ -3,7 +3,7 @@ using EmuXCore.Interpreter.Interfaces;
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
-public class Bytecode : IBytecode
+public record Bytecode : IBytecode
 {
     public Bytecode(IInstruction? instruction = null, ILabel? label = null)
     {

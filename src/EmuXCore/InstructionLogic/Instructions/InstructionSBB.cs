@@ -2,15 +2,25 @@
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
+using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using EmuXCore.VM.Internal.CPU.Enums;
-using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
 namespace EmuXCore.InstructionLogic.Instructions;
 
-public sealed class InstructionSBB(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) : IInstruction
+public sealed class InstructionSBB : IInstruction
 {
+    public InstructionSBB(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor)
+    {
+        Variant = variant;
+        Prefix = prefix;
+        FirstOperand = firstOperand;
+        SecondOperand = secondOperand;
+        ThirdOperand = thirdOperand;
+        OperandDecoder = operandDecoder;
+        FlagStateProcessor = flagStateProcessor;
+    }
+
     public void Execute(IVirtualMachine virtualMachine)
     {
         ulong firstOperandValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
@@ -24,7 +34,7 @@ public sealed class InstructionSBB(InstructionVariant variant, IPrefix? prefix, 
 
         if (Variant.FirstOperand == OperandVariant.Register)
         {
-            IVirtualRegister? register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand) ?? throw new ArgumentNullException($"Couldn't find a register with the name {FirstOperand!.FullOperand}");
+            IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
             register!.Set(valueToSet);
         }
@@ -71,14 +81,13 @@ public sealed class InstructionSBB(InstructionVariant variant, IPrefix? prefix, 
         return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand?.Variant == Variant.FirstOperand && SecondOperand?.Variant == Variant.SecondOperand && ThirdOperand == null;
     }
 
-    public IOperandDecoder OperandDecoder { get; init; } = operandDecoder;
-    public IFlagStateProcessor FlagStateProcessor { get; init; } = flagStateProcessor;
-
     public string Opcode => "SBB";
 
-    public InstructionVariant Variant { get; init; } = variant;
-    public IPrefix? Prefix { get; init; } = prefix;
-    public IOperand? FirstOperand { get; init; } = firstOperand;
-    public IOperand? SecondOperand { get; init; } = secondOperand;
-    public IOperand? ThirdOperand { get; init; } = thirdOperand;
+    public IOperandDecoder OperandDecoder { get; init; }
+    public IFlagStateProcessor FlagStateProcessor { get; init; }
+    public InstructionVariant Variant { get; init; }
+    public IPrefix? Prefix { get; init; }
+    public IOperand? FirstOperand { get; init; }
+    public IOperand? SecondOperand { get; init; }
+    public IOperand? ThirdOperand { get; init; }
 }

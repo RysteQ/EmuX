@@ -28,6 +28,8 @@ public class VirtualRegisterRSP : IVirtualRegister
         set => SP = (ushort)((SP & 0xff00) + value);
     }
 
+    public string Name => "RSP";
+
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {
         { nameof(RSP), Size.Qword },

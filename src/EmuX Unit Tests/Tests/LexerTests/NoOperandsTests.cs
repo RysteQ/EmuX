@@ -1,9 +1,9 @@
-﻿using EmuX_Unit_Tests.Tests.InternalConstants;
-using EmuXCore.InstructionLogic.Instructions;
+﻿using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.Interpreter.Interfaces;
+using EmuXCoreUnitTests.Tests.Common;
 
-namespace EmuX_Unit_Tests.Tests.LexerTests;
+namespace EmuXCoreUnitTests.Tests.LexerTests;
 
 [TestClass]
 public sealed class NoOperandsTests : TestWideInternalConstants

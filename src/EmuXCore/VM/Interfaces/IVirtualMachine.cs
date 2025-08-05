@@ -1,9 +1,14 @@
-﻿using EmuXCore.VM.Interfaces.Components;
-using EmuXCore.VM.Internal.BIOS.Enums;
-using EmuXCore.VM.Internal.CPU.Enums;
+﻿using EmuXCore.VM.Enums;
+using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.BIOS;
+using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
 
 namespace EmuXCore.VM.Interfaces;
 
+/// <summary>
+/// The IVirtualMachine is meant to emulate an entire system so that the execution of the code is contained. <br/>
+/// As such there are multiple advantages, mainly having full, easy to access, control over the inner workings of the VM.
+/// </summary>
 public interface IVirtualMachine
 {
     /// <summary>
@@ -138,6 +143,8 @@ public interface IVirtualMachine
     /// </summary>
     /// <param name="interruptCode">The interrupt code</param>
     /// <param name="subInterrupt">The sub interrupt code</param>
+    /// <exception cref="Exception">Thrown if the sub interrupt code has not been found</exception>
+    /// <exception cref="NotImplementedException">Thrown if the interrupt functionality has not been implemented</exception>
     void Interrupt(InterruptCode interruptCode, object subInterrupt);
 
     /// <summary>

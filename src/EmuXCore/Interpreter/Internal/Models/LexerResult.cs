@@ -3,10 +3,17 @@ using EmuXCore.Interpreter.Interfaces;
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
-public class LexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors) : ILexerResult
+public record LexerResult : ILexerResult
 {
-    public IList<IInstruction> Instructions { get; init; } = instructions;
-    public IList<ILabel> Labels { get; init; } = labels;
+    public LexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors)
+    {
+        Instructions = instructions;
+        Labels = labels;
+        Errors = errors;
+    }
+
+    public IList<IInstruction> Instructions { get; init; }
+    public IList<ILabel> Labels { get; init; }
     public bool Success { get => !Errors.Any(); }
-    public IList<string> Errors { get; init; } = errors;
+    public IList<string> Errors { get; init; }
 }

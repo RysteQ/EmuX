@@ -2,14 +2,17 @@
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Internal.Models;
 using EmuXCore.VM.Interfaces.Components;
-using System.Collections.ObjectModel;
 using System.Reflection;
-using System.Runtime.Serialization;
 
 namespace EmuXCore.Interpreter;
 
-public class Lexer(IVirtualCPU cpu) : ILexer
+public class Lexer : ILexer
 {
+    public Lexer(IVirtualCPU cpu)
+    {
+        _cpu = cpu;
+    }
+
     public ILexerResult Parse(string codeToParse)
     {
         List<ISourceCodeLine> lines = [];
@@ -248,5 +251,5 @@ public class Lexer(IVirtualCPU cpu) : ILexer
 
     private List<string> _errorLog = [];
 
-    private readonly IVirtualCPU _cpu = cpu;
+    private readonly IVirtualCPU _cpu;
 }

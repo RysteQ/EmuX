@@ -1,8 +1,8 @@
-using EmuX_Unit_Tests.Tests.InternalConstants;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
+using EmuXCoreUnitTests.Tests.Common;
 
-namespace EmuX_Unit_Tests.Tests.VM.Registers;
+namespace EmuXCoreUnitTests.Tests.VM.Registers;
 
 [TestClass]
 public sealed class FlagsIOPLTests : TestWideInternalConstants

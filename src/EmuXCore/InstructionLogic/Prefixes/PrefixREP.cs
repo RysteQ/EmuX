@@ -1,7 +1,6 @@
 ﻿using EmuXCore.Common.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
-using System.Runtime.CompilerServices;
 
 namespace EmuXCore.InstructionLogic.Prefixes;
 

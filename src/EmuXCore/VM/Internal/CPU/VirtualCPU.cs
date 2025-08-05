@@ -23,7 +23,7 @@ public class VirtualCPU(IVirtualMachine? parentVirtualMachine = null) : IVirtual
         throw new KeyNotFoundException($"Cannot find any register of type {typeof(T)}");
     }
 
-    public IVirtualRegister? GetRegister(string registerName)
+    public IVirtualRegister GetRegister(string registerName)
     {
         foreach (IVirtualRegister register in Registers)
         {
@@ -33,7 +33,7 @@ public class VirtualCPU(IVirtualMachine? parentVirtualMachine = null) : IVirtual
             }
         }
 
-        return null;
+        throw new KeyNotFoundException($"Cannot find the register {registerName}");
     }
 
     public IReadOnlyCollection<IVirtualRegister> Registers { get; init; } =

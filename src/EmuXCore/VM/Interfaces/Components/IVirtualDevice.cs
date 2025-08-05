@@ -1,7 +1,10 @@
-﻿using EmuXCore.VM.Internal.Enums;
+﻿using EmuXCore.VM.Enums;
 
 namespace EmuXCore.VM.Interfaces.Components;
 
+/// <summary>
+/// The IVirtualDevice interface is meant to give a generic foundation for all devices that can be created by the developer.
+/// </summary>
 public interface IVirtualDevice : IVirtualComponent
 {
     /// <summary>

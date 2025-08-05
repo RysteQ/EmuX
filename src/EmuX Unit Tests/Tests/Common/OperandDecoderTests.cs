@@ -1,11 +1,10 @@
-﻿using EmuX_Unit_Tests.Tests.InternalConstants;
-using EmuXCore.Common.Enums;
+﻿using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
-namespace EmuX_Unit_Tests.Tests.Common;
+namespace EmuXCoreUnitTests.Tests.Common;
 
 [TestClass]
 public sealed class OperandDecoderTests : TestWideInternalConstants
