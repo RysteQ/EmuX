@@ -12,7 +12,7 @@ public sealed class InstructionCBW(InstructionVariant variant, IPrefix? prefix, 
     {
         if (virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL >= 0b_1000_0000)
         {
-            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = byte.MaxValue;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = byte.MaxValue;
         }
     }
 
