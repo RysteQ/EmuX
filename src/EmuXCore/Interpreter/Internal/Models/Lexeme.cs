@@ -89,6 +89,7 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
             "JGE" => new InstructionJGE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "JL" => new InstructionJL(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "JLE" => new InstructionJLE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JMP" => new InstructionJMP(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "JNA" => new InstructionJNA(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "JNAE" => new InstructionJNAE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "JNB" => new InstructionJNB(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
