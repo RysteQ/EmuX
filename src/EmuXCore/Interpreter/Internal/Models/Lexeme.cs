@@ -67,7 +67,6 @@ public class Lexeme(IVirtualCPU cpuToTranslateFor, ISourceCodeLine sourceCodeLin
             "CMPSW" => new InstructionCMPSW(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "CWD" => new InstructionCWD(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "CDQ" => new InstructionCDQ(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CDO" => new InstructionCDO(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "DAA" => new InstructionDAA(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
             "DAS" => new InstructionDAS(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
             "DEC" => new InstructionDEC(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
