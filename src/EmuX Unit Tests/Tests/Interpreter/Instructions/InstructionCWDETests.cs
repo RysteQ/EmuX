@@ -121,28 +121,28 @@ public sealed class InstructionCWDETests : InstructionConstants<InstructionCWDE>
     }
 
     [TestMethod]
-    public void TestExecuteMethod_DoNotExtendSign()
-    {
-        IInstruction instruction = GenerateInstruction();
-        IVirtualMachine virtualMachine = GenerateVirtualMachine();
-
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX = 0b_0100_0000_0000_0000_0000_0000_0000_0000;
-        instruction.Execute(virtualMachine);
-
-        Assert.AreEqual<ulong>(0b_0000_0000_0000_0000_0000_0000_0000_0000_0100_0000_0000_0000_0000_0000_0000_0000, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX);
-    }
-
-    [TestMethod]
     public void TestExecuteMethod_DoExtendSign()
     {
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX = 0b_1000_0000_0000_0000_0000_0000_0000_0000;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX = 0;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = 0b_0100_0000_0000_0000;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<ulong>(0b_1111_1111_1111_1111_1111_1111_1111_1111_1000_0000_0000_0000_0000_0000_0000_0000, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX);
+        Assert.AreEqual<uint>(0b_0000_0000_0000_0000_0100_0000_0000_0000, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX);
+    }
+
+    [TestMethod]
+    public void TestExecuteMethod_DoNotExtendSign()
+    {
+        IInstruction instruction = GenerateInstruction();
+        IVirtualMachine virtualMachine = GenerateVirtualMachine();
+
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX = 0;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = 0b_1000_0000_0000_0000;
+        instruction.Execute(virtualMachine);
+
+        Assert.AreEqual<uint>(0b_1111_1111_1111_1111_1000_0000_0000_0000, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX);
     }
 }

@@ -10,9 +10,9 @@ public sealed class InstructionCWDE(InstructionVariant variant, IPrefix? prefix,
 {
     public void Execute(IVirtualMachine virtualMachine)
     {
-        if (virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX >= 0b_1000_0000_0000_0000_0000_0000_0000_0000)
+        if (virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX >= 0b_1000_0000_0000_0000)
         {
-            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0x_ff_ff_ff_ff_00_00_00_00 | virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX = 0x_ff_ff_00_00 | virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX;
         }
     }
 
