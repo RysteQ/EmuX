@@ -5,11 +5,12 @@ using EmuX_Console.Libraries.Interfaces;
 string input = string.Empty;
 string sourceCode = string.Empty;
 ITerminalIOHandler terminalIOHandler = new TerminalIOHandler("> ", ConsoleKey.UpArrow, ConsoleKey.DownArrow);
+ICodeEditor codeEditor = new CodeEditor(terminalIOHandler);
 
 Console.Clear();
 
-terminalIOHandler.Output("-== EmuX nano ==-", OutputSeverity.Important);
-terminalIOHandler.Output("Enter 'h' for all the available commands\n", OutputSeverity.Normal);
+terminalIOHandler.Output("-== EmuX nano ==-\n", OutputSeverity.Important);
+terminalIOHandler.Output("Enter 'help' for all the available commands\n", OutputSeverity.Normal);
 
 while (true)
 {
@@ -17,58 +18,66 @@ while (true)
 
     switch (input.Split(' ').First())
     {
-        case "h":
-            terminalIOHandler.Output("h - prints out all available commands", OutputSeverity.Normal);
-            terminalIOHandler.Output("v - prints out the version of EmuX nano", OutputSeverity.Normal);
-            terminalIOHandler.Output("c - clears the console window", OutputSeverity.Normal);
-            terminalIOHandler.Output("e - exits EmuX nano", OutputSeverity.Normal);
-            terminalIOHandler.Output("o [file] - load a file in memory", OutputSeverity.Normal);
-            terminalIOHandler.Output("sc - show the source code loaded in memory", OutputSeverity.Normal);
+        case "help":
+            terminalIOHandler.Output("help - prints out all available commands\n", OutputSeverity.Normal);
+            terminalIOHandler.Output("version - prints out the version of EmuX nano\n", OutputSeverity.Normal);
+            terminalIOHandler.Output("clear - clears the console window\n", OutputSeverity.Normal);
+            terminalIOHandler.Output("exit - exits EmuX nano\n", OutputSeverity.Normal);
+            terminalIOHandler.Output("open [file] - load a file in memory\n", OutputSeverity.Normal);
+            terminalIOHandler.Output("sc - show the source code loaded in memory\n", OutputSeverity.Normal);
+            terminalIOHandler.Output("edit - opens the build in editor\n", OutputSeverity.Normal);
             break;
 
-        case "v":
-            terminalIOHandler.Output("Version 1.0.0", OutputSeverity.Normal);
+        case "version":
+            terminalIOHandler.Output("Version 1.0.0\n", OutputSeverity.Normal);
             break;
 
-        case "c":
+        case "clear":
             Console.Clear();
             break;
 
-        case "e":
-            terminalIOHandler.Output("Are you sure you want to exit EmuX nano (y/n)", OutputSeverity.Important);
+        case "exit":
+            terminalIOHandler.Output("Are you sure you want to exit EmuX nano (y/n)\n", OutputSeverity.Important);
 
-            if (terminalIOHandler.GetUserKeyInput() == 'y')
+            if (terminalIOHandler.GetUserKeyInput().KeyChar == 'y')
             {
                 Environment.Exit(0);
             }
 
             break;
 
-        case "o":
-            if (!File.Exists(string.Join(' ', input.Split(' ').Skip(1))))
+        case "open":
+            input = string.Join(' ', input.Split(' ').Skip(1));
+
+            if (!File.Exists(input))
             {
-                terminalIOHandler.Output($"Error, file {string.Join(' ', input.Split(' ').Skip(1))} does not exist", OutputSeverity.Error);
+                terminalIOHandler.Output($"Error, file {input} does not exist\n", OutputSeverity.Error);
                 break;
             }
-            else if (!string.Join(' ', input.Split(' ').Skip(1)).EndsWith("asm"))
+            else if (!input.EndsWith("asm"))
             {
-                terminalIOHandler.Output($"Error, file {string.Join(' ', input.Split(' ').Skip(1))} is not of type .asm", OutputSeverity.Error);
+                terminalIOHandler.Output($"Error, file {input} is not of type .asm\n", OutputSeverity.Error);
                 break;
             }
 
-            sourceCode = File.ReadAllText(string.Join(' ', input.Split(' ').Skip(1)));
+            sourceCode = File.ReadAllText(input);
             
             break;
 
         case "sc":
             if (string.IsNullOrEmpty(sourceCode))
             {
-                terminalIOHandler.Output("No source code detected in memory, either open a file or write an application in the EmuX editor", OutputSeverity.Error);
+                terminalIOHandler.Output("No source code detected in memory, either open a file or write an application in the EmuX editor\n", OutputSeverity.Error);
                 break;
             }
 
-            terminalIOHandler.Output(sourceCode, OutputSeverity.Normal);
+            terminalIOHandler.Output($"{sourceCode}\n", OutputSeverity.Normal);
             
+            break;
+
+        case "edit":
+            codeEditor.Init(sourceCode);
+
             break;
 
         case "":

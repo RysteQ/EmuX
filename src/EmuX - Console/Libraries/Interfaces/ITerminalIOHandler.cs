@@ -20,10 +20,24 @@ public interface ITerminalIOHandler
     string GetUserInput();
 
     /// <summary>
+    /// Displays the prompt for the user to enter any input they so desire <br/>
+    /// There is also a history which if the user presses the LookbackKey then the previous input they entered will be selected <br/>
+    /// The implementation of the ITerminalIOHandler should have an internal limit to the history size, the recommended maximum lookback size is 100.
+    /// </summary>
+    /// <returns>The user input</returns>
+    string GetUserInput(bool hidePrompt);
+
+    /// <summary>
     /// Displays the prompt for the user to press a single key
     /// </summary>
     /// <returns>The key the user entered</returns>
-    char GetUserKeyInput();
+    ConsoleKeyInfo GetUserKeyInput();
+
+    /// <summary>
+    /// Displays the prompt for the user to press a single key
+    /// </summary>
+    /// <returns>The key the user entered</returns>
+    ConsoleKeyInfo GetUserKeyInput(bool hidePrompt);
 
     /// <summary>
     /// Prints the given string to the console

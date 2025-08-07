@@ -31,51 +31,42 @@ public class TerminalIOHandler : ITerminalIOHandler
 
     public string GetUserInput()
     {
-        ConsoleKeyInfo inputCharacter;
-        string input = string.Empty;
-
         DisplayPrompt();
 
-        do
-        {
-            inputCharacter = Console.ReadKey();
-
-            if (inputCharacter.Key == BackwardLookbackKey || inputCharacter.Key == ForwardLookbackKey)
-            {
-                input = HandleLoopbackRequest(inputCharacter.Key == BackwardLookbackKey, input.Length);
-            }
-            else if (inputCharacter.Key == ConsoleKey.Backspace)
-            {
-                Console.Write(' ');
-                Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top);
-
-                input = string.Join(string.Empty, input.SkipLast(1));
-            }
-            else
-            {
-                input += inputCharacter.KeyChar;
-            }
-        } while (inputCharacter.Key != ConsoleKey.Enter);
-
-        input = input.Trim();
-
-        HandleLookbackAddition(input);
-        Console.WriteLine();
-
-        return input;
+        return InternalGetUserInput();
     }
 
-    public char GetUserKeyInput()
+    public string GetUserInput(bool hidePrompt)
+    {
+        if (!hidePrompt)
+        {
+            DisplayPrompt();
+        }
+
+        return InternalGetUserInput();
+    }
+
+    public ConsoleKeyInfo GetUserKeyInput()
     {
         DisplayPrompt();
 
-        return Console.ReadKey().KeyChar;
+        return Console.ReadKey();
+    }
+
+    public ConsoleKeyInfo GetUserKeyInput(bool hidePrompt)
+    {
+        if (!hidePrompt)
+        {
+            DisplayPrompt();
+        }
+
+        return Console.ReadKey();
     }
 
     public void Output(string output, OutputSeverity severity)
     {
         HandleForegroundColourSeverity(severity);
-        Console.WriteLine(output);
+        Console.Write(output);
     }
 
     public void Output(IVirtualMachine virtualMachine)
@@ -204,6 +195,40 @@ public class TerminalIOHandler : ITerminalIOHandler
 
         HandleForegroundColourSeverity(severity);
         Console.WriteLine(toDisplay);
+    }
+
+    private string InternalGetUserInput()
+    {
+        ConsoleKeyInfo inputCharacter;
+        string input = string.Empty;
+
+        do
+        {
+            inputCharacter = Console.ReadKey();
+
+            if (inputCharacter.Key == BackwardLookbackKey || inputCharacter.Key == ForwardLookbackKey)
+            {
+                input = HandleLoopbackRequest(inputCharacter.Key == BackwardLookbackKey, input.Length);
+            }
+            else if (inputCharacter.Key == ConsoleKey.Backspace)
+            {
+                Console.Write(' ');
+                Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top);
+
+                input = string.Join(string.Empty, input.SkipLast(1));
+            }
+            else
+            {
+                input += inputCharacter.KeyChar;
+            }
+        } while (inputCharacter.Key != ConsoleKey.Enter);
+
+        input = input.Trim();
+
+        HandleLookbackAddition(input);
+        Console.WriteLine();
+
+        return input;
     }
 
     private void DisplayPrompt()
