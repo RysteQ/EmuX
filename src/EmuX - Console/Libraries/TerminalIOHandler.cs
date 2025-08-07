@@ -58,6 +58,13 @@ public class TerminalIOHandler : ITerminalIOHandler
         return input;
     }
 
+    public char GetUserKeyInput()
+    {
+        DisplayPrompt();
+
+        return Console.ReadKey().KeyChar;
+    }
+
     public void Output(string output, OutputSeverity severity)
     {
         HandleForegroundColourSeverity(severity);

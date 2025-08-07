@@ -20,6 +20,12 @@ public interface ITerminalIOHandler
     string GetUserInput();
 
     /// <summary>
+    /// Displays the prompt for the user to press a single key
+    /// </summary>
+    /// <returns>The key the user entered</returns>
+    char GetUserKeyInput();
+
+    /// <summary>
     /// Prints the given string to the console
     /// </summary>
     /// <param name="output">The string to print</param>
