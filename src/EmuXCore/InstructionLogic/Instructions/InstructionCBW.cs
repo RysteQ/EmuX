@@ -23,7 +23,7 @@ public sealed class InstructionCBW : IInstruction
     {
         if (virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL >= 0b_1000_0000)
         {
-            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = byte.MaxValue;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = ushort.MaxValue;
         }
     }
 

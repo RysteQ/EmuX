@@ -143,6 +143,6 @@ public sealed class InstructionCBWTests : InstructionConstants<InstructionCBW>
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = 0b_1000_0000;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual<ushort>(0b_1111_1111_1000_0000, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX);
+        Assert.AreEqual<ushort>(ushort.MaxValue, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX);
     }
 }
