@@ -44,6 +44,13 @@ public class TerminalIOHandler : ITerminalIOHandler
             {
                 input = HandleLoopbackRequest(inputCharacter.Key == BackwardLookbackKey, input.Length);
             }
+            else if (inputCharacter.Key == ConsoleKey.Backspace)
+            {
+                Console.Write(' ');
+                Console.SetCursorPosition(Console.GetCursorPosition().Left - 1, Console.GetCursorPosition().Top);
+
+                input = string.Join(string.Empty, input.SkipLast(1));
+            }
             else
             {
                 input += inputCharacter.KeyChar;
