@@ -63,6 +63,23 @@ public class TerminalIOHandler : ITerminalIOHandler
         return Console.ReadKey();
     }
 
+    public void ClearTerminal()
+    {
+        Console.Clear();
+    }
+
+    public void MoveCursorAbsolute(int x, int y)
+    {
+        Console.SetCursorPosition(x, y);
+    }
+
+    public void MoveCursorRelative(int x, int y)
+    {
+        (int Left, int Top) currentCursorPosition = Console.GetCursorPosition();
+
+        Console.SetCursorPosition(currentCursorPosition.Left + x, currentCursorPosition.Top + y);
+    }
+
     public void Output(string output, OutputSeverity severity)
     {
         HandleForegroundColourSeverity(severity);

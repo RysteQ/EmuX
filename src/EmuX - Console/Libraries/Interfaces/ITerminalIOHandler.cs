@@ -40,6 +40,21 @@ public interface ITerminalIOHandler
     ConsoleKeyInfo GetUserKeyInput(bool hidePrompt);
 
     /// <summary>
+    /// Clears the terminals completely
+    /// </summary>
+    void ClearTerminal();
+
+    /// <summary>
+    /// Moves the cursor with absolute values
+    /// </summary>
+    void MoveCursorAbsolute(int x, int y);
+
+    /// <summary>
+    /// Moves the cursor relative to the current cursor position
+    /// </summary>
+    void MoveCursorRelative(int x, int y);
+
+    /// <summary>
     /// Prints the given string to the console
     /// </summary>
     /// <param name="output">The string to print</param>
