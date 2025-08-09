@@ -5,11 +5,22 @@ using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.BIOS.Interfaces;
+using EmuXCore.VM.Internal.BIOS.Internal;
 
 namespace EmuXCore.VM.Internal.BIOS;
 
-public class VirtualBIOS(IDiskInterruptHandler diskInterruptHandler, IRTCInterruptHandler rtcInterruptHandler, IVideoInterruptHandler videoInterruptHandler, IDeviceInterruptHandler deviceInterruptHandler, IVirtualMachine? parentVirtualMachine = null) : IVirtualBIOS
+public class VirtualBIOS : IVirtualBIOS
 {
+    public VirtualBIOS(IDiskInterruptHandler diskInterruptHandler, IRTCInterruptHandler rtcInterruptHandler, IVideoInterruptHandler videoInterruptHandler, IDeviceInterruptHandler deviceInterruptHandler, IVirtualMachine? parentVirtualMachine = null)
+    {
+        ParentVirtualMachine = parentVirtualMachine;
+
+        _diskInterruptHandler = diskInterruptHandler;
+        _rtcInterruptHandler = rtcInterruptHandler;
+        _videoInterruptHandler = videoInterruptHandler;
+        _deviceInterruptHandler = deviceInterruptHandler;
+    }
+
     public void HandleDiskInterrupt(DiskInterrupt interruptCode)
     {
         if (ParentVirtualMachine == null)
@@ -73,10 +84,10 @@ public class VirtualBIOS(IDiskInterruptHandler diskInterruptHandler, IRTCInterru
         }
     }
 
-    public IVirtualMachine? ParentVirtualMachine { get; set; } = parentVirtualMachine;
+    public IVirtualMachine? ParentVirtualMachine { get; set; }
 
-    private IDiskInterruptHandler _diskInterruptHandler = diskInterruptHandler;
-    private IRTCInterruptHandler _rtcInterruptHandler = rtcInterruptHandler;
-    private IVideoInterruptHandler _videoInterruptHandler = videoInterruptHandler;
-    private IDeviceInterruptHandler _deviceInterruptHandler = deviceInterruptHandler;
+    private IDiskInterruptHandler _diskInterruptHandler;
+    private IRTCInterruptHandler _rtcInterruptHandler;
+    private IVideoInterruptHandler _videoInterruptHandler;
+    private IDeviceInterruptHandler _deviceInterruptHandler;
 }

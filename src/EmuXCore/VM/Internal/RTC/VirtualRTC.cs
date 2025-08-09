@@ -3,8 +3,13 @@ using EmuXCore.VM.Interfaces.Components;
 
 namespace EmuXCore.VM.Internal.RTC;
 
-public class VirtualRTC(IVirtualMachine? parentVirtualMachine = null) : IVirtualRTC
+public class VirtualRTC : IVirtualRTC
 {
+    public VirtualRTC(IVirtualMachine? parentVirtualMachine = null)
+    {
+        ParentVirtualMachine = parentVirtualMachine;
+    }
+
     public void SetSystemClock(byte hours, byte minutes, byte seconds)
     {
         SystemClock = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, hours, minutes, seconds);
@@ -17,5 +22,5 @@ public class VirtualRTC(IVirtualMachine? parentVirtualMachine = null) : IVirtual
 
     public DateTime SystemClock { get; private set; } = DateTime.MinValue;
     public DateTime RTC { get; private set; } = DateTime.Now;
-    public IVirtualMachine? ParentVirtualMachine { get; set; } = parentVirtualMachine;
+    public IVirtualMachine? ParentVirtualMachine { get; set; }
 }
