@@ -352,6 +352,18 @@ public class Lexeme : ILexeme
 
     private bool IsImmediateType(string operand)
     {
+        if (operand.Split(' ').Count() == 2)
+        {
+            List<string> acceptableSizeOperands = ["byte", "word", "dword", "qword"];
+            
+            if (!acceptableSizeOperands.Contains(operand))
+            {
+                return false;
+            }
+
+            operand = operand.Split(' ').Last();
+        }
+
         return (operand.EndsWith('B')
             && !operand[..^1].Where(selectedChar => selectedChar != '0' && selectedChar != '1').Any())
             || (operand.EndsWith('H')

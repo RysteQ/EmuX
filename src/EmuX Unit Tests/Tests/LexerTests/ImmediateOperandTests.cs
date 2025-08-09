@@ -102,4 +102,21 @@ public sealed class ImmediateOperandTests : TestWideInternalConstants
         Assert.AreEqual("'a'", lexerResult.Instructions[0].FirstOperand.FullOperand);
         Assert.AreEqual(true, lexerResult.Success);
     }
+
+    [TestMethod]
+    public void TestParseMethod_SignleInstructionWithDirectValues_OneInstructionParsed()
+    {
+        string inputString = "add rax, qword 10";
+        ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
+
+        lexerResult = lexer.Parse(inputString);
+
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
+        Assert.IsInstanceOfType<InstructionAAD>(lexerResult.Instructions[0]);
+        Assert.AreEqual("rax", lexerResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual(true, lexerResult.Success);
+    }
 }
