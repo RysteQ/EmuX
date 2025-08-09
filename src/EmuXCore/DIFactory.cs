@@ -67,7 +67,7 @@ public static class DIFactory
     /// </summary>
     /// <typeparam name="T">The implementation type of IPrefix</typeparam>
     /// <returns>The implementation of IPrefix</returns>
-    public static IPrefix GeneratePrefix<T>() where T : IPrefix => Activator.CreateInstance<T>();
+    public static IPrefix GenerateIPrefix<T>() where T : IPrefix => Activator.CreateInstance<T>();
 
     // Instruction logic
 
