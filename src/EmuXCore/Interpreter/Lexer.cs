@@ -28,7 +28,7 @@ public class Lexer : ILexer
         lexemes = ParseSourceCode(lines);
         bytecode = ParseLexemes(lexemes);
 
-        return NewLexerResult(bytecode.Where(selectedBytecode => selectedBytecode.Type == typeof(IInstruction)).Select(selectedBytecode => selectedBytecode.Instruction).ToList(), bytecode.Where(selectedBytecode => selectedBytecode.Type == typeof(ILabel)).Select(selectedBytecode => selectedBytecode.Label).ToList(), _errorLog);
+        return DIFactory.GenerateILexerResult(bytecode.Where(selectedBytecode => selectedBytecode.Type == typeof(IInstruction)).Select(selectedBytecode => selectedBytecode.Instruction).ToList(), bytecode.Where(selectedBytecode => selectedBytecode.Type == typeof(ILabel)).Select(selectedBytecode => selectedBytecode.Label).ToList(), _errorLog);
     }
 
     private List<ISourceCodeLine> GetLines(string stringToProcess)
@@ -38,7 +38,7 @@ public class Lexer : ILexer
 
         for (int i = 0; i < lines.Length; i++)
         {
-            processedLines.Add(NewISourceCodeLine(lines[i].Trim(), i + 1));
+            processedLines.Add(DIFactory.GenerateISourceCodeLine(lines[i].Trim(), i + 1));
         }
 
         return processedLines;
@@ -89,7 +89,7 @@ public class Lexer : ILexer
 
             if (!string.IsNullOrEmpty(processedLine))
             {
-                processedLines.Add(NewISourceCodeLine(processedLine, linesToProcess[i].Line));
+                processedLines.Add(DIFactory.GenerateISourceCodeLine(processedLine, linesToProcess[i].Line));
             }
         }
 
@@ -165,7 +165,7 @@ public class Lexer : ILexer
                 }
             }
 
-            lexemes.Add(NewLexeme(line, prefix, opcode, operandOne.Trim(), operandTwo.Trim(), operandThree.Trim()));
+            lexemes.Add(DIFactory.GenerateILexeme(_cpu, line, prefix, opcode, operandOne.Trim(), operandTwo.Trim(), operandThree.Trim()));
         }
 
         return lexemes;
@@ -186,7 +186,7 @@ public class Lexer : ILexer
 
                     if (instruction.IsValid())
                     {
-                        bytecode.Add(NewBytecode(instruction, null));
+                        bytecode.Add(DIFactory.GenerateIBytecode(instruction, null));
                     }
                     else
                     {
@@ -206,7 +206,7 @@ public class Lexer : ILexer
                 {
                     if (lexeme.IsLabelValid())
                     {
-                        bytecode.Add(NewBytecode(null, lexeme.ToILabel()));
+                        bytecode.Add(DIFactory.GenerateIBytecode(null, lexeme.ToILabel()));
                     }
                     else
                     {
@@ -227,26 +227,6 @@ public class Lexer : ILexer
         }
 
         return bytecode;
-    }
-
-    private ISourceCodeLine NewISourceCodeLine(string sourceCode, int line)
-    {
-        return new SourceCodeLine(sourceCode, line);
-    }
-
-    private ILexeme NewLexeme(ISourceCodeLine sourceCodeLine, string prefix, string opcode, string firstOperand, string secondOperand, string thirdOperand)
-    {
-        return new Lexeme(_cpu, sourceCodeLine, prefix, opcode, firstOperand, secondOperand, thirdOperand);
-    }
-
-    private IBytecode NewBytecode(IInstruction? instruction = null, ILabel? label = null)
-    {
-        return new Bytecode(instruction, label);
-    }
-
-    private ILexerResult NewLexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors)
-    {
-        return new LexerResult(instructions, labels, errors);
     }
 
     private List<string> _errorLog = [];

@@ -94,7 +94,7 @@ public class VirtualMachineBuilder : IVirtualMachineBuilder
             throw new ArgumentNullException("Please add a virtual GPU module before building");
         }
 
-        virtualMachine = new VirtualMachine(_virtualCPU, _virtualMemory, [.. _virtualDisks], _virtualBios, _virtualRTC, _virtualGPU, [.. _virtualDevices]);
+        virtualMachine = DIFactory.GenerateIVirtualMachine(_virtualCPU, _virtualMemory, [.. _virtualDisks], _virtualBios, _virtualRTC, _virtualGPU, [.. _virtualDevices]);
         virtualMachine.CPU.ParentVirtualMachine = virtualMachine;
         virtualMachine.Memory.ParentVirtualMachine = virtualMachine;
         virtualMachine.BIOS.ParentVirtualMachine = virtualMachine;

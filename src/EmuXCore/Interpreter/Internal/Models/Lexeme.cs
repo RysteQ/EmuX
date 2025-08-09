@@ -28,8 +28,8 @@ public class Lexeme : ILexeme
     public IInstruction ToIInstruction()
     {
         InstructionVariant instructionVariant = GetInstructionVariant();
-        IOperandDecoder operandDecoder = GenerateOperandDecoder();
-        IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
+        IOperandDecoder operandDecoder = DIFactory.GenerateIOperandDecoder();
+        IFlagStateProcessor flagStateProcessor = DIFactory.GenerateIFlagStateProcessor();
         IPrefix? prefix = null;
         IOperand? firstOperand = null;
         IOperand? secondOperand = null;
@@ -58,114 +58,114 @@ public class Lexeme : ILexeme
 
         instruction = Opcode.ToUpper() switch
         {
-            "AAA" => new InstructionAAA(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
-            "AAD" => new InstructionAAD(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
-            "AAM" => new InstructionAAM(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
-            "AAS" => new InstructionAAS(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
-            "ADC" => new InstructionADC(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "ADD" => new InstructionADD(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "AND" => new InstructionAND(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CALL" => new InstructionCALL(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CBW" => new InstructionCBW(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CDQE" => new InstructionCDQE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CWDE" => new InstructionCWDE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CLC" => new InstructionCLC(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CLD" => new InstructionCLD(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CLI" => new InstructionCLI(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CMC" => new InstructionCMC(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CMP" => new InstructionCMC(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CMPSB" => new InstructionCMPSB(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CMPSW" => new InstructionCMPSW(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CWD" => new InstructionCWD(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "CDQ" => new InstructionCDQ(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "DAA" => new InstructionDAA(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
-            "DAS" => new InstructionDAS(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
-            "DEC" => new InstructionDEC(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "DIV" => new InstructionDIV(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "HLT" => new InstructionHLT(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "IDIV" => new InstructionIDIV(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "IMUL" => new InstructionIMUL(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "IN" => new InstructionIN(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "INC" => new InstructionINC(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "INT" => new InstructionINT(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "INTO" => new InstructionINTO(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JA" => new InstructionJA(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JAE" => new InstructionJAE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JB" => new InstructionJB(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JBE" => new InstructionJBE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JC" => new InstructionJC(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JE" => new InstructionJE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JG" => new InstructionJG(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JGE" => new InstructionJGE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JL" => new InstructionJL(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JLE" => new InstructionJLE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JMP" => new InstructionJMP(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNA" => new InstructionJNA(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNAE" => new InstructionJNAE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNB" => new InstructionJNB(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNBE" => new InstructionJNBE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNC" => new InstructionJNC(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNE" => new InstructionJNE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNG" => new InstructionJNG(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNGE" => new InstructionJNGE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNL" => new InstructionJNL(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNLE" => new InstructionJNLE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNO" => new InstructionJNO(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNP" => new InstructionJNP(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNS" => new InstructionJNS(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JNZ" => new InstructionJNZ(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JO" => new InstructionJO(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JP" => new InstructionJP(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JPE" => new InstructionJPE(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JPO" => new InstructionJPO(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JS" => new InstructionJS(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "JZ" => new InstructionJZ(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "LAHF" => new InstructionLAHF(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "LDS" => new InstructionLDS(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "LEA" => new InstructionLEA(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "LES" => new InstructionLES(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "LODSB" => new InstructionLODSB(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "LODSW" => new InstructionLODSW(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "LOOP" => new InstructionLOOP(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "MOV" => new InstructionMOV(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "MOVSB" => new InstructionMOVSB(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "MOVSW" => new InstructionMOVSW(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "MUL" => new InstructionMUL(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "NEG" => new InstructionNEG(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "NOT" => new InstructionNOT(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "OR" => new InstructionOR(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "OUT" => new InstructionOUT(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "POP" => new InstructionPOP(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "POPF" => new InstructionPOPF(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "POPFD" => new InstructionPOPFD(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
-            "POPFQ" => new InstructionPOPFQ(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
-            "PUSH" => new InstructionPUSH(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "PUSHF" => new InstructionPUSHF(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "PUSHFD" => new InstructionPUSHFD(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
-            "PUSHFQ" => new InstructionPUSHFQ(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
-            "RCL" => new InstructionRCL(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "RCR" => new InstructionRCR(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "RET" => new InstructionRET(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "ROL" => new InstructionROL(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "ROR" => new InstructionROR(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "SAHF" => new InstructionSAHF(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "SAL" => new InstructionSAL(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "SAR" => new InstructionSAR(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "SBB" => new InstructionSBB(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "SCASB" => new InstructionSCASB(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "SCASW" => new InstructionSCASW(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "SHL" => new InstructionSHL(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "SHR" => new InstructionSHR(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "STC" => new InstructionSTC(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "STD" => new InstructionSTD(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "STI" => new InstructionSTI(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "STOSB" => new InstructionSTOSB(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "STOSW" => new InstructionSTOSW(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "SUB" => new InstructionSUB(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "TEST" => new InstructionTEST(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "XCHG" => new InstructionXCHG(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "XLAT" => new InstructionXLAT(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            "XOR" => new InstructionXOR(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "AAA" => DIFactory.GenerateIInstruction<InstructionAAA>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "AAD" => DIFactory.GenerateIInstruction<InstructionAAD>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "AAM" => DIFactory.GenerateIInstruction<InstructionAAM>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "AAS" => DIFactory.GenerateIInstruction<InstructionAAS>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "ADC" => DIFactory.GenerateIInstruction<InstructionADC>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "ADD" => DIFactory.GenerateIInstruction<InstructionADD>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "AND" => DIFactory.GenerateIInstruction<InstructionAND>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CALL" => DIFactory.GenerateIInstruction<InstructionCALL>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CBW" => DIFactory.GenerateIInstruction<InstructionCBW>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CDQE" => DIFactory.GenerateIInstruction<InstructionCDQE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CWDE" => DIFactory.GenerateIInstruction<InstructionCWDE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CLC" => DIFactory.GenerateIInstruction<InstructionCLC>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CLD" => DIFactory.GenerateIInstruction<InstructionCLD>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CLI" => DIFactory.GenerateIInstruction<InstructionCLI>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CMC" => DIFactory.GenerateIInstruction<InstructionCMC>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CMP" => DIFactory.GenerateIInstruction<InstructionCMC>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CMPSB" => DIFactory.GenerateIInstruction<InstructionCMPSB>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CMPSW" => DIFactory.GenerateIInstruction<InstructionCMPSW>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CWD" => DIFactory.GenerateIInstruction<InstructionCWD>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "CDQ" => DIFactory.GenerateIInstruction<InstructionCDQ>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "DAA" => DIFactory.GenerateIInstruction<InstructionDAA>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "DAS" => DIFactory.GenerateIInstruction<InstructionDAS>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "DEC" => DIFactory.GenerateIInstruction<InstructionDEC>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "DIV" => DIFactory.GenerateIInstruction<InstructionDIV>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "HLT" => DIFactory.GenerateIInstruction<InstructionHLT>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "IDIV" => DIFactory.GenerateIInstruction<InstructionIDIV>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "IMUL" => DIFactory.GenerateIInstruction<InstructionIMUL>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "IN" => DIFactory.GenerateIInstruction<InstructionIN>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "INC" => DIFactory.GenerateIInstruction<InstructionINC>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "INT" => DIFactory.GenerateIInstruction<InstructionINT>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "INTO" => DIFactory.GenerateIInstruction<InstructionINTO>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JA" => DIFactory.GenerateIInstruction<InstructionJA>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JAE" => DIFactory.GenerateIInstruction<InstructionJAE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JB" => DIFactory.GenerateIInstruction<InstructionJB>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JBE" => DIFactory.GenerateIInstruction<InstructionJBE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JC" => DIFactory.GenerateIInstruction<InstructionJC>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JE" => DIFactory.GenerateIInstruction<InstructionJE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JG" => DIFactory.GenerateIInstruction<InstructionJG>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JGE" => DIFactory.GenerateIInstruction<InstructionJGE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JL" => DIFactory.GenerateIInstruction<InstructionJL>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JLE" => DIFactory.GenerateIInstruction<InstructionJLE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JMP" => DIFactory.GenerateIInstruction<InstructionJMP>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNA" => DIFactory.GenerateIInstruction<InstructionJNA>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNAE" => DIFactory.GenerateIInstruction<InstructionJNAE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNB" => DIFactory.GenerateIInstruction<InstructionJNB>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNBE" => DIFactory.GenerateIInstruction<InstructionJNBE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNC" => DIFactory.GenerateIInstruction<InstructionJNC>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNE" => DIFactory.GenerateIInstruction<InstructionJNE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNG" => DIFactory.GenerateIInstruction<InstructionJNG>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNGE" => DIFactory.GenerateIInstruction<InstructionJNGE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNL" => DIFactory.GenerateIInstruction<InstructionJNL>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNLE" => DIFactory.GenerateIInstruction<InstructionJNLE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNO" => DIFactory.GenerateIInstruction<InstructionJNO>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNP" => DIFactory.GenerateIInstruction<InstructionJNP>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNS" => DIFactory.GenerateIInstruction<InstructionJNS>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JNZ" => DIFactory.GenerateIInstruction<InstructionJNZ>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JO" => DIFactory.GenerateIInstruction<InstructionJO>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JP" => DIFactory.GenerateIInstruction<InstructionJP>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JPE" => DIFactory.GenerateIInstruction<InstructionJPE>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JPO" => DIFactory.GenerateIInstruction<InstructionJPO>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JS" => DIFactory.GenerateIInstruction<InstructionJS>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "JZ" => DIFactory.GenerateIInstruction<InstructionJZ>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "LAHF" => DIFactory.GenerateIInstruction<InstructionLAHF>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "LDS" => DIFactory.GenerateIInstruction<InstructionLDS>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "LEA" => DIFactory.GenerateIInstruction<InstructionLEA>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "LES" => DIFactory.GenerateIInstruction<InstructionLES>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "LODSB" => DIFactory.GenerateIInstruction<InstructionLODSB>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "LODSW" => DIFactory.GenerateIInstruction<InstructionLODSW>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "LOOP" => DIFactory.GenerateIInstruction<InstructionLOOP>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "MOV" => DIFactory.GenerateIInstruction<InstructionMOV>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "MOVSB" => DIFactory.GenerateIInstruction<InstructionMOVSB>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "MOVSW" => DIFactory.GenerateIInstruction<InstructionMOVSW>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "MUL" => DIFactory.GenerateIInstruction<InstructionMUL>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "NEG" => DIFactory.GenerateIInstruction<InstructionNEG>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "NOT" => DIFactory.GenerateIInstruction<InstructionNOT>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "OR" => DIFactory.GenerateIInstruction<InstructionOR>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "OUT" => DIFactory.GenerateIInstruction<InstructionOUT>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "POP" => DIFactory.GenerateIInstruction<InstructionPOP>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "POPF" => DIFactory.GenerateIInstruction<InstructionPOPF>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "POPFD" => DIFactory.GenerateIInstruction<InstructionPOPFD>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "POPFQ" => DIFactory.GenerateIInstruction<InstructionPOPFQ>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "PUSH" => DIFactory.GenerateIInstruction<InstructionPUSH>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "PUSHF" => DIFactory.GenerateIInstruction<InstructionPUSHF>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "PUSHFD" => DIFactory.GenerateIInstruction<InstructionPUSHFD>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "PUSHFQ" => DIFactory.GenerateIInstruction<InstructionPUSHFQ>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor), // *
+            "RCL" => DIFactory.GenerateIInstruction<InstructionRCL>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "RCR" => DIFactory.GenerateIInstruction<InstructionRCR>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "RET" => DIFactory.GenerateIInstruction<InstructionRET>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "ROL" => DIFactory.GenerateIInstruction<InstructionROL>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "ROR" => DIFactory.GenerateIInstruction<InstructionROR>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "SAHF" => DIFactory.GenerateIInstruction<InstructionSAHF>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "SAL" => DIFactory.GenerateIInstruction<InstructionSAL>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "SAR" => DIFactory.GenerateIInstruction<InstructionSAR>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "SBB" => DIFactory.GenerateIInstruction<InstructionSBB>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "SCASB" => DIFactory.GenerateIInstruction<InstructionSCASB>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "SCASW" => DIFactory.GenerateIInstruction<InstructionSCASW>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "SHL" => DIFactory.GenerateIInstruction<InstructionSHL>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "SHR" => DIFactory.GenerateIInstruction<InstructionSHR>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "STC" => DIFactory.GenerateIInstruction<InstructionSTC>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "STD" => DIFactory.GenerateIInstruction<InstructionSTD>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "STI" => DIFactory.GenerateIInstruction<InstructionSTI>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "STOSB" => DIFactory.GenerateIInstruction<InstructionSTOSB>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "STOSW" => DIFactory.GenerateIInstruction<InstructionSTOSW>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "SUB" => DIFactory.GenerateIInstruction<InstructionSUB>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "TEST" => DIFactory.GenerateIInstruction<InstructionTEST>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "XCHG" => DIFactory.GenerateIInstruction<InstructionXCHG>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "XLAT" => DIFactory.GenerateIInstruction<InstructionXLAT>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
+            "XOR" => DIFactory.GenerateIInstruction<InstructionXOR>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             _ => throw new Exception($"Unknown opcode \"{SourceCodeLine.SourceCode}\" : {SourceCodeLine.Line}"),
         };
 
@@ -174,7 +174,7 @@ public class Lexeme : ILexeme
 
     public ILabel ToILabel()
     {
-        return new Label(Opcode.TrimEnd(':'), SourceCodeLine.Line);
+        return DIFactory.GenerateILabel(Opcode.TrimEnd(':'), SourceCodeLine.Line);
     }
 
     public bool AreInstructionOperandsValid()
@@ -409,7 +409,7 @@ public class Lexeme : ILexeme
 
     private bool IsRegisterType(string operand)
     {
-        IVirtualCPU virtualCPU = new VirtualCPU();
+        IVirtualCPU virtualCPU = DIFactory.GenerateIVirtualCPU();
 
         foreach (IVirtualRegister virtualRegister in virtualCPU.Registers)
         {
@@ -439,7 +439,7 @@ public class Lexeme : ILexeme
 
     private IVirtualRegister GetRegister(string operand)
     {
-        IVirtualCPU virtualCPU = new VirtualCPU();
+        IVirtualCPU virtualCPU = DIFactory.GenerateIVirtualCPU();
 
         foreach (IVirtualRegister virtualRegister in virtualCPU.Registers)
         {
@@ -473,11 +473,11 @@ public class Lexeme : ILexeme
     {
         return prefixToParse.ToUpper() switch
         {
-            "REP" => new PrefixREP(),
-            "REPE" => new PrefixREPE(),
-            "REPNE" => new PrefixREPNE(),
-            "REPNZ" => new PrefixREPNZ(),
-            "REPZ" => new PrefixREPZ(),
+            "REP" => DIFactory.GenerateIPrefix<PrefixREP>(),
+            "REPE" => DIFactory.GenerateIPrefix<PrefixREPE>(),
+            "REPNE" => DIFactory.GenerateIPrefix<PrefixREPNE>(),
+            "REPNZ" => DIFactory.GenerateIPrefix<PrefixREPNZ>(),
+            "REPZ" => DIFactory.GenerateIPrefix<PrefixREPZ>(),
             _ => throw new Exception("Invalid prefix")
         };
     }
@@ -584,34 +584,24 @@ public class Lexeme : ILexeme
             memoryPointerOperandsIndex += memoryPointerOperand.Length + 1;
         }
 
-        return new Operand(operandToParse, OperandVariant.Memory, memoryPointerSizes[operandSize], offsets.ToArray());
+        return DIFactory.GenerateIOperand(operandToParse, OperandVariant.Memory, memoryPointerSizes[operandSize], offsets.ToArray());
     }
 
     private IOperand GetRegisterOperand(string expression)
     {
         IVirtualRegister virtualRegister = GetRegister(expression);
 
-        return new Operand(expression, OperandVariant.Register, virtualRegister.RegisterNamesAndSizes[expression.ToUpper()], []);
+        return DIFactory.GenerateIOperand(expression, OperandVariant.Register, virtualRegister.RegisterNamesAndSizes[expression.ToUpper()], []);
     }
 
     private IOperand GetLabelOperand(string expression)
     {
-        return new Operand(expression, OperandVariant.Label, Size.Qword, []);
+        return DIFactory.GenerateIOperand(expression, OperandVariant.Label, Size.Qword, []);
     }
 
     private IMemoryOffset GenerateMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand)
     {
-        return new MemoryOffset(type, operand, fullOperand);
-    }
-
-    private IOperandDecoder GenerateOperandDecoder()
-    {
-        return new OperandDecoder();
-    }
-
-    private IFlagStateProcessor GenerateFlagStateProcessor()
-    {
-        return new FlagStateProcessor();
+        return DIFactory.GenerateIMemoryOffset(type, operand, fullOperand);
     }
 
     public ISourceCodeLine SourceCodeLine { get; init; }

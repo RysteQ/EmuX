@@ -10,7 +10,6 @@ public record SourceCodeLine : ISourceCodeLine
         Line = line;
     }
 
-
     public string SourceCode { get; init; }
     public int Line { get; init; }
 }

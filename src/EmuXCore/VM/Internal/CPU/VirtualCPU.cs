@@ -38,22 +38,22 @@ public class VirtualCPU(IVirtualMachine? parentVirtualMachine = null) : IVirtual
 
     public IReadOnlyCollection<IVirtualRegister> Registers { get; init; } =
     [
-            new VirtualRegisterRAX(),
-            new VirtualRegisterRBX(),
-            new VirtualRegisterRCX(),
-            new VirtualRegisterRDX(),
-            new VirtualRegisterRSI(),
-            new VirtualRegisterRDI(),
-            new VirtualRegisterRBP(),
-            new VirtualRegisterRIP(),
-            new VirtualRegisterRSP(),
-            new VirtualRegisterCS(),
-            new VirtualRegisterSS(),
-            new VirtualRegisterDS(),
-            new VirtualRegisterES(),
-            new VirtualRegisterFS(),
-            new VirtualRegisterGS(),
-            new VirtualRegisterEFLAGS()
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterRAX>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterRBX>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterRCX>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterRDX>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterRSI>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterRDI>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterRBP>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterRIP>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterRSP>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterCS>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterSS>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterDS>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterES>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterFS>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterGS>(),
+        DIFactory.GenerateIVirtualRegister<VirtualRegisterEFLAGS>()
     ];
 
     public bool Halted { get; set; }
