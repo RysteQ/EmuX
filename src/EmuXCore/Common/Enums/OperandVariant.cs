@@ -8,5 +8,6 @@ public enum OperandVariant : byte
     Value,
     Memory,
     Register,
+    Label,
     NaN
 }

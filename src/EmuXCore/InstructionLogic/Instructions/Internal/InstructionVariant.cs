@@ -17,6 +17,7 @@ public class InstructionVariant : IComparable
     public static InstructionVariant OneOperandValue() => new(2, OperandVariant.Value);
     public static InstructionVariant OneOperandRegister() => new(3, OperandVariant.Register);
     public static InstructionVariant OneOperandMemory() => new(4, OperandVariant.Memory);
+    public static InstructionVariant OneOperandLabel() => new(13, OperandVariant.Label);
 
     public static InstructionVariant TwoOperandsRegisterValue() => new(5, OperandVariant.Register, OperandVariant.Value);
     public static InstructionVariant TwoOperandsRegisterRegister() => new(6, OperandVariant.Register, OperandVariant.Register);

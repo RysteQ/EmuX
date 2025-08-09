@@ -271,6 +271,7 @@ public class Lexeme : ILexeme
                 case OperandVariant.Value: return InstructionVariant.OneOperandValue();
                 case OperandVariant.Memory: return InstructionVariant.OneOperandMemory();
                 case OperandVariant.Register: return InstructionVariant.OneOperandRegister();
+                case OperandVariant.Label: return InstructionVariant.OneOperandLabel();
                 case OperandVariant.NaN: return InstructionVariant.NaN();
             }
             ;
@@ -341,6 +342,11 @@ public class Lexeme : ILexeme
             return OperandVariant.Register;
         }
 
+        if (IsLabelType(operand))
+        {
+            return OperandVariant.Label;
+        }
+
         return OperandVariant.NaN;
     }
 
@@ -404,6 +410,21 @@ public class Lexeme : ILexeme
         return false;
     }
 
+    private bool IsLabelType(string operand)
+    {
+        if (string.IsNullOrEmpty(operand))
+        {
+            return false;
+        }
+
+        if (operand.Any(selectedCharacter => !char.IsAscii(selectedCharacter)))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
     private IVirtualRegister GetRegister(string operand)
     {
         IVirtualCPU virtualCPU = new VirtualCPU();
@@ -429,6 +450,7 @@ public class Lexeme : ILexeme
             OperandVariant.Value => GetValueOperand(operandToParse),
             OperandVariant.Memory => GetMemoryOperand(operandToParse),
             OperandVariant.Register => GetRegisterOperand(operandToParse),
+            OperandVariant.Label => GetLabelOperand(operandToParse),
             _ => throw new Exception("Invalid operand variant")
         };
 
@@ -558,6 +580,11 @@ public class Lexeme : ILexeme
         IVirtualRegister virtualRegister = GetRegister(expression);
 
         return new Operand(expression, OperandVariant.Register, virtualRegister.RegisterNamesAndSizes[expression.ToUpper()], []);
+    }
+
+    private IOperand GetLabelOperand(string expression)
+    {
+        return new Operand(expression, OperandVariant.Label, Size.Qword, []);
     }
 
     private IMemoryOffset GenerateMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand)

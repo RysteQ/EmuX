@@ -33,4 +33,18 @@ public sealed class LabelTests : TestWideInternalConstants
         Assert.AreEqual(0, lexerResult.Labels.Count);
         Assert.AreEqual(false, lexerResult.Success);
     }
+
+    [TestMethod]
+    public void TestParseMethod_SingleLabelJmpInstruction_Success()
+    {
+        string inputString = "test:\njmp test";
+        ILexer lexer = GenerateLexer();
+        ILexerResult lexerResult;
+
+        lexerResult = lexer.Parse(inputString);
+
+        Assert.AreEqual(1, lexerResult.Instructions.Count);
+        Assert.AreEqual(1, lexerResult.Labels.Count);
+        Assert.AreEqual(true, lexerResult.Success);
+    }
 }
