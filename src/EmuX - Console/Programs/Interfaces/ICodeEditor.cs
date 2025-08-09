@@ -1,4 +1,6 @@
-﻿namespace EmuX_Console.Libraries.Interfaces;
+﻿using EmuX_Console.Libraries.Interfaces;
+
+namespace EmuX_Console.Programs.Interfaces;
 
 public interface ICodeEditor
 {
@@ -16,6 +18,16 @@ public interface ICodeEditor
     /// A flag to indicate if the line numbers should be visible
     /// </summary>
     bool ShowLines { get; init; }
+
+    /// <summary>
+    /// The X coordinate of the current cursor position
+    /// </summary>
+    int XCursorPosition { get; }
+
+    /// <summary>
+    /// The Y coordinate of the current cursor position
+    /// </summary>
+    int YCursorPosition { get; }
 
     /// <summary>
     /// The main modifier key is used to invoke different functions inside of the editor
@@ -41,6 +53,26 @@ public interface ICodeEditor
     /// The second key combination to go exit the editor
     /// </summary>
     ConsoleKey ExitCharacter { get; init; }
+
+    /// <summary>
+    /// The key to move the cursor upwards
+    /// </summary>
+    public const ConsoleKey MoveUp = ConsoleKey.UpArrow;
+
+    /// <summary>
+    /// The key to move the cursor left
+    /// </summary>
+    public const ConsoleKey MoveLeft = ConsoleKey.LeftArrow;
+
+    /// <summary>
+    /// The key to move the cursor downwards
+    /// </summary>
+    public const ConsoleKey MoveDown = ConsoleKey.DownArrow;
+
+    /// <summary>
+    /// The key to move the cursor right
+    /// </summary>
+    public const ConsoleKey MoveRight = ConsoleKey.RightArrow;
 
     /// <summary>
     /// The TerminalIOHandler implementation provided

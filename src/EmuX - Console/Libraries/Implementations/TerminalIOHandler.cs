@@ -5,7 +5,7 @@ using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
 
-namespace EmuX_Console.Libraries;
+namespace EmuX_Console.Libraries.Implementations;
 
 public class TerminalIOHandler : ITerminalIOHandler
 {
@@ -214,6 +214,11 @@ public class TerminalIOHandler : ITerminalIOHandler
         Console.WriteLine(toDisplay);
     }
 
+    public void NewLine()
+    {
+        Console.WriteLine();
+    }
+
     private string InternalGetUserInput()
     {
         ConsoleKeyInfo inputCharacter;
@@ -334,6 +339,9 @@ public class TerminalIOHandler : ITerminalIOHandler
     public ConsoleColor ColoutInput { get; set; }
     public ConsoleColor ColourOutput { get; set; }
     public ConsoleColor ColourHighlight { get; set; }
+
+    public int Width => Console.WindowWidth;
+    public int Height => Console.WindowHeight;
 
     private IList<string> _inputHistory;
     private int lookbackIndex = 0;

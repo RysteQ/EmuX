@@ -90,6 +90,11 @@ public interface ITerminalIOHandler
     void Output(byte[] buffer, OutputFormat format, OutputSeverity severity);
 
     /// <summary>
+    /// Outputs the new line character
+    /// </summary>
+    void NewLine();
+
+    /// <summary>
     /// The input history <br/>
     /// WARNING: There is an upper limit depending in the implementation of the interface, so the last N input are available
     /// </summary>
@@ -136,4 +141,14 @@ public interface ITerminalIOHandler
     /// The colour of the highlighted output for the Output() method, adjustable
     /// </summary>
     ConsoleColor ColourHighlight { get; set; }
+
+    /// <summary>
+    /// The width of the terminal window measured in characters
+    /// </summary>
+    int Width { get; }
+    
+    /// <summary>
+    /// The height of the terminal window measured in characters
+    /// </summary>
+    int Height { get; }
 }

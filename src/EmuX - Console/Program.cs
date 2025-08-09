@@ -1,6 +1,9 @@
 ﻿using EmuX_Console.Libraries;
 using EmuX_Console.Libraries.Enums;
+using EmuX_Console.Libraries.Implementations;
 using EmuX_Console.Libraries.Interfaces;
+using EmuX_Console.Programs.Implementations;
+using EmuX_Console.Programs.Interfaces;
 
 string input = string.Empty;
 string sourceCode = string.Empty;
@@ -77,6 +80,7 @@ while (true)
 
         case "edit":
             codeEditor.Init(sourceCode);
+            sourceCode = codeEditor.Text;
 
             break;
 
@@ -84,7 +88,7 @@ while (true)
             break;
 
         default:
-            terminalIOHandler.Output($"Error, {input} is not recognised as a command, type help to view all available commands", OutputSeverity.Error);
+            terminalIOHandler.Output($"Error, {input} is not recognised as a command, type help to view all available commands\n", OutputSeverity.Error);
             break;
     }
 }
