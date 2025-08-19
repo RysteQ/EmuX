@@ -1,0 +1,90 @@
+﻿using EmuXCore.Interpreter.Enums;
+using EmuXCore.Interpreter.Interfaces.Logic;
+using EmuXCore.Interpreter.Interfaces.Models;
+using EmuXCoreUnitTests.Tests.Common;
+
+namespace EmuXCoreUnitTests.Tests.Interpreter.LexerTests;
+
+[TestClass]
+public sealed class PrefixLexerTests : TestWideInternalConstants
+{
+    [TestMethod]
+    public void TestParseMethod_PrefixREP()
+    {
+        string inputString = "rep movsb";
+        ILexer lexer = GenerateLexer();
+        IList<IToken> tokens;
+
+        tokens = lexer.Tokenize(inputString);
+
+        Assert.AreEqual(4, tokens.Count);
+        Assert.AreEqual(TokenType.PREFIX, tokens[0].Type);
+        Assert.AreEqual(TokenType.INSTRUCTION, tokens[1].Type);
+        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+    }
+
+    [TestMethod]
+    public void TestParseMethod_PrefixREPE()
+    {
+        string inputString = "repe movsb";
+        ILexer lexer = GenerateLexer();
+        IList<IToken> tokens;
+
+        tokens = lexer.Tokenize(inputString);
+
+        Assert.AreEqual(4, tokens.Count);
+        Assert.AreEqual(TokenType.PREFIX, tokens[0].Type);
+        Assert.AreEqual(TokenType.INSTRUCTION, tokens[1].Type);
+        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+    }
+
+    [TestMethod]
+    public void TestParseMethod_PrefixREPNE()
+    {
+        string inputString = "repne movsb";
+        ILexer lexer = GenerateLexer();
+        IList<IToken> tokens;
+
+        tokens = lexer.Tokenize(inputString);
+
+        Assert.AreEqual(4, tokens.Count);
+        Assert.AreEqual(TokenType.PREFIX, tokens[0].Type);
+        Assert.AreEqual(TokenType.INSTRUCTION, tokens[1].Type);
+        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+    }
+
+    [TestMethod]
+    public void TestParseMethod_PrefixREPNZ()
+    {
+        string inputString = "repnz movsb";
+        ILexer lexer = GenerateLexer();
+        IList<IToken> tokens;
+
+        tokens = lexer.Tokenize(inputString);
+
+        Assert.AreEqual(4, tokens.Count);
+        Assert.AreEqual(TokenType.PREFIX, tokens[0].Type);
+        Assert.AreEqual(TokenType.INSTRUCTION, tokens[1].Type);
+        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+    }
+
+    [TestMethod]
+    public void TestParseMethod_PrefixREPZ()
+    {
+        string inputString = "repz movsb";
+        ILexer lexer = GenerateLexer();
+        IList<IToken> tokens;
+
+        tokens = lexer.Tokenize(inputString);
+
+        Assert.AreEqual(4, tokens.Count);
+        Assert.AreEqual(TokenType.PREFIX, tokens[0].Type);
+        Assert.AreEqual(TokenType.INSTRUCTION, tokens[1].Type);
+        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+    }
+}
