@@ -1,4 +1,4 @@
-﻿namespace EmuXCore.Interpreter.Interfaces;
+﻿namespace EmuXCore.Interpreter.Interfaces.Models;
 
 /// <summary>
 /// This is used as a result of the parsing process since the parsing process can output either an IInstruction implementation instance or an ILabel implementation instance

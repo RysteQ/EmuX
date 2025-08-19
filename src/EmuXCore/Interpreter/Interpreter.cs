@@ -1,4 +1,4 @@
-﻿using EmuXCore.Interpreter.Interfaces;
+﻿using EmuXCore.Interpreter.Interfaces.Logic;
 
 namespace EmuXCore.Interpreter;
 

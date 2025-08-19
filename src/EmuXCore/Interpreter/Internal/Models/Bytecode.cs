@@ -1,5 +1,5 @@
 ﻿using EmuXCore.Common.Interfaces;
-using EmuXCore.Interpreter.Interfaces;
+using EmuXCore.Interpreter.Interfaces.Models;
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
