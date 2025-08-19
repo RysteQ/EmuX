@@ -127,7 +127,6 @@ public class Parser : IParser
 
     private IInstruction? HandleInstructionTokenLine(int line)
     {
-        IInstruction? instruction = null;
         List<IOperand?> operands = [];
         string instructionOpcode = string.Empty;
         string instructionPrefix = string.Empty;
