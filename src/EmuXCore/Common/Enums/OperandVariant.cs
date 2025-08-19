@@ -3,11 +3,11 @@
 /// <summary>
 /// Indicates what type the operand of any instruction is
 /// </summary>
-public enum OperandVariant : byte
+public enum OperandVariant : short
 {
-    Value,
+    Value = 1,
     Memory,
     Register,
-    Label,
-    NaN
+    
+    NaN = 0,
 }
