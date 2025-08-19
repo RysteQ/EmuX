@@ -292,6 +292,13 @@ public sealed class InstructionEncoder
 				coed -= 8;
 			}
 			modrm = (byte) ((0 << MOD_BIT) | (coed << RM_BIT));
+			
+			if(coed == 4) {
+				sib = (byte) (4 | (4 << 3));
+			} else if(coed == 5) {
+				modrm |= (byte) (1 << MOD_BIT);
+				disp = new byte[] {0};
+			}
 		} else if(offsets.Count == 1 && offsets[0].Type == MemoryOffsetType.Register && hasDisplacement) {
 			int coed = GetRegisterCode(this.CPU, offsets[0].FullOperand);
 			
@@ -302,7 +309,37 @@ public sealed class InstructionEncoder
 			}
 			modrm = (byte) ((2 << MOD_BIT) | (coed << RM_BIT));
 			
+			if(coed == 4) {
+				sib = (byte) (4 | (4 << 3));
+			}
+			
 			disp = LongToBinary((long) constantDisplacement, 4);
+		} else if(offsets.Count == 2 && offsets[0].Type == MemoryOffsetType.Register && offsets[1].Type == MemoryOffsetType.Register) {
+			int index = GetRegisterCode(this.CPU, offsets[0].FullOperand);
+			int baes = GetRegisterCode(this.CPU, offsets[1].FullOperand);
+			
+			if(index == 4) {
+				(index, baes) = (baes, index);
+			}
+			
+			modrm = (byte) (((hasDisplacement ? 2 : 0) << MOD_BIT) | (4 << RM_BIT));
+			
+			if(index >= 8 || baes >= 8) {
+				rex |= REX_BASE;
+				rex |= (byte) (((index >> 3) & 1) << REX_X);
+				rex |= (byte) (((baes >> 3) & 1) << REX_B);
+			}
+			
+			sib = (byte) (baes | (index << INDEX_BIT));
+			
+			if(hasDisplacement) {
+				disp = LongToBinary((long) constantDisplacement, 4);
+			} else {
+				if(baes == 5) {
+					modrm |= (byte) (1 << MOD_BIT);
+					disp = new byte[] {0};
+				}
+			}
 		} else if(offsets.Count == 2 && offsets[0].Type == MemoryOffsetType.Register && offsets[1].Type == MemoryOffsetType.Scale && !hasDisplacement) {
 			int index = GetRegisterCode(this.CPU, offsets[0].FullOperand);
 			
