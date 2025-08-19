@@ -152,7 +152,7 @@ public sealed class OperandDecoderTests : TestWideInternalConstants
     public void GetMemoryOffset_LabelRegisterRegisterScaleInteger_Test()
     {
         IOperandDecoder operandDecoder = GenerateOperandDecoder();
-        IOperand operand = GenerateOperand("[test_label + RAX + RCX * 4 + 300h]", OperandVariant.NaN, Size.Qword, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label"), GenerateMemoryOffset(MemoryOffsetType.Register, MemoryOffsetOperand.Addition, "RAX"), GenerateMemoryOffset(MemoryOffsetType.Register, MemoryOffsetOperand.Addition, "RCX"), GenerateMemoryOffset(MemoryOffsetType.Scale, MemoryOffsetOperand.Multiplication, "4"), GenerateMemoryOffset(MemoryOffsetType.Integer, MemoryOffsetOperand.Addition, "300h")]);
+        IOperand operand = GenerateOperand("[test_label + RAX + RCX * 4 + 300h]", OperandVariant.NaN, Size.Qword, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label"), GenerateMemoryOffset(MemoryOffsetType.Register, MemoryOffsetOperand.Addition, "RAX"), GenerateMemoryOffset(MemoryOffsetType.Register, MemoryOffsetOperand.Addition, "RCX"), GenerateMemoryOffset(MemoryOffsetType.Integer, MemoryOffsetOperand.Multiplication, "4"), GenerateMemoryOffset(MemoryOffsetType.Integer, MemoryOffsetOperand.Addition, "300h")]);
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
         virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 100, 0));
@@ -180,7 +180,7 @@ public sealed class OperandDecoderTests : TestWideInternalConstants
     public void GetMemoryOffset_LabelRegisterRegisterScaleInteger_Test_2()
     {
         IOperandDecoder operandDecoder = GenerateOperandDecoder();
-        IOperand operand = GenerateOperand("[test_label + RAX + RCX * 4 + 0x300]", OperandVariant.NaN, Size.Qword, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label"), GenerateMemoryOffset(MemoryOffsetType.Register, MemoryOffsetOperand.Addition, "RAX"), GenerateMemoryOffset(MemoryOffsetType.Register, MemoryOffsetOperand.Addition, "RCX"), GenerateMemoryOffset(MemoryOffsetType.Scale, MemoryOffsetOperand.Multiplication, "4"), GenerateMemoryOffset(MemoryOffsetType.Integer, MemoryOffsetOperand.Addition, "0x300")]);
+        IOperand operand = GenerateOperand("[test_label + RAX + RCX * 4 + 0x300]", OperandVariant.NaN, Size.Qword, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label"), GenerateMemoryOffset(MemoryOffsetType.Register, MemoryOffsetOperand.Addition, "RAX"), GenerateMemoryOffset(MemoryOffsetType.Register, MemoryOffsetOperand.Addition, "RCX"), GenerateMemoryOffset(MemoryOffsetType.Integer, MemoryOffsetOperand.Multiplication, "4"), GenerateMemoryOffset(MemoryOffsetType.Integer, MemoryOffsetOperand.Addition, "0x300")]);
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
         virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 100, 0));

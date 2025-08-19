@@ -20,7 +20,6 @@ public class Operand : IOperand
             { MemoryOffsetType.Label, 1},
             { MemoryOffsetType.Register, 2},
             { MemoryOffsetType.Integer, 10}, // Can be raised to whatever (I don't care), but if you have more than 10 integer offset rethinks your life decisions honestly
-            { MemoryOffsetType.Scale, 1},
             { MemoryOffsetType.NaN, 1}
         };
 
@@ -42,7 +41,7 @@ public class Operand : IOperand
             }
         }
 
-        return true;
+        return Offsets.Count(selectedOffset => selectedOffset.Operand == MemoryOffsetOperand.Multiplication) <= 1;
     }
 
     public string FullOperand { get; init; }

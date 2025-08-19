@@ -4,7 +4,8 @@ using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;
-using EmuXCore.Interpreter.Interfaces;
+using EmuXCore.Interpreter.Interfaces.Logic;
+using EmuXCore.Interpreter.Interfaces.Models;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU;
@@ -271,7 +272,6 @@ public class Lexeme : ILexeme
                 case OperandVariant.Value: return InstructionVariant.OneOperandValue();
                 case OperandVariant.Memory: return InstructionVariant.OneOperandMemory();
                 case OperandVariant.Register: return InstructionVariant.OneOperandRegister();
-                case OperandVariant.Label: return InstructionVariant.OneOperandLabel();
                 case OperandVariant.NaN: return InstructionVariant.NaN();
             }
             ;
@@ -340,11 +340,6 @@ public class Lexeme : ILexeme
         if (IsRegisterType(operand))
         {
             return OperandVariant.Register;
-        }
-
-        if (IsLabelType(operand))
-        {
-            return OperandVariant.Label;
         }
 
         return OperandVariant.NaN;
@@ -462,7 +457,6 @@ public class Lexeme : ILexeme
             OperandVariant.Value => GetValueOperand(operandToParse),
             OperandVariant.Memory => GetMemoryOperand(operandToParse),
             OperandVariant.Register => GetRegisterOperand(operandToParse),
-            OperandVariant.Label => GetLabelOperand(operandToParse),
             _ => throw new Exception("Invalid operand variant")
         };
 
@@ -570,12 +564,7 @@ public class Lexeme : ILexeme
                 _ => MemoryOffsetOperand.NaN
             };
 
-            if (memoryOffsetOperand == MemoryOffsetOperand.Multiplication && memoryOffsetType == MemoryOffsetType.Integer)
-            {
-                memoryOffsetType = MemoryOffsetType.Scale;
-            }
-
-            if (memoryOffsetOperand == MemoryOffsetOperand.Multiplication && memoryOffsetType != MemoryOffsetType.Scale)
+            if (memoryOffsetOperand == MemoryOffsetOperand.Multiplication && memoryOffsetType != MemoryOffsetType.Integer)
             {
                 throw new InvalidCastException("Cannot have a scale index with a non integer type");
             }
@@ -592,11 +581,6 @@ public class Lexeme : ILexeme
         IVirtualRegister virtualRegister = GetRegister(expression);
 
         return DIFactory.GenerateIOperand(expression, OperandVariant.Register, virtualRegister.RegisterNamesAndSizes[expression.ToUpper()], []);
-    }
-
-    private IOperand GetLabelOperand(string expression)
-    {
-        return DIFactory.GenerateIOperand(expression, OperandVariant.Label, Size.Qword, []);
     }
 
     private IMemoryOffset GenerateMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand)
