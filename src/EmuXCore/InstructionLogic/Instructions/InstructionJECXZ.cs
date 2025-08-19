@@ -32,7 +32,7 @@ public sealed class InstructionJECXZ : IInstruction
     {
         InstructionVariant[] allowedVariants =
         [
-            InstructionVariant.OneOperandLabel()
+            InstructionVariant.OneOperandMemory()
         ];
 
         if (Prefix != null)

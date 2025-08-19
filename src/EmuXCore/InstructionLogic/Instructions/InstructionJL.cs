@@ -32,7 +32,7 @@ public sealed class InstructionJL : IInstruction
     {
         InstructionVariant[] allowedVariants =
         [
-            InstructionVariant.OneOperandLabel()
+            InstructionVariant.OneOperandMemory()
         ];
 
         if (Prefix != null)
