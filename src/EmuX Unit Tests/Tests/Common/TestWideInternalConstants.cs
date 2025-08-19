@@ -1,9 +1,15 @@
 ﻿using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
+using EmuXCore.InstructionLogic;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
+using EmuXCore.InstructionLogic.Interfaces;
 using EmuXCore.Interpreter;
-using EmuXCore.Interpreter.Interfaces;
+using EmuXCore.Interpreter.Enums;
+using EmuXCore.Interpreter.Interfaces.Logic;
+using EmuXCore.Interpreter.Interfaces.Models;
+using EmuXCore.Interpreter.Internal.Models;
+using EmuXCore.Interpreter.LexicalSyntax;
 using EmuXCore.VM;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
@@ -30,7 +36,11 @@ public class TestWideInternalConstants
     protected KeyValuePair<string, IMemoryLabel> GenerateMemoryLabel(string label, int address, int line) => new(label, new MemoryLabel(label, address, line));
     protected IMemoryOffset GenerateMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand) => new MemoryOffset(type, operand, fullOperand);
 
-    public ILexer GenerateLexer() => new Lexer(GenerateVirtualCPU());
+    protected IToken GenerateToken(TokenType tokenType, string fullSourceCode) => new Token(tokenType, fullSourceCode);
+    protected ILexer GenerateLexer() => new Lexer(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
+    protected IParser GenerateParser() => new Parser(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
+    protected IInstructionLookup GenerateInstructionLookup() => new InstructionLookup();
+    protected IPrefixLookup GeneratePrefixLookup() => new PrefixLookup();
 
     protected IVirtualCPU GenerateVirtualCPU() => new VirtualCPU();
     protected IVirtualMemory GenerateVirtualMemory() => new VirtualMemory();

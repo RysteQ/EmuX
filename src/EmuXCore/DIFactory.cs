@@ -1,10 +1,15 @@
 ﻿using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
+using EmuXCore.InstructionLogic;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
+using EmuXCore.InstructionLogic.Interfaces;
 using EmuXCore.Interpreter;
-using EmuXCore.Interpreter.Interfaces;
+using EmuXCore.Interpreter.Enums;
+using EmuXCore.Interpreter.Interfaces.Logic;
+using EmuXCore.Interpreter.Interfaces.Models;
 using EmuXCore.Interpreter.Internal.Models;
+using EmuXCore.Interpreter.LexicalSyntax;
 using EmuXCore.VM;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
@@ -44,6 +49,34 @@ public static class DIFactory
     public static IInstruction GenerateIInstruction<T>(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) where T : IInstruction => (T)Activator.CreateInstance(typeof(T), variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor)!;
 
     /// <summary>
+    /// Generates an instance of IInstruction
+    /// </summary>
+    /// <param name="type">The type of IInstruction</param>
+    /// <param name="variant">The variant of IInstruction</param>
+    /// <param name="prefix">The prefix, if any, of the IInstruction</param>
+    /// <param name="firstOperand">The first operand, if any, of the IInstruction</param>
+    /// <param name="secondOperand">The second operand, if any, of the IInstruction</param>
+    /// <param name="thirdOperand">The third operand, if any, of the IInstruction</param>
+    /// <param name="operandDecoder">The operand decoder needed for decoding the operands of the IInstruction</param>
+    /// <param name="flagStateProcessor">The flag state processor of the IInstruction needed for updating the CPU flags</param>
+    /// <returns>The implementation of IInstruction</returns>
+    public static IInstruction GenerateIInstruction(Type type, InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) => (IInstruction)Activator.CreateInstance(type, variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor)!;
+
+    /// <summary>
+    /// Generates an instance of IInstruction
+    /// </summary>
+    /// <param name="type">The type of IInstruction</param>
+    /// <param name="variant">The variant of IInstruction</param>
+    /// <param name="prefix">The prefix type, if any, of the IInstruction</param>
+    /// <param name="firstOperand">The first operand, if any, of the IInstruction</param>
+    /// <param name="secondOperand">The second operand, if any, of the IInstruction</param>
+    /// <param name="thirdOperand">The third operand, if any, of the IInstruction</param>
+    /// <param name="operandDecoder">The operand decoder needed for decoding the operands of the IInstruction</param>
+    /// <param name="flagStateProcessor">The flag state processor of the IInstruction needed for updating the CPU flags</param>
+    /// <returns>The implementation of IInstruction</returns>
+    public static IInstruction GenerateIInstruction(Type type, Type prefix, InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) => (IInstruction)Activator.CreateInstance(type, variant, Activator.CreateInstance(prefix), firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor)!;
+
+    /// <summary>
     /// Generates an instance of IMemoryOffset
     /// </summary>
     /// <param name="type">The type of the memory offset</param>
@@ -68,6 +101,13 @@ public static class DIFactory
     /// <typeparam name="T">The implementation type of IPrefix</typeparam>
     /// <returns>The implementation of IPrefix</returns>
     public static IPrefix GenerateIPrefix<T>() where T : IPrefix => Activator.CreateInstance<T>();
+
+    /// <summary>
+    /// Generates an instance of IPrefix
+    /// </summary>
+    /// <param name="type">The type of IPrefix</param>
+    /// <returns>The implementation of IPrefix</returns>
+    public static IPrefix GenerateIPrefix(Type type) => (IPrefix)Activator.CreateInstance(type)!;
 
     // Instruction logic
 
@@ -142,7 +182,31 @@ public static class DIFactory
     /// </summary>
     /// <param name="cpu">The IVirtualCPU implementation the ILexer will tokenise from</param>
     /// <returns>The implementation of ILexer</returns>
-    public static ILexer GenerateILexer(IVirtualCPU cpu) => new Lexer(cpu);
+    public static ILexer GenerateILexer(IVirtualCPU cpu, IInstructionLookup instructionLookup, IPrefixLookup prefixLookup) => new Lexer(cpu, instructionLookup, prefixLookup);
+
+    /// <summary>
+    /// Generates an instance of IInstructionLookup
+    /// </summary>
+    /// <returns>The implementation of IInstructionLookup</returns>
+    public static IInstructionLookup GenerateIInstructionLookup() => new InstructionLookup();
+
+    /// <summary>
+    /// Generates an instance of IPrefixLookup
+    /// </summary>
+    /// <returns>The implementation of IPrefixLookup</returns>
+    public static IPrefixLookup GenerateIPrefixLookup() => new PrefixLookup();
+
+    /// <summary>
+    /// Generates an instance of IParser
+    /// </summary>
+    /// <returns>The implementation of IParser</returns>
+    public static IParser GenerateIParser(IVirtualCPU virtualCPU, IInstructionLookup instructionLookup, IPrefixLookup prefixLookup) => new Parser(virtualCPU, instructionLookup, prefixLookup);
+
+    /// <summary>
+    /// Generates an instance of IParser
+    /// </summary>
+    /// <returns>The implementation of IParser</returns>
+    public static IToken GenerateIToken(TokenType type, string sourceCode) => new Token(type, sourceCode);
 
     // VM
 
