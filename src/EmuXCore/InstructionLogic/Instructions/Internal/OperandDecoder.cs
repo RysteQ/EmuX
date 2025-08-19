@@ -59,10 +59,18 @@ public class OperandDecoder : IOperandDecoder
         {
             return Convert.ToUInt64(operandValue[2..], 16);
         }
+        else if (operandValue.EndsWith("H"))
+        {
+            return Convert.ToUInt64(operandValue[..^1], 16);
+        }
 
         if (operandValue.StartsWith("0B"))
         {
             return Convert.ToUInt64(operandValue[2..].ToString(), 2);
+        }
+        else if (operandValue.EndsWith("B"))
+        {
+            return Convert.ToUInt64(operandValue[..^1].ToString(), 2);
         }
 
         return operandValue.Last() switch
@@ -130,9 +138,9 @@ public class OperandDecoder : IOperandDecoder
             offsetsToProcess.Add(offset);
         }
 
-        if (offsetsToProcess.Any(selectedOffsetToProcess => selectedOffsetToProcess.Type == MemoryOffsetType.Scale))
+        if (offsetsToProcess.Any(selectedOffsetToProcess => selectedOffsetToProcess.Operand == MemoryOffsetOperand.Multiplication))
         {
-            scaleOffset = offsetsToProcess.Single(selectedOffsetToProcess => selectedOffsetToProcess.Type == MemoryOffsetType.Scale);
+            scaleOffset = offsetsToProcess.Single(selectedOffsetToProcess => selectedOffsetToProcess.Operand == MemoryOffsetOperand.Multiplication);
 
             tempMemoryOffset = (int)GetOperandValueOfTypeValue(scaleOffset.FullOperand);
             tempMemoryOffset *= offsetsToProcess[offsetsToProcess.IndexOf(scaleOffset) - 1].Type switch
@@ -140,7 +148,6 @@ public class OperandDecoder : IOperandDecoder
                 MemoryOffsetType.Label => virtualMachine.Memory.LabelMemoryLocations[offsetsToProcess[offsetsToProcess.IndexOf(scaleOffset) - 1].FullOperand].Address,
                 MemoryOffsetType.Register => (int)virtualMachine.CPU.GetRegister(offsetsToProcess[offsetsToProcess.IndexOf(scaleOffset) - 1].FullOperand).Get(),
                 MemoryOffsetType.Integer => (int)GetOperandValueOfTypeValue(offsetsToProcess[offsetsToProcess.IndexOf(scaleOffset) - 1].FullOperand),
-                MemoryOffsetType.Scale => throw new InvalidDataException("Cannot have two or more scale values in the memory offset of an operand"),
                 _ => (int)GetOperandValueOfTypeValue(offsetsToProcess[offsetsToProcess.IndexOf(scaleOffset) - 1].FullOperand),
             };
 
@@ -158,7 +165,6 @@ public class OperandDecoder : IOperandDecoder
                 MemoryOffsetType.Label => virtualMachine.Memory.LabelMemoryLocations[offset.FullOperand].Address,
                 MemoryOffsetType.Register => (int)virtualMachine.CPU.GetRegister(offset.FullOperand).Get(),
                 MemoryOffsetType.Integer => (int)GetOperandValueOfTypeValue(offset.FullOperand),
-                MemoryOffsetType.Scale => throw new InvalidDataException("Cannot have two or more scale values in the memory offset of an operand"),
                 _ => (int)GetOperandValueOfTypeValue(offset.FullOperand),
             };
 
