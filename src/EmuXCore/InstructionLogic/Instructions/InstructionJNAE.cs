@@ -32,7 +32,7 @@ public sealed class InstructionJNAE : IInstruction
     {
         InstructionVariant[] allowedVariants =
         [
-            InstructionVariant.OneOperandMemory()
+            InstructionVariant.OneOperandLabel()
         ];
 
         if (Prefix != null)
