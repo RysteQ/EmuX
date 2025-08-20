@@ -106,6 +106,7 @@ public class OperandDecoder : IOperandDecoder
                 _ => throw new InvalidDataException($"Invalid operand variant type {operand.Variant}")
             };
         }
+
         return operand.OperandSize switch
         {
             Size.Byte => virtualMachine.GetByte(GetPointerMemoryAddress(virtualMachine, operand)),
