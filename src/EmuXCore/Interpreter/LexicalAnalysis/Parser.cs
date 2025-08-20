@@ -137,6 +137,7 @@ public class Parser : IParser
             { CalculateInstructionVariantId(OperandVariant.Value), InstructionVariant.OneOperandValue() },
             { CalculateInstructionVariantId(OperandVariant.Register), InstructionVariant.OneOperandRegister() },
             { CalculateInstructionVariantId(OperandVariant.Memory), InstructionVariant.OneOperandMemory() },
+            { CalculateInstructionVariantId(OperandVariant.Label), InstructionVariant.OneOperandLabel() },
             { CalculateInstructionVariantId(OperandVariant.Register, OperandVariant.Value), InstructionVariant.TwoOperandsRegisterValue() },
             { CalculateInstructionVariantId(OperandVariant.Register, OperandVariant.Register), InstructionVariant.TwoOperandsRegisterRegister() },
             { CalculateInstructionVariantId(OperandVariant.Register, OperandVariant.Memory), InstructionVariant.TwoOperandsRegisterMemory() },
@@ -221,9 +222,14 @@ public class Parser : IParser
             offsets = memoryOffsetsResult.offsets;
             variant = OperandVariant.Memory;
         }
+        else if (Accept(TokenType.LABEL))
+        {
+            fullOperand += _previousToken!.SourceCode;
+            variant = OperandVariant.Label;
+        }
         else
         {
-            _errors.Add($"Expected {TokenType.VALUE} or {TokenType.REGISTER} or {TokenType.OPEN_BRACKET}, got {Peek().Type} at line {line}");
+            _errors.Add($"Expected {TokenType.VALUE} or {TokenType.REGISTER} or {TokenType.OPEN_BRACKET} or {TokenType.OPEN_BRACKET}, got {Peek().Type} at line {line}");
 
             return null;
         }

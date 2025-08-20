@@ -272,7 +272,7 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     [TestMethod]
     public void ParseSingleInstructionWithNoPrefixOneMemoryOperand_One_Success()
     {
-        List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CALL"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "40"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
+        List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "INC"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "40"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
         ILexerResult lexerResult;
 
@@ -281,7 +281,7 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
         Assert.AreEqual<int>(0, lexerResult.Labels.Count);
         Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
         Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCALL), lexerResult.Instructions[0].GetType());
+        Assert.AreEqual<Type>(typeof(InstructionINC), lexerResult.Instructions[0].GetType());
         Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
         Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
         Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
@@ -363,6 +363,90 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
         Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
         Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
         Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+    }
+
+    [TestMethod]
+    public void ParseSingleInstructionWithNoPrefixOneMemoryMemory_One_Success()
+    {
+        List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "JE"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
+        IParser parser = GenerateParser();
+        ILexerResult lexerResult;
+
+        lexerResult = parser.Parse(tokens);
+
+        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
+        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionJE), lexerResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), lexerResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Label, lexerResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+    }
+
+    [TestMethod]
+    public void ParseSingleInstructionWithNoPrefixOneMemoryMemory_Two_Success()
+    {
+        List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "JG"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
+        IParser parser = GenerateParser();
+        ILexerResult lexerResult;
+
+        lexerResult = parser.Parse(tokens);
+
+        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
+        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionJG), lexerResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), lexerResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Label, lexerResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+    }
+
+    [TestMethod]
+    public void ParseSingleInstructionWithNoPrefixOneMemoryMemory_Three_Success()
+    {
+        List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "JC"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
+        IParser parser = GenerateParser();
+        ILexerResult lexerResult;
+
+        lexerResult = parser.Parse(tokens);
+
+        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
+        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionJC), lexerResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), lexerResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Label, lexerResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+    }
+
+    [TestMethod]
+    public void ParseSingleInstructionWithNoPrefixOneMemoryMemory_Four_Success()
+    {
+        List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "JAE"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
+        IParser parser = GenerateParser();
+        ILexerResult lexerResult;
+
+        lexerResult = parser.Parse(tokens);
+
+        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
+        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionJAE), lexerResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), lexerResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Label, lexerResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
