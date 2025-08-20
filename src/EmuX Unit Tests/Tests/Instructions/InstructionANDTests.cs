@@ -45,6 +45,14 @@ public sealed class InstructionANDTests : InstructionConstants<InstructionAND>
     }
 
     [TestMethod]
+    public void TestIsValidMethod_NoPrefix_VariantOneOperandLabel_NotValid()
+    {
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandLabel(), GeneratePrefix(), GenerateOperand("test_label", OperandVariant.Label, Size.Byte, []));
+
+        Assert.AreEqual(false, instruction.IsValid());
+    }
+
+    [TestMethod]
     public void TestIsValidMethod_NoPrefix_VariantTwoOperandsRegisterValue_Valid()
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterValue(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("10", OperandVariant.Value, Size.Byte));

@@ -41,6 +41,14 @@ public sealed class InstructionJNZTests : InstructionConstants<InstructionJNZ>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
+        Assert.AreEqual(false, instruction.IsValid());
+    }
+
+    [TestMethod]
+    public void TestIsValidMethod_NoPrefix_VariantOneOperandLabel_Valid()
+    {
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandLabel(), GeneratePrefix(), GenerateOperand("test_label", OperandVariant.Label, Size.Byte, []));
+
         Assert.AreEqual(true, instruction.IsValid());
     }
 
