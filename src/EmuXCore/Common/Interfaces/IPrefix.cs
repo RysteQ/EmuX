@@ -17,10 +17,15 @@ public interface IPrefix
     /// <summary>
     /// The type of the prefix, used to check the validity of some instructions since prefixes may or may not be valid with some instructions
     /// </summary>
-    public Type Type { get; }
+    Type Type { get; }
 
     /// <summary>
     /// The full operand of the prefix as read from the source code
     /// </summary>
-    public string Prefix { get; }
+    string Prefix { get; }
+
+    /// <summary>
+    /// The machine code representation of the prefix
+    /// </summary>
+    byte PrefixMachineCodeByte { get; }
 }

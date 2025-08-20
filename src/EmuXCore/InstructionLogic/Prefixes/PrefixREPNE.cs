@@ -18,4 +18,5 @@ public sealed class PrefixREPNE : IPrefix
 
     public Type Type => typeof(PrefixREPNE);
     public string Prefix => "REPNE";
+    public byte PrefixMachineCodeByte => 0xF2;
 }
