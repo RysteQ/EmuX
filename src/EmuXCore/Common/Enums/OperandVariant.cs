@@ -8,6 +8,7 @@ public enum OperandVariant : short
     Value = 1,
     Memory,
     Register,
+    Label,
     
     NaN = 0,
 }

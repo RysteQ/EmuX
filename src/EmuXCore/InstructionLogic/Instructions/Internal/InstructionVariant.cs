@@ -14,7 +14,7 @@ public class InstructionVariant : IComparable
         secondOperand = secondOperand == null ? OperandVariant.NaN : secondOperand;
         thirdOperand = thirdOperand == null ? OperandVariant.NaN : thirdOperand;
 
-        Id = (int)firstOperand * 16 + (int)secondOperand * 4 + (int)thirdOperand;
+        Id = (int)firstOperand * 25 + (int)secondOperand * 5 + (int)thirdOperand;
     }
 
     public static InstructionVariant NoOperands() => new();
@@ -22,6 +22,7 @@ public class InstructionVariant : IComparable
     public static InstructionVariant OneOperandValue() => new(OperandVariant.Value);
     public static InstructionVariant OneOperandRegister() => new(OperandVariant.Register);
     public static InstructionVariant OneOperandMemory() => new(OperandVariant.Memory);
+    public static InstructionVariant OneOperandLabel() => new(OperandVariant.Label);
 
     public static InstructionVariant TwoOperandsRegisterValue() => new(OperandVariant.Register, OperandVariant.Value);
     public static InstructionVariant TwoOperandsRegisterRegister() => new(OperandVariant.Register, OperandVariant.Register);
