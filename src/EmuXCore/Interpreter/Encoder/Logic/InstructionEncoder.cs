@@ -6,11 +6,13 @@ using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;
 using EmuXCore.Interpreter.Encoder.Models;
 using EmuXCore.Interpreter.Interfaces.Logic;
+using EmuXCore.Interpreter.Interfaces.Models;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU.Registers;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
+using System.Collections.ObjectModel;
 using System.Net;
 
 namespace EmuXCore.Interpreter.Encoder.Logic;
@@ -23,228 +25,231 @@ public sealed class InstructionEncoder : IInstructionEncoder
         VirtualMachine = virtualMachine;
     }
 
-    public bool Add(IInstruction i)
+    public IInstructionEncoderResult Parse(IList<IInstruction> instructionsToParse)
     {
-        if (i is InstructionADD)
+        foreach (IInstruction instruction in instructionsToParse)
         {
-            AddSimpleBinary(i, 0x80, 0, 0x00);
-        }
-        else if (i is InstructionOR)
-        {
-            AddSimpleBinary(i, 0x80, 1, 0x08);
-        }
-        else if (i is InstructionADC)
-        {
-            AddSimpleBinary(i, 0x80, 2, 0x10);
-        }
-        else if (i is InstructionSBB)
-        {
-            AddSimpleBinary(i, 0x80, 3, 0x18);
-        }
-        else if (i is InstructionAND)
-        {
-            AddSimpleBinary(i, 0x80, 4, 0x20);
-        }
-        else if (i is InstructionSUB)
-        {
-            AddSimpleBinary(i, 0x80, 5, 0x28);
-        }
-        else if (i is InstructionXOR)
-        {
-            AddSimpleBinary(i, 0x80, 6, 0x30);
-        }
-        else if (i is InstructionCMP)
-        {
-            AddSimpleBinary(i, 0x80, 7, 0x38);
-        }
-        else if (i is InstructionTEST)
-        {
-            AddSimpleBinary(i, 0xF6, 0, 0x84);
-        }
 
-        //These are basically simple binary but they don't accept immediates
-        if (i is InstructionXCHG)
-        {
-            AddSimpleBinary(i, 0x69, 69, 0x87);
-        }
-        else if (i is InstructionLES)
-        {
-            AddSimpleBinary(i, 0x69, 69, 0xC4);
-        }
-        else if (i is InstructionLDS)
-        {
-            AddSimpleBinary(i, 0x69, 69, 0xC5);
-        }
+            if (instruction is InstructionADD)
+            {
+                AddSimpleBinary(instruction, 0x80, 0, 0x00);
+            }
+            else if (instruction is InstructionOR)
+            {
+                AddSimpleBinary(instruction, 0x80, 1, 0x08);
+            }
+            else if (instruction is InstructionADC)
+            {
+                AddSimpleBinary(instruction, 0x80, 2, 0x10);
+            }
+            else if (instruction is InstructionSBB)
+            {
+                AddSimpleBinary(instruction, 0x80, 3, 0x18);
+            }
+            else if (instruction is InstructionAND)
+            {
+                AddSimpleBinary(instruction, 0x80, 4, 0x20);
+            }
+            else if (instruction is InstructionSUB)
+            {
+                AddSimpleBinary(instruction, 0x80, 5, 0x28);
+            }
+            else if (instruction is InstructionXOR)
+            {
+                AddSimpleBinary(instruction, 0x80, 6, 0x30);
+            }
+            else if (instruction is InstructionCMP)
+            {
+                AddSimpleBinary(instruction, 0x80, 7, 0x38);
+            }
+            else if (instruction is InstructionTEST)
+            {
+                AddSimpleBinary(instruction, 0xF6, 0, 0x84);
+            }
 
-        if (i is InstructionNOT)
-        {
-            AddSimpleUnary(i, 0xF6, 2);
-        }
-        else if (i is InstructionNEG)
-        {
-            AddSimpleUnary(i, 0xF6, 3);
-        }
-        else if (i is InstructionMUL)
-        {
-            AddSimpleUnary(i, 0xF6, 4);
-        }
-        else if (i is InstructionDIV)
-        {
-            AddSimpleUnary(i, 0xF6, 6);
-        }
-        else if (i is InstructionINC)
-        {
-            AddSimpleUnary(i, 0xFE, 0);
-        }
-        else if (i is InstructionDEC)
-        {
-            AddSimpleUnary(i, 0xFE, 1);
-        }
+            //These are basically simple binary but they don't accept immediates
+            if (instruction is InstructionXCHG)
+            {
+                AddSimpleBinary(instruction, 0x69, 69, 0x87);
+            }
+            else if (instruction is InstructionLES)
+            {
+                AddSimpleBinary(instruction, 0x69, 69, 0xC4);
+            }
+            else if (instruction is InstructionLDS)
+            {
+                AddSimpleBinary(instruction, 0x69, 69, 0xC5);
+            }
 
-        if (i is InstructionCMC)
-        {
-            AddNonary(0xF5);
-        }
-        else if (i is InstructionCLC)
-        {
-            AddNonary(0xF8);
-        }
-        else if (i is InstructionSTC)
-        {
-            AddNonary(0xF9);
-        }
-        else if (i is InstructionCLI)
-        {
-            AddNonary(0xFA);
-        }
-        else if (i is InstructionSTI)
-        {
-            AddNonary(0xFB);
-        }
-        else if (i is InstructionCLD)
-        {
-            AddNonary(0xFC);
-        }
-        else if (i is InstructionSTD)
-        {
-            AddNonary(0xFD);
-        }
-        else if (i is InstructionAAA)
-        {
-            AddNonary(0x37);
-        }
-        else if (i is InstructionAAS)
-        {
-            AddNonary(0x3F);
-        }
-        else if (i is InstructionDAA)
-        {
-            AddNonary(0x27);
-        }
-        else if (i is InstructionDAS)
-        {
-            AddNonary(0x2F);
-        }
-        else if (i is InstructionRET)
-        {
-            //Missing far returns and retn
-            AddNonary(0xC3);
-        }
-        else if (i is InstructionHLT)
-        {
-            AddNonary(0xF4);
-        }
-        else if (i is InstructionSAHF)
-        {
-            AddNonary(0x9E);
-        }
-        else if (i is InstructionLAHF)
-        {
-            AddNonary(0x9F);
-        }
-        else if (i is InstructionXLAT)
-        {
-            AddNonary(0xD7);
-        }
-        else if (i is InstructionINTO)
-        {
-            AddNonary(0xCE);
-        }
-        else if (i is InstructionPUSHF)
-        {
-            if (ModeSize == Size.Dword)
+            if (instruction is InstructionNOT)
             {
-                _output.Add(0x66);
+                AddSimpleUnary(instruction, 0xF6, 2);
             }
-            AddNonary(0x9C);
-        }
-        else if (i is InstructionPUSHFD)
-        {
-            if (ModeSize == Size.Word)
+            else if (instruction is InstructionNEG)
             {
-                _output.Add(0x66);
+                AddSimpleUnary(instruction, 0xF6, 3);
             }
-            AddNonary(0x9C);
-        }
-        else if (i is InstructionPUSHFQ)
-        {
-            AddNonary(0x9C);
-        }
-        else if (i is InstructionPOPF)
-        {
-            if (ModeSize == Size.Dword)
+            else if (instruction is InstructionMUL)
             {
-                _output.Add(0x66);
+                AddSimpleUnary(instruction, 0xF6, 4);
             }
-            AddNonary(0x9D);
-        }
-        else if (i is InstructionPOPFD)
-        {
-            if (ModeSize == Size.Word)
+            else if (instruction is InstructionDIV)
             {
-                _output.Add(0x66);
+                AddSimpleUnary(instruction, 0xF6, 6);
             }
-            AddNonary(0x9D);
-        }
-        else if (i is InstructionPOPFQ)
-        {
-            AddNonary(0x9D);
-        }
-        else if (i is InstructionCWD)
-        {
-            if (ModeSize == Size.Dword)
+            else if (instruction is InstructionINC)
             {
-                _output.Add(0x66);
+                AddSimpleUnary(instruction, 0xFE, 0);
             }
-            AddNonary(0x99);
-        }
-        else if (i is InstructionCDQ)
-        {
-            if (ModeSize == Size.Word)
+            else if (instruction is InstructionDEC)
             {
-                _output.Add(0x66);
+                AddSimpleUnary(instruction, 0xFE, 1);
             }
-            AddNonary(0x99);
-        } /*else if(i is InstructionCQO) {
+
+            if (instruction is InstructionCMC)
+            {
+                AddNonary(0xF5);
+            }
+            else if (instruction is InstructionCLC)
+            {
+                AddNonary(0xF8);
+            }
+            else if (instruction is InstructionSTC)
+            {
+                AddNonary(0xF9);
+            }
+            else if (instruction is InstructionCLI)
+            {
+                AddNonary(0xFA);
+            }
+            else if (instruction is InstructionSTI)
+            {
+                AddNonary(0xFB);
+            }
+            else if (instruction is InstructionCLD)
+            {
+                AddNonary(0xFC);
+            }
+            else if (instruction is InstructionSTD)
+            {
+                AddNonary(0xFD);
+            }
+            else if (instruction is InstructionAAA)
+            {
+                AddNonary(0x37);
+            }
+            else if (instruction is InstructionAAS)
+            {
+                AddNonary(0x3F);
+            }
+            else if (instruction is InstructionDAA)
+            {
+                AddNonary(0x27);
+            }
+            else if (instruction is InstructionDAS)
+            {
+                AddNonary(0x2F);
+            }
+            else if (instruction is InstructionRET)
+            {
+                //Missing far returns and retn
+                AddNonary(0xC3);
+            }
+            else if (instruction is InstructionHLT)
+            {
+                AddNonary(0xF4);
+            }
+            else if (instruction is InstructionSAHF)
+            {
+                AddNonary(0x9E);
+            }
+            else if (instruction is InstructionLAHF)
+            {
+                AddNonary(0x9F);
+            }
+            else if (instruction is InstructionXLAT)
+            {
+                AddNonary(0xD7);
+            }
+            else if (instruction is InstructionINTO)
+            {
+                AddNonary(0xCE);
+            }
+            else if (instruction is InstructionPUSHF)
+            {
+                if (ModeSize == Size.Dword)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0x9C);
+            }
+            else if (instruction is InstructionPUSHFD)
+            {
+                if (ModeSize == Size.Word)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0x9C);
+            }
+            else if (instruction is InstructionPUSHFQ)
+            {
+                AddNonary(0x9C);
+            }
+            else if (instruction is InstructionPOPF)
+            {
+                if (ModeSize == Size.Dword)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0x9D);
+            }
+            else if (instruction is InstructionPOPFD)
+            {
+                if (ModeSize == Size.Word)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0x9D);
+            }
+            else if (instruction is InstructionPOPFQ)
+            {
+                AddNonary(0x9D);
+            }
+            else if (instruction is InstructionCWD)
+            {
+                if (ModeSize == Size.Dword)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0x99);
+            }
+            else if (instruction is InstructionCDQ)
+            {
+                if (ModeSize == Size.Word)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0x99);
+            } /*else if(i is InstructionCQO) {
 			Output.Add((byte) (REX_BASE | (1 << REX_W)));
 			AddNonary(0x99);
 		}*/
-        else if (i is InstructionSTOSB)
-        {
-            AddPrefix(i);
-
-            AddNonary(0xAA);
-        }
-        else if (i is InstructionSTOSW)
-        {
-            AddPrefix(i);
-
-            if (ModeSize != Size.Word)
+            else if (instruction is InstructionSTOSB)
             {
-                AddNonary(0x66);
+                AddPrefix(instruction);
+
+                AddNonary(0xAA);
             }
-            AddNonary(0xAB);
-        } /*else if(i is InstructionSTOSD) {
+            else if (instruction is InstructionSTOSW)
+            {
+                AddPrefix(instruction);
+
+                if (ModeSize != Size.Word)
+                {
+                    AddNonary(0x66);
+                }
+                AddNonary(0xAB);
+            } /*else if(i is InstructionSTOSD) {
 			if(ModeSize != Size.Dword) {
 				AddNonary(0x66);
 			}
@@ -254,409 +259,64 @@ public sealed class InstructionEncoder : IInstructionEncoder
 			AddNonary(0xAB);
 		}*/
 
-        if (i is InstructionSHL)
-        {
-            AddShift(i, 0xC0, 0xD2, 4);
-        }
-        else if (i is InstructionSHR)
-        {
-            AddShift(i, 0xC0, 0xD2, 5);
-        }
-        else if (i is InstructionSAR)
-        {
-            AddShift(i, 0xC0, 0xD2, 7);
-        }
-        else if (i is InstructionSAL)
-        {
-            AddShift(i, 0xC0, 0xD2, 4);
-        }
-
-        if (i is InstructionROL)
-        {
-            AddShift(i, 0xC0, 0xD2, 0);
-        }
-        else if (i is InstructionROR)
-        {
-            AddShift(i, 0xC0, 0xD2, 1);
-        }
-        else if (i is InstructionRCL)
-        {
-            AddShift(i, 0xC0, 0xD2, 2);
-        }
-        else if (i is InstructionRCR)
-        {
-            AddShift(i, 0xC0, 0xD2, 3);
-        }
-
-        if (i is InstructionMOV)
-        {
-            //MOV isn't just simple binary because segregs and stuff
-            // and what the fuck moffs is
-            AddSimpleBinary(i, 0xC6, 0, 0x88);
-        }
-
-        if (i is InstructionINT)
-        {
-            AddNonary(0xCD);
-            AddNonary(byte.Parse(i.FirstOperand.FullOperand));
-        }
-
-        if (i is InstructionLEA)
-        {
-            byte rex = 0;
-            byte? modrm = null;
-            byte? sib = null;
-            byte[] disp = { };
-            List<string> dispPatches = GetModRM(i.SecondOperand, ref rex, ref modrm, ref sib, ref disp);
-
-            modrm = (byte)(modrm | GetRegisterCode(VirtualCPU, i.FirstOperand.FullOperand) << REG_BIT);
-
-            if (i.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
+            if (instruction is InstructionSHL)
             {
-                _output.Add(0x66);
+                AddShift(instruction, 0xC0, 0xD2, 4);
+            }
+            else if (instruction is InstructionSHR)
+            {
+                AddShift(instruction, 0xC0, 0xD2, 5);
+            }
+            else if (instruction is InstructionSAR)
+            {
+                AddShift(instruction, 0xC0, 0xD2, 7);
+            }
+            else if (instruction is InstructionSAL)
+            {
+                AddShift(instruction, 0xC0, 0xD2, 4);
             }
 
-            if (rex != 0)
+            if (instruction is InstructionROL)
             {
-                _output.Add(rex);
+                AddShift(instruction, 0xC0, 0xD2, 0);
+            }
+            else if (instruction is InstructionROR)
+            {
+                AddShift(instruction, 0xC0, 0xD2, 1);
+            }
+            else if (instruction is InstructionRCL)
+            {
+                AddShift(instruction, 0xC0, 0xD2, 2);
+            }
+            else if (instruction is InstructionRCR)
+            {
+                AddShift(instruction, 0xC0, 0xD2, 3);
             }
 
-            _output.Add(0x8D);
-
-            _output.Add((byte)modrm!);
-
-            if (sib != null)
+            if (instruction is InstructionMOV)
             {
-                _output.Add((byte)sib!);
+                //MOV isn't just simple binary because segregs and stuff
+                // and what the fuck moffs is
+                AddSimpleBinary(instruction, 0xC6, 0, 0x88);
             }
 
-            AddPatches(dispPatches);
-            _output.AddRange(disp);
-        }
-
-        if (i is InstructionIN)
-        {
-            if (i.SecondOperand.Variant == OperandVariant.Value)
+            if (instruction is InstructionINT)
             {
-                if (i.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
-                {
-                    _output.Add(0x66);
-                }
-                _output.Add((byte)(0xE4 + Convert.ToByte(i.FirstOperand.OperandSize != Size.Byte)));
-                _output.AddRange(UlongToBinary(ulong.Parse(i.SecondOperand.FullOperand), Size.Byte));
+                AddNonary(0xCD);
+                AddNonary(byte.Parse(instruction.FirstOperand.FullOperand));
             }
-            else
-            {
-                if (i.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
-                {
-                    _output.Add(0x66);
-                }
-                _output.Add((byte)(0xEC + Convert.ToByte(i.FirstOperand.OperandSize != Size.Byte)));
-            }
-        }
 
-        if (i is InstructionOUT)
-        {
-            if (i.SecondOperand.Variant == OperandVariant.Value)
+            if (instruction is InstructionLEA)
             {
-                if (i.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
-                {
-                    _output.Add(0x66);
-                }
-                _output.Add((byte)(0xE6 + Convert.ToByte(i.FirstOperand.OperandSize != Size.Byte)));
-                _output.AddRange(UlongToBinary(ulong.Parse(i.SecondOperand.FullOperand), Size.Byte));
-            }
-            else
-            {
-                if (i.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
-                {
-                    _output.Add(0x66);
-                }
-                _output.Add((byte)(0xEE + Convert.ToByte(i.FirstOperand.OperandSize != Size.Byte)));
-            }
-        }
-
-        if (i is InstructionJA)
-        {
-            AddJumpRel32(i, 0x87);
-        }
-        else if (i is InstructionJAE)
-        {
-            AddJumpRel32(i, 0x83);
-        }
-        else if (i is InstructionJB)
-        {
-            AddJumpRel32(i, 0x82);
-        }
-        else if (i is InstructionJBE)
-        {
-            AddJumpRel32(i, 0x86);
-        }
-        else if (i is InstructionJC)
-        {
-            AddJumpRel32(i, 0x82);
-        }
-        else if (i is InstructionJCXZ)
-        {
-            AddJumpRel32(i, 0xE3);
-        }
-        else if (i is InstructionJE)
-        {
-            AddJumpRel32(i, 0x84);
-        }
-        else if (i is InstructionJG)
-        {
-            AddJumpRel32(i, 0x8F);
-        }
-        else if (i is InstructionJGE)
-        {
-            AddJumpRel32(i, 0x8D);
-        }
-        else if (i is InstructionJL)
-        {
-            AddJumpRel32(i, 0x8C);
-        }
-        else if (i is InstructionJLE)
-        {
-            AddJumpRel32(i, 0x8E);
-        }
-        else if (i is InstructionJNA)
-        {
-            AddJumpRel32(i, 0x86);
-        }
-        else if (i is InstructionJNAE)
-        {
-            AddJumpRel32(i, 0x82);
-        }
-        else if (i is InstructionJNB)
-        {
-            AddJumpRel32(i, 0x83);
-        }
-        else if (i is InstructionJNBE)
-        {
-            AddJumpRel32(i, 0x87);
-        }
-        else if (i is InstructionJNC)
-        {
-            AddJumpRel32(i, 0x83);
-        }
-        else if (i is InstructionJNE)
-        {
-            AddJumpRel32(i, 0x85);
-        }
-        else if (i is InstructionJNG)
-        {
-            AddJumpRel32(i, 0x8E);
-        }
-        else if (i is InstructionJNGE)
-        {
-            AddJumpRel32(i, 0x8C);
-        }
-        else if (i is InstructionJNL)
-        {
-            AddJumpRel32(i, 0x8D);
-        }
-        else if (i is InstructionJNLE)
-        {
-            AddJumpRel32(i, 0x8F);
-        }
-        else if (i is InstructionJNO)
-        {
-            AddJumpRel32(i, 0x81);
-        }
-        else if (i is InstructionJNP)
-        {
-            AddJumpRel32(i, 0x8B);
-        }
-        else if (i is InstructionJNS)
-        {
-            AddJumpRel32(i, 0x89);
-        }
-        else if (i is InstructionJNZ)
-        {
-            AddJumpRel32(i, 0x85);
-        }
-        else if (i is InstructionJO)
-        {
-            AddJumpRel32(i, 0x80);
-        }
-        else if (i is InstructionJP)
-        {
-            AddJumpRel32(i, 0x8A);
-        }
-        else if (i is InstructionJPE)
-        {
-            AddJumpRel32(i, 0x8A);
-        }
-        else if (i is InstructionJPO)
-        {
-            AddJumpRel32(i, 0x8B);
-        }
-        else if (i is InstructionJS)
-        {
-            AddJumpRel32(i, 0x88);
-        }
-        else if (i is InstructionJZ)
-        {
-            AddJumpRel32(i, 0x84);
-        }
-
-        if (i is InstructionAAD || i is InstructionAAM)
-        {
-            _output.Add((byte)(i is InstructionAAD ? 0xD5 : 0xD4));
-            if (i.Variant == InstructionVariant.NoOperands())
-            {
-                _output.Add(0x0A);
-            }
-            else
-            {
-                _output.Add(byte.Parse(i.FirstOperand.FullOperand));
-            }
-        }
-
-        if (i is InstructionCBW)
-        {
-            if (ModeSize != Size.Word)
-            {
-                _output.Add(0x66);
-            }
-            AddNonary(0x98);
-        }
-
-        if (i is InstructionCWDE)
-        {
-            if (ModeSize != Size.Dword)
-            {
-                _output.Add(0x66);
-            }
-            AddNonary(0x98);
-        }
-
-        if (i is InstructionCDQE)
-        {
-            _output.Add((byte)(REX_BASE | 1 << REX_W));
-            AddNonary(0x98);
-        }
-
-        if (i is InstructionCMPSB)
-        {
-            AddPrefix(i);
-            AddNonary(0xA6);
-        }
-        else if (i is InstructionCMPSW)
-        {
-            AddPrefix(i);
-            if (ModeSize != Size.Word)
-            {
-                _output.Add(0x66);
-            }
-            AddNonary(0xA7);
-        } /*else if(i is InstructionCMPSD) {
-			if(ModeSize != Size.Dword) {
-				Output.Add(0x66);
-			}
-			Output.Add(0xA7);
-		} else if(i is InstructionCMPSQ) {
-			Output.Add((byte) (REX_BASE | (1 << REX_W)));
-			Output.Add(0xA7);
-		}*/
-
-        if (i is InstructionLODSB)
-        {
-            AddPrefix(i);
-            AddNonary(0xAC);
-        }
-        else if (i is InstructionLODSW)
-        {
-            AddPrefix(i);
-            if (ModeSize != Size.Word)
-            {
-                _output.Add(0x66);
-            }
-            AddNonary(0xAD);
-        }
-
-        if (i is InstructionMOVSB)
-        {
-            AddPrefix(i);
-            AddNonary(0xA4);
-        }
-        else if (i is InstructionMOVSW)
-        {
-            AddPrefix(i);
-            if (ModeSize != Size.Word)
-            {
-                _output.Add(0x66);
-            }
-            AddNonary(0xA5);
-        }
-
-        if (i is InstructionSCASB)
-        {
-            AddPrefix(i);
-            AddNonary(0xAE);
-        }
-        else if (i is InstructionSCASW)
-        {
-            AddPrefix(i);
-            if (ModeSize != Size.Word)
-            {
-                _output.Add(0x66);
-            }
-            AddNonary(0xAF);
-        }
-
-        if (i is InstructionPUSH)
-        {
-            if (i.FirstOperand.Variant == OperandVariant.Value)
-            {
-                if (ModeSize == Size.Word)
-                {
-                    _output.Add(0x66);
-                }
-                _output.Add(0x68);
-                _output.AddRange(UlongToBinary(ulong.Parse(i.SecondOperand.FullOperand), Size.Dword));
-            }
-            else
-            {
-                AddSimpleUnary(i, 0xFF, 6);
-            }
-        }
-
-        if (i is InstructionPOP)
-        {
-            AddSimpleUnary(i, 0x8F, 0);
-        }
-
-        if (i is InstructionLOOP)
-        {
-            AddJump(i, false, 0xE2, Size.Byte);
-        }
-
-        if (i is InstructionIMUL)
-        {
-            if (i.SecondOperand == null)
-            {
-                AddSimpleUnary(i, 0xF6, 5);
-            }
-            else if (i.ThirdOperand == null)
-            {
-                _output.Add(0x0F);
-                AddSimpleBinary(i, 0x69, 0x69, 0xAF);
-            }
-            else
-            {
-                //Cannot use AddSimpleBinary here because it ORs 2 to the opcode because the operand order is "reg, mem"
-
                 byte rex = 0;
                 byte? modrm = null;
                 byte? sib = null;
                 byte[] disp = { };
-                List<string> dispPatches = GetModRM(i.SecondOperand, ref rex, ref modrm, ref sib, ref disp);
+                List<string> dispPatches = GetModRM(instruction.SecondOperand, ref rex, ref modrm, ref sib, ref disp);
 
-                modrm = (byte)(modrm | GetRegisterCode(VirtualCPU, i.FirstOperand.FullOperand) << REG_BIT);
+                modrm = (byte)(modrm | GetRegisterCode(VirtualCPU, instruction.FirstOperand.FullOperand) << REG_BIT);
 
-                if (i.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
+                if (instruction.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
                 {
                     _output.Add(0x66);
                 }
@@ -666,7 +326,7 @@ public sealed class InstructionEncoder : IInstructionEncoder
                     _output.Add(rex);
                 }
 
-                _output.Add(0x69);
+                _output.Add(0x8D);
 
                 _output.Add((byte)modrm!);
 
@@ -677,31 +337,377 @@ public sealed class InstructionEncoder : IInstructionEncoder
 
                 AddPatches(dispPatches);
                 _output.AddRange(disp);
-
-                _output.AddRange(UlongToBinary(ulong.Parse(i.ThirdOperand.FullOperand), i.FirstOperand.OperandSize == Size.Word ? Size.Word : Size.Dword));
             }
-        }
 
-        if (i is InstructionIDIV)
-        {
-            AddSimpleUnary(i, 0xF6, 7);
-        }
-
-        if (i is InstructionCALL)
-        {
-            if (i.FirstOperand.Variant == OperandVariant.Value || i.FirstOperand.Variant == OperandVariant.Label)
+            if (instruction is InstructionIN)
             {
-                AddJumpRel32(i, 0xE8);
+                if (instruction.SecondOperand.Variant == OperandVariant.Value)
+                {
+                    if (instruction.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
+                    {
+                        _output.Add(0x66);
+                    }
+                    _output.Add((byte)(0xE4 + Convert.ToByte(instruction.FirstOperand.OperandSize != Size.Byte)));
+                    _output.AddRange(UlongToBinary(ulong.Parse(instruction.SecondOperand.FullOperand), Size.Byte));
+                }
+                else
+                {
+                    if (instruction.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
+                    {
+                        _output.Add(0x66);
+                    }
+                    _output.Add((byte)(0xEC + Convert.ToByte(instruction.FirstOperand.OperandSize != Size.Byte)));
+                }
             }
-            else
+
+            if (instruction is InstructionOUT)
             {
-                AddSimpleUnary(i, 0xFF, 2);
+                if (instruction.SecondOperand.Variant == OperandVariant.Value)
+                {
+                    if (instruction.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
+                    {
+                        _output.Add(0x66);
+                    }
+                    _output.Add((byte)(0xE6 + Convert.ToByte(instruction.FirstOperand.OperandSize != Size.Byte)));
+                    _output.AddRange(UlongToBinary(ulong.Parse(instruction.SecondOperand.FullOperand), Size.Byte));
+                }
+                else
+                {
+                    if (instruction.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
+                    {
+                        _output.Add(0x66);
+                    }
+                    _output.Add((byte)(0xEE + Convert.ToByte(instruction.FirstOperand.OperandSize != Size.Byte)));
+                }
             }
+
+            if (instruction is InstructionJA)
+            {
+                AddJumpRel32(instruction, 0x87);
+            }
+            else if (instruction is InstructionJAE)
+            {
+                AddJumpRel32(instruction, 0x83);
+            }
+            else if (instruction is InstructionJB)
+            {
+                AddJumpRel32(instruction, 0x82);
+            }
+            else if (instruction is InstructionJBE)
+            {
+                AddJumpRel32(instruction, 0x86);
+            }
+            else if (instruction is InstructionJC)
+            {
+                AddJumpRel32(instruction, 0x82);
+            }
+            else if (instruction is InstructionJCXZ)
+            {
+                AddJumpRel32(instruction, 0xE3);
+            }
+            else if (instruction is InstructionJE)
+            {
+                AddJumpRel32(instruction, 0x84);
+            }
+            else if (instruction is InstructionJG)
+            {
+                AddJumpRel32(instruction, 0x8F);
+            }
+            else if (instruction is InstructionJGE)
+            {
+                AddJumpRel32(instruction, 0x8D);
+            }
+            else if (instruction is InstructionJL)
+            {
+                AddJumpRel32(instruction, 0x8C);
+            }
+            else if (instruction is InstructionJLE)
+            {
+                AddJumpRel32(instruction, 0x8E);
+            }
+            else if (instruction is InstructionJNA)
+            {
+                AddJumpRel32(instruction, 0x86);
+            }
+            else if (instruction is InstructionJNAE)
+            {
+                AddJumpRel32(instruction, 0x82);
+            }
+            else if (instruction is InstructionJNB)
+            {
+                AddJumpRel32(instruction, 0x83);
+            }
+            else if (instruction is InstructionJNBE)
+            {
+                AddJumpRel32(instruction, 0x87);
+            }
+            else if (instruction is InstructionJNC)
+            {
+                AddJumpRel32(instruction, 0x83);
+            }
+            else if (instruction is InstructionJNE)
+            {
+                AddJumpRel32(instruction, 0x85);
+            }
+            else if (instruction is InstructionJNG)
+            {
+                AddJumpRel32(instruction, 0x8E);
+            }
+            else if (instruction is InstructionJNGE)
+            {
+                AddJumpRel32(instruction, 0x8C);
+            }
+            else if (instruction is InstructionJNL)
+            {
+                AddJumpRel32(instruction, 0x8D);
+            }
+            else if (instruction is InstructionJNLE)
+            {
+                AddJumpRel32(instruction, 0x8F);
+            }
+            else if (instruction is InstructionJNO)
+            {
+                AddJumpRel32(instruction, 0x81);
+            }
+            else if (instruction is InstructionJNP)
+            {
+                AddJumpRel32(instruction, 0x8B);
+            }
+            else if (instruction is InstructionJNS)
+            {
+                AddJumpRel32(instruction, 0x89);
+            }
+            else if (instruction is InstructionJNZ)
+            {
+                AddJumpRel32(instruction, 0x85);
+            }
+            else if (instruction is InstructionJO)
+            {
+                AddJumpRel32(instruction, 0x80);
+            }
+            else if (instruction is InstructionJP)
+            {
+                AddJumpRel32(instruction, 0x8A);
+            }
+            else if (instruction is InstructionJPE)
+            {
+                AddJumpRel32(instruction, 0x8A);
+            }
+            else if (instruction is InstructionJPO)
+            {
+                AddJumpRel32(instruction, 0x8B);
+            }
+            else if (instruction is InstructionJS)
+            {
+                AddJumpRel32(instruction, 0x88);
+            }
+            else if (instruction is InstructionJZ)
+            {
+                AddJumpRel32(instruction, 0x84);
+            }
+
+            if (instruction is InstructionAAD || instruction is InstructionAAM)
+            {
+                _output.Add((byte)(instruction is InstructionAAD ? 0xD5 : 0xD4));
+                if (instruction.Variant == InstructionVariant.NoOperands())
+                {
+                    _output.Add(0x0A);
+                }
+                else
+                {
+                    _output.Add(byte.Parse(instruction.FirstOperand.FullOperand));
+                }
+            }
+
+            if (instruction is InstructionCBW)
+            {
+                if (ModeSize != Size.Word)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0x98);
+            }
+
+            if (instruction is InstructionCWDE)
+            {
+                if (ModeSize != Size.Dword)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0x98);
+            }
+
+            if (instruction is InstructionCDQE)
+            {
+                _output.Add((byte)(REX_BASE | 1 << REX_W));
+                AddNonary(0x98);
+            }
+
+            if (instruction is InstructionCMPSB)
+            {
+                AddPrefix(instruction);
+                AddNonary(0xA6);
+            }
+            else if (instruction is InstructionCMPSW)
+            {
+                AddPrefix(instruction);
+                if (ModeSize != Size.Word)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0xA7);
+            } /*else if(i is InstructionCMPSD) {
+			if(ModeSize != Size.Dword) {
+				Output.Add(0x66);
+			}
+			Output.Add(0xA7);
+		} else if(i is InstructionCMPSQ) {
+			Output.Add((byte) (REX_BASE | (1 << REX_W)));
+			Output.Add(0xA7);
+		}*/
+
+            if (instruction is InstructionLODSB)
+            {
+                AddPrefix(instruction);
+                AddNonary(0xAC);
+            }
+            else if (instruction is InstructionLODSW)
+            {
+                AddPrefix(instruction);
+                if (ModeSize != Size.Word)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0xAD);
+            }
+
+            if (instruction is InstructionMOVSB)
+            {
+                AddPrefix(instruction);
+                AddNonary(0xA4);
+            }
+            else if (instruction is InstructionMOVSW)
+            {
+                AddPrefix(instruction);
+                if (ModeSize != Size.Word)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0xA5);
+            }
+
+            if (instruction is InstructionSCASB)
+            {
+                AddPrefix(instruction);
+                AddNonary(0xAE);
+            }
+            else if (instruction is InstructionSCASW)
+            {
+                AddPrefix(instruction);
+                if (ModeSize != Size.Word)
+                {
+                    _output.Add(0x66);
+                }
+                AddNonary(0xAF);
+            }
+
+            if (instruction is InstructionPUSH)
+            {
+                if (instruction.FirstOperand.Variant == OperandVariant.Value)
+                {
+                    if (ModeSize == Size.Word)
+                    {
+                        _output.Add(0x66);
+                    }
+                    _output.Add(0x68);
+                    _output.AddRange(UlongToBinary(ulong.Parse(instruction.SecondOperand.FullOperand), Size.Dword));
+                }
+                else
+                {
+                    AddSimpleUnary(instruction, 0xFF, 6);
+                }
+            }
+
+            if (instruction is InstructionPOP)
+            {
+                AddSimpleUnary(instruction, 0x8F, 0);
+            }
+
+            if (instruction is InstructionLOOP)
+            {
+                AddJump(instruction, false, 0xE2, Size.Byte);
+            }
+
+            if (instruction is InstructionIMUL)
+            {
+                if (instruction.SecondOperand == null)
+                {
+                    AddSimpleUnary(instruction, 0xF6, 5);
+                }
+                else if (instruction.ThirdOperand == null)
+                {
+                    _output.Add(0x0F);
+                    AddSimpleBinary(instruction, 0x69, 0x69, 0xAF);
+                }
+                else
+                {
+                    //Cannot use AddSimpleBinary here because it ORs 2 to the opcode because the operand order is "reg, mem"
+
+                    byte rex = 0;
+                    byte? modrm = null;
+                    byte? sib = null;
+                    byte[] disp = { };
+                    List<string> dispPatches = GetModRM(instruction.SecondOperand, ref rex, ref modrm, ref sib, ref disp);
+
+                    modrm = (byte)(modrm | GetRegisterCode(VirtualCPU, instruction.FirstOperand.FullOperand) << REG_BIT);
+
+                    if (instruction.FirstOperand.OperandSize == Size.Word != (ModeSize == Size.Word))
+                    {
+                        _output.Add(0x66);
+                    }
+
+                    if (rex != 0)
+                    {
+                        _output.Add(rex);
+                    }
+
+                    _output.Add(0x69);
+
+                    _output.Add((byte)modrm!);
+
+                    if (sib != null)
+                    {
+                        _output.Add((byte)sib!);
+                    }
+
+                    AddPatches(dispPatches);
+                    _output.AddRange(disp);
+
+                    _output.AddRange(UlongToBinary(ulong.Parse(instruction.ThirdOperand.FullOperand), instruction.FirstOperand.OperandSize == Size.Word ? Size.Word : Size.Dword));
+                }
+            }
+
+            if (instruction is InstructionIDIV)
+            {
+                AddSimpleUnary(instruction, 0xF6, 7);
+            }
+
+            if (instruction is InstructionCALL)
+            {
+                if (instruction.FirstOperand.Variant == OperandVariant.Value || instruction.FirstOperand.Variant == OperandVariant.Label)
+                {
+                    AddJumpRel32(instruction, 0xE8);
+                }
+                else
+                {
+                    AddSimpleUnary(instruction, 0xFF, 2);
+                }
+            }
+
+            PatchCode();
         }
 
-        PatchCode();
-
-        return _patches.Count == 0;
+        return DIFactory.GenerateIInstructionEncoderResult([.. _output], new ReadOnlyCollection<string>(_errors));
     }
 
     // TODO - Analyze this further with future additions / updates
@@ -772,6 +778,8 @@ public sealed class InstructionEncoder : IInstructionEncoder
         }
         else if (operand.Variant != OperandVariant.Memory)
         {
+            _errors.Add($"Operand is not of type {OperandVariant.Register} nor {OperandVariant.Memory} - {operand.FullOperand}");
+
             throw new ArgumentException($"Operand is not of type {OperandVariant.Register} nor {OperandVariant.Memory}");
         }
 
@@ -812,7 +820,7 @@ public sealed class InstructionEncoder : IInstructionEncoder
                     constantDisplacement = 0;
                 }
 
-                constantDisplacement = (long)constantDisplacement + long.Parse(offsets[i].FullOperand);
+                constantDisplacement = (long)constantDisplacement + long.Parse(offsets[i].FullOperand.Trim().Split(' ').Last());
                 offsets.RemoveAt(i);
             }
             else if (offsets[i].Type == MemoryOffsetType.Label)
@@ -888,7 +896,7 @@ public sealed class InstructionEncoder : IInstructionEncoder
         else if (offsets.Count == 2 && offsets[0].Type == MemoryOffsetType.Register && offsets[1].Type == MemoryOffsetType.Register)
         {
             index = GetRegisterCode(VirtualCPU, offsets[0].FullOperand);
-            offsetBase = GetRegisterCode(VirtualCPU, offsets[1].FullOperand);
+            offsetBase = GetRegisterCode(VirtualCPU, offsets[1].FullOperand.Trim().Split(' ').Last());
 
             if (index == 4)
             {
@@ -938,12 +946,12 @@ public sealed class InstructionEncoder : IInstructionEncoder
             }
 
             displacement = UlongToBinary(0, Size.Dword);
-            sib = (byte)(ILog2(ulong.Parse(offsets[1].FullOperand)) << SCALE_BIT | index << INDEX_BIT | 5 << BASE_BIT);
+            sib = (byte)(ILog2(ulong.Parse(offsets[1].FullOperand.Trim().Split(' ').Last())) << SCALE_BIT | index << INDEX_BIT | 5 << BASE_BIT);
         }
         else if (offsets.Count == 2 && offsets[0].Type == MemoryOffsetType.Register && offsets[1].Operand == MemoryOffsetOperand.Multiplication && hasDisplacement)
         {
             index = GetRegisterCode(VirtualCPU, offsets[0].FullOperand);
-            scale = uint.Parse(offsets[1].FullOperand);
+            scale = uint.Parse(offsets[1].FullOperand.Trim().Split(' ').Last());
 
             if (index == 4)
             {
@@ -964,8 +972,8 @@ public sealed class InstructionEncoder : IInstructionEncoder
         }
         else if (offsets.Count == 3 && offsets[0].Type == MemoryOffsetType.Register && offsets[1].Operand == MemoryOffsetOperand.Multiplication && offsets[2].Type == MemoryOffsetType.Register && !hasDisplacement)
         {
-            index = GetRegisterCode(VirtualCPU, offsets[0].FullOperand);
-            scale = uint.Parse(offsets[1].FullOperand);
+            index = GetRegisterCode(VirtualCPU, offsets[0].FullOperand.Trim().Split(' ').Last());
+            scale = uint.Parse(offsets[1].FullOperand.Trim().Split(' ').Last());
             offsetBase = GetRegisterCode(VirtualCPU, offsets[2].FullOperand);
 
             if (index == 4)
@@ -998,8 +1006,8 @@ public sealed class InstructionEncoder : IInstructionEncoder
         }
         else if (offsets.Count == 3 && offsets[0].Type == MemoryOffsetType.Register && offsets[1].Operand == MemoryOffsetOperand.Multiplication && offsets[2].Type == MemoryOffsetType.Register && hasDisplacement)
         {
-            index = GetRegisterCode(VirtualCPU, offsets[0].FullOperand);
-            scale = uint.Parse(offsets[1].FullOperand);
+            index = GetRegisterCode(VirtualCPU, offsets[0].FullOperand.Trim().Split(' ').Last());
+            scale = uint.Parse(offsets[1].FullOperand.Trim().Split(' ').Last());
             offsetBase = GetRegisterCode(VirtualCPU, offsets[2].FullOperand);
 
             if (index == 4)
@@ -1028,6 +1036,8 @@ public sealed class InstructionEncoder : IInstructionEncoder
         }
         else
         {
+            _errors.Add($"Unsupported - {operand.FullOperand}");
+
             throw new ArgumentException("Unsupported");
         }
 
@@ -1213,6 +1223,8 @@ public sealed class InstructionEncoder : IInstructionEncoder
 
         if (i.FirstOperand.Variant == OperandVariant.Value)
         {
+            _errors.Add($"Operand cannot be immediate - {i.Opcode} {i.FirstOperand} {i.SecondOperand} {i.ThirdOperand}");
+
             throw new ArgumentException("Operand cannot be immediate");
         }
 
@@ -1322,6 +1334,7 @@ public sealed class InstructionEncoder : IInstructionEncoder
     private Dictionary<string, ulong> _labels = new();
     private Dictionary<string, List<Patch>> _patches = new();
     private List<byte> _output = [];
+    private List<string> _errors = [];
 
     private const byte REX_BASE = 64;
     private const byte REX_W = 3;

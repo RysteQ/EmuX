@@ -24,6 +24,7 @@ using EmuXCore.VM.Internal.Disk;
 using EmuXCore.VM.Internal.GPUs;
 using EmuXCore.VM.Internal.Memory;
 using EmuXCore.VM.Internal.RTC;
+using System.Collections.ObjectModel;
 
 namespace EmuXCore;
 
@@ -161,7 +162,15 @@ public static class DIFactory
     /// <param name="labels">The labels the ILexerResult will hold</param>
     /// <param name="errors">The parse errors the ILexerResult will hold</param>
     /// <returns>The implementation of ILexerResult</returns>
-    public static ILexerResult GenerateILexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors) => new LexerResult(instructions, labels, errors);
+    public static IParserResult GenerateILexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors) => new ParserResult(instructions, labels, errors);
+
+    /// <summary>
+    /// Generates an instance of IInstructionEncoderResult
+    /// </summary>
+    /// <param name="errors">The parsed bytes the IInstructionEncoderResult will hold</param>
+    /// <param name="errors">The parse errors the ILexerResult will hold</param>
+    /// <returns>The implementation of IInstructionEncoderResult</returns>
+    public static IInstructionEncoderResult GenerateIInstructionEncoderResult(byte[] bytes, ReadOnlyCollection<string> errors) => new InstructionEncoderResult(bytes, errors);
 
     /// <summary>
     /// Generates an instance of ISourceCodeLine
