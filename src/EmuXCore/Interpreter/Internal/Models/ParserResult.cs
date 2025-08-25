@@ -3,9 +3,9 @@ using EmuXCore.Interpreter.Interfaces.Models;
 
 namespace EmuXCore.Interpreter.Internal.Models;
 
-public record LexerResult : ILexerResult
+public record ParserResult : IParserResult
 {
-    public LexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors)
+    public ParserResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors)
     {
         Instructions = instructions;
         Labels = labels;

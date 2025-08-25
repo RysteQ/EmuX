@@ -27,7 +27,7 @@ public class Parser : IParser
         _prefixLookup = prefixLookup;
     }
 
-    public ILexerResult Parse(IList<IToken> tokens)
+    public IParserResult Parse(IList<IToken> tokens)
     {
         IBytecode? bytecode;
         int line = 1;
@@ -214,11 +214,13 @@ public class Parser : IParser
             fullOperand += _previousToken!.SourceCode;
             variant = OperandVariant.Register;
         }
-        else if (Accept(TokenType.OPEN_BRACKET))
+        else if (Accept(TokenType.OPEN_BRACKET) || Accept(TokenType.POINTER))
         {
+            Accept(TokenType.OPEN_BRACKET);
+
             (string fullOperand, List<IMemoryOffset> offsets) memoryOffsetsResult = CalculateMemoryOffsets(line);
             
-            fullOperand += memoryOffsetsResult.fullOperand;
+            fullOperand += $"[{memoryOffsetsResult.fullOperand.Trim()}]";
             offsets = memoryOffsetsResult.offsets;
             variant = OperandVariant.Memory;
         }

@@ -13,14 +13,14 @@ public sealed class ParseLabelsUnitTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.LABEL, "test_label"), GenerateToken(TokenType.COLON, ":"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(1, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(0, lexerResult.Instructions.Count);
-        Assert.AreEqual<string>("test_label", lexerResult.Labels.First().Name);
-        Assert.AreEqual<int>(1, lexerResult.Labels.First().Line);
+        Assert.AreEqual<int>(1, parserResult.Labels.Count);
+        Assert.AreEqual<int>(0, parserResult.Instructions.Count);
+        Assert.AreEqual<string>("test_label", parserResult.Labels.First().Name);
+        Assert.AreEqual<int>(1, parserResult.Labels.First().Line);
     }
 
     [TestMethod]
@@ -34,20 +34,20 @@ public sealed class ParseLabelsUnitTests : TestWideInternalConstants
             GenerateToken(TokenType.LABEL, "test_label_4"), GenerateToken(TokenType.COLON, ":"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty),
         ];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(4, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(0, lexerResult.Instructions.Count);
-        Assert.AreEqual<string>("test_label_1", lexerResult.Labels[0].Name);
-        Assert.AreEqual<int>(1, lexerResult.Labels[0].Line);
-        Assert.AreEqual<string>("test_label_2", lexerResult.Labels[1].Name);
-        Assert.AreEqual<int>(2, lexerResult.Labels[1].Line);
-        Assert.AreEqual<string>("test_label_3", lexerResult.Labels[2].Name);
-        Assert.AreEqual<int>(3, lexerResult.Labels[2].Line);
-        Assert.AreEqual<string>("test_label_4", lexerResult.Labels[3].Name);
-        Assert.AreEqual<int>(4, lexerResult.Labels[3].Line);
+        Assert.AreEqual<int>(4, parserResult.Labels.Count);
+        Assert.AreEqual<int>(0, parserResult.Instructions.Count);
+        Assert.AreEqual<string>("test_label_1", parserResult.Labels[0].Name);
+        Assert.AreEqual<int>(1, parserResult.Labels[0].Line);
+        Assert.AreEqual<string>("test_label_2", parserResult.Labels[1].Name);
+        Assert.AreEqual<int>(2, parserResult.Labels[1].Line);
+        Assert.AreEqual<string>("test_label_3", parserResult.Labels[2].Name);
+        Assert.AreEqual<int>(3, parserResult.Labels[2].Line);
+        Assert.AreEqual<string>("test_label_4", parserResult.Labels[3].Name);
+        Assert.AreEqual<int>(4, parserResult.Labels[3].Line);
     }
 
     [TestMethod]
@@ -55,12 +55,12 @@ public sealed class ParseLabelsUnitTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.LABEL, "test_label"), GenerateToken(TokenType.COLON, ":"), GenerateToken(TokenType.COLON, ":"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(0, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(true, lexerResult.Errors.Any());
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(0, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(true, parserResult.Errors.Any());
     }
 }

@@ -18,19 +18,19 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CLI"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCLI), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].FirstOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCLI), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].FirstOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -38,19 +38,19 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CMPSB"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMPSB), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].FirstOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMPSB), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].FirstOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -58,19 +58,19 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CMPSW"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMPSW), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].FirstOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMPSW), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].FirstOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -78,19 +78,19 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CWD"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCWD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].FirstOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCWD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].FirstOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -98,21 +98,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "AAD"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionAAD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionAAD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -120,21 +120,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "PUSH"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionPUSH), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionPUSH), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -142,21 +142,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "INT"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionINT), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionINT), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -164,21 +164,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "INTO"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionINTO), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionINTO), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -186,21 +186,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "POP"), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionPOP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionPOP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -208,21 +208,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "INC"), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionINC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionINC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -230,21 +230,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "DEC"), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionDEC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionDEC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -252,21 +252,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "DIV"), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionDIV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionDIV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -274,25 +274,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "INC"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "40"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionINC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[2].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, lexerResult.Instructions[0].FirstOperand.Offsets[2].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionINC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[2].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, parserResult.Instructions[0].FirstOperand.Offsets[2].Type);
     }
 
     [TestMethod]
@@ -300,21 +300,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "NEG"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionNEG), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionNEG), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -322,23 +322,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "NOT"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionNOT), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionNOT), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -346,23 +346,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "SCASB"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SUBTRACTION, "-"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSCASB), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSCASB), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -370,20 +370,20 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "JE"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionJE), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Label, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionJE), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Label, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -391,20 +391,20 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "JG"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionJG), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Label, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionJG), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Label, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -412,20 +412,20 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "JC"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionJC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Label, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionJC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Label, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -433,20 +433,20 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "JAE"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionJAE), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Label, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionJAE), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandLabel(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Label, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -454,23 +454,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "ff4500h"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Dword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("ff4500h", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Dword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("ff4500h", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -478,23 +478,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CMP"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10101010b"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10101010b", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10101010b", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -502,23 +502,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADC"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "0xff4500"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Dword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("0xff4500", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Dword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("0xff4500", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -526,23 +526,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADD"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "0b10101010"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("0b10101010", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("0b10101010", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -550,23 +550,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "RCX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("RCX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("RCX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -574,23 +574,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CMP"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "RDX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("RDX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("RDX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -598,23 +598,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADC"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "RBX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("RBX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("RBX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -622,23 +622,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADD"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "SS"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("SS", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("SS", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -646,25 +646,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.VALUE, "14"), GenerateToken(TokenType.SUBTRACTION, "-"), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -672,25 +672,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CMP"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -698,25 +698,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADC"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -724,25 +724,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADD"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -750,27 +750,27 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.VALUE, "4"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[2].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[2].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[2].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[2].Type);
     }
 
     [TestMethod]
@@ -778,25 +778,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "MUL"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "8"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMUL), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMUL), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -804,23 +804,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "DIV"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionDIV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionDIV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -828,23 +828,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "OR"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.VALUE, "10h"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionOR), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionOR), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -852,27 +852,27 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "AND"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.VALUE, "4"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionAND), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("AH", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[2].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[2].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionAND), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("AH", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[2].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[2].Type);
     }
 
     [TestMethod]
@@ -880,25 +880,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "SBB"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "8"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSBB), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("CX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSBB), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("CX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -906,23 +906,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "SAR"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSAR), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSAR), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -930,23 +930,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "SAL"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.VALUE, "10h"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "CL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSAL), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("CL", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSAL), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("CL", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -954,23 +954,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "OUT"), GenerateToken(TokenType.VALUE, "ffffh"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionOUT), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsValueRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("ffffh", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("AH", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionOUT), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsValueRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("ffffh", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("AH", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -978,21 +978,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "AAD"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionAAD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("WORD 127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionAAD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("WORD 127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1000,21 +1000,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "PUSH"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionPUSH), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("WORD 127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionPUSH), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("WORD 127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1022,21 +1022,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "INT"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionINT), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("WORD 127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionINT), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("WORD 127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1044,21 +1044,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "INTO"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionINTO), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("WORD 127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionINTO), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("WORD 127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1066,21 +1066,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "POP"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionPOP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("WORD AX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionPOP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("WORD AX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1088,21 +1088,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "INC"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionINC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("WORD AX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionINC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("WORD AX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1110,21 +1110,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "DEC"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionDEC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("WORD AX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionDEC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("WORD AX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1132,21 +1132,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "DIV"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionDIV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("WORD AX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionDIV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("WORD AX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1154,25 +1154,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CALL"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "40"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCALL), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[2].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, lexerResult.Instructions[0].FirstOperand.Offsets[2].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCALL), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[2].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, parserResult.Instructions[0].FirstOperand.Offsets[2].Type);
     }
 
     [TestMethod]
@@ -1180,21 +1180,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "NEG"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionNEG), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionNEG), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -1202,23 +1202,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "NOT"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionNOT), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionNOT), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -1226,23 +1226,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "SCASB"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SUBTRACTION, "-"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSCASB), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSCASB), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -1250,23 +1250,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.VALUE, "ff4500h"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("QWORD ff4500h", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("QWORD ff4500h", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1274,23 +1274,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CMP"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.VALUE, "10101010b"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("QWORD 10101010b", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("QWORD 10101010b", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1298,23 +1298,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADC"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.VALUE, "0xff4500"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("QWORD 0xff4500", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("QWORD 0xff4500", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1322,23 +1322,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADD"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.VALUE, "0b10101010"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("QWORD 0b10101010", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("QWORD 0b10101010", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1346,23 +1346,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.REGISTER, "ECX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("QWORD ECX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("QWORD ECX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1370,23 +1370,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CMP"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.REGISTER, "EDX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("QWORD EDX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("QWORD EDX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1394,23 +1394,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADC"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.REGISTER, "EBX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("QWORD EBX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("QWORD EBX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1418,23 +1418,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADD"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.REGISTER, "SS"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("QWORD SS", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("QWORD SS", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1442,25 +1442,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.VALUE, "14"), GenerateToken(TokenType.SUBTRACTION, "-"), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -1468,25 +1468,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "CMP"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -1494,25 +1494,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADC"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -1520,25 +1520,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "ADD"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.SIZE, "QWORD"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -1546,27 +1546,27 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.SIZE, "BYTE"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.VALUE, "4"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[2].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[2].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[2].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[2].Type);
     }
 
     [TestMethod]
@@ -1574,25 +1574,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "MUL"), GenerateToken(TokenType.SIZE, "BYTE"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "8"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMUL), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMUL), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -1600,23 +1600,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "DIV"), GenerateToken(TokenType.SIZE, "BYTE"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionDIV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionDIV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -1624,23 +1624,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "OR"), GenerateToken(TokenType.SIZE, "BYTE"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.VALUE, "10h"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionOR), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionOR), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -1648,27 +1648,27 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "AND"), GenerateToken(TokenType.SIZE, "BYTE"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.VALUE, "4"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionAND), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("AH", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[2].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[2].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionAND), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("AH", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[2].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[2].Type);
     }
 
     [TestMethod]
@@ -1676,25 +1676,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "SBB"), GenerateToken(TokenType.SIZE, "WORD"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "8"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSBB), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("CX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSBB), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("CX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -1702,23 +1702,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "SAR"), GenerateToken(TokenType.SIZE, "BYTE"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSAR), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSAR), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -1726,23 +1726,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.INSTRUCTION, "SAL"), GenerateToken(TokenType.SIZE, "BYTE"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.VALUE, "10h"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "CL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSAL), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<IPrefix>(null, lexerResult.Instructions[0].Prefix);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("CL", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSAL), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<IPrefix>(null, parserResult.Instructions[0].Prefix);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("CL", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -1750,19 +1750,19 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REP"), GenerateToken(TokenType.INSTRUCTION, "CLI"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCLI), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREP), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].FirstOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCLI), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREP), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].FirstOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1770,19 +1770,19 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPE"), GenerateToken(TokenType.INSTRUCTION, "CMPSB"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMPSB), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].FirstOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMPSB), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].FirstOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1790,19 +1790,19 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNE"), GenerateToken(TokenType.INSTRUCTION, "CMPSW"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMPSW), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].FirstOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMPSW), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].FirstOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1810,19 +1810,19 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNZ"), GenerateToken(TokenType.INSTRUCTION, "CWD"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCWD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNZ), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].FirstOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCWD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.NoOperands(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNZ), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].FirstOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1830,21 +1830,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REP"), GenerateToken(TokenType.INSTRUCTION, "AAD"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionAAD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREP), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionAAD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREP), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1852,21 +1852,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPE"), GenerateToken(TokenType.INSTRUCTION, "PUSH"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionPUSH), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionPUSH), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1874,21 +1874,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNE"), GenerateToken(TokenType.INSTRUCTION, "INT"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionINT), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionINT), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1896,21 +1896,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNZ"), GenerateToken(TokenType.INSTRUCTION, "INTO"), GenerateToken(TokenType.VALUE, "127"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionINTO), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNZ), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("127", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionINTO), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNZ), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("127", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1918,21 +1918,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REP"), GenerateToken(TokenType.INSTRUCTION, "POP"), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionPOP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREP), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionPOP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREP), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1940,21 +1940,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPE"), GenerateToken(TokenType.INSTRUCTION, "INC"), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionINC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionINC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1962,21 +1962,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNE"), GenerateToken(TokenType.INSTRUCTION, "DEC"), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionDEC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionDEC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -1984,21 +1984,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNZ"), GenerateToken(TokenType.INSTRUCTION, "DIV"), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionDIV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNZ), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionDIV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNZ), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -2006,25 +2006,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REP"), GenerateToken(TokenType.INSTRUCTION, "CALL"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "40"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCALL), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREP), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[2].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, lexerResult.Instructions[0].FirstOperand.Offsets[2].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCALL), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREP), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[2].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, parserResult.Instructions[0].FirstOperand.Offsets[2].Type);
     }
 
     [TestMethod]
@@ -2032,21 +2032,21 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPE"), GenerateToken(TokenType.INSTRUCTION, "NEG"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionNEG), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionNEG), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -2054,23 +2054,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNE"), GenerateToken(TokenType.INSTRUCTION, "NOT"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionNOT), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionNOT), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -2078,23 +2078,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNZ"), GenerateToken(TokenType.INSTRUCTION, "SCASB"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.SUBTRACTION, "-"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSCASB), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNZ), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].SecondOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSCASB), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.OneOperandMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNZ), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].SecondOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -2102,23 +2102,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REP"), GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "ff4500h"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREP), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Dword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("ff4500h", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREP), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Dword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("ff4500h", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -2126,23 +2126,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPE"), GenerateToken(TokenType.INSTRUCTION, "CMP"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10101010b"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10101010b", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10101010b", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -2150,23 +2150,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNE"), GenerateToken(TokenType.INSTRUCTION, "ADC"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "0xff4500"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Dword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("0xff4500", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Dword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("0xff4500", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -2174,23 +2174,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNZ"), GenerateToken(TokenType.INSTRUCTION, "ADD"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "0b10101010"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNZ), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("0b10101010", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNZ), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("0b10101010", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -2198,23 +2198,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REP"), GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "RCX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREP), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("RCX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREP), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("RCX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -2222,23 +2222,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPE"), GenerateToken(TokenType.INSTRUCTION, "CMP"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "RDX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("RDX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("RDX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -2246,23 +2246,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNE"), GenerateToken(TokenType.INSTRUCTION, "ADC"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "RBX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("RBX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("RBX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -2270,23 +2270,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNZ"), GenerateToken(TokenType.INSTRUCTION, "ADD"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "SS"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNZ), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("SS", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNZ), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("SS", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 
     [TestMethod]
@@ -2294,25 +2294,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REP"), GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.VALUE, "14"), GenerateToken(TokenType.SUBTRACTION, "-"), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREP), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREP), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Subtraction, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -2320,25 +2320,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPE"), GenerateToken(TokenType.INSTRUCTION, "CMP"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionCMP), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionCMP), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -2346,25 +2346,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNE"), GenerateToken(TokenType.INSTRUCTION, "ADC"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AX"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADC), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADC), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -2372,25 +2372,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNZ"), GenerateToken(TokenType.INSTRUCTION, "ADD"), GenerateToken(TokenType.REGISTER, "RAX"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.LABEL, "my_label"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionADD), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNZ), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Qword, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("RAX", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].SecondOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].SecondOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, lexerResult.Instructions[0].SecondOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionADD), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsRegisterMemory(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNZ), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Qword, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("RAX", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].SecondOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].SecondOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Label, parserResult.Instructions[0].SecondOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -2398,27 +2398,27 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REP"), GenerateToken(TokenType.INSTRUCTION, "MOV"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.VALUE, "4"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMOV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREP), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[2].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[2].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMOV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREP), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[2].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[2].Type);
     }
 
     [TestMethod]
@@ -2426,25 +2426,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPE"), GenerateToken(TokenType.INSTRUCTION, "MUL"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "8"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionMUL), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionMUL), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -2452,23 +2452,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNE"), GenerateToken(TokenType.INSTRUCTION, "DIV"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionDIV), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionDIV), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -2476,23 +2476,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNZ"), GenerateToken(TokenType.INSTRUCTION, "OR"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.VALUE, "10h"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.VALUE, "10"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionOR), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNZ), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("10", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionOR), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryValue(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNZ), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("10", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -2500,27 +2500,27 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REP"), GenerateToken(TokenType.INSTRUCTION, "AND"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.ADDITION, "+"), GenerateToken(TokenType.VALUE, "4"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionAND), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREP), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("AH", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, lexerResult.Instructions[0].FirstOperand.Offsets[2].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[2].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionAND), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREP), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("AH", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Addition, parserResult.Instructions[0].FirstOperand.Offsets[2].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[2].Type);
     }
 
     [TestMethod]
@@ -2528,25 +2528,25 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPE"), GenerateToken(TokenType.INSTRUCTION, "SBB"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.SCALE, "*"), GenerateToken(TokenType.VALUE, "8"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "CX"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSBB), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("CX", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
-        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, lexerResult.Instructions[0].FirstOperand.Offsets[1].Operand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[1].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSBB), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("CX", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<MemoryOffsetOperand>(MemoryOffsetOperand.Multiplication, parserResult.Instructions[0].FirstOperand.Offsets[1].Operand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[1].Type);
     }
 
     [TestMethod]
@@ -2554,23 +2554,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNE"), GenerateToken(TokenType.INSTRUCTION, "SAR"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "AL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSAR), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNE), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("AL", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSAR), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNE), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("AL", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Register, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -2578,23 +2578,23 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REPNZ"), GenerateToken(TokenType.INSTRUCTION, "SAL"), GenerateToken(TokenType.OPEN_BRACKET, "["), GenerateToken(TokenType.VALUE, "10h"), GenerateToken(TokenType.CLOSE_BRACKET, "]"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "CL"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionSAL), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREPNZ), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.NaN, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("CL", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
-        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, lexerResult.Instructions[0].FirstOperand.Offsets[0].Type);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionSAL), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsMemoryRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREPNZ), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Memory, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.NaN, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("CL", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<MemoryOffsetType>(MemoryOffsetType.Integer, parserResult.Instructions[0].FirstOperand.Offsets[0].Type);
     }
 
     [TestMethod]
@@ -2602,22 +2602,22 @@ public class ParseInstructionsParserTests : TestWideInternalConstants
     {
         List<IToken> tokens = [GenerateToken(TokenType.PREFIX, "REP"), GenerateToken(TokenType.INSTRUCTION, "OUT"), GenerateToken(TokenType.VALUE, "ffffh"), GenerateToken(TokenType.COMMA, ","), GenerateToken(TokenType.REGISTER, "AH"), GenerateToken(TokenType.EOL, "\n"), GenerateToken(TokenType.EOF, string.Empty)];
         IParser parser = GenerateParser();
-        ILexerResult lexerResult;
+        IParserResult parserResult;
 
-        lexerResult = parser.Parse(tokens);
+        parserResult = parser.Parse(tokens);
 
-        Assert.AreEqual<int>(0, lexerResult.Labels.Count);
-        Assert.AreEqual<int>(1, lexerResult.Instructions.Count);
-        Assert.AreEqual<bool>(false, lexerResult.Errors.Any());
-        Assert.AreEqual<Type>(typeof(InstructionOUT), lexerResult.Instructions[0].GetType());
-        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsValueRegister(), lexerResult.Instructions[0].Variant);
-        Assert.AreEqual<Type>(typeof(PrefixREP), lexerResult.Instructions[0].Prefix.GetType());
-        Assert.AreEqual<OperandVariant>(OperandVariant.Value, lexerResult.Instructions[0].FirstOperand.Variant);
-        Assert.AreEqual<Size>(Size.Word, lexerResult.Instructions[0].FirstOperand.OperandSize);
-        Assert.AreEqual<string>("ffffh", lexerResult.Instructions[0].FirstOperand.FullOperand);
-        Assert.AreEqual<OperandVariant>(OperandVariant.Register, lexerResult.Instructions[0].SecondOperand.Variant);
-        Assert.AreEqual<Size>(Size.Byte, lexerResult.Instructions[0].SecondOperand.OperandSize);
-        Assert.AreEqual<string>("AH", lexerResult.Instructions[0].SecondOperand.FullOperand);
-        Assert.AreEqual<IOperand>(null, lexerResult.Instructions[0].ThirdOperand);
+        Assert.AreEqual<int>(0, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+        Assert.AreEqual<Type>(typeof(InstructionOUT), parserResult.Instructions[0].GetType());
+        Assert.AreEqual<InstructionVariant>(InstructionVariant.TwoOperandsValueRegister(), parserResult.Instructions[0].Variant);
+        Assert.AreEqual<Type>(typeof(PrefixREP), parserResult.Instructions[0].Prefix.GetType());
+        Assert.AreEqual<OperandVariant>(OperandVariant.Value, parserResult.Instructions[0].FirstOperand.Variant);
+        Assert.AreEqual<Size>(Size.Word, parserResult.Instructions[0].FirstOperand.OperandSize);
+        Assert.AreEqual<string>("ffffh", parserResult.Instructions[0].FirstOperand.FullOperand);
+        Assert.AreEqual<OperandVariant>(OperandVariant.Register, parserResult.Instructions[0].SecondOperand.Variant);
+        Assert.AreEqual<Size>(Size.Byte, parserResult.Instructions[0].SecondOperand.OperandSize);
+        Assert.AreEqual<string>("AH", parserResult.Instructions[0].SecondOperand.FullOperand);
+        Assert.AreEqual<IOperand>(null, parserResult.Instructions[0].ThirdOperand);
     }
 }

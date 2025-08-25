@@ -12,5 +12,5 @@ public interface IParser
     /// </summary>
     /// <param name="tokens">The source code to parse</param>
     /// <returns>The result of the parse process</returns>
-    ILexerResult Parse(IList<IToken> tokens);
+    IParserResult Parse(IList<IToken> tokens);
 }
