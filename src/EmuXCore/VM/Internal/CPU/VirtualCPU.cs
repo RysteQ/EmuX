@@ -27,7 +27,7 @@ public class VirtualCPU(IVirtualMachine? parentVirtualMachine = null) : IVirtual
     {
         foreach (IVirtualRegister register in Registers)
         {
-            if (register.RegisterNamesAndSizes.ContainsKey(registerName.ToUpper()))
+            if (register.RegisterNamesAndSizes.ContainsKey(registerName.Trim().ToUpper()))
             {
                 return register;
             }
