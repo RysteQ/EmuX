@@ -5,6 +5,7 @@ using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Interfaces;
 using EmuXCore.Interpreter;
+using EmuXCore.Interpreter.Encoder.Logic;
 using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.Interfaces.Logic;
 using EmuXCore.Interpreter.Interfaces.Models;
@@ -41,6 +42,7 @@ public class TestWideInternalConstants
     protected IParser GenerateParser() => new Parser(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
     protected IInstructionLookup GenerateInstructionLookup() => new InstructionLookup();
     protected IPrefixLookup GeneratePrefixLookup() => new PrefixLookup();
+    protected IInstructionEncoder GeenerateInstructionEncoder() => new InstructionEncoder(GenerateVirtualMachine(), GenerateOperandDecoder());
 
     protected IVirtualCPU GenerateVirtualCPU() => new VirtualCPU();
     protected IVirtualMemory GenerateVirtualMemory() => new VirtualMemory();
