@@ -24,8 +24,26 @@ public interface ITerminalIOHandler
     /// There is also a history which if the user presses the LookbackKey then the previous input they entered will be selected <br/>
     /// The implementation of the ITerminalIOHandler should have an internal limit to the history size, the recommended maximum lookback size is 100.
     /// </summary>
+    /// <param name="backgroundColour">The background colour to print out</param>
+    /// <returns>The user input</returns>
+    string GetUserInput(ConsoleColor backgroundColour);
+
+    /// <summary>
+    /// Displays the prompt for the user to enter any input they so desire <br/>
+    /// There is also a history which if the user presses the LookbackKey then the previous input they entered will be selected <br/>
+    /// The implementation of the ITerminalIOHandler should have an internal limit to the history size, the recommended maximum lookback size is 100.
+    /// </summary>
     /// <returns>The user input</returns>
     string GetUserInput(bool hidePrompt);
+
+    /// <summary>
+    /// Displays the prompt for the user to enter any input they so desire <br/>
+    /// There is also a history which if the user presses the LookbackKey then the previous input they entered will be selected <br/>
+    /// The implementation of the ITerminalIOHandler should have an internal limit to the history size, the recommended maximum lookback size is 100.
+    /// </summary>
+    /// <param name="backgroundColour">The background colour to print out</param>
+    /// <returns>The user input</returns>
+    string GetUserInput(bool hidePrompt, ConsoleColor backgroundColour);
 
     /// <summary>
     /// Displays the prompt for the user to press a single key
@@ -62,32 +80,70 @@ public interface ITerminalIOHandler
     void Output(string output, OutputSeverity severity);
 
     /// <summary>
+    /// Prints the given string to the console
+    /// </summary>
+    /// <param name="output">The string to print</param>
+    /// <param name="backgroundColour">The background colour to print out</param>
+    /// <param name="severity">The severity of the message</param>
+    void Output(string output, OutputSeverity severity, ConsoleColor backgroundColour);
+
+    /// <summary>
     /// Prints the given virtual machine to the console
+    /// </summary>
     /// <param name="virtualMachine">The virtual machine to print out</param>
-    /// <param name="format">The integer format</param>
-    /// <param name="severity">The severity of the message to adjust the output colour appropriately</param>
     void Output(IVirtualMachine virtualMachine);
 
     /// <summary>
+    /// Prints the given virtual machine to the console
+    /// </summary>
+    /// <param name="virtualMachine">The virtual machine to print out</param>
+    /// <param name="backgroundColour">The background colour to print out</param>
+    void Output(IVirtualMachine virtualMachine, ConsoleColor backgroundColour);
+
+    /// <summary>
     /// Prints the given virtual cpu to the console
+    /// </summary>
     /// <param name="virtualCPU">The virtual cpu to print out</param>
-    /// <param name="format">The integer format</param>
-    /// <param name="severity">The severity of the message</param>
     void Output(IVirtualCPU virtualCPU);
 
     /// <summary>
     /// Prints the given virtual cpu to the console
+    /// </summary>
+    /// <param name="virtualCPU">The virtual cpu to print out</param>
+    /// <param name="backgroundColour">The background colour to print out</param>
+    void Output(IVirtualCPU virtualCPU, ConsoleColor backgroundColour);
+
+    /// <summary>
+    /// Prints the given virtual cpu to the console
+    /// </summary>
     /// <param name="virtualRegister">The virtual register to print out</param>
     /// <param name="format">The integer format</param>
-    /// <param name="severity">The severity of the message</param>
     void Output(IVirtualRegister virtualRegister, OutputFormat format);
 
     /// <summary>
+    /// Prints the given virtual cpu to the console
+    /// </summary>
+    /// <param name="virtualRegister">The virtual register to print out</param>
+    /// <param name="format">The integer format</param>
+    /// <param name="backgroundColour">The background colour to print out</param>
+    void Output(IVirtualRegister virtualRegister, OutputFormat format, ConsoleColor backgroundColour);
+
+    /// <summary>
     /// Prints the given byte buffer to the console
+    /// </summary>
     /// <param name="buffer">The byte buffer to print out</param>
     /// <param name="format">The integer format</param>
     /// <param name="severity">The severity of the message</param>
     void Output(byte[] buffer, OutputFormat format, OutputSeverity severity);
+
+    /// <summary>
+    /// Prints the given byte buffer to the console
+    /// </summary>
+    /// <param name="buffer">The byte buffer to print out</param>
+    /// <param name="format">The integer format</param>
+    /// <param name="severity">The severity of the message</param>
+    /// <param name="backgroundColour">The background colour to print out</param>
+    void Output(byte[] buffer, OutputFormat format, OutputSeverity severity, ConsoleColor backgroundColour);
 
     /// <summary>
     /// Outputs the new line character
@@ -151,4 +207,24 @@ public interface ITerminalIOHandler
     /// The height of the terminal window measured in characters
     /// </summary>
     int Height { get; }
+
+    /// <summary>
+    /// Gets the current X coordinate of the terminal cursor position
+    /// </summary>
+    int XCursorPosition { get; }
+
+    /// <summary>
+    /// Gets the current Y coordinate of the terminal cursor position
+    /// </summary>
+    int YCursorPosition { get; }
+
+    /// <summary>
+    /// Gets or sets the current foreground colour of the terminal
+    /// </summary>
+    ConsoleColor ForegroundColour { get; set; }
+
+    /// <summary>
+    /// Gets or sets the current background colour of the terminal
+    /// </summary>
+    ConsoleColor BackgroundColour { get; set; }
 }

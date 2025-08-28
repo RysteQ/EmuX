@@ -15,6 +15,8 @@ Console.Clear();
 terminalIOHandler.Output("-== EmuX nano ==-\n", OutputSeverity.Important);
 terminalIOHandler.Output("Enter 'help' for all the available commands\n", OutputSeverity.Normal);
 
+terminalIOHandler.BackgroundColour = ConsoleColor.Black;
+
 while (true)
 {
     input = terminalIOHandler.GetUserInput();

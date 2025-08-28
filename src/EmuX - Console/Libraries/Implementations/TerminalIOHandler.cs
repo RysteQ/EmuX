@@ -1,9 +1,11 @@
 ﻿using EmuX_Console.Libraries.Enums;
 using EmuX_Console.Libraries.Interfaces;
 using EmuXCore.Common.Enums;
+using EmuXCore.VM;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Internal.CPU;
 
 namespace EmuX_Console.Libraries.Implementations;
 
@@ -25,7 +27,7 @@ public class TerminalIOHandler : ITerminalIOHandler
         ColourOutput = ConsoleColor.White;
         ColourHighlight = ConsoleColor.Yellow;
 
-        _inputHistory = new List<string>();
+        _inputHistory = [];
         MAXIMUM_LOOKBACK_DEPTH = 100;
     }
 
@@ -36,6 +38,18 @@ public class TerminalIOHandler : ITerminalIOHandler
         return InternalGetUserInput();
     }
 
+    public string GetUserInput(ConsoleColor backgroundColour)
+    {
+        ConsoleColor currentConsoleBackgroundColour = BackgroundColour;
+        string userInput = string.Empty;
+
+        BackgroundColour = backgroundColour;
+        userInput = GetUserInput();
+        BackgroundColour = currentConsoleBackgroundColour;
+
+        return userInput;
+    }
+
     public string GetUserInput(bool hidePrompt)
     {
         if (!hidePrompt)
@@ -44,6 +58,18 @@ public class TerminalIOHandler : ITerminalIOHandler
         }
 
         return InternalGetUserInput();
+    }
+
+    public string GetUserInput(bool hidePrompt, ConsoleColor backgroundColour)
+    {
+        ConsoleColor currentConsoleBackgroundColour = BackgroundColour;
+        string userInput = string.Empty;
+
+        BackgroundColour = backgroundColour;
+        userInput = GetUserInput(hidePrompt);
+        BackgroundColour = currentConsoleBackgroundColour;
+
+        return userInput;
     }
 
     public ConsoleKeyInfo GetUserKeyInput()
@@ -70,12 +96,33 @@ public class TerminalIOHandler : ITerminalIOHandler
 
     public void MoveCursorAbsolute(int x, int y)
     {
+        if (x >= Console.BufferWidth)
+        {
+            Console.BufferWidth = x + 1;
+        }
+
+        if (y >= Console.BufferHeight)
+        {
+            Console.BufferHeight = y + 1;
+        }
+
         Console.SetCursorPosition(x, y);
     }
 
     public void MoveCursorRelative(int x, int y)
     {
         (int Left, int Top) currentCursorPosition = Console.GetCursorPosition();
+
+
+        if (x + currentCursorPosition.Left >= Console.BufferWidth)
+        {
+            Console.BufferWidth = x + currentCursorPosition.Left + 1;
+        }
+
+        if (y + currentCursorPosition.Top >= Console.BufferHeight)
+        {
+            Console.BufferHeight = y + currentCursorPosition.Top + 1;
+        }
 
         Console.SetCursorPosition(currentCursorPosition.Left + x, currentCursorPosition.Top + y);
     }
@@ -86,37 +133,55 @@ public class TerminalIOHandler : ITerminalIOHandler
         Console.Write(output);
     }
 
+    public void Output(string output, OutputSeverity severity, ConsoleColor backgroundColour)
+    {
+        ConsoleColor currentConsoleBackgroundColour = BackgroundColour;
+
+        BackgroundColour = backgroundColour;
+        Output(output, severity);
+        BackgroundColour = currentConsoleBackgroundColour;
+    }
+
     public void Output(IVirtualMachine virtualMachine)
     {
-        Console.ForegroundColor = ColourOutput;
+        ForegroundColour = ColourOutput;
         Console.Write("Memory: ");
-        Console.ForegroundColor = ColourHighlight;
+        ForegroundColour = ColourHighlight;
         Console.Write(virtualMachine.Memory.GENERAL_PURPOSE_MEMORY);
-        Console.ForegroundColor = ColourOutput;
+        ForegroundColour = ColourOutput;
         Console.WriteLine(" bytes");
 
         Console.Write("GPU: ");
-        Console.ForegroundColor = ColourHighlight;
+        ForegroundColour = ColourHighlight;
         Console.Write(virtualMachine.GPU.Data.Length);
-        Console.ForegroundColor = ColourOutput;
+        ForegroundColour = ColourOutput;
         Console.WriteLine(" bytes");
 
         foreach (IVirtualDisk virtualDisk in virtualMachine.Disks)
         {
             Console.Write($"Disk ({virtualDisk.DiskNumber}): ");
-            Console.ForegroundColor = ColourHighlight;
+            ForegroundColour = ColourHighlight;
             Console.Write(virtualDisk.TotalBytes);
-            Console.ForegroundColor = ColourOutput;
+            ForegroundColour = ColourOutput;
             Console.WriteLine(" bytes");
         }
 
         foreach (IVirtualDevice virtualDevice in virtualMachine.Devices)
         {
             Console.Write($"Device ({virtualDevice.DeviceId}): ");
-            Console.ForegroundColor = ColourHighlight;
+            ForegroundColour = ColourHighlight;
             Console.WriteLine(virtualDevice.Status);
-            Console.ForegroundColor = ColourOutput;
+            ForegroundColour = ColourOutput;
         }
+    }
+
+    public void Output(IVirtualMachine virtualMachine, ConsoleColor backgroundColour)
+    {
+        ConsoleColor currentConsoleBackgroundColour = BackgroundColour;
+
+        BackgroundColour = backgroundColour;
+        Output(virtualMachine);
+        BackgroundColour = currentConsoleBackgroundColour;
     }
 
     public void Output(IVirtualCPU virtualCPU)
@@ -145,9 +210,9 @@ public class TerminalIOHandler : ITerminalIOHandler
             for (int i = 0; i < register.RegisterNamesAndSizes.Count; i++)
             {
                 Console.Write("| ");
-                Console.ForegroundColor = ColourHighlight;
+                ForegroundColour = ColourHighlight;
                 Console.Write("{0,-" + largestRegistersNameLength[i] + "}", register.RegisterNamesAndSizes.Skip(i).First().Key);
-                Console.ForegroundColor = ColourOutput;
+                ForegroundColour = ColourOutput;
                 Console.Write(" ");
             }
 
@@ -155,6 +220,15 @@ public class TerminalIOHandler : ITerminalIOHandler
         }
 
         Console.WriteLine(previousSeparator + '+');
+    }
+
+    public void Output(IVirtualCPU virtualCPU, ConsoleColor backgroundColour)
+    {
+        ConsoleColor currentConsoleBackgroundColour = BackgroundColour;
+
+        BackgroundColour = backgroundColour;
+        Output(virtualCPU);
+        BackgroundColour = currentConsoleBackgroundColour;
     }
 
     public void Output(IVirtualRegister virtualRegister, OutputFormat format)
@@ -191,14 +265,23 @@ public class TerminalIOHandler : ITerminalIOHandler
             }
 
             Console.Write("| {0,-" + maximumRegisterNameLength + "} | ", entry.Key);
-            Console.ForegroundColor = ColourHighlight;
+            ForegroundColour = ColourHighlight;
             Console.Write("{0," + maximumNumberLength + "}", registerValue.Trim());
-            Console.ForegroundColor = ColourOutput;
+            ForegroundColour = ColourOutput;
             Console.WriteLine(" |");
             Console.WriteLine('+' + string.Concat(Enumerable.Repeat('-', maximumRegisterNameLength + 2)) + '+' + string.Concat(Enumerable.Repeat('-', maximumNumberLength + 2)) + '+');
 
             registerValue = string.Empty;
         }
+    }
+
+    public void Output(IVirtualRegister virtualRegister, OutputFormat format, ConsoleColor backgroundColour)
+    {
+        ConsoleColor currentConsoleBackgroundColour = BackgroundColour;
+
+        BackgroundColour = backgroundColour;
+        Output(virtualRegister, format);
+        BackgroundColour = currentConsoleBackgroundColour;
     }
 
     public void Output(byte[] buffer, OutputFormat format, OutputSeverity severity)
@@ -212,6 +295,15 @@ public class TerminalIOHandler : ITerminalIOHandler
 
         HandleForegroundColourSeverity(severity);
         Console.WriteLine(toDisplay);
+    }
+
+    public void Output(byte[] buffer, OutputFormat format, OutputSeverity severity, ConsoleColor backgroundColour)
+    {
+        ConsoleColor currentConsoleBackgroundColour = BackgroundColour;
+
+        BackgroundColour = backgroundColour;
+        Output(buffer, format, severity);
+        BackgroundColour = currentConsoleBackgroundColour;
     }
 
     public void NewLine()
@@ -255,9 +347,9 @@ public class TerminalIOHandler : ITerminalIOHandler
 
     private void DisplayPrompt()
     {
-        Console.ForegroundColor = ColourPrompt;
+        ForegroundColour = ColourPrompt;
         Console.Write(Prompt);
-        Console.ForegroundColor = ColoutInput;
+        ForegroundColour = ColoutInput;
     }
 
     private string HandleLoopbackRequest(bool forward, int currentInputLength)
@@ -299,9 +391,9 @@ public class TerminalIOHandler : ITerminalIOHandler
     {
         switch (severity)
         {
-            case OutputSeverity.Normal: Console.ForegroundColor = ColourOutput; break;
-            case OutputSeverity.Important: Console.ForegroundColor = ColourHighlight; break;
-            case OutputSeverity.Error: Console.ForegroundColor = ColourError; break;
+            case OutputSeverity.Normal: ForegroundColour = ColourOutput; break;
+            case OutputSeverity.Important: ForegroundColour = ColourHighlight; break;
+            case OutputSeverity.Error: ForegroundColour = ColourError; break;
         }
     }
 
@@ -342,8 +434,13 @@ public class TerminalIOHandler : ITerminalIOHandler
 
     public int Width => Console.WindowWidth;
     public int Height => Console.WindowHeight;
+    public int XCursorPosition { get => Console.GetCursorPosition().Left; }
+    public int YCursorPosition { get => Console.GetCursorPosition().Top; }
 
-    private IList<string> _inputHistory;
+    public ConsoleColor ForegroundColour { get => Console.ForegroundColor; set => Console.ForegroundColor = value; }
+    public ConsoleColor BackgroundColour { get => Console.BackgroundColor; set => Console.BackgroundColor = value; }
+
+    private List<string> _inputHistory;
     private int lookbackIndex = 0;
 
     private readonly int MAXIMUM_LOOKBACK_DEPTH;

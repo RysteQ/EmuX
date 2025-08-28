@@ -8,10 +8,9 @@ namespace EmuX_Console.Programs.Implementations;
 
 public class CodeEditor : ICodeEditor
 {
-    public CodeEditor(ITerminalIOHandler terminalIOHandler, string text = "", bool showLines = true, ConsoleModifiers mainModifierKey = ConsoleModifiers.Control, ConsoleKey goToLineCharacter = ConsoleKey.G, ConsoleKey findStringCharacter= ConsoleKey.F, ConsoleKey replaceStringCharacter = ConsoleKey.R, ConsoleKey exitCharacter = ConsoleKey.Q)
+    public CodeEditor(ITerminalIOHandler terminalIOHandler, bool showLines = true, ConsoleModifiers mainModifierKey = ConsoleModifiers.Control, ConsoleKey goToLineCharacter = ConsoleKey.G, ConsoleKey findStringCharacter= ConsoleKey.F, ConsoleKey replaceStringCharacter = ConsoleKey.R, ConsoleKey exitCharacter = ConsoleKey.Q)
     {
         TerminalIOHandler = terminalIOHandler;
-        _textLines = [.. text.Split('\n')];
 
         // Forbidden characters
         if (GoToLineCharacter == ConsoleKey.Escape || FindStringCharacter == ConsoleKey.Escape || ReplaceStringCharacter == ConsoleKey.Escape || ExitCharacter == ConsoleKey.Escape)
@@ -29,6 +28,7 @@ public class CodeEditor : ICodeEditor
 
     public void Init(string text = "")
     {
+        int terminalWidth = TerminalIOHandler.Width;
         ConsoleKeyInfo userInput;
 
         InitCodeEditorInternal(text);
@@ -55,6 +55,14 @@ public class CodeEditor : ICodeEditor
             }
             else
             {
+                if (TerminalIOHandler.XCursorPosition >= TerminalIOHandler.Width - 1)
+                {
+                    TerminalIOHandler.MoveCursorRelative(-1, 0);
+                    RefreshLine();
+
+                    continue;
+                }
+
                 InsertCharacter(userInput.KeyChar);
             }
         }
@@ -72,7 +80,7 @@ public class CodeEditor : ICodeEditor
         {
             if (ShowLines)
             {
-                TerminalIOHandler.Output($"{i + 1} ~ ", OutputSeverity.Important);
+                TerminalIOHandler.Output(GenerateLinePrompt(i), OutputSeverity.Important);
             }
 
             TerminalIOHandler.Output($"{_textLines[i]}\n", OutputSeverity.Normal);
@@ -120,7 +128,7 @@ public class CodeEditor : ICodeEditor
         {
             if (ShowLines)
             {
-                TerminalIOHandler.Output($"{i + 1} ~ ", OutputSeverity.Important);
+                TerminalIOHandler.Output(GenerateLinePrompt(i), OutputSeverity.Important);
             }
 
             TerminalIOHandler.Output($"{_textLines[i]}\n", OutputSeverity.Normal);
@@ -134,13 +142,24 @@ public class CodeEditor : ICodeEditor
 
     private void HandleBackspace()
     {
-        // TODO
+        if (_xCursorPosition == 0)
+        {
+            TerminalIOHandler.MoveCursorRelative(1, 0);
+        
+            return;
+        }
+
+        _textLines[_yCursorPosition] = _textLines[_yCursorPosition].Remove(_xCursorPosition - 1);
+        _xCursorPosition--;
+
+        RefreshLine();
     }
 
     private void InsertCharacter(char character)
     {
         _textLines[_yCursorPosition] = _textLines[_yCursorPosition].Insert(_xCursorPosition, character.ToString());
         _xCursorPosition++;
+        
         RefreshLine();
     }
 
@@ -148,11 +167,11 @@ public class CodeEditor : ICodeEditor
     {
         if (key == GoToLineCharacter)
         {
-            // TODO
+            GoToLineInternal();
         }
         else if (key == FindStringCharacter)
         {
-            // TODO
+            FindStringInternal();
         }
         else if (key == ReplaceStringCharacter)
         {
@@ -164,6 +183,90 @@ public class CodeEditor : ICodeEditor
         }
     }
 
+    private void GoToLineInternal()
+    {
+        string userInput = string.Empty;
+        int lineToGoTo = 0;
+
+        userInput = GetUserInput("Line: ");
+
+        if (!int.TryParse(userInput, out lineToGoTo))
+        {
+            return;
+        }
+
+        InitCodeEditorInternal(string.Join('\n', _textLines));
+
+        if (lineToGoTo <= 0 || lineToGoTo > _textLines.Count)
+        {
+            return;
+        }
+
+        TerminalIOHandler.MoveCursorAbsolute(GenerateLinePrompt(lineToGoTo).Length + _textLines[lineToGoTo].Length, lineToGoTo - 1);
+        _yCursorPosition = lineToGoTo;
+    }
+
+    private void FindStringInternal()
+    {
+        string userInput = string.Empty;
+        int currentFoundWordIndex = 0;
+        int currentXCursorPosition = TerminalIOHandler.XCursorPosition;
+        int currentYCursorPosition = TerminalIOHandler.YCursorPosition;
+        List<int> foundWordLines = [];
+        ConsoleKeyInfo inputKey;
+
+        userInput = GetUserInput("Find: ");
+        
+        if (string.IsNullOrEmpty(userInput))
+        {
+            InitCodeEditorInternal(string.Join('\n', _textLines));
+
+            return;
+        }
+
+        for (int i = 0; i < _textLines.Count; i++)
+        {
+            if (!_textLines[i].Contains(userInput))
+            {
+                continue;
+            }
+
+            foundWordLines.Add(i + 1);
+        }
+
+        if (!foundWordLines.Any())
+        {
+            return;
+        }
+
+        do
+        {
+            InitCodeEditorInternal(string.Join('\n', _textLines));
+            TerminalIOHandler.MoveCursorAbsolute(GenerateLinePrompt(foundWordLines[currentFoundWordIndex]).Length + _textLines[foundWordLines[currentFoundWordIndex]].Length, foundWordLines[currentFoundWordIndex] - 1);
+            _yCursorPosition = foundWordLines[currentFoundWordIndex];
+
+            inputKey = TerminalIOHandler.GetUserKeyInput(true);
+
+            if (inputKey.Key == ConsoleKey.DownArrow)
+            {
+                currentFoundWordIndex++;
+            }
+            else if (inputKey.Key == ConsoleKey.UpArrow)
+            {
+                currentFoundWordIndex--;
+            }
+
+            if (currentFoundWordIndex < 0)
+            {
+                currentFoundWordIndex = foundWordLines.Count - 1;
+            }
+            else if (currentFoundWordIndex >= foundWordLines.Count)
+            {
+                currentFoundWordIndex = 0;
+            }
+        } while (inputKey.Key == ConsoleKey.DownArrow || inputKey.Key == ConsoleKey.UpArrow);
+    }
+
     private void RefreshLine()
     {
         TerminalIOHandler.MoveCursorAbsolute(0, _yCursorPosition);
@@ -171,7 +274,8 @@ public class CodeEditor : ICodeEditor
 
         if (ShowLines)
         {
-            TerminalIOHandler.Output($"{_yCursorPosition + 1} ~ ", OutputSeverity.Important);
+            TerminalIOHandler.MoveCursorAbsolute(0, _yCursorPosition);
+            TerminalIOHandler.Output(GenerateLinePrompt(_yCursorPosition), OutputSeverity.Important);
         }
 
         TerminalIOHandler.Output(_textLines[_yCursorPosition], OutputSeverity.Normal);
@@ -179,6 +283,8 @@ public class CodeEditor : ICodeEditor
 
     private void MoveCursorAround(ConsoleKey keyPressed)
     {
+        int linesOffset = 0;
+
         switch (keyPressed)
         {
             case ICodeEditor.MoveUp:
@@ -201,7 +307,7 @@ public class CodeEditor : ICodeEditor
                 else if (_yCursorPosition != 0)
                 {
                     _yCursorPosition--;
-                    _xCursorPosition = _textLines[_yCursorPosition].Length - 1;
+                    _xCursorPosition = _textLines[_yCursorPosition].Length;
                 }
 
                 break;
@@ -213,7 +319,7 @@ public class CodeEditor : ICodeEditor
                 }
                 else
                 {
-                    _xCursorPosition = _textLines[_yCursorPosition].Length - 1;
+                    _xCursorPosition = _textLines[_yCursorPosition].Length;
                 }
 
                 break;
@@ -232,7 +338,40 @@ public class CodeEditor : ICodeEditor
                 break;
         }
 
-        TerminalIOHandler.MoveCursorAbsolute(XCursorPosition, YCursorPosition);
+        if (_textLines[_yCursorPosition].Length < _xCursorPosition)
+        {
+            if (ShowLines)
+            {
+                linesOffset = GenerateLinePrompt(_yCursorPosition).Length;
+            }
+
+            TerminalIOHandler.MoveCursorAbsolute(_textLines[_yCursorPosition].Length + linesOffset, _yCursorPosition);
+        }
+        else
+        {
+            TerminalIOHandler.MoveCursorAbsolute(GenerateLinePrompt(_yCursorPosition).Length + _xCursorPosition, _yCursorPosition);
+        }
+    }
+
+    private string GenerateLinePrompt(int line)
+    {
+        return $"{line + 1} ~ ";
+    }
+
+    private string GetUserInput(string message)
+    {
+        string suffixSpaces = string.Empty;
+
+        if (message.Length < TerminalIOHandler.Width)
+        {
+            suffixSpaces = string.Concat(Enumerable.Repeat<char>(' ', TerminalIOHandler.Width - message.Length));
+        }
+
+        TerminalIOHandler.MoveCursorAbsolute(0, TerminalIOHandler.Height);
+        TerminalIOHandler.Output(message + suffixSpaces, OutputSeverity.Important, ConsoleColor.DarkGray);
+        TerminalIOHandler.MoveCursorAbsolute(message.Length, TerminalIOHandler.Height);
+
+        return TerminalIOHandler.GetUserInput(true, ConsoleColor.DarkGray);
     }
 
     private void ExitCodeEditor()
