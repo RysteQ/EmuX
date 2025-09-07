@@ -148,6 +148,21 @@ public interface IVirtualMachine
     void Interrupt(InterruptCode interruptCode, object subInterrupt);
 
     /// <summary>
+    /// The event is raised when the memory is accessed from the <c>IVIrtualMachine</c> layer
+    /// </summary>
+    event EventHandler? MemoryAccessed;
+
+    /// <summary>
+    /// The event is raised when the stack is accessed from the <c>IVIrtualMachine</c> layer
+    /// </summary>
+    event EventHandler? StackAccessed;
+
+    /// <summary>
+    /// The event is raised when a CPU flag is accessed from the <c>IVIrtualMachine</c> layer
+    /// </summary>
+    event EventHandler? FlagAccessed;
+
+    /// <summary>
     /// The virtual memory of the virtual machine that inherits from the IVirtualMemory interface
     /// </summary>
     IVirtualMemory Memory { get; init; }
