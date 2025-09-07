@@ -157,21 +157,25 @@ public class VirtualMachine : IVirtualMachine
 
     public ulong GetQuad(int memoryLocation)
     {
-        ulong[] bytes =
+        uint[] lowerBytes =
         [
-            (ulong)Memory.RAM[memoryLocation],
-            (ulong)(Memory.RAM[memoryLocation + 1] << 8),
-            (ulong)(Memory.RAM[memoryLocation + 2] << 16),
-            (ulong)(Memory.RAM[memoryLocation + 3] << 24),
-            (ulong)(Memory.RAM[memoryLocation + 4] << 32),
-            (ulong)(Memory.RAM[memoryLocation + 5] << 40),
-            (ulong)(Memory.RAM[memoryLocation + 6] << 48),
-            (ulong)(Memory.RAM[memoryLocation + 7] << 56)
+            (uint)Memory.RAM[memoryLocation],
+            (uint)(Memory.RAM[memoryLocation + 1] << 8),
+            (uint)(Memory.RAM[memoryLocation + 2] << 16),
+            (uint)(Memory.RAM[memoryLocation + 3] << 24)
         ];
 
-        MemoryAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIMemoryAccess(memoryLocation, Size.Qword, true, (ulong)bytes.Sum(selectedByte => (decimal)selectedByte), (ulong)bytes.Sum(selectedByte => (decimal)selectedByte)));
+        uint[] upperBytes =
+        [
+            (uint)(Memory.RAM[memoryLocation + 4] << 32),
+            (uint)(Memory.RAM[memoryLocation + 5] << 40),
+            (uint)(Memory.RAM[memoryLocation + 6] << 48),
+            (uint)(Memory.RAM[memoryLocation + 7] << 56)
+        ];
 
-        return (ulong)bytes.Sum(selectedByte => (decimal)selectedByte);
+        MemoryAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIMemoryAccess(memoryLocation, Size.Qword, true, (((ulong)upperBytes.Sum(selectedByte => selectedByte)) << 32) + (ulong)lowerBytes.Sum(selectedByte => selectedByte), (((ulong)upperBytes.Sum(selectedByte => selectedByte)) << 32) + (ulong)lowerBytes.Sum(selectedByte => selectedByte)));
+
+        return (((ulong)upperBytes.Sum(selectedByte => selectedByte)) << 32) + (ulong)lowerBytes.Sum(selectedByte => selectedByte);
     }
 
     public void PushByte(byte value)
@@ -251,7 +255,7 @@ public class VirtualMachine : IVirtualMachine
             (uint)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 3] << 24)
         ];
 
-        StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Word, false, (ulong)bytes.Sum(selectedByte => selectedByte)));
+        StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Dword, false, (ulong)bytes.Sum(selectedByte => selectedByte)));
 
         CPU.GetRegister<VirtualRegisterRSP>().RSP += 4;
 
@@ -260,23 +264,27 @@ public class VirtualMachine : IVirtualMachine
 
     public ulong PopQuad()
     {
-        ulong[] bytes =
+        uint[] lowerBytes =
         [
-            (ulong)Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP],
-            (ulong)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 1] << 8),
-            (ulong)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 2] << 16),
-            (ulong)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 3] << 24),
-            (ulong)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 4] << 32),
-            (ulong)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 5] << 40),
-            (ulong)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 6] << 48),
-            (ulong)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 7] << 56)
+            (uint)Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP],
+            (uint)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 1] << 8),
+            (uint)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 2] << 16),
+            (uint)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 3] << 24)
         ];
 
-        StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Word, false, (ulong)bytes.Sum(selectedByte => (decimal)selectedByte)));
+        uint[] upperBytes =
+        [
+            (uint)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 4] << 32),
+            (uint)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 5] << 40),
+            (uint)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 6] << 48),
+            (uint)(Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP + 7] << 56)
+        ];
+
+        StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Qword, false, (((ulong)upperBytes.Sum(selectedByte => selectedByte)) << 32) + (ulong)lowerBytes.Sum(selectedByte => selectedByte)));
 
         CPU.GetRegister<VirtualRegisterRSP>().RSP += 8;
 
-        return (ulong)bytes.Sum(selectedByte => (decimal)selectedByte);
+        return (((ulong)upperBytes.Sum(selectedByte => selectedByte)) << 32) + (ulong)lowerBytes.Sum(selectedByte => selectedByte);
     }
 
     public void Interrupt(InterruptCode interruptCode, object subInterruptCode)
