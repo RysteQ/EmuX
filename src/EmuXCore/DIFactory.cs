@@ -282,7 +282,7 @@ public static class DIFactory
     /// </summary>
     /// <typeparam name="T">The implementation type of IVirtualDevice</typeparam>
     /// <returns>The implementation of IVirtualDevice</returns>
-    public static IVirtualDevice GenerateIVirtualDevice<T>() where T : IVirtualDevice => Activator.CreateInstance<T>();
+    public static IVirtualDevice GenerateIVirtualDevice<T>(ushort deviceId) where T : IVirtualDevice => (T)Activator.CreateInstance(typeof(T), deviceId, null)!;
 
     /// <summary>
     /// Generates an instance of IVirtualDisk
