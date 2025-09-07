@@ -11,10 +11,13 @@ using EmuXCore.Interpreter.Interfaces.Models;
 using EmuXCore.Interpreter.Internal.Models;
 using EmuXCore.Interpreter.LexicalSyntax;
 using EmuXCore.VM;
+using EmuXCore.VM.Enums;
+using EmuXCore.VM.Events;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
+using EmuXCore.VM.Interfaces.Components.Events;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.BIOS;
 using EmuXCore.VM.Internal.BIOS.Interfaces;
@@ -315,6 +318,40 @@ public static class DIFactory
     /// <param name="parentVirtualMachine">The virtual machine the IVirtualRTC is part of</param>
     /// <returns>The implementation of IVIrtualRTC</returns>
     public static IVirtualRTC GenerateIVirtualRTC(IVirtualMachine? parentVirtualMachine = null) => new VirtualRTC(parentVirtualMachine);
+
+    /// <summary>
+    /// Generates an instance of IFlagAccess
+    /// </summary>
+    /// <param name="flagAccessed">The accessed flag</param>
+    /// <param name="readOrWrite">Indicates if the operation was a read or write operation, true for a READ operation, otherwise false</param>
+    /// <param name="previousValue">The previous value of the flag</param>
+    /// <param name="auxiliaryPreviousValue">The auxiliary previous value of the flag for 2 bit flags like the IOPL flag</param>
+    /// <param name="newValue">The new value of the flag</param>
+    /// <param name="auxiliaryNewValue">The auxiliary new value of the flag for 2 bit flags like the IOPL flag</param>
+    /// <returns>The implementation of IFlagAccess</returns>
+    public static IFlagAccess GenerateIFlagAccess(EFlags flagAccessed, bool readOrWrite, bool previousValue, bool auxiliaryPreviousValue, bool newValue, bool auxiliaryNewValue) => new FlagAccess(flagAccessed, readOrWrite, previousValue, auxiliaryPreviousValue, newValue, auxiliaryNewValue);
+
+    /// <summary>
+    /// Generates an instance of IMemoryAccess
+    /// </summary>
+    /// <param name="memoryAddress">The accessed memory address</param>
+    /// <param name="size">The size of the memory cell that was accessed</param>
+    /// <param name="readOrWrite">Indicates if the operation was a read or write operation, true for a READ operation, otherwise false</param>
+    /// <param name="previousValue">The previous value of the memory cell</param>
+    /// <param name="newValue">The new value of the memory cell</param>
+    /// <returns>The implementation of IMemoryAccess</returns>
+    public static IMemoryAccess GenerateIMemoryAccess(int memoryAddress, Size size, bool readOrWrite, ulong previousValue, ulong newValue) => new MemoryAccess(memoryAddress, size, readOrWrite, previousValue, newValue);
+
+    /// <summary>
+    /// Generates an instance of IStackAccess
+    /// </summary>
+    /// <param name="size">The size of the operation</param>
+    /// <param name="pushOrPop">Indicated is the operation was a push or pop operation, true if it was a PUSH operation, otherwise false</param>
+    /// <param name="value">The value that was used in the PUSH / retrieved from the POP operation</param>
+    /// <returns>The implementation of IStackAccess</returns>
+    public static IStackAccess GenerateIStackAccess(Size size, bool pushOrPop, ulong value) => new StackAccess(size, pushOrPop, value);
+
+    // VM builder
 
     /// <summary>
     /// Generates an instance of IVirtualMachine
