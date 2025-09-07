@@ -148,17 +148,20 @@ public interface IVirtualMachine
     void Interrupt(InterruptCode interruptCode, object subInterrupt);
 
     /// <summary>
-    /// The event is raised when the memory is accessed from the <c>IVIrtualMachine</c> layer
+    /// The event is raised when the memory is accessed from the <c>IVIrtualMachine</c> layer <br/>
+    /// Returns an EventArgs object of type IMemoryAccess
     /// </summary>
     event EventHandler? MemoryAccessed;
 
     /// <summary>
-    /// The event is raised when the stack is accessed from the <c>IVIrtualMachine</c> layer
+    /// The event is raised when the stack is accessed from the <c>IVIrtualMachine</c> layer <br/>
+    /// Returns an EventArgs object of type IStackAccess
     /// </summary>
     event EventHandler? StackAccessed;
 
     /// <summary>
-    /// The event is raised when a CPU flag is accessed from the <c>IVIrtualMachine</c> layer
+    /// The event is raised when a CPU flag is accessed from the <c>IVIrtualMachine</c> layer <br/>
+    /// Returns an EventArgs object of type IFlagAccess
     /// </summary>
     event EventHandler? FlagAccessed;
 
