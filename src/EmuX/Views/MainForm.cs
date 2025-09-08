@@ -3,8 +3,11 @@ using EmuXCore;
 using EmuXCore.Common.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Components.Events;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.Device.USBDrives;
+using System.Text;
+using System.Xml;
 
 namespace EmuX;
 
@@ -32,6 +35,7 @@ public partial class MainForm : Form
             .AddVirtualDevice(DIFactory.GenerateIVirtualDevice<UsbDrive64Kb>(1));
 
         _virtualMachine = virtualMachineBuilder.Build();
+        _virtualMachine.MemoryAccessed += _virtualMachine_MemoryAccessed;
     }
 
     private void MainForm_Load(object sender, EventArgs e)
@@ -85,7 +89,7 @@ public partial class MainForm : Form
 
         _popupInput.FormClosing += PopupInputNewRegisterValue_FormClosing;
         _popupInput.Question = "New value";
-        
+
         _popupInput.Show();
     }
 
@@ -172,13 +176,155 @@ public partial class MainForm : Form
 
             default:
                 MessageBox.Show($"Invalid register size {registerSize}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                
+
                 break;
         }
 
         InitRegistersView();
     }
 
+    private void buttonSearchMemory_Click(object sender, EventArgs e)
+    {
+        int lastRowCellsAmount = 0;
+        List<byte> lastRow = [];
+
+        _memorySearchEnd = Convert.ToInt32(numericUpDownMemoryRangeEnd.Value + 1);
+        _memorySearchStart = Convert.ToInt32(numericUpDownMemoryRangeStart.Value);
+        _virtualMachine.MemoryAccessed -= _virtualMachine_MemoryAccessed;
+        lastRowCellsAmount = (_memorySearchEnd - _memorySearchStart) % 8;
+
+        dataGridMemoryView.Rows.Clear();
+
+        for (int i = 0; i < (_memorySearchEnd - _memorySearchStart) / 8; i++)
+        {
+            dataGridMemoryView.Rows.Add(
+            [
+                _virtualMachine.GetByte(Convert.ToInt32(numericUpDownMemoryRangeStart.Value) + 0 + i * 8),
+                _virtualMachine.GetByte(Convert.ToInt32(numericUpDownMemoryRangeStart.Value) + 1 + i * 8),
+                _virtualMachine.GetByte(Convert.ToInt32(numericUpDownMemoryRangeStart.Value) + 2 + i * 8),
+                _virtualMachine.GetByte(Convert.ToInt32(numericUpDownMemoryRangeStart.Value) + 3 + i * 8),
+                _virtualMachine.GetByte(Convert.ToInt32(numericUpDownMemoryRangeStart.Value) + 4 + i * 8),
+                _virtualMachine.GetByte(Convert.ToInt32(numericUpDownMemoryRangeStart.Value) + 5 + i * 8),
+                _virtualMachine.GetByte(Convert.ToInt32(numericUpDownMemoryRangeStart.Value) + 6 + i * 8),
+                _virtualMachine.GetByte(Convert.ToInt32(numericUpDownMemoryRangeStart.Value) + 7 + i * 8),
+            ]);
+        }
+
+        dataGridMemoryView.Rows.Add();
+
+        for (int i = lastRowCellsAmount - 1; i >= 0; i--)
+        {
+            lastRow.Add(_virtualMachine.GetByte(Convert.ToInt32(numericUpDownMemoryRangeEnd.Value) - i));
+        }
+
+        for (int i = 0; i < lastRow.Count; i++)
+        {
+            dataGridMemoryView.Rows[dataGridMemoryView.Rows.Count - 1].Cells[i].Value = lastRow[i];
+        }
+
+        _virtualMachine.MemoryAccessed += _virtualMachine_MemoryAccessed;
+    }
+
+    private void dataGridMemoryView_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+    {
+        if (_memorySearchEnd <= _memorySearchStart + e.ColumnIndex + 8 * e.RowIndex)
+        {
+            dataGridMemoryView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value = string.Empty;
+
+            return;
+        }
+
+        _virtualMachine.SetByte(_memorySearchStart + e.ColumnIndex + 8 * e.RowIndex, (byte)Convert.ToInt16(dataGridMemoryView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value));
+    }
+
+    private void _virtualMachine_MemoryAccessed(object? sender, EventArgs e)
+    {
+        IMemoryAccess memoryAccessEvent = (IMemoryAccess)e;
+        int row = (memoryAccessEvent.MemoryAddress - _memorySearchStart) / 8;
+        int column = (memoryAccessEvent.MemoryAddress - _memorySearchStart) % 8;
+
+        if (!checkBoxHighlightAccessedMemory.Checked)
+        {
+            return;
+        }
+
+        switch (memoryAccessEvent.Size)
+        {
+            case EmuXCore.Common.Enums.Size.Byte:
+                dataGridMemoryView.Rows[row].Cells[column].Style = new()
+                {
+                    BackColor = Color.Red
+                };
+
+                break;
+
+            case EmuXCore.Common.Enums.Size.Word:
+                for (int i = 0; i < 2; i++)
+                {
+                    dataGridMemoryView.Rows[row].Cells[column].Style = new()
+                    {
+                        BackColor = Color.Red
+                    };
+
+                    column++;
+
+                    if (column == 8)
+                    {
+                        row++;
+                        column = 0;
+                    }
+                }
+
+                break;
+
+            case EmuXCore.Common.Enums.Size.Dword:
+                for (int i = 0; i < 4; i++)
+                {
+                    dataGridMemoryView.Rows[row].Cells[column].Style = new()
+                    {
+                        BackColor = Color.Red
+                    };
+
+                    column++;
+
+                    if (column == 8)
+                    {
+                        row++;
+                        column = 0;
+                    }
+                }
+
+                break;
+
+            case EmuXCore.Common.Enums.Size.Qword:
+                for (int i = 0; i < 8; i++)
+                {
+                    dataGridMemoryView.Rows[row].Cells[column].Style = new()
+                    {
+                        BackColor = Color.Red
+                    };
+
+                    column++;
+
+                    if (column == 8)
+                    {
+                        row++;
+                        column = 0;
+                    }
+                }
+
+                break;
+
+            default:
+                MessageBox.Show("Unsopported size", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                break;
+        }
+    }
+
     private PopupInput _popupInput = new();
+    private int _memorySearchStart = 0;
+    private int _memorySearchEnd = 0;
+
     private IVirtualMachine _virtualMachine;
 }

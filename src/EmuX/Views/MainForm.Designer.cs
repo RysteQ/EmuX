@@ -63,13 +63,21 @@
             richTextboxAssemblyCode = new RichTextBox();
             tabPageMemory = new TabPage();
             groupBox1 = new GroupBox();
+            numericUpDownMemoryRangeEnd = new NumericUpDown();
+            numericUpDownMemoryRangeStart = new NumericUpDown();
             checkBoxHighlightAccessedMemory = new CheckBox();
             labelEnd = new Label();
             labelStart = new Label();
-            textBoxMemorySearchRangeStart = new TextBox();
-            textBoxMemorySearchRangeEnd = new TextBox();
-            buttonSearch = new Button();
+            buttonSearchMemory = new Button();
             dataGridMemoryView = new DataGridView();
+            ColumnOffset_1 = new DataGridViewTextBoxColumn();
+            ColumnOffset_2 = new DataGridViewTextBoxColumn();
+            ColumnOffset_3 = new DataGridViewTextBoxColumn();
+            ColumnOffset_4 = new DataGridViewTextBoxColumn();
+            ColumnOffset_5 = new DataGridViewTextBoxColumn();
+            ColumnOffset_6 = new DataGridViewTextBoxColumn();
+            ColumnOffset_7 = new DataGridViewTextBoxColumn();
+            ColumnOffset_8 = new DataGridViewTextBoxColumn();
             tabPageRegisters = new TabPage();
             listBoxVirtualCpuRegisters = new ListBox();
             tabPageOutput = new TabPage();
@@ -79,6 +87,8 @@
             tabPageAssemblyCode.SuspendLayout();
             tabPageMemory.SuspendLayout();
             groupBox1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMemoryRangeEnd).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMemoryRangeStart).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridMemoryView).BeginInit();
             tabPageRegisters.SuspendLayout();
             tabPageOutput.SuspendLayout();
@@ -103,30 +113,30 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(180, 22);
+            openToolStripMenuItem.Size = new Size(112, 22);
             openToolStripMenuItem.Text = "Open";
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(180, 22);
+            saveToolStripMenuItem.Size = new Size(112, 22);
             saveToolStripMenuItem.Text = "Save";
             // 
             // saveAsToolStripMenuItem
             // 
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            saveAsToolStripMenuItem.Size = new Size(180, 22);
+            saveAsToolStripMenuItem.Size = new Size(112, 22);
             saveAsToolStripMenuItem.Text = "Save as";
             // 
             // toolStripSeparatorFileSection
             // 
             toolStripSeparatorFileSection.Name = "toolStripSeparatorFileSection";
-            toolStripSeparatorFileSection.Size = new Size(177, 6);
+            toolStripSeparatorFileSection.Size = new Size(109, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(180, 22);
+            exitToolStripMenuItem.Size = new Size(112, 22);
             exitToolStripMenuItem.Text = "Exit";
             // 
             // textToolStripMenuItem
@@ -139,25 +149,25 @@
             // increaseFontSizeToolStripMenuItem
             // 
             increaseFontSizeToolStripMenuItem.Name = "increaseFontSizeToolStripMenuItem";
-            increaseFontSizeToolStripMenuItem.Size = new Size(180, 22);
+            increaseFontSizeToolStripMenuItem.Size = new Size(177, 22);
             increaseFontSizeToolStripMenuItem.Text = "Increase font size";
             // 
             // decreaseFontSizeToolStripMenuItem
             // 
             decreaseFontSizeToolStripMenuItem.Name = "decreaseFontSizeToolStripMenuItem";
-            decreaseFontSizeToolStripMenuItem.Size = new Size(180, 22);
+            decreaseFontSizeToolStripMenuItem.Size = new Size(177, 22);
             decreaseFontSizeToolStripMenuItem.Text = "Decrease font size";
             // 
             // changeFontToolStripMenuItem
             // 
             changeFontToolStripMenuItem.Name = "changeFontToolStripMenuItem";
-            changeFontToolStripMenuItem.Size = new Size(180, 22);
+            changeFontToolStripMenuItem.Size = new Size(177, 22);
             changeFontToolStripMenuItem.Text = "Change font";
             // 
             // changeFontColourToolStripMenuItem
             // 
             changeFontColourToolStripMenuItem.Name = "changeFontColourToolStripMenuItem";
-            changeFontColourToolStripMenuItem.Size = new Size(180, 22);
+            changeFontColourToolStripMenuItem.Size = new Size(177, 22);
             changeFontColourToolStripMenuItem.Text = "Change font colour";
             // 
             // codeToolStripMenuItem
@@ -320,18 +330,32 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(numericUpDownMemoryRangeEnd);
+            groupBox1.Controls.Add(numericUpDownMemoryRangeStart);
             groupBox1.Controls.Add(checkBoxHighlightAccessedMemory);
             groupBox1.Controls.Add(labelEnd);
             groupBox1.Controls.Add(labelStart);
-            groupBox1.Controls.Add(textBoxMemorySearchRangeStart);
-            groupBox1.Controls.Add(textBoxMemorySearchRangeEnd);
-            groupBox1.Controls.Add(buttonSearch);
+            groupBox1.Controls.Add(buttonSearchMemory);
             groupBox1.Location = new Point(6, 8);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(778, 137);
+            groupBox1.Size = new Size(778, 110);
             groupBox1.TabIndex = 6;
             groupBox1.TabStop = false;
             groupBox1.Text = "Memory Range Search";
+            // 
+            // numericUpDownMemoryRangeEnd
+            // 
+            numericUpDownMemoryRangeEnd.Location = new Point(73, 51);
+            numericUpDownMemoryRangeEnd.Name = "numericUpDownMemoryRangeEnd";
+            numericUpDownMemoryRangeEnd.Size = new Size(519, 23);
+            numericUpDownMemoryRangeEnd.TabIndex = 9;
+            // 
+            // numericUpDownMemoryRangeStart
+            // 
+            numericUpDownMemoryRangeStart.Location = new Point(73, 23);
+            numericUpDownMemoryRangeStart.Name = "numericUpDownMemoryRangeStart";
+            numericUpDownMemoryRangeStart.Size = new Size(519, 23);
+            numericUpDownMemoryRangeStart.TabIndex = 8;
             // 
             // checkBoxHighlightAccessedMemory
             // 
@@ -361,37 +385,102 @@
             labelStart.TabIndex = 7;
             labelStart.Text = "Start";
             // 
-            // textBoxMemorySearchRangeStart
+            // buttonSearchMemory
             // 
-            textBoxMemorySearchRangeStart.Location = new Point(73, 22);
-            textBoxMemorySearchRangeStart.Name = "textBoxMemorySearchRangeStart";
-            textBoxMemorySearchRangeStart.Size = new Size(519, 23);
-            textBoxMemorySearchRangeStart.TabIndex = 0;
-            // 
-            // textBoxMemorySearchRangeEnd
-            // 
-            textBoxMemorySearchRangeEnd.Location = new Point(73, 51);
-            textBoxMemorySearchRangeEnd.Name = "textBoxMemorySearchRangeEnd";
-            textBoxMemorySearchRangeEnd.Size = new Size(519, 23);
-            textBoxMemorySearchRangeEnd.TabIndex = 1;
-            // 
-            // buttonSearch
-            // 
-            buttonSearch.Location = new Point(73, 109);
-            buttonSearch.Name = "buttonSearch";
-            buttonSearch.Size = new Size(699, 23);
-            buttonSearch.TabIndex = 5;
-            buttonSearch.Text = "Search";
-            buttonSearch.UseVisualStyleBackColor = true;
+            buttonSearchMemory.Location = new Point(73, 80);
+            buttonSearchMemory.Name = "buttonSearchMemory";
+            buttonSearchMemory.Size = new Size(699, 23);
+            buttonSearchMemory.TabIndex = 5;
+            buttonSearchMemory.Text = "Search";
+            buttonSearchMemory.UseVisualStyleBackColor = true;
+            buttonSearchMemory.Click += buttonSearchMemory_Click;
             // 
             // dataGridMemoryView
             // 
+            dataGridMemoryView.AllowUserToAddRows = false;
+            dataGridMemoryView.AllowUserToDeleteRows = false;
+            dataGridMemoryView.AllowUserToResizeColumns = false;
+            dataGridMemoryView.AllowUserToResizeRows = false;
             dataGridMemoryView.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dataGridMemoryView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridMemoryView.Location = new Point(8, 151);
+            dataGridMemoryView.Columns.AddRange(new DataGridViewColumn[] { ColumnOffset_1, ColumnOffset_2, ColumnOffset_3, ColumnOffset_4, ColumnOffset_5, ColumnOffset_6, ColumnOffset_7, ColumnOffset_8 });
+            dataGridMemoryView.Location = new Point(8, 124);
             dataGridMemoryView.Name = "dataGridMemoryView";
-            dataGridMemoryView.Size = new Size(776, 236);
+            dataGridMemoryView.Size = new Size(776, 263);
             dataGridMemoryView.TabIndex = 5;
+            dataGridMemoryView.CellEndEdit += dataGridMemoryView_CellEndEdit;
+            // 
+            // ColumnOffset_1
+            // 
+            ColumnOffset_1.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ColumnOffset_1.HeaderText = "0";
+            ColumnOffset_1.Name = "ColumnOffset_1";
+            ColumnOffset_1.Resizable = DataGridViewTriState.False;
+            ColumnOffset_1.SortMode = DataGridViewColumnSortMode.NotSortable;
+            ColumnOffset_1.Width = 19;
+            // 
+            // ColumnOffset_2
+            // 
+            ColumnOffset_2.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ColumnOffset_2.HeaderText = "1";
+            ColumnOffset_2.Name = "ColumnOffset_2";
+            ColumnOffset_2.Resizable = DataGridViewTriState.False;
+            ColumnOffset_2.SortMode = DataGridViewColumnSortMode.NotSortable;
+            ColumnOffset_2.Width = 19;
+            // 
+            // ColumnOffset_3
+            // 
+            ColumnOffset_3.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ColumnOffset_3.HeaderText = "2";
+            ColumnOffset_3.Name = "ColumnOffset_3";
+            ColumnOffset_3.Resizable = DataGridViewTriState.False;
+            ColumnOffset_3.SortMode = DataGridViewColumnSortMode.NotSortable;
+            ColumnOffset_3.Width = 19;
+            // 
+            // ColumnOffset_4
+            // 
+            ColumnOffset_4.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ColumnOffset_4.HeaderText = "3";
+            ColumnOffset_4.Name = "ColumnOffset_4";
+            ColumnOffset_4.Resizable = DataGridViewTriState.False;
+            ColumnOffset_4.SortMode = DataGridViewColumnSortMode.NotSortable;
+            ColumnOffset_4.Width = 19;
+            // 
+            // ColumnOffset_5
+            // 
+            ColumnOffset_5.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ColumnOffset_5.HeaderText = "4";
+            ColumnOffset_5.Name = "ColumnOffset_5";
+            ColumnOffset_5.Resizable = DataGridViewTriState.False;
+            ColumnOffset_5.SortMode = DataGridViewColumnSortMode.NotSortable;
+            ColumnOffset_5.Width = 19;
+            // 
+            // ColumnOffset_6
+            // 
+            ColumnOffset_6.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ColumnOffset_6.HeaderText = "5";
+            ColumnOffset_6.Name = "ColumnOffset_6";
+            ColumnOffset_6.Resizable = DataGridViewTriState.False;
+            ColumnOffset_6.SortMode = DataGridViewColumnSortMode.NotSortable;
+            ColumnOffset_6.Width = 19;
+            // 
+            // ColumnOffset_7
+            // 
+            ColumnOffset_7.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ColumnOffset_7.HeaderText = "6";
+            ColumnOffset_7.Name = "ColumnOffset_7";
+            ColumnOffset_7.Resizable = DataGridViewTriState.False;
+            ColumnOffset_7.SortMode = DataGridViewColumnSortMode.NotSortable;
+            ColumnOffset_7.Width = 19;
+            // 
+            // ColumnOffset_8
+            // 
+            ColumnOffset_8.AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+            ColumnOffset_8.HeaderText = "7";
+            ColumnOffset_8.Name = "ColumnOffset_8";
+            ColumnOffset_8.Resizable = DataGridViewTriState.False;
+            ColumnOffset_8.SortMode = DataGridViewColumnSortMode.NotSortable;
+            ColumnOffset_8.Width = 19;
             // 
             // tabPageRegisters
             // 
@@ -453,6 +542,8 @@
             tabPageMemory.ResumeLayout(false);
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMemoryRangeEnd).EndInit();
+            ((System.ComponentModel.ISupportInitialize)numericUpDownMemoryRangeStart).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridMemoryView).EndInit();
             tabPageRegisters.ResumeLayout(false);
             tabPageOutput.ResumeLayout(false);
@@ -475,9 +566,7 @@
         private TabPage tabPageRegisters;
         private TabPage tabPageOutput;
         private DataGridView dataGridMemoryView;
-        private Button buttonSearch;
-        private TextBox textBoxMemorySearchRangeEnd;
-        private TextBox textBoxMemorySearchRangeStart;
+        private Button buttonSearchMemory;
         private GroupBox groupBox1;
         private Label labelEnd;
         private Label labelStart;
@@ -508,5 +597,15 @@
         private ToolStripMenuItem drawSquareToolStripMenuItem;
         private ToolStripMenuItem drawColouredToolStripMenuItem;
         private ListBox listBoxVirtualCpuRegisters;
+        private NumericUpDown numericUpDownMemoryRangeStart;
+        private NumericUpDown numericUpDownMemoryRangeEnd;
+        private DataGridViewTextBoxColumn ColumnOffset_1;
+        private DataGridViewTextBoxColumn ColumnOffset_2;
+        private DataGridViewTextBoxColumn ColumnOffset_3;
+        private DataGridViewTextBoxColumn ColumnOffset_4;
+        private DataGridViewTextBoxColumn ColumnOffset_5;
+        private DataGridViewTextBoxColumn ColumnOffset_6;
+        private DataGridViewTextBoxColumn ColumnOffset_7;
+        private DataGridViewTextBoxColumn ColumnOffset_8;
     }
 }
