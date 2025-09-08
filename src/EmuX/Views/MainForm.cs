@@ -322,9 +322,100 @@ public partial class MainForm : Form
         }
     }
 
+    private IVirtualMachine _virtualMachine;
+
+    private void openToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        OpenFileDialog openFileDialog = new()
+        {
+            FileName = string.Empty,
+            Filter = "Assembly files (*.asm)|*.asm|Text files (*.txt)|*.txt|All files (*.*)|*.*",
+            InitialDirectory = "C:\\",
+            RestoreDirectory = true
+        };
+
+        if (openFileDialog.ShowDialog() == DialogResult.OK)
+        {
+            _filePath = openFileDialog.FileName;
+            richTextboxAssemblyCode.Text = new StreamReader(openFileDialog.OpenFile()).ReadToEnd();
+        }
+    }
+
+    private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        if (string.IsNullOrEmpty(_filePath))
+        {
+            saveAsToolStripMenuItem_Click(sender, e);
+
+            return;
+        }
+
+        File.WriteAllText(_filePath, richTextboxAssemblyCode.Text);
+    }
+
+    private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        SaveFileDialog saveFileDialog = new()
+        {
+            FileName = string.Empty,
+            Filter = "Assembly files (*.asm)|*.asm|Text files (*.txt)|*.txt|All files (*.*)|*.*",
+            InitialDirectory = "C:\\",
+            RestoreDirectory = true
+        };
+
+        if (saveFileDialog.ShowDialog() == DialogResult.OK)
+        {
+            _filePath = saveFileDialog.FileName;
+            File.WriteAllText(_filePath, richTextboxAssemblyCode.Text);
+        }
+    }
+
+    private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        this.Close();
+    }
+
+    private void increaseFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        Font newFont = new(richTextboxAssemblyCode.Font.FontFamily, richTextboxAssemblyCode.Font.Size + 1);
+
+        richTextboxAssemblyCode.Font = newFont;
+    }
+
+    private void decreaseFontSizeToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        Font newFont = new(richTextboxAssemblyCode.Font.FontFamily, richTextboxAssemblyCode.Font.Size - 1);
+
+        richTextboxAssemblyCode.Font = newFont;
+    }
+
+    private void changeFontToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        FontDialog fontDialog = new();
+
+        if (fontDialog.ShowDialog() == DialogResult.OK)
+        {
+            richTextboxAssemblyCode.Font = fontDialog.Font;
+        }
+    }
+
+    private void executeToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // TODO - Finish the IInterpreter interface and implementation
+    }
+
+    private void stepByStepToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // TODO - Finish the IInterpreter interface and implementation
+    }
+
+    private void executionSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+    {
+        // TODO - Finish the IInterpreter interface and implementation
+    }
+
     private PopupInput _popupInput = new();
     private int _memorySearchStart = 0;
     private int _memorySearchEnd = 0;
-
-    private IVirtualMachine _virtualMachine;
+    private string _filePath = string.Empty;
 }

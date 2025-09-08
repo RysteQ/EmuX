@@ -39,24 +39,11 @@
             increaseFontSizeToolStripMenuItem = new ToolStripMenuItem();
             decreaseFontSizeToolStripMenuItem = new ToolStripMenuItem();
             changeFontToolStripMenuItem = new ToolStripMenuItem();
-            changeFontColourToolStripMenuItem = new ToolStripMenuItem();
             codeToolStripMenuItem = new ToolStripMenuItem();
             executeToolStripMenuItem = new ToolStripMenuItem();
             stepByStepToolStripMenuItem = new ToolStripMenuItem();
             toolStripSeparatorCodeSection = new ToolStripSeparator();
             executionSettingsToolStripMenuItem = new ToolStripMenuItem();
-            samplesToolStripMenuItem = new ToolStripMenuItem();
-            starterToolStripMenuItem = new ToolStripMenuItem();
-            addTwoNumbersToolStripMenuItem = new ToolStripMenuItem();
-            forLoopToolStripMenuItem = new ToolStripMenuItem();
-            beepToolStripMenuItem = new ToolStripMenuItem();
-            terminalToolStripMenuItem = new ToolStripMenuItem();
-            helloWorldToolStripMenuItem = new ToolStripMenuItem();
-            pyramidToolStripMenuItem = new ToolStripMenuItem();
-            graphicalToolStripMenuItem = new ToolStripMenuItem();
-            drawLineToolStripMenuItem = new ToolStripMenuItem();
-            drawSquareToolStripMenuItem = new ToolStripMenuItem();
-            drawColouredToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             mainTabPageControl = new TabControl();
             tabPageAssemblyCode = new TabPage();
@@ -96,7 +83,7 @@
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, textToolStripMenuItem, codeToolStripMenuItem, samplesToolStripMenuItem, aboutToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, textToolStripMenuItem, codeToolStripMenuItem, aboutToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(800, 24);
@@ -113,35 +100,42 @@
             // openToolStripMenuItem
             // 
             openToolStripMenuItem.Name = "openToolStripMenuItem";
-            openToolStripMenuItem.Size = new Size(112, 22);
+            openToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
+            openToolStripMenuItem.Size = new Size(175, 22);
             openToolStripMenuItem.Text = "Open";
+            openToolStripMenuItem.Click += openToolStripMenuItem_Click;
             // 
             // saveToolStripMenuItem
             // 
             saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            saveToolStripMenuItem.Size = new Size(112, 22);
+            saveToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
+            saveToolStripMenuItem.Size = new Size(175, 22);
             saveToolStripMenuItem.Text = "Save";
+            saveToolStripMenuItem.Click += saveToolStripMenuItem_Click;
             // 
             // saveAsToolStripMenuItem
             // 
             saveAsToolStripMenuItem.Name = "saveAsToolStripMenuItem";
-            saveAsToolStripMenuItem.Size = new Size(112, 22);
+            saveAsToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Alt | Keys.S;
+            saveAsToolStripMenuItem.Size = new Size(175, 22);
             saveAsToolStripMenuItem.Text = "Save as";
+            saveAsToolStripMenuItem.Click += saveAsToolStripMenuItem_Click;
             // 
             // toolStripSeparatorFileSection
             // 
             toolStripSeparatorFileSection.Name = "toolStripSeparatorFileSection";
-            toolStripSeparatorFileSection.Size = new Size(109, 6);
+            toolStripSeparatorFileSection.Size = new Size(172, 6);
             // 
             // exitToolStripMenuItem
             // 
             exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            exitToolStripMenuItem.Size = new Size(112, 22);
+            exitToolStripMenuItem.Size = new Size(175, 22);
             exitToolStripMenuItem.Text = "Exit";
+            exitToolStripMenuItem.Click += exitToolStripMenuItem_Click;
             // 
             // textToolStripMenuItem
             // 
-            textToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { increaseFontSizeToolStripMenuItem, decreaseFontSizeToolStripMenuItem, changeFontToolStripMenuItem, changeFontColourToolStripMenuItem });
+            textToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { increaseFontSizeToolStripMenuItem, decreaseFontSizeToolStripMenuItem, changeFontToolStripMenuItem });
             textToolStripMenuItem.Name = "textToolStripMenuItem";
             textToolStripMenuItem.Size = new Size(40, 20);
             textToolStripMenuItem.Text = "Text";
@@ -149,26 +143,26 @@
             // increaseFontSizeToolStripMenuItem
             // 
             increaseFontSizeToolStripMenuItem.Name = "increaseFontSizeToolStripMenuItem";
-            increaseFontSizeToolStripMenuItem.Size = new Size(177, 22);
+            increaseFontSizeToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.Q;
+            increaseFontSizeToolStripMenuItem.Size = new Size(240, 22);
             increaseFontSizeToolStripMenuItem.Text = "Increase font size";
+            increaseFontSizeToolStripMenuItem.Click += increaseFontSizeToolStripMenuItem_Click;
             // 
             // decreaseFontSizeToolStripMenuItem
             // 
             decreaseFontSizeToolStripMenuItem.Name = "decreaseFontSizeToolStripMenuItem";
-            decreaseFontSizeToolStripMenuItem.Size = new Size(177, 22);
+            decreaseFontSizeToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.E;
+            decreaseFontSizeToolStripMenuItem.Size = new Size(240, 22);
             decreaseFontSizeToolStripMenuItem.Text = "Decrease font size";
+            decreaseFontSizeToolStripMenuItem.Click += decreaseFontSizeToolStripMenuItem_Click;
             // 
             // changeFontToolStripMenuItem
             // 
             changeFontToolStripMenuItem.Name = "changeFontToolStripMenuItem";
-            changeFontToolStripMenuItem.Size = new Size(177, 22);
+            changeFontToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.Shift | Keys.F;
+            changeFontToolStripMenuItem.Size = new Size(240, 22);
             changeFontToolStripMenuItem.Text = "Change font";
-            // 
-            // changeFontColourToolStripMenuItem
-            // 
-            changeFontColourToolStripMenuItem.Name = "changeFontColourToolStripMenuItem";
-            changeFontColourToolStripMenuItem.Size = new Size(177, 22);
-            changeFontColourToolStripMenuItem.Text = "Change font colour";
+            changeFontToolStripMenuItem.Click += changeFontToolStripMenuItem_Click;
             // 
             // codeToolStripMenuItem
             // 
@@ -180,101 +174,28 @@
             // executeToolStripMenuItem
             // 
             executeToolStripMenuItem.Name = "executeToolStripMenuItem";
-            executeToolStripMenuItem.Size = new Size(169, 22);
+            executeToolStripMenuItem.Size = new Size(180, 22);
             executeToolStripMenuItem.Text = "Execute";
+            executeToolStripMenuItem.Click += executeToolStripMenuItem_Click;
             // 
             // stepByStepToolStripMenuItem
             // 
             stepByStepToolStripMenuItem.Name = "stepByStepToolStripMenuItem";
-            stepByStepToolStripMenuItem.Size = new Size(169, 22);
+            stepByStepToolStripMenuItem.Size = new Size(180, 22);
             stepByStepToolStripMenuItem.Text = "Debug";
+            stepByStepToolStripMenuItem.Click += stepByStepToolStripMenuItem_Click;
             // 
             // toolStripSeparatorCodeSection
             // 
             toolStripSeparatorCodeSection.Name = "toolStripSeparatorCodeSection";
-            toolStripSeparatorCodeSection.Size = new Size(166, 6);
+            toolStripSeparatorCodeSection.Size = new Size(177, 6);
             // 
             // executionSettingsToolStripMenuItem
             // 
             executionSettingsToolStripMenuItem.Name = "executionSettingsToolStripMenuItem";
-            executionSettingsToolStripMenuItem.Size = new Size(169, 22);
+            executionSettingsToolStripMenuItem.Size = new Size(180, 22);
             executionSettingsToolStripMenuItem.Text = "Execution settings";
-            // 
-            // samplesToolStripMenuItem
-            // 
-            samplesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { starterToolStripMenuItem, terminalToolStripMenuItem, graphicalToolStripMenuItem });
-            samplesToolStripMenuItem.Name = "samplesToolStripMenuItem";
-            samplesToolStripMenuItem.Size = new Size(63, 20);
-            samplesToolStripMenuItem.Text = "Samples";
-            // 
-            // starterToolStripMenuItem
-            // 
-            starterToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { addTwoNumbersToolStripMenuItem, forLoopToolStripMenuItem, beepToolStripMenuItem });
-            starterToolStripMenuItem.Name = "starterToolStripMenuItem";
-            starterToolStripMenuItem.Size = new Size(124, 22);
-            starterToolStripMenuItem.Text = "Starter";
-            // 
-            // addTwoNumbersToolStripMenuItem
-            // 
-            addTwoNumbersToolStripMenuItem.Name = "addTwoNumbersToolStripMenuItem";
-            addTwoNumbersToolStripMenuItem.Size = new Size(169, 22);
-            addTwoNumbersToolStripMenuItem.Text = "Add two numbers";
-            // 
-            // forLoopToolStripMenuItem
-            // 
-            forLoopToolStripMenuItem.Name = "forLoopToolStripMenuItem";
-            forLoopToolStripMenuItem.Size = new Size(169, 22);
-            forLoopToolStripMenuItem.Text = "For loop";
-            // 
-            // beepToolStripMenuItem
-            // 
-            beepToolStripMenuItem.Name = "beepToolStripMenuItem";
-            beepToolStripMenuItem.Size = new Size(169, 22);
-            beepToolStripMenuItem.Text = "Beep";
-            // 
-            // terminalToolStripMenuItem
-            // 
-            terminalToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { helloWorldToolStripMenuItem, pyramidToolStripMenuItem });
-            terminalToolStripMenuItem.Name = "terminalToolStripMenuItem";
-            terminalToolStripMenuItem.Size = new Size(124, 22);
-            terminalToolStripMenuItem.Text = "Terminal";
-            // 
-            // helloWorldToolStripMenuItem
-            // 
-            helloWorldToolStripMenuItem.Name = "helloWorldToolStripMenuItem";
-            helloWorldToolStripMenuItem.Size = new Size(137, 22);
-            helloWorldToolStripMenuItem.Text = "Hello World";
-            // 
-            // pyramidToolStripMenuItem
-            // 
-            pyramidToolStripMenuItem.Name = "pyramidToolStripMenuItem";
-            pyramidToolStripMenuItem.Size = new Size(137, 22);
-            pyramidToolStripMenuItem.Text = "Pyramid";
-            // 
-            // graphicalToolStripMenuItem
-            // 
-            graphicalToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { drawLineToolStripMenuItem, drawSquareToolStripMenuItem, drawColouredToolStripMenuItem });
-            graphicalToolStripMenuItem.Name = "graphicalToolStripMenuItem";
-            graphicalToolStripMenuItem.Size = new Size(124, 22);
-            graphicalToolStripMenuItem.Text = "Graphical";
-            // 
-            // drawLineToolStripMenuItem
-            // 
-            drawLineToolStripMenuItem.Name = "drawLineToolStripMenuItem";
-            drawLineToolStripMenuItem.Size = new Size(151, 22);
-            drawLineToolStripMenuItem.Text = "Draw line";
-            // 
-            // drawSquareToolStripMenuItem
-            // 
-            drawSquareToolStripMenuItem.Name = "drawSquareToolStripMenuItem";
-            drawSquareToolStripMenuItem.Size = new Size(151, 22);
-            drawSquareToolStripMenuItem.Text = "Draw square";
-            // 
-            // drawColouredToolStripMenuItem
-            // 
-            drawColouredToolStripMenuItem.Name = "drawColouredToolStripMenuItem";
-            drawColouredToolStripMenuItem.Size = new Size(151, 22);
-            drawColouredToolStripMenuItem.Text = "Draw coloured";
+            executionSettingsToolStripMenuItem.Click += executionSettingsToolStripMenuItem_Click;
             // 
             // aboutToolStripMenuItem
             // 
@@ -562,7 +483,6 @@
         private ToolStripMenuItem textToolStripMenuItem;
         private ToolStripMenuItem codeToolStripMenuItem;
         private ToolStripMenuItem aboutToolStripMenuItem;
-        private ToolStripMenuItem samplesToolStripMenuItem;
         private TabPage tabPageRegisters;
         private TabPage tabPageOutput;
         private DataGridView dataGridMemoryView;
@@ -572,8 +492,6 @@
         private Label labelStart;
         private CheckBox checkBoxHighlightAccessedMemory;
         private RichTextBox richTextBoxOutput;
-        private ToolStripMenuItem starterToolStripMenuItem;
-        private ToolStripMenuItem terminalToolStripMenuItem;
         private ToolStripMenuItem openToolStripMenuItem;
         private ToolStripMenuItem saveToolStripMenuItem;
         private ToolStripMenuItem saveAsToolStripMenuItem;
@@ -582,20 +500,10 @@
         private ToolStripMenuItem increaseFontSizeToolStripMenuItem;
         private ToolStripMenuItem decreaseFontSizeToolStripMenuItem;
         private ToolStripMenuItem changeFontToolStripMenuItem;
-        private ToolStripMenuItem changeFontColourToolStripMenuItem;
         private ToolStripMenuItem executeToolStripMenuItem;
         private ToolStripMenuItem stepByStepToolStripMenuItem;
         private ToolStripSeparator toolStripSeparatorCodeSection;
         private ToolStripMenuItem executionSettingsToolStripMenuItem;
-        private ToolStripMenuItem addTwoNumbersToolStripMenuItem;
-        private ToolStripMenuItem forLoopToolStripMenuItem;
-        private ToolStripMenuItem beepToolStripMenuItem;
-        private ToolStripMenuItem helloWorldToolStripMenuItem;
-        private ToolStripMenuItem pyramidToolStripMenuItem;
-        private ToolStripMenuItem graphicalToolStripMenuItem;
-        private ToolStripMenuItem drawLineToolStripMenuItem;
-        private ToolStripMenuItem drawSquareToolStripMenuItem;
-        private ToolStripMenuItem drawColouredToolStripMenuItem;
         private ListBox listBoxVirtualCpuRegisters;
         private NumericUpDown numericUpDownMemoryRangeStart;
         private NumericUpDown numericUpDownMemoryRangeEnd;
