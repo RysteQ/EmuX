@@ -9,7 +9,7 @@ public class InstructionVariant : IComparable
         FirstOperand = firstOperand;
         SecondOperand = secondOperand;
         ThirdOperand = thirdOperand;
-    
+
         firstOperand = firstOperand == null ? OperandVariant.NaN : firstOperand;
         secondOperand = secondOperand == null ? OperandVariant.NaN : secondOperand;
         thirdOperand = thirdOperand == null ? OperandVariant.NaN : thirdOperand;

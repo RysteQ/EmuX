@@ -1,5 +1,6 @@
-﻿using EmuXCore.Interpreter.Interfaces.Logic;
-using EmuXCore.Interpreter.Interfaces.Models;
+﻿using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
+using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
+using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Interpreter.EncoderTests;
@@ -16,7 +17,7 @@ public class EncoderTests : TestWideInternalConstants
         IList<IToken> tokens = [];
         IParserResult parserResult;
         IInstructionEncoderResult instructionEncoderResult;
-        
+
         string sourceCode = @"
                                 neg eax
                                 neg dword ptr [eax]
@@ -34,7 +35,7 @@ public class EncoderTests : TestWideInternalConstants
                                 neg dword ptr [esp + ebx + 5]
                                 neg dword ptr [esp + ebx * 2 + 7]";
 
-        byte[] expectedOutput = 
+        byte[] expectedOutput =
         [
             0xF7, 0xD8, 0xF7, 0x18, 0xF7, 0x1C, 0x24, 0xF7,
             0x5D, 0x00, 0xF7, 0x1C, 0x04, 0xF7, 0x1C, 0x2C,

@@ -1,8 +1,6 @@
 ﻿using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
-using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.VM.BIOS;
@@ -16,7 +14,7 @@ public sealed class DeviceInterruptTests : TestWideInternalConstants
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL = 100;
-        
+
         try
         {
             virtualMachine.BIOS.HandleDeviceInterrupt(DeviceInterrupt.ExecuteLogic);

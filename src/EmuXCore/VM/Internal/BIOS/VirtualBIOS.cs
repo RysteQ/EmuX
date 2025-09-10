@@ -4,8 +4,6 @@ using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
-using EmuXCore.VM.Internal.BIOS.Interfaces;
-using EmuXCore.VM.Internal.BIOS.Internal;
 
 namespace EmuXCore.VM.Internal.BIOS;
 
@@ -77,7 +75,7 @@ public class VirtualBIOS : IVirtualBIOS
         {
             throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
         }
-        
+
         switch (interruptCode)
         {
             case DeviceInterrupt.ExecuteLogic: _deviceInterruptHandler.ExecuteLogic(ParentVirtualMachine.CPU, ParentVirtualMachine.Devices); break;

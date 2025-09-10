@@ -1,6 +1,6 @@
 ﻿using EmuXCore.Interpreter.Enums;
-using EmuXCore.Interpreter.Interfaces.Logic;
-using EmuXCore.Interpreter.Interfaces.Models;
+using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
+using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Interpreter.ParserTests;
@@ -26,7 +26,7 @@ public sealed class ParseLabelsUnitTests : TestWideInternalConstants
     [TestMethod]
     public void ParseMultipleLabels()
     {
-        List<IToken> tokens = 
+        List<IToken> tokens =
         [
             GenerateToken(TokenType.LABEL, "test_label_1"), GenerateToken(TokenType.COLON, ":"), GenerateToken(TokenType.EOL, "\n"),
             GenerateToken(TokenType.LABEL, "test_label_2"), GenerateToken(TokenType.COLON, ":"), GenerateToken(TokenType.EOL, "\n"),

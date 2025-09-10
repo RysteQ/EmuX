@@ -1,5 +1,3 @@
-using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
-using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 using EmuXCore.VM.Internal.CPU.Registers;
 using EmuXCoreUnitTests.Tests.Common;
 

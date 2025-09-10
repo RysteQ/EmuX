@@ -4,8 +4,8 @@ using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;
 using EmuXCore.Interpreter.Enums;
-using EmuXCore.Interpreter.Interfaces.Logic;
-using EmuXCore.Interpreter.Interfaces.Models;
+using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
+using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Interpreter.ParserTests;

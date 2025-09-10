@@ -1,10 +1,5 @@
 ﻿using EmuXCore.InstructionLogic.Interfaces;
 using EmuXCore.InstructionLogic.Prefixes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmuXCore.InstructionLogic;
 

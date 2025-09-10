@@ -3,8 +3,8 @@ using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
-using System.Drawing;
 using EmuXCoreUnitTests.Tests.Common;
+using System.Drawing;
 
 namespace EmuXCoreUnitTests.Tests.VM.GPU;
 

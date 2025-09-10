@@ -9,6 +9,6 @@ public enum OperandVariant : short
     Memory,
     Register,
     Label,
-    
+
     NaN = 0,
 }
