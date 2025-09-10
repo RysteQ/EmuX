@@ -1,5 +1,5 @@
 ﻿using EmuXCore.VM.Enums;
-using EmuXCore.VM.Interfaces.Components.Events;
+using EmuXCore.VM.Interfaces.Events;
 
 namespace EmuXCore.VM.Events;
 

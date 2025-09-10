@@ -28,7 +28,7 @@ public class VirtualMachine : IVirtualMachine
         CPU.GetRegister<VirtualRegisterRSP>().RSP = (ulong)(Memory.RAM.Length - 1);
     }
 
-    public void SetFlag(EFlags flag, bool value)
+    public virtual void SetFlag(EFlags flag, bool value)
     {
         bool previousValue = (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)flag) != 0;
 
@@ -38,7 +38,7 @@ public class VirtualMachine : IVirtualMachine
         FlagAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIFlagAccess(flag, false, (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)flag) != 0, false, value, false));
     }
 
-    public void SetIOPL(bool firstBit, bool secondBit)
+    public virtual void SetIOPL(bool firstBit, bool secondBit)
     {
         bool firstBitPreviousValue = (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS | (uint)((firstBit ? 1 : 0) << 13)) != 0;
         bool secondBitPreviousValue = (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS | (uint)((secondBit ? 1 : 0) << 12)) != 0;
@@ -50,14 +50,14 @@ public class VirtualMachine : IVirtualMachine
         FlagAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIFlagAccess(EFlags.IOPL, false, firstBitPreviousValue, secondBitPreviousValue, firstBit, secondBit));
     }
 
-    public bool GetFlag(EFlags flag)
+    public virtual bool GetFlag(EFlags flag)
     {
         FlagAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIFlagAccess(flag, true, (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)flag) != 0, false, (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)flag) != 0, false));
 
         return (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)flag) != 0;
     }
 
-    public byte GetIOPL()
+    public virtual byte GetIOPL()
     {
         bool firstBitCurrentValue = ((byte)((CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)EFlags.IOPL) >> 12) & 0b_0000_0010) == 1;
         bool secondBitCurrentValue = ((byte)((CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)EFlags.IOPL) >> 12) & 0b_0000_0001) == 1;
@@ -67,29 +67,29 @@ public class VirtualMachine : IVirtualMachine
         return (byte)((CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)EFlags.IOPL) >> 12);
     }
 
-    public void SetByte(int memoryLocation, byte value)
+    public virtual void SetByte(int memoryLocation, byte value)
     {
         MemoryAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIMemoryAccess(memoryLocation, Size.Byte, false, Memory.RAM[memoryLocation], value));
 
         Memory.RAM[memoryLocation] = value;
     }
 
-    public void SetWord(int memoryLocation, ushort value)
+    public virtual void SetWord(int memoryLocation, ushort value)
     {
         MemoryAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIMemoryAccess(memoryLocation, Size.Word, false, (ulong)(
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 8) + 
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 8) +
                                                                                                                     Memory.RAM[memoryLocation]), value));
 
         Memory.RAM[memoryLocation] = (byte)(value & 0x_00ff);
         Memory.RAM[memoryLocation + 1] = (byte)((value & 0x_ff00) >> 8);
     }
 
-    public void SetDouble(int memoryLocation, uint value)
+    public virtual void SetDouble(int memoryLocation, uint value)
     {
         MemoryAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIMemoryAccess(memoryLocation, Size.Dword, false, (ulong)(
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 24) + 
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 16) + 
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 8) + 
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 24) +
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 16) +
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 8) +
                                                                                                                     Memory.RAM[memoryLocation]), value));
 
         Memory.RAM[memoryLocation] = (byte)(value & 0x_0000_00ff);
@@ -98,16 +98,16 @@ public class VirtualMachine : IVirtualMachine
         Memory.RAM[memoryLocation + 3] = (byte)((value & 0x_ff00_0000) >> 24);
     }
 
-    public void SetQuad(int memoryLocation, ulong value)
+    public virtual void SetQuad(int memoryLocation, ulong value)
     {
         MemoryAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIMemoryAccess(memoryLocation, Size.Qword, false, (ulong)(
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 56) + 
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 48) + 
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 40) + 
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 32) + 
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 24) + 
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 16) + 
-                                                                                                                    (Memory.RAM[memoryLocation + 1] << 8) + 
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 56) +
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 48) +
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 40) +
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 32) +
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 24) +
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 16) +
+                                                                                                                    (Memory.RAM[memoryLocation + 1] << 8) +
                                                                                                                     Memory.RAM[memoryLocation]), value));
 
         Memory.RAM[memoryLocation] = (byte)(value & 0x_0000_0000_0000_00ff);
@@ -120,16 +120,16 @@ public class VirtualMachine : IVirtualMachine
         Memory.RAM[memoryLocation + 7] = (byte)((value & 0x_ff00_0000_0000_0000) >> 56);
     }
 
-    public byte GetByte(int memoryLocation)
+    public virtual byte GetByte(int memoryLocation)
     {
         MemoryAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIMemoryAccess(memoryLocation, Size.Byte, true, Memory.RAM[memoryLocation], Memory.RAM[memoryLocation]));
 
         return Memory.RAM[memoryLocation];
     }
 
-    public ushort GetWord(int memoryLocation)
+    public virtual ushort GetWord(int memoryLocation)
     {
-        ushort[] bytes = 
+        ushort[] bytes =
         [
             (ushort)Memory.RAM[memoryLocation],
             (ushort)(Memory.RAM[memoryLocation + 1] << 8)
@@ -140,7 +140,7 @@ public class VirtualMachine : IVirtualMachine
         return (ushort)bytes.Sum(selectedByte => selectedByte);
     }
 
-    public uint GetDouble(int memoryLocation)
+    public virtual uint GetDouble(int memoryLocation)
     {
         uint[] bytes =
         [
@@ -155,7 +155,7 @@ public class VirtualMachine : IVirtualMachine
         return (uint)bytes.Sum(selectedByte => selectedByte);
     }
 
-    public ulong GetQuad(int memoryLocation)
+    public virtual ulong GetQuad(int memoryLocation)
     {
         uint[] lowerBytes =
         [
@@ -178,7 +178,7 @@ public class VirtualMachine : IVirtualMachine
         return (((ulong)upperBytes.Sum(selectedByte => selectedByte)) << 32) + (ulong)lowerBytes.Sum(selectedByte => selectedByte);
     }
 
-    public void PushByte(byte value)
+    public virtual void PushByte(byte value)
     {
         StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Byte, true, value));
 
@@ -186,7 +186,7 @@ public class VirtualMachine : IVirtualMachine
         CPU.GetRegister<VirtualRegisterRSP>().RSP -= 4;
     }
 
-    public void PushWord(ushort value)
+    public virtual void PushWord(ushort value)
     {
         StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Word, true, value));
 
@@ -195,7 +195,7 @@ public class VirtualMachine : IVirtualMachine
         CPU.GetRegister<VirtualRegisterRSP>().RSP -= 2;
     }
 
-    public void PushDouble(uint value)
+    public virtual void PushDouble(uint value)
     {
         StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Dword, true, value));
 
@@ -206,7 +206,7 @@ public class VirtualMachine : IVirtualMachine
         CPU.GetRegister<VirtualRegisterRSP>().RSP -= 4;
     }
 
-    public void PushQuad(ulong value)
+    public virtual void PushQuad(ulong value)
     {
         StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Qword, true, value));
 
@@ -221,7 +221,7 @@ public class VirtualMachine : IVirtualMachine
         CPU.GetRegister<VirtualRegisterRSP>().RSP -= 8;
     }
 
-    public byte PopByte()
+    public virtual byte PopByte()
     {
         StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Byte, false, Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP]));
 
@@ -230,7 +230,7 @@ public class VirtualMachine : IVirtualMachine
         return Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 4];
     }
 
-    public ushort PopWord()
+    public virtual ushort PopWord()
     {
         ushort[] bytes =
         [
@@ -245,7 +245,7 @@ public class VirtualMachine : IVirtualMachine
         return (ushort)bytes.Sum(selectedByte => selectedByte);
     }
 
-    public uint PopDouble()
+    public virtual uint PopDouble()
     {
         uint[] bytes =
         [
@@ -262,7 +262,7 @@ public class VirtualMachine : IVirtualMachine
         return (uint)bytes.Sum(selectedByte => selectedByte);
     }
 
-    public ulong PopQuad()
+    public virtual ulong PopQuad()
     {
         uint[] lowerBytes =
         [
@@ -287,7 +287,7 @@ public class VirtualMachine : IVirtualMachine
         return (((ulong)upperBytes.Sum(selectedByte => selectedByte)) << 32) + (ulong)lowerBytes.Sum(selectedByte => selectedByte);
     }
 
-    public void Interrupt(InterruptCode interruptCode, object subInterruptCode)
+    public virtual void Interrupt(InterruptCode interruptCode, object subInterruptCode)
     {
         Dictionary<InterruptCode, Type> interruptCodeLookup = new()
         {

@@ -1,6 +1,6 @@
 ﻿using EmuXCore.Common.Enums;
 
-namespace EmuXCore.VM.Interfaces.Components.Events;
+namespace EmuXCore.VM.Interfaces.Events;
 
 /// <summary>
 /// To be used with a class that inherits from the <c>EventArgs</c> class for memory access event operations

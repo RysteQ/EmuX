@@ -1,6 +1,4 @@
-﻿using EmuXCore.VM.Interfaces.Components;
-
-namespace EmuXCore.VM.Internal.BIOS.Interfaces;
+﻿namespace EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 
 /// <summary>
 /// The device interrupt handler is used to handle all the device sub-interrupt code function calls

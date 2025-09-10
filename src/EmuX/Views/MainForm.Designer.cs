@@ -236,6 +236,7 @@
             richTextboxAssemblyCode.Size = new Size(780, 381);
             richTextboxAssemblyCode.TabIndex = 0;
             richTextboxAssemblyCode.Text = "";
+            richTextboxAssemblyCode.TextChanged += richTextboxAssemblyCode_TextChanged;
             // 
             // tabPageMemory
             // 

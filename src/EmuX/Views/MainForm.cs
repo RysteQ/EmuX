@@ -1,13 +1,9 @@
 using EmuX_Nano.Modules;
 using EmuXCore;
-using EmuXCore.Common.Enums;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Interfaces.Components;
-using EmuXCore.VM.Interfaces.Components.Events;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Interfaces.Events;
 using EmuXCore.VM.Internal.Device.USBDrives;
-using System.Text;
-using System.Xml;
 
 namespace EmuX;
 
@@ -412,6 +408,11 @@ public partial class MainForm : Form
     private void executionSettingsToolStripMenuItem_Click(object sender, EventArgs e)
     {
         // TODO - Finish the IInterpreter interface and implementation
+    }
+
+    private void richTextboxAssemblyCode_TextChanged(object sender, EventArgs e)
+    {
+        // TODO - syntax highlighting
     }
 
     private PopupInput _popupInput = new();

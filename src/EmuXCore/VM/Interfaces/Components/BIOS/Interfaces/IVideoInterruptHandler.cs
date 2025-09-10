@@ -1,6 +1,4 @@
-﻿using EmuXCore.VM.Interfaces.Components;
-
-namespace EmuXCore.VM.Internal.BIOS.Interfaces;
+﻿namespace EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 
 /// <summary>
 /// The video interrupt handler is used to handle all the video sub-interrupt code function calls
