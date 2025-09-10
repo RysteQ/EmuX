@@ -1,4 +1,4 @@
-﻿namespace EmuXCore.Interpreter.Interfaces.Models;
+﻿namespace EmuXCore.Interpreter.Models.Interfaces;
 
 /// <summary>
 /// This is used to hold the raw source code to be parsed into a singular object per line of said source code

@@ -1,6 +1,6 @@
-﻿using EmuXCore.Interpreter.Interfaces.Models;
+﻿using EmuXCore.Interpreter.Models.Interfaces;
 
-namespace EmuXCore.Interpreter.Interfaces.Logic;
+namespace EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 
 /// <summary>
 /// The ILexer is responsible for parsing the source code into the IL represenation of said code

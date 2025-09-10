@@ -3,17 +3,15 @@ using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
-using EmuXCore.InstructionLogic.Prefixes;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.Interpreter.Encoder.Models;
-using EmuXCore.Interpreter.Interfaces.Logic;
-using EmuXCore.Interpreter.Interfaces.Models;
+using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU.Registers;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using System.Collections.ObjectModel;
-using System.Net;
 
 namespace EmuXCore.Interpreter.Encoder.Logic;
 

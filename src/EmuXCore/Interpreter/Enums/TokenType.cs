@@ -8,7 +8,7 @@ public enum TokenType : byte
     // Start of an instruction
     PREFIX,
     INSTRUCTION,
-    
+
     // Generic operands
     REGISTER,
     VALUE,

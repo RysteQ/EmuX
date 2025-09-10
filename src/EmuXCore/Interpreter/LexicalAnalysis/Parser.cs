@@ -3,18 +3,10 @@ using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Interfaces;
 using EmuXCore.Interpreter.Enums;
-using EmuXCore.Interpreter.Interfaces;
-using EmuXCore.Interpreter.Interfaces.Logic;
-using EmuXCore.Interpreter.Interfaces.Models;
+using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
+using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EmuXCore.Interpreter.LexicalSyntax;
 
@@ -219,7 +211,7 @@ public class Parser : IParser
             Accept(TokenType.OPEN_BRACKET);
 
             (string fullOperand, List<IMemoryOffset> offsets) memoryOffsetsResult = CalculateMemoryOffsets(line);
-            
+
             fullOperand += $"[{memoryOffsetsResult.fullOperand.Trim()}]";
             offsets = memoryOffsetsResult.offsets;
             variant = OperandVariant.Memory;

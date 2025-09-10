@@ -1,6 +1,6 @@
 ﻿using EmuXCore.Common.Interfaces;
 
-namespace EmuXCore.Interpreter.Interfaces.Models;
+namespace EmuXCore.Interpreter.Models.Interfaces;
 
 /// <summary>
 /// This is used to hold the parsing results into a singular, easy to use, object

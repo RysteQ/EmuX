@@ -1,12 +1,7 @@
 ﻿using EmuXCore.Interpreter.Enums;
-using EmuXCore.Interpreter.Interfaces.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EmuXCore.Interpreter.Models.Interfaces;
 
-namespace EmuXCore.Interpreter.Internal.Models;
+namespace EmuXCore.Interpreter.Models;
 
 public class Token : IToken
 {

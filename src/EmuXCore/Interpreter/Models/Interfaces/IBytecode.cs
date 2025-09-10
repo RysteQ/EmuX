@@ -1,6 +1,6 @@
 ﻿using EmuXCore.Common.Interfaces;
 
-namespace EmuXCore.Interpreter.Interfaces.Models;
+namespace EmuXCore.Interpreter.Models.Interfaces;
 
 /// <summary>
 /// This is used during the parsing process of the source code to an IL representation of it, its main purpose is for data transfer

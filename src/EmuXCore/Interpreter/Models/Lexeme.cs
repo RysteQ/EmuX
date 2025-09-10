@@ -4,14 +4,12 @@ using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;
-using EmuXCore.Interpreter.Interfaces.Logic;
-using EmuXCore.Interpreter.Interfaces.Models;
+using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using EmuXCore.VM.Internal.CPU;
 using System.Diagnostics;
 
-namespace EmuXCore.Interpreter.Internal.Models;
+namespace EmuXCore.Interpreter.Models;
 
 public class Lexeme : ILexeme
 {
@@ -255,7 +253,7 @@ public class Lexeme : ILexeme
             return false;
         }
 
-        return Opcode.Last() == ':' && !string.IsNullOrEmpty(Opcode) && !Opcode.Any(selectedChar => Char.IsAscii(selectedChar) == false && Char.IsAsciiDigit(selectedChar) == false);
+        return Opcode.Last() == ':' && !string.IsNullOrEmpty(Opcode) && !Opcode.Any(selectedChar => char.IsAscii(selectedChar) == false && char.IsAsciiDigit(selectedChar) == false);
     }
 
     private InstructionVariant GetInstructionVariant()
@@ -350,7 +348,7 @@ public class Lexeme : ILexeme
         if (operand.Split(' ').Count() == 2)
         {
             List<string> acceptableSizeOperands = ["byte", "word", "dword", "qword"];
-            
+
             if (!acceptableSizeOperands.Contains(operand))
             {
                 return false;
@@ -359,16 +357,16 @@ public class Lexeme : ILexeme
             operand = operand.Split(' ').Last();
         }
 
-        return (operand.EndsWith('B')
-            && !operand[..^1].Where(selectedChar => selectedChar != '0' && selectedChar != '1').Any())
-            || (operand.EndsWith('H')
-            && !operand[..^1].Where(selectedChar => int.TryParse(selectedChar.ToString(), out _) == false && selectedChar < 65 && selectedChar > 70).Any())
-            || (operand.StartsWith("0B")
-            && !operand[2..].Where(selectedChar => selectedChar != '0' && selectedChar != '1').Any())
-            || (operand.StartsWith("0X")
-            && !operand[2..].Where(selectedChar => int.TryParse(selectedChar.ToString(), out _) == false && selectedChar < 65 && selectedChar > 70).Any())
-            || (operand.Length == 3 && operand[0] == '\'' && operand[2] == '\''
-            || int.TryParse(operand, out _));
+        return operand.EndsWith('B')
+            && !operand[..^1].Where(selectedChar => selectedChar != '0' && selectedChar != '1').Any()
+            || operand.EndsWith('H')
+            && !operand[..^1].Where(selectedChar => int.TryParse(selectedChar.ToString(), out _) == false && selectedChar < 65 && selectedChar > 70).Any()
+            || operand.StartsWith("0B")
+            && !operand[2..].Where(selectedChar => selectedChar != '0' && selectedChar != '1').Any()
+            || operand.StartsWith("0X")
+            && !operand[2..].Where(selectedChar => int.TryParse(selectedChar.ToString(), out _) == false && selectedChar < 65 && selectedChar > 70).Any()
+            || operand.Length == 3 && operand[0] == '\'' && operand[2] == '\''
+            || int.TryParse(operand, out _);
     }
 
     private bool IsMemoryType(string operand)

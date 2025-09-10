@@ -1,7 +1,7 @@
 ﻿using EmuXCore.Common.Interfaces;
-using EmuXCore.Interpreter.Interfaces.Models;
+using EmuXCore.Interpreter.Models.Interfaces;
 
-namespace EmuXCore.Interpreter.Interfaces.Logic;
+namespace EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 
 public interface IInstructionEncoder
 {

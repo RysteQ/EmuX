@@ -1,6 +1,6 @@
 ﻿using EmuXCore.Common.Enums;
 
-namespace EmuXCore.Interpreter.Interfaces.Models;
+namespace EmuXCore.Interpreter.Encoder.Interfaces.Models;
 
 public interface IPatch
 {

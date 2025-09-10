@@ -1,5 +1,5 @@
 ﻿using EmuXCore.Common.Enums;
-using EmuXCore.Interpreter.Interfaces.Models;
+using EmuXCore.Interpreter.Encoder.Interfaces.Models;
 
 namespace EmuXCore.Interpreter.Encoder.Models;
 

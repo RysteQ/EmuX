@@ -1,6 +1,6 @@
-﻿using EmuXCore.Interpreter.Interfaces.Models;
+﻿using EmuXCore.Interpreter.Models.Interfaces;
 
-namespace EmuXCore.Interpreter.Interfaces.Logic;
+namespace EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 
 /// <summary>
 /// The IParser is responsible for grammatical rules and parsing the lexer tokens

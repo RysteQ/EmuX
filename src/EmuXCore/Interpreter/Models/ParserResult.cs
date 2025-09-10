@@ -1,7 +1,7 @@
 ﻿using EmuXCore.Common.Interfaces;
-using EmuXCore.Interpreter.Interfaces.Models;
+using EmuXCore.Interpreter.Models.Interfaces;
 
-namespace EmuXCore.Interpreter.Internal.Models;
+namespace EmuXCore.Interpreter.Models;
 
 public record ParserResult : IParserResult
 {

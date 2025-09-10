@@ -1,7 +1,6 @@
 ﻿using EmuXCore.Common.Interfaces;
-using EmuXCore.Interpreter.Interfaces.Models;
 
-namespace EmuXCore.Interpreter.Interfaces.Logic;
+namespace EmuXCore.Interpreter.Models.Interfaces;
 
 /// <summary>
 /// This is used during the late stages of the parsing process to check if the instruction is valid and to parse said instruction to its IInstruction counterpart
