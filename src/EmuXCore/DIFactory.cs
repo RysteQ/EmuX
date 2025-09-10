@@ -4,12 +4,15 @@ using EmuXCore.InstructionLogic;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Interfaces;
-using EmuXCore.Interpreter;
 using EmuXCore.Interpreter.Enums;
-using EmuXCore.Interpreter.Interfaces.Logic;
-using EmuXCore.Interpreter.Interfaces.Models;
-using EmuXCore.Interpreter.Internal.Models;
+using EmuXCore.Interpreter.Interfaces;
+using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.LexicalSyntax;
+using EmuXCore.Interpreter.Models;
+using EmuXCore.Interpreter.Models.Interfaces;
+using EmuXCore.Interpreter.RCVM.Enums;
+using EmuXCore.Interpreter.RCVM.Interfaces.Models;
+using EmuXCore.Interpreter.RCVM.Models;
 using EmuXCore.VM;
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Events;
@@ -17,10 +20,9 @@ using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
-using EmuXCore.VM.Interfaces.Components.Events;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Interfaces.Events;
 using EmuXCore.VM.Internal.BIOS;
-using EmuXCore.VM.Internal.BIOS.Interfaces;
 using EmuXCore.VM.Internal.BIOS.Internal;
 using EmuXCore.VM.Internal.CPU;
 using EmuXCore.VM.Internal.Disk;
@@ -88,7 +90,7 @@ public static class DIFactory
     /// <param name="fullOperand">The full text as is from the source code</param>
     /// <returns>The implementation of IMemoryOffset</returns>
     public static IMemoryOffset GenerateIMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand) => new MemoryOffset(type, operand, fullOperand);
-    
+
     /// <summary>
     /// Generates an instance of IOperand
     /// </summary>
@@ -98,7 +100,7 @@ public static class DIFactory
     /// <param name="offsets">The memort offsets, if any, of the operand</param>
     /// <returns>The implementation of IOperand</returns>
     public static IOperand GenerateIOperand(string fullOperand, OperandVariant variant, Size operandSize, IMemoryOffset[] offsets) => new Operand(fullOperand, variant, operandSize, offsets);
-    
+
     /// <summary>
     /// Generates an instance of IPrefix
     /// </summary>
@@ -182,13 +184,13 @@ public static class DIFactory
     /// <param name="line">The line the source code line is from the source code</param>
     /// <returns>The implementation of ISourceCodeLine</returns>
     public static ISourceCodeLine GenerateISourceCodeLine(string sourceCode, int line) => new SourceCodeLine(sourceCode, line);
-    
+
     /// <summary>
     /// Generates an instance of IInterpreter
     /// </summary>
     /// <returns>The implementation of IInterepreter</returns>
     public static IInterpreter GenerateIInterpreter() => new Interpreter.Interpreter();
-    
+
     /// <summary>
     /// Generates an instance of ILexer
     /// </summary>
@@ -219,6 +221,17 @@ public static class DIFactory
     /// </summary>
     /// <returns>The implementation of IParser</returns>
     public static IToken GenerateIToken(TokenType type, string sourceCode) => new Token(type, sourceCode);
+
+    /// <summary>
+    /// Generates an instance of IVmAction
+    /// </summary>
+    /// <param name="action">The category of the action</param>
+    /// <param name="size">The size of the memory operation if applicable</param>
+    /// <param name="previousValue">The previous value before the memory operation took place</param>
+    /// <param name="registerName">The register name if it is a register operation, otherwise null</param>
+    /// <param name="memoryPointer">The memory address if it is a memory operation, otherwise null</param>
+    /// <returns>The implementation of IVmAction</returns>
+    public static IVmAction GenerateIVmAction(VmActionCategory action, Size size, byte[] previousValue, string? registerName = null, int? memoryPointer = null) => new VmAction(action, size, previousValue, registerName, memoryPointer);
 
     // VM
 
@@ -297,21 +310,21 @@ public static class DIFactory
     /// <param name="parentVirtualMachine">The virtual machine the IVirtualDisk is part of</param>
     /// <returns>The implementation of IVirtualDisk</returns>
     public static IVirtualDisk GenerateIVirtualDisk(byte diskNumber, byte platters, ushort tracksPerPlatter, byte sectorsPerTrack, IVirtualMachine? parentVirtualMachine = null) => new VirtualDisk(diskNumber, platters, tracksPerPlatter, sectorsPerTrack, parentVirtualMachine);
-    
+
     /// <summary>
     /// Generates an instance of IVirtualGPU
     /// </summary>
     /// <param name="parentVirtualMachine">The virtual machine the IVirtualGPU is part of</param>
     /// <returns>The implementation of IVirtualGPU</returns>
     public static IVirtualGPU GenerateIVirtualGPU(IVirtualMachine? parentVirtualMachine = null) => new VirtualGPU(parentVirtualMachine);
-    
+
     /// <summary>
     /// Generates an instance of IVirtualMemory
     /// </summary>
     /// <param name="parentVirtualMachine">The virtual machine the IVirtualMemory is part of</param>
     /// <returns>The implementation of IVirtualMemory</returns>
     public static IVirtualMemory GenerateIVirtualMemory(IVirtualMachine? parentVirtualMachine = null) => new VirtualMemory(parentVirtualMachine);
-    
+
     /// <summary>
     /// Generates an instance of IVirtualRTC
     /// </summary>
