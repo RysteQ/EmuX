@@ -16,17 +16,12 @@ public class VirtualRegisterRSI : IVirtualRegister
     public ulong Get() => RSI;
     public void Set(ulong value) => RSI = value;
 
-    private void RegisterRegisterUpdate(byte[] currentValue, byte[] newValue, string registerName)
-    {
-        ParentVirtualMachine?.Actions.Add([DIFactory.GenerateIVmAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[registerName], currentValue, newValue, registerName)]);
-    }
-
     public ulong RSI
     {
         get => _rsi;
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(RSI), BitConverter.GetBytes(value), nameof(RSI));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RSI)], BitConverter.GetBytes(RSI), BitConverter.GetBytes(value), nameof(RSI));
             _rsi = value;
         }
     }
@@ -36,7 +31,7 @@ public class VirtualRegisterRSI : IVirtualRegister
         get => (uint)(RSI & 0x00000000ffffffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(ESI), BitConverter.GetBytes(value), nameof(ESI));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(ESI)], BitConverter.GetBytes(ESI), BitConverter.GetBytes(value), nameof(ESI));
             _rsi = value;
         }
     }
@@ -46,7 +41,7 @@ public class VirtualRegisterRSI : IVirtualRegister
         get => (ushort)(ESI & 0x0000ffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(SI), BitConverter.GetBytes(value), nameof(SI));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SI)], BitConverter.GetBytes(SI), BitConverter.GetBytes(value), nameof(SI));
             _rsi = (ESI & 0xffff0000) + value;
         }
     }
@@ -56,7 +51,7 @@ public class VirtualRegisterRSI : IVirtualRegister
         get => (byte)(SI & 0x00ff);
         set
         {
-            RegisterRegisterUpdate([SIL], [value], nameof(SIL));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SIL)], [SIL], [value], nameof(SIL));
             _rsi = (ushort)((SI & 0xff00) + value);
         }
     }

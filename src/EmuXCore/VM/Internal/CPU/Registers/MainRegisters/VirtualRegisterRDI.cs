@@ -16,17 +16,12 @@ public class VirtualRegisterRDI : IVirtualRegister
     public ulong Get() => RDI;
     public void Set(ulong value) => RDI = value;
 
-    private void RegisterRegisterUpdate(byte[] currentValue, byte[] newValue, string registerName)
-    {
-        ParentVirtualMachine?.Actions.Add([DIFactory.GenerateIVmAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[registerName], currentValue, newValue, registerName)]);
-    }
-
     public ulong RDI
     {
         get => _rdi;
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(RDI), BitConverter.GetBytes(value), nameof(RDI));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RDI)], BitConverter.GetBytes(RDI), BitConverter.GetBytes(value), nameof(RDI));
             _rdi = value;
         }
     }
@@ -36,7 +31,7 @@ public class VirtualRegisterRDI : IVirtualRegister
         get => (uint)(RDI & 0x00000000ffffffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(EDI), BitConverter.GetBytes(value), nameof(EDI));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EDI)], BitConverter.GetBytes(EDI), BitConverter.GetBytes(value), nameof(EDI));
             _rdi = value;
         }
     }
@@ -46,7 +41,7 @@ public class VirtualRegisterRDI : IVirtualRegister
         get => (ushort)(EDI & 0x0000ffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(DI), BitConverter.GetBytes(value), nameof(DI));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(DI)], BitConverter.GetBytes(DI), BitConverter.GetBytes(value), nameof(DI));
             _rdi = (EDI & 0xffff0000) + value;
         }
     }
@@ -56,7 +51,7 @@ public class VirtualRegisterRDI : IVirtualRegister
         get => (byte)(DI & 0x00ff);
         set
         {
-            RegisterRegisterUpdate([DIL], [value], nameof(DIL));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(DIL)], [DIL], [value], nameof(DIL));
             _rdi = (ushort)((DI & 0xff00) + value);
         }
     }

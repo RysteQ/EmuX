@@ -230,7 +230,7 @@ public static class DIFactory
     /// <param name="registerName">The register name if it is a register operation, otherwise null</param>
     /// <param name="memoryPointer">The memory address if it is a memory operation, otherwise null</param>
     /// <returns>The implementation of IVmAction</returns>
-    public static IVmAction GenerateIVmAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null) => new VmAction(action, size, previousValue, newValue, registerName, memoryPointer);
+    public static IVmAction GenerateIVmAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null, int? deviceId = null) => new VmAction(action, size, previousValue, newValue, registerName, memoryPointer, deviceId);
 
     // VM
 

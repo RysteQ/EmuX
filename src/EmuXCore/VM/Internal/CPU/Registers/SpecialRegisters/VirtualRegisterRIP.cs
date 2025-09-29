@@ -16,17 +16,12 @@ public class VirtualRegisterRIP : IVirtualRegister
     public ulong Get() => RIP;
     public void Set(ulong value) => RIP = value;
 
-    private void RegisterRegisterUpdate(byte[] currentValue, byte[] newValue, string registerName)
-    {
-        ParentVirtualMachine?.Actions.Add([DIFactory.GenerateIVmAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[registerName], currentValue, newValue, registerName)]);
-    }
-
     public ulong RIP
     {
         get => _rip;
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(RIP), BitConverter.GetBytes(value), nameof(RIP));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RIP)], BitConverter.GetBytes(RIP), BitConverter.GetBytes(value), nameof(RIP));
             _rip = value;
         }
     }
@@ -36,7 +31,7 @@ public class VirtualRegisterRIP : IVirtualRegister
         get => (uint)(RIP & 0x00000000ffffffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(EIP), BitConverter.GetBytes(value), nameof(EIP));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EIP)], BitConverter.GetBytes(EIP), BitConverter.GetBytes(value), nameof(EIP));
             _rip = value;
         }
     }
@@ -46,7 +41,7 @@ public class VirtualRegisterRIP : IVirtualRegister
         get => (ushort)(EIP & 0x0000ffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(IP), BitConverter.GetBytes(value), nameof(IP));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(IP)], BitConverter.GetBytes(IP), BitConverter.GetBytes(value), nameof(IP));
             _rip = (EIP & 0xffff0000) + value;
         }
     }

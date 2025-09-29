@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Enums;
+﻿using EmuXCore.Common.Enums;
+using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces.Actions;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
@@ -147,6 +148,17 @@ public interface IVirtualMachine
     /// <exception cref="Exception">Thrown if the sub interrupt code has not been found</exception>
     /// <exception cref="NotImplementedException">Thrown if the interrupt functionality has not been implemented</exception>
     void Interrupt(InterruptCode interruptCode, object subInterrupt);
+
+    /// <summary>
+    /// Registers an action to the actions of the IVirtualMachine instance
+    /// </summary>
+    /// <param name="action">The type of the action to register as</param>
+    /// <param name="size">The size of the action to register</param>
+    /// <param name="previousValue">The previous value before the action was taken</param>
+    /// <param name="newValue">The new value after the action was takedn</param>
+    /// <param name="registerName">The register name if applicable</param>
+    /// <param name="memoryPointer">The memory pointer if applicable</param>
+    void RegisterAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null, int? deviceId = null);
 
     /// <summary>
     /// The event is raised when the memory is accessed from the <c>IVIrtualMachine</c> layer <br/>

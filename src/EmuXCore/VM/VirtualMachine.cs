@@ -311,6 +311,11 @@ public class VirtualMachine : IVirtualMachine
         }
     }
 
+    public void RegisterAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null, int? deviceId = null)
+    {
+        Actions.Add([DIFactory.GenerateIVmAction(action, size, previousValue, newValue, registerName, memoryPointer, deviceId)]);
+    }
+
     public event EventHandler? MemoryAccessed;
     public event EventHandler? StackAccessed;
     public event EventHandler? FlagAccessed;

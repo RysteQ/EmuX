@@ -16,17 +16,12 @@ public class VirtualRegisterGS : IVirtualRegister
     public ulong Get() => GS;
     public void Set(ulong value) => GS = (ushort)value;
 
-    private void RegisterRegisterUpdate(byte[] currentValue, byte[] newValue, string registerName)
-    {
-        ParentVirtualMachine?.Actions.Add([DIFactory.GenerateIVmAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[registerName], currentValue, newValue, registerName)]);
-    }
-
     public ushort GS
     {
         get => _gs;
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(GS), BitConverter.GetBytes(value), nameof(GS));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(GS)], BitConverter.GetBytes(GS), BitConverter.GetBytes(value), nameof(GS));
             _gs = value;
         }
     }

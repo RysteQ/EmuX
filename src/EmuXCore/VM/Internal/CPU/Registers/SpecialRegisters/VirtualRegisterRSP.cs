@@ -16,17 +16,12 @@ public class VirtualRegisterRSP : IVirtualRegister
     public ulong Get() => RSP;
     public void Set(ulong value) => RSP = value;
 
-    private void RegisterRegisterUpdate(byte[] currentValue, byte[] newValue, string registerName)
-    {
-        ParentVirtualMachine?.Actions.Add([DIFactory.GenerateIVmAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[registerName], currentValue, newValue, registerName)]);
-    }
-
     public ulong RSP
     {
         get => _rsp;
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(RSP), BitConverter.GetBytes(value), nameof(RSP));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RSP)], BitConverter.GetBytes(RSP), BitConverter.GetBytes(value), nameof(RSP));
             _rsp = value;
         }
     }
@@ -36,7 +31,7 @@ public class VirtualRegisterRSP : IVirtualRegister
         get => (uint)(RSP & 0x00000000ffffffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(ESP), BitConverter.GetBytes(value), nameof(ESP));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(ESP)], BitConverter.GetBytes(ESP), BitConverter.GetBytes(value), nameof(ESP));
             _rsp = value;
         }
     }
@@ -46,7 +41,7 @@ public class VirtualRegisterRSP : IVirtualRegister
         get => (ushort)(ESP & 0x0000ffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(SP), BitConverter.GetBytes(value), nameof(SP));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SP)], BitConverter.GetBytes(SP), BitConverter.GetBytes(value), nameof(SP));
             _rsp = (ESP & 0xffff0000) + value;
         }
     }
@@ -56,7 +51,7 @@ public class VirtualRegisterRSP : IVirtualRegister
         get => (byte)(SP & 0x00ff);
         set
         {
-            RegisterRegisterUpdate([SPL], [value], nameof(SP));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SPL)], [SPL], [value], nameof(SP));
             _rsp = (ushort)((SP & 0xff00) + value);
         }
     }

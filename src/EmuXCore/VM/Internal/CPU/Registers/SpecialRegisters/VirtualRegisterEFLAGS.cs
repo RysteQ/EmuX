@@ -16,17 +16,12 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
     public ulong Get() => RFLAGS;
     public void Set(ulong value) => RFLAGS = value;
 
-    private void RegisterRegisterUpdate(byte[] currentValue, byte[] newValue, string registerName)
-    {
-        ParentVirtualMachine?.Actions.Add([DIFactory.GenerateIVmAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[registerName], currentValue, newValue, registerName)]);
-    }
-
     public ulong RFLAGS
     {
         get => _rflags;
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(RFLAGS), BitConverter.GetBytes(value), nameof(RFLAGS));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RFLAGS)], BitConverter.GetBytes(RFLAGS), BitConverter.GetBytes(value), nameof(RFLAGS));
             _rflags = value;
         }
     }
@@ -36,7 +31,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         get => (uint)(RFLAGS & 0x00000000ffffffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(EFLAGS), BitConverter.GetBytes(value), nameof(EFLAGS));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EFLAGS)], BitConverter.GetBytes(EFLAGS), BitConverter.GetBytes(value), nameof(EFLAGS));
             RFLAGS = value;
         }
     }
@@ -46,7 +41,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         get => (ushort)(EFLAGS & 0x0000ffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(FLAGS), BitConverter.GetBytes(value), nameof(FLAGS));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(FLAGS)], BitConverter.GetBytes(FLAGS), BitConverter.GetBytes(value), nameof(FLAGS));
             EFLAGS = (EFLAGS & 0xffff0000) + value;
         }
     }

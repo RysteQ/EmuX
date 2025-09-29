@@ -16,17 +16,12 @@ public class VirtualRegisterRBX : IVirtualRegister
     public ulong Get() => RBX;
     public void Set(ulong value) => RBX = value;
 
-    private void RegisterRegisterUpdate(byte[] currentValue, byte[] newValue, string registerName)
-    {
-        ParentVirtualMachine?.Actions.Add([DIFactory.GenerateIVmAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[registerName], currentValue, newValue, registerName)]);
-    }
-
     public ulong RBX
     {
         get => _rbx;
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(RBX), BitConverter.GetBytes(value), nameof(RBX));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RBX)], BitConverter.GetBytes(RBX), BitConverter.GetBytes(value), nameof(RBX));
             _rbx = value;
         }
     }
@@ -36,7 +31,7 @@ public class VirtualRegisterRBX : IVirtualRegister
         get => (uint)(RBX & 0x00000000ffffffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(EBX), BitConverter.GetBytes(value), nameof(EBX));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EBX)], BitConverter.GetBytes(EBX), BitConverter.GetBytes(value), nameof(EBX));
             _rbx = value;
         }
     }
@@ -46,7 +41,7 @@ public class VirtualRegisterRBX : IVirtualRegister
         get => (ushort)(EBX & 0x0000ffff);
         set
         {
-            RegisterRegisterUpdate(BitConverter.GetBytes(BX), BitConverter.GetBytes(value), nameof(BX));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BX)], BitConverter.GetBytes(BX), BitConverter.GetBytes(value), nameof(BX));
             _rbx = (EBX & 0xffff0000) + value;
         }
     }
@@ -56,7 +51,7 @@ public class VirtualRegisterRBX : IVirtualRegister
         get => (byte)((BX & 0xff00) >> 8);
         set
         {
-            RegisterRegisterUpdate([BH], [value], nameof(BH));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BH)], [BH], [value], nameof(BH));
             _rbx = (ushort)((BX & 0x00ff) + (value << 8));
         }
     }
@@ -66,7 +61,7 @@ public class VirtualRegisterRBX : IVirtualRegister
         get => (byte)(BX & 0x00ff);
         set
         {
-            RegisterRegisterUpdate([BL], [value], nameof(BL));
+            ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BL)], [BL], [value], nameof(BL));
             _rbx = (ushort)((BX & 0xff00) + value);
         }
     }
