@@ -1,31 +1,64 @@
 ﻿using EmuXCore.Common.Enums;
+using EmuXCore.VM.Enums;
+using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM.Internal.CPU.Registers;
 
 public class VirtualRegisterRSP : IVirtualRegister
 {
+    public VirtualRegisterRSP(IVirtualMachine? parentVirtualMachine = null)
+    {
+        _rsp = 0;
+        ParentVirtualMachine = parentVirtualMachine;
+    }
+
     public ulong Get() => RSP;
     public void Set(ulong value) => RSP = value;
 
-    public ulong RSP { get; set; }
+    private void RegisterRegisterUpdate(byte[] currentValue, byte[] newValue, string registerName)
+    {
+        ParentVirtualMachine?.Actions.Add([DIFactory.GenerateIVmAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[registerName], currentValue, newValue, registerName)]);
+    }
+
+    public ulong RSP
+    {
+        get => _rsp;
+        set
+        {
+            RegisterRegisterUpdate(BitConverter.GetBytes(RSP), BitConverter.GetBytes(value), nameof(RSP));
+            _rsp = value;
+        }
+    }
 
     public uint ESP
     {
         get => (uint)(RSP & 0x00000000ffffffff);
-        set => RSP = value;
+        set
+        {
+            RegisterRegisterUpdate(BitConverter.GetBytes(ESP), BitConverter.GetBytes(value), nameof(ESP));
+            _rsp = value;
+        }
     }
 
     public ushort SP
     {
         get => (ushort)(ESP & 0x0000ffff);
-        set => ESP = (ESP & 0xffff0000) + value;
+        set
+        {
+            RegisterRegisterUpdate(BitConverter.GetBytes(SP), BitConverter.GetBytes(value), nameof(SP));
+            _rsp = (ESP & 0xffff0000) + value;
+        }
     }
 
     public byte SPL
     {
         get => (byte)(SP & 0x00ff);
-        set => SP = (ushort)((SP & 0xff00) + value);
+        set
+        {
+            RegisterRegisterUpdate([SPL], [value], nameof(SP));
+            _rsp = (ushort)((SP & 0xff00) + value);
+        }
     }
 
     public string Name => "RSP";
@@ -37,4 +70,8 @@ public class VirtualRegisterRSP : IVirtualRegister
         { nameof(SP), Size.Word },
         { nameof(SPL), Size.Byte }
     };
+
+    public IVirtualMachine? ParentVirtualMachine { get; set; }
+
+    private ulong _rsp;
 }

@@ -8,8 +8,33 @@ using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
 
 namespace EmuXCore.VM.Internal.CPU;
 
-public class VirtualCPU(IVirtualMachine? parentVirtualMachine = null) : IVirtualCPU
+public class VirtualCPU : IVirtualCPU
 {
+    public VirtualCPU(IVirtualMachine? parentVirtualMachine = null)
+    {
+        ParentVirtualMachine = parentVirtualMachine;
+
+        Registers =
+        [
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterRAX>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterRBX>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterRCX>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterRDX>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterRSI>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterRDI>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterRBP>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterRIP>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterRSP>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterCS>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterSS>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterDS>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterES>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterFS>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterGS>(ParentVirtualMachine),
+            DIFactory.GenerateIVirtualRegister<VirtualRegisterEFLAGS>(ParentVirtualMachine)
+        ];
+    }
+
     public T GetRegister<T>() where T : IVirtualRegister
     {
         foreach (IVirtualRegister register in Registers)
@@ -36,26 +61,8 @@ public class VirtualCPU(IVirtualMachine? parentVirtualMachine = null) : IVirtual
         throw new KeyNotFoundException($"Cannot find the register {registerName}");
     }
 
-    public IReadOnlyCollection<IVirtualRegister> Registers { get; init; } =
-    [
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterRAX>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterRBX>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterRCX>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterRDX>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterRSI>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterRDI>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterRBP>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterRIP>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterRSP>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterCS>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterSS>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterDS>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterES>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterFS>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterGS>(),
-        DIFactory.GenerateIVirtualRegister<VirtualRegisterEFLAGS>()
-    ];
+    public IReadOnlyCollection<IVirtualRegister> Registers { get; init; }
 
     public bool Halted { get; set; }
-    public IVirtualMachine? ParentVirtualMachine { get; set; } = parentVirtualMachine;
+    public IVirtualMachine? ParentVirtualMachine { get; set; }
 }

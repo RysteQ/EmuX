@@ -1,30 +1,54 @@
 ﻿using EmuXCore.Common.Enums;
+using EmuXCore.VM.Enums;
+using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
 public class VirtualRegisterEFLAGS : IVirtualRegister
 {
-    public VirtualRegisterEFLAGS()
+    public VirtualRegisterEFLAGS(IVirtualMachine? parentVirtualMachine = null)
     {
-        RFLAGS = 0x0000000000000002;
+        _rflags = 0x0000000000000002;
+        ParentVirtualMachine = parentVirtualMachine;
     }
 
     public ulong Get() => RFLAGS;
     public void Set(ulong value) => RFLAGS = value;
 
-    public ulong RFLAGS { get; set; }
+    private void RegisterRegisterUpdate(byte[] currentValue, byte[] newValue, string registerName)
+    {
+        ParentVirtualMachine?.Actions.Add([DIFactory.GenerateIVmAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[registerName], currentValue, newValue, registerName)]);
+    }
+
+    public ulong RFLAGS
+    {
+        get => _rflags;
+        set
+        {
+            RegisterRegisterUpdate(BitConverter.GetBytes(RFLAGS), BitConverter.GetBytes(value), nameof(RFLAGS));
+            _rflags = value;
+        }
+    }
 
     public uint EFLAGS
     {
         get => (uint)(RFLAGS & 0x00000000ffffffff);
-        set => RFLAGS = value;
+        set
+        {
+            RegisterRegisterUpdate(BitConverter.GetBytes(EFLAGS), BitConverter.GetBytes(value), nameof(EFLAGS));
+            RFLAGS = value;
+        }
     }
 
     public ushort FLAGS
     {
         get => (ushort)(EFLAGS & 0x0000ffff);
-        set => EFLAGS = (EFLAGS & 0xffff0000) + value;
+        set
+        {
+            RegisterRegisterUpdate(BitConverter.GetBytes(FLAGS), BitConverter.GetBytes(value), nameof(FLAGS));
+            EFLAGS = (EFLAGS & 0xffff0000) + value;
+        }
     }
 
     public string Name => "RFLAGS";
@@ -35,4 +59,8 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         { nameof(EFLAGS), Size.Dword },
         { nameof(FLAGS), Size.Dword }
     };
+
+    public IVirtualMachine? ParentVirtualMachine { get; set; }
+
+    private ulong _rflags;
 }
