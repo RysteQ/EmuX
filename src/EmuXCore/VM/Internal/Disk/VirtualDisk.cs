@@ -1,4 +1,6 @@
-﻿using EmuXCore.VM.Interfaces;
+﻿using EmuXCore.Common.Enums;
+using EmuXCore.VM.Enums;
+using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 
 namespace EmuXCore.VM.Internal.Disk;
@@ -44,6 +46,14 @@ public class VirtualDisk : IVirtualDisk
     public void WriteSector(byte platter, ushort track, byte sector, byte[] bytesToWrite)
     {
         CheckIfAddressIsValid(platter, track, sector);
+
+        ParentVirtualMachine?.RegisterAction(
+            VmActionCategory.ModifiedDisk,
+            Size.Byte,
+            _data[platter][track][sector].Take(bytesToWrite.Length).ToArray(),
+            bytesToWrite,
+            memoryPointer: (platter << 24) + (track << 8) + sector,
+            diskId: DiskNumber);
 
         Array.Copy(bytesToWrite, _data[platter][track][sector], BytesPerSector);
     }

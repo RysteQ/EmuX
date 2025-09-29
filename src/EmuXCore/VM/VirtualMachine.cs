@@ -27,6 +27,8 @@ public class VirtualMachine : IVirtualMachine
         GPU = virtualGPU;
 
         CPU.GetRegister<VirtualRegisterRSP>().RSP = (ulong)(Memory.RAM.Length - 1);
+
+        Actions = [];
     }
 
     public virtual void SetFlag(EFlags flag, bool value)
@@ -311,7 +313,7 @@ public class VirtualMachine : IVirtualMachine
         }
     }
 
-    public void RegisterAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null, int? deviceId = null)
+    public void RegisterAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null, int? deviceId = null, byte? diskId = null)
     {
         Actions.Add([DIFactory.GenerateIVmAction(action, size, previousValue, newValue, registerName, memoryPointer, deviceId)]);
     }
