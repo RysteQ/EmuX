@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Interfaces;
+﻿using EmuXCore.VM.Enums;
+using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
@@ -56,6 +57,13 @@ public class VirtualGPU : IVirtualGPU
 
     private void DrawPixel(ushort x, ushort y, byte r, byte g, byte b)
     {
+        ParentVirtualMachine?.RegisterAction(
+            VmActionCategory.ModifiedGpu,
+            Common.Enums.Size.Byte,
+            [_data[(x + y * Width) * 3], _data[(x + y * Width) * 3 + 1], _data[(x + y * Width) * 3 + 2]],
+            [r, g, b],
+            memoryPointer: (x + y * Width) * 3);
+
         _data[(x + y * Width) * 3] = r;
         _data[(x + y * Width) * 3 + 1] = g;
         _data[(x + y * Width) * 3 + 2] = b;

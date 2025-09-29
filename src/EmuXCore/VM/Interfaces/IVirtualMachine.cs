@@ -158,7 +158,7 @@ public interface IVirtualMachine
     /// <param name="newValue">The new value after the action was takedn</param>
     /// <param name="registerName">The register name if applicable</param>
     /// <param name="memoryPointer">The memory pointer if applicable</param>
-    void RegisterAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null, int? deviceId = null);
+    void RegisterAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null, int? deviceId = null, byte? diskId = null);
 
     /// <summary>
     /// The event is raised when the memory is accessed from the <c>IVIrtualMachine</c> layer <br/>

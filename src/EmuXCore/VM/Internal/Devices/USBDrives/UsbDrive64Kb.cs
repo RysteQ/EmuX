@@ -30,12 +30,12 @@ public class UsbDrive64Kb : IVirtualDevice
 
             ParentVirtualMachine?.RegisterAction(
                 VmActionCategory.ModifiedDevice,
-                Size.Byte, 
-                _data.Skip(modificationIndexes.First().Index).Take(modificationIndexes.Last().Index + 1).ToArray(), 
-                value.Skip(modificationIndexes.First().Index).Take(modificationIndexes.Last().Index + 1).ToArray(), 
+                Size.Byte,
+                _data.Skip(modificationIndexes.First().Index).Take(modificationIndexes.Last().Index + 1).ToArray(),
+                value.Skip(modificationIndexes.First().Index).Take(modificationIndexes.Last().Index + 1).ToArray(),
                 memoryPointer: modificationIndexes.First().Index,
                 deviceId: DeviceId);
-            
+
             _data = value;
         }
     }
