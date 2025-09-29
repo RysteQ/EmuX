@@ -1,6 +1,7 @@
 ﻿using EmuXCore.Common.Enums;
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Actions;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
@@ -313,6 +314,8 @@ public class VirtualMachine : IVirtualMachine
     public event EventHandler? MemoryAccessed;
     public event EventHandler? StackAccessed;
     public event EventHandler? FlagAccessed;
+
+    public List<List<IVmAction>> Actions { get; set; }
 
     public IVirtualMemory Memory { get; init; }
     public IVirtualCPU CPU { get; init; }

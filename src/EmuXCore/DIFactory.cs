@@ -10,13 +10,12 @@ using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.LexicalSyntax;
 using EmuXCore.Interpreter.Models;
 using EmuXCore.Interpreter.Models.Interfaces;
-using EmuXCore.Interpreter.RCVM.Enums;
-using EmuXCore.Interpreter.RCVM.Interfaces.Models;
-using EmuXCore.Interpreter.RCVM.Models;
 using EmuXCore.VM;
+using EmuXCore.VM.Actions;
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Events;
 using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Actions;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
@@ -231,7 +230,7 @@ public static class DIFactory
     /// <param name="registerName">The register name if it is a register operation, otherwise null</param>
     /// <param name="memoryPointer">The memory address if it is a memory operation, otherwise null</param>
     /// <returns>The implementation of IVmAction</returns>
-    public static IVmAction GenerateIVmAction(VmActionCategory action, Size size, byte[] previousValue, string? registerName = null, int? memoryPointer = null) => new VmAction(action, size, previousValue, registerName, memoryPointer);
+    public static IVmAction GenerateIVmAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null) => new VmAction(action, size, previousValue, newValue, registerName, memoryPointer);
 
     // VM
 
@@ -284,7 +283,7 @@ public static class DIFactory
     /// </summary>
     /// <typeparam name="T">The implementation type of IVirtualRegister</typeparam>
     /// <returns>The implementation of IVirtualRegister</returns>
-    public static IVirtualRegister GenerateIVirtualRegister<T>() where T : IVirtualRegister => Activator.CreateInstance<T>();
+    public static IVirtualRegister GenerateIVirtualRegister<T>(IVirtualMachine? parentVirtualMachine = null) where T : IVirtualRegister => (T)Activator.CreateInstance(typeof(T), parentVirtualMachine)!;
 
     /// <summary>
     /// Generates an instance of IVirtualCPU

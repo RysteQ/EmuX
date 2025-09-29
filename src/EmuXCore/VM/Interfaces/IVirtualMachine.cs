@@ -1,4 +1,5 @@
 ﻿using EmuXCore.VM.Enums;
+using EmuXCore.VM.Interfaces.Actions;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
@@ -164,6 +165,11 @@ public interface IVirtualMachine
     /// Returns an EventArgs object of type IFlagAccess
     /// </summary>
     event EventHandler? FlagAccessed;
+
+    /// <summary>
+    /// The actions that modified the state of the <c>IVIrtualMachine</c> for memory related operations
+    /// </summary>
+    public List<List<IVmAction>> Actions { get; set; }
 
     /// <summary>
     /// The virtual memory of the virtual machine that inherits from the IVirtualMemory interface

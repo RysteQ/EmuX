@@ -5,7 +5,7 @@ namespace EmuXCore.VM.Interfaces.Components.Internal;
 /// <summary>
 /// This is used to implement any register for the IVirtualCPU module
 /// </summary>
-public interface IVirtualRegister
+public interface IVirtualRegister : IVirtualComponent
 {
     /// <summary>
     /// Generic getter method, must return the value of the largest (in terms of binary digits) available register property

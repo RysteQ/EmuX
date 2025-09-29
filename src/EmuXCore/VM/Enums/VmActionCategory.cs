@@ -1,4 +1,4 @@
-﻿namespace EmuXCore.Interpreter.RCVM.Enums;
+﻿namespace EmuXCore.VM.Enums;
 
 /// <summary>
 /// Indicates the action taken in the VM to modify its current state

@@ -1,13 +1,26 @@
 ﻿using EmuXCore.Common.Enums;
-using EmuXCore.Interpreter.RCVM.Enums;
+using EmuXCore.VM.Enums;
+using EmuXCore.VM.Interfaces;
 
-namespace EmuXCore.Interpreter.RCVM.Interfaces.Models;
+namespace EmuXCore.VM.Interfaces.Actions;
 
 /// <summary>
 /// Serves as a way to record all of the actions taken to modify the state of the VM
 /// </summary>
 public interface IVmAction
 {
+    /// <summary>
+    /// Undos the action taken
+    /// </summary>
+    /// <param name="virtualMachineInstance">The virtual machine instance to undo the action</param>
+    void Undo(IVirtualMachine virtualMachineInstance);
+    
+    /// <summary>
+    /// Redos the actions taken
+    /// </summary>
+    /// <param name="virtualMachineInstance">The virtual machine instance to redo the action</param>
+    void Redo(IVirtualMachine virtualMachineInstance);
+
     /// <summary>
     /// The action method
     /// </summary>
@@ -34,4 +47,10 @@ public interface IVmAction
     /// It is an array to account for disk actions
     /// </summary>
     public byte[] PreviousValue { get; init; }
+
+    /// <summary>
+    /// The new value <br/>
+    /// It is an array to account for disk actions
+    /// </summary>
+    public byte[] NewValue { get; init; }
 }
