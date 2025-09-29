@@ -8,6 +8,8 @@ public enum VmActionCategory : byte
     ModifiedRegister,
     ModifiedMemory,
     ModifiedDisk,
+    ModifiedDevice,
+    ModifiedGpu,
 
     NaN
 }

@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Enums;
+﻿using EmuXCore.Common.Enums;
+using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 
@@ -20,5 +21,24 @@ public class UsbDrive64Kb : IVirtualDevice
     public IVirtualMachine? ParentVirtualMachine { get; set; }
     public ushort DeviceId { get; init; }
     public DeviceStatus Status { get; set; } = DeviceStatus.NonOperational;
-    public byte[] Data { get; set; } = new byte[ushort.MaxValue];
+    public byte[] Data
+    {
+        get => _data;
+        set
+        {
+            List<(int Index, byte Item)> modificationIndexes = _data.Index().Where(selectedByte => selectedByte.Item != value[selectedByte.Index]).ToList();
+
+            ParentVirtualMachine?.RegisterAction(
+                VmActionCategory.ModifiedDevice,
+                Size.Byte, 
+                _data.Skip(modificationIndexes.First().Index).Take(modificationIndexes.Last().Index + 1).ToArray(), 
+                value.Skip(modificationIndexes.First().Index).Take(modificationIndexes.Last().Index + 1).ToArray(), 
+                memoryPointer: modificationIndexes.First().Index,
+                deviceId: DeviceId);
+            
+            _data = value;
+        }
+    }
+
+    private byte[] _data = new byte[ushort.MaxValue];
 }

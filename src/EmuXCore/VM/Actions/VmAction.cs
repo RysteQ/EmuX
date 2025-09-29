@@ -7,12 +7,13 @@ namespace EmuXCore.VM.Actions;
 
 public class VmAction : IVmAction
 {
-    public VmAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null)
+    public VmAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null, int? deviceId = null)
     {
         Action = action;
         Size = size;
         RegisterName = registerName;
         MemoryPointer = memoryPointer;
+        DeviceId = deviceId;
         PreviousValue = previousValue;
         NewValue = newValue;
     }
@@ -31,6 +32,7 @@ public class VmAction : IVmAction
     public Size Size { get; init; }
     public string? RegisterName { get; init; }
     public int? MemoryPointer { get; init; }
+    public int? DeviceId { get; init; }
     public byte[] PreviousValue { get; init; }
     public byte[] NewValue { get; init; }
 }
