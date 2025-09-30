@@ -29,6 +29,8 @@ public class VirtualMachine : IVirtualMachine
         CPU.GetRegister<VirtualRegisterRSP>().RSP = (ulong)(Memory.RAM.Length - 1);
 
         Actions = [];
+        _isActionRegistrationEnabled = true;
+        _currentActionIndex = 0;
     }
 
     public virtual void SetFlag(EFlags flag, bool value)
@@ -315,14 +317,44 @@ public class VirtualMachine : IVirtualMachine
 
     public void RegisterAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null, int? deviceId = null, byte? diskId = null)
     {
-        Actions.Add([DIFactory.GenerateIVmAction(action, size, previousValue, newValue, registerName, memoryPointer, deviceId)]);
+        if (_isActionRegistrationEnabled)
+        {
+            Actions.Add(DIFactory.GenerateIVmAction(action, size, previousValue, newValue, registerName, memoryPointer, deviceId));
+            _currentActionIndex++;
+        }
+    }
+
+    public void UndoActions(int actionsToUndo = 1)
+    {
+        _isActionRegistrationEnabled = false;
+
+        for (int i = 0; i < actionsToUndo && _currentActionIndex != 0; i++)
+        {
+            Actions[_currentActionIndex - 1].Undo(this);
+            _currentActionIndex--;
+        }
+
+        _isActionRegistrationEnabled = true;
+    }
+
+    public void RedoActions(int actionsToRedo = 1)
+    {
+        _isActionRegistrationEnabled = false;
+
+        for (int i = 0; i < actionsToRedo && _currentActionIndex != Actions.Count; i++)
+        {
+            Actions[_currentActionIndex - 1].Redo(this);
+            _currentActionIndex--;
+        }
+
+        _isActionRegistrationEnabled = true;
     }
 
     public event EventHandler? MemoryAccessed;
     public event EventHandler? StackAccessed;
     public event EventHandler? FlagAccessed;
 
-    public List<List<IVmAction>> Actions { get; set; }
+    public List<IVmAction> Actions { get; set; }
 
     public IVirtualMemory Memory { get; init; }
     public IVirtualCPU CPU { get; init; }
@@ -331,4 +363,7 @@ public class VirtualMachine : IVirtualMachine
     public IVirtualRTC RTC { get; init; }
     public IVirtualGPU GPU { get; init; }
     public IVirtualDevice[] Devices { get; init; }
+
+    private bool _isActionRegistrationEnabled;
+    private int _currentActionIndex;
 }

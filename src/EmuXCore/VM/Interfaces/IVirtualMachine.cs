@@ -161,6 +161,18 @@ public interface IVirtualMachine
     void RegisterAction(VmActionCategory action, Size size, byte[] previousValue, byte[] newValue, string? registerName = null, int? memoryPointer = null, int? deviceId = null, byte? diskId = null);
 
     /// <summary>
+    /// Undos N actions
+    /// </summary>
+    /// <param name="actionsToUndo">The actions to undo, default is one</param>
+    void UndoActions(int actionsToUndo = 1);
+
+    /// <summary>
+    /// Redos N actions
+    /// </summary>
+    /// <param name="actionsToRedo">The actions to redo, default is one</param>
+    void RedoActions(int actionsToRedo = 1);
+
+    /// <summary>
     /// The event is raised when the memory is accessed from the <c>IVIrtualMachine</c> layer <br/>
     /// Returns an EventArgs object of type IMemoryAccess
     /// </summary>
@@ -181,7 +193,7 @@ public interface IVirtualMachine
     /// <summary>
     /// The actions that modified the state of the <c>IVIrtualMachine</c> for memory related operations
     /// </summary>
-    public List<List<IVmAction>> Actions { get; set; }
+    public List<IVmAction> Actions { get; set; }
 
     /// <summary>
     /// The virtual memory of the virtual machine that inherits from the IVirtualMemory interface
