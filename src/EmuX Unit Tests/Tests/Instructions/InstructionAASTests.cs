@@ -130,7 +130,7 @@ public sealed class InstructionAASTests : InstructionConstants<InstructionAAS>
     }
 
     [TestMethod]
-    public void TestExecuteMethod_NoOperands_DoesNotModifyRegisterFlags()
+    public void TestExecuteMethod_NoOperands_DoesModifyRegisterFlags()
     {
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
@@ -147,7 +147,7 @@ public sealed class InstructionAASTests : InstructionConstants<InstructionAAS>
     }
 
     [TestMethod]
-    public void TestExecuteMethod_NoOperands_DoesModifyRegisterFlags()
+    public void TestExecuteMethod_NoOperands_DoesNotModifyRegisterFlags()
     {
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();

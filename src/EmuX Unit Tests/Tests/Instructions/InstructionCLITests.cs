@@ -129,7 +129,7 @@ public sealed class InstructionCLITests : InstructionConstants<InstructionCLI>
     }
 
     [TestMethod]
-    public void TestExecuteMethod_ClearIFlah()
+    public void TestExecuteMethod_ClearIFlag()
     {
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
@@ -144,7 +144,7 @@ public sealed class InstructionCLITests : InstructionConstants<InstructionCLI>
     }
 
     [TestMethod]
-    public void TestExecuteMethod_ClearVIFlah()
+    public void TestExecuteMethod_ClearVIFlag()
     {
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();

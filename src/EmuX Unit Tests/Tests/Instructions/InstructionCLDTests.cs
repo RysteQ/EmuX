@@ -130,20 +130,7 @@ public sealed class InstructionCLDTests : InstructionConstants<InstructionCLD>
     }
 
     [TestMethod]
-    public void TestExecuteMethod_DoNotExtendSign()
-    {
-        IInstruction instruction = GenerateInstruction();
-        IVirtualMachine virtualMachine = GenerateVirtualMachine();
-
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX = 0b_0100_0000_0000_0000_0000_0000_0000_0000;
-        instruction.Execute(virtualMachine);
-
-        Assert.AreEqual<ulong>(0b_0000_0000_0000_0000_0000_0000_0000_0000_0100_0000_0000_0000_0000_0000_0000_0000, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX);
-    }
-
-    [TestMethod]
-    public void TestExecuteMethod_ClearDFlag()
+    public void TestExecuteMethod_DoClearDirectionFlag()
     {
         IInstruction instruction = GenerateInstruction();
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
@@ -151,6 +138,6 @@ public sealed class InstructionCLDTests : InstructionConstants<InstructionCLD>
         virtualMachine.SetFlag(EFlags.DF, true);
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual(false, virtualMachine.GetFlag(EFlags.DF));
+        Assert.AreEqual<bool>(false, virtualMachine.GetFlag(EFlags.DF));
     }
 }
