@@ -46,13 +46,13 @@ public interface IVmAction
     /// The device ID the action refers to <br/>
     /// Null if it does not refer to a device
     /// </summary>
-    public int? DeviceId { get; set; }
+    public int? DeviceId { get; init; }
 
     /// <summary>
     /// The disk ID the action refers to <br/>
     /// Null if it does not refer to a disk
     /// </summary>
-    public byte? DiskId { get; set; }
+    public byte? DiskId { get; init; }
 
     /// <summary>
     /// The previous value <br/>

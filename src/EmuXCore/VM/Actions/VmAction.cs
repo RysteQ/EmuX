@@ -4,7 +4,6 @@ using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Actions;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using EmuXCore.VM.Internal.Disk;
 
 namespace EmuXCore.VM.Actions;
 
@@ -246,8 +245,8 @@ public class VmAction : IVmAction
     public Size Size { get; init; }
     public string? RegisterName { get; init; }
     public int? MemoryPointer { get; init; }
-    public int? DeviceId { get; set; }
-    public byte? DiskId { get; set; }
+    public int? DeviceId { get; init; }
+    public byte? DiskId { get; init; }
     public byte[] PreviousValue { get; init; }
     public byte[] NewValue { get; init; }
 }
