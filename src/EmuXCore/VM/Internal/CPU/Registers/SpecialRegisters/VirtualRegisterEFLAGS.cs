@@ -32,7 +32,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EFLAGS)], BitConverter.GetBytes(EFLAGS), BitConverter.GetBytes(value), nameof(EFLAGS));
-            RFLAGS = value;
+            _rflags = value;
         }
     }
 
@@ -42,7 +42,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(FLAGS)], BitConverter.GetBytes(FLAGS), BitConverter.GetBytes(value), nameof(FLAGS));
-            EFLAGS = (EFLAGS & 0xffff0000) + value;
+            _rflags = (EFLAGS & 0xffff0000) + value;
         }
     }
 
