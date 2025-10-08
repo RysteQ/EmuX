@@ -37,8 +37,7 @@ public class VirtualMachine : IVirtualMachine
     {
         bool previousValue = (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)flag) != 0;
 
-        CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & ~(uint)flag;
-        CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS | (uint)(value ? (uint)flag : 0);
+        CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & ~(uint)flag) | (uint)(value ? (uint)flag : 0);
 
         FlagAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIFlagAccess(flag, false, (CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS & (uint)flag) != 0, false, value, false));
     }
@@ -76,6 +75,8 @@ public class VirtualMachine : IVirtualMachine
     {
         MemoryAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIMemoryAccess(memoryLocation, Size.Byte, false, Memory.RAM[memoryLocation], value));
 
+        RegisterAction(VmActionCategory.ModifiedMemory, Size.Byte, [Memory.RAM[memoryLocation]], [value], memoryPointer: memoryLocation);
+
         Memory.RAM[memoryLocation] = value;
     }
 
@@ -84,6 +85,8 @@ public class VirtualMachine : IVirtualMachine
         MemoryAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIMemoryAccess(memoryLocation, Size.Word, false, (ulong)(
                                                                                                                     (Memory.RAM[memoryLocation + 1] << 8) +
                                                                                                                     Memory.RAM[memoryLocation]), value));
+
+        RegisterAction(VmActionCategory.ModifiedMemory, Size.Word, [.. Memory.RAM.Skip(memoryLocation).Take(2)], BitConverter.GetBytes(value), memoryPointer: memoryLocation);
 
         Memory.RAM[memoryLocation] = (byte)(value & 0x_00ff);
         Memory.RAM[memoryLocation + 1] = (byte)((value & 0x_ff00) >> 8);
@@ -96,6 +99,8 @@ public class VirtualMachine : IVirtualMachine
                                                                                                                     (Memory.RAM[memoryLocation + 1] << 16) +
                                                                                                                     (Memory.RAM[memoryLocation + 1] << 8) +
                                                                                                                     Memory.RAM[memoryLocation]), value));
+
+        RegisterAction(VmActionCategory.ModifiedMemory, Size.Dword, [.. Memory.RAM.Skip(memoryLocation).Take(4)], BitConverter.GetBytes(value), memoryPointer: memoryLocation);
 
         Memory.RAM[memoryLocation] = (byte)(value & 0x_0000_00ff);
         Memory.RAM[memoryLocation + 1] = (byte)((value & 0x_0000_ff00) >> 8);
@@ -114,6 +119,8 @@ public class VirtualMachine : IVirtualMachine
                                                                                                                     (Memory.RAM[memoryLocation + 1] << 16) +
                                                                                                                     (Memory.RAM[memoryLocation + 1] << 8) +
                                                                                                                     Memory.RAM[memoryLocation]), value));
+        
+        RegisterAction(VmActionCategory.ModifiedMemory, Size.Qword, [.. Memory.RAM.Skip(memoryLocation).Take(8)], BitConverter.GetBytes(value), memoryPointer: memoryLocation);
 
         Memory.RAM[memoryLocation] = (byte)(value & 0x_0000_0000_0000_00ff);
         Memory.RAM[memoryLocation + 1] = (byte)((value & 0x_0000_0000_0000_ff00) >> 8);
@@ -187,7 +194,7 @@ public class VirtualMachine : IVirtualMachine
     {
         StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Byte, true, value));
 
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 4] = value;
+        SetByte((int)(CPU.GetRegister<VirtualRegisterRSP>().RSP - 4), value);
         CPU.GetRegister<VirtualRegisterRSP>().RSP -= 4;
     }
 
@@ -195,8 +202,7 @@ public class VirtualMachine : IVirtualMachine
     {
         StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Word, true, value));
 
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 1] = (byte)((0x_ff_00 & value) >> 8);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 2] = (byte)(0x_00_ff & value);
+        SetWord((int)(CPU.GetRegister<VirtualRegisterRSP>().RSP - 2), value);
         CPU.GetRegister<VirtualRegisterRSP>().RSP -= 2;
     }
 
@@ -204,10 +210,7 @@ public class VirtualMachine : IVirtualMachine
     {
         StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Dword, true, value));
 
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 1] = (byte)((0x_ff00_0000 & value) >> 24);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 2] = (byte)((0x_00ff_0000 & value) >> 16);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 3] = (byte)((0x_0000_ff00 & value) >> 8);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 4] = (byte)((0x_0000_00ff & value));
+        SetDouble((int)(CPU.GetRegister<VirtualRegisterRSP>().RSP - 4), value);
         CPU.GetRegister<VirtualRegisterRSP>().RSP -= 4;
     }
 
@@ -215,14 +218,7 @@ public class VirtualMachine : IVirtualMachine
     {
         StackAccessed?.Invoke(this, (EventArgs)DIFactory.GenerateIStackAccess(Size.Qword, true, value));
 
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 1] = (byte)((0x_ff00_0000_0000_0000 & value) >> 56);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 2] = (byte)((0x_00ff_0000_0000_0000 & value) >> 48);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 3] = (byte)((0x_0000_ff00_0000_0000 & value) >> 40);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 4] = (byte)((0x_0000_00ff_0000_0000 & value) >> 32);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 5] = (byte)((0x_0000_0000_ff00_0000 & value) >> 24);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 6] = (byte)((0x_0000_0000_00ff_0000 & value) >> 16);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 7] = (byte)((0x_0000_0000_0000_ff00 & value) >> 8);
-        Memory.RAM[CPU.GetRegister<VirtualRegisterRSP>().RSP - 8] = (byte)((0x_0000_0000_0000_00ff & value));
+        SetQuad((int)(CPU.GetRegister<VirtualRegisterRSP>().RSP - 8), value);
         CPU.GetRegister<VirtualRegisterRSP>().RSP -= 8;
     }
 

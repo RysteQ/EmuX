@@ -1,6 +1,7 @@
 ﻿using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
+using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.VM;
 
@@ -109,6 +110,11 @@ public class VirtualMachineBuilder : IVirtualMachineBuilder
         foreach (IVirtualDevice virtualDevice in virtualMachine.Devices)
         {
             virtualDevice.ParentVirtualMachine = virtualMachine;
+        }
+
+        foreach (IVirtualRegister virtualRegister in virtualMachine.CPU.Registers)
+        {
+            virtualRegister.ParentVirtualMachine = virtualMachine;
         }
 
         return virtualMachine;
