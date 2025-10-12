@@ -33,8 +33,8 @@ public class VirtualGPU : IVirtualGPU
         }
 
         shape = (VideoInterrupt)(ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRAX>().AH);
-        xCoordinates = ((ushort)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRCX>().ECX, (ushort)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRCX>().ECX >> 16));
-        yCoordinates = ((ushort)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRDX>().EDX, (ushort)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRDX>().EDX >> 16));
+        xCoordinates = ((ushort)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRCX>().ECX, (ushort)(ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRCX>().ECX >> 16));
+        yCoordinates = ((ushort)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRDX>().EDX, (ushort)(ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRDX>().EDX >> 16));
         red = (byte)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterCS>().CS;
         green = (byte)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterSS>().SS;
         blue = (byte)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterDS>().DS;
