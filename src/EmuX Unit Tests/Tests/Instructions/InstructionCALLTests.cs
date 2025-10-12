@@ -133,7 +133,6 @@ public sealed class InstructionCALLTests : InstructionConstants<InstructionCALL>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Qword, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]));
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
-        byte[] previousBytes = [.. virtualMachine.Memory.RAM.Skip((int)(virtualMachine.CPU.GetRegister<VirtualRegisterRSP>().RSP - 8)).Take(8)];
 
         virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("test_label", 0, 10));
         virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = 0;
