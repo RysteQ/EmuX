@@ -62,9 +62,9 @@ public class VmAction : IVmAction
 
         switch (Size)
         {
-            case Size.Byte: virtualRegister.Set((currentRegisterValue | 0x_ff_ff_ff_ff_ff_ff_ff_00) + ConvertBytesToUlong(PreviousValue)); break;
-            case Size.Word: virtualRegister.Set((currentRegisterValue | 0x_ff_ff_ff_ff_ff_ff_00_00) + ConvertBytesToUlong(PreviousValue)); break;
-            case Size.Dword: virtualRegister.Set((currentRegisterValue | 0x_ff_ff_ff_ff_00_00_00_00) + ConvertBytesToUlong(PreviousValue)); break;
+            case Size.Byte: virtualRegister.Set((currentRegisterValue & 0x_ff_ff_ff_ff_ff_ff_ff_00) + ConvertBytesToUlong(PreviousValue)); break;
+            case Size.Word: virtualRegister.Set((currentRegisterValue & 0x_ff_ff_ff_ff_ff_ff_00_00) + ConvertBytesToUlong(PreviousValue)); break;
+            case Size.Dword: virtualRegister.Set((currentRegisterValue & 0x_ff_ff_ff_ff_00_00_00_00) + ConvertBytesToUlong(PreviousValue)); break;
             case Size.Qword: virtualRegister.Set(ConvertBytesToUlong(PreviousValue)); break;
             default: throw new ArgumentException("Invalid size");
         }
@@ -234,10 +234,10 @@ public class VmAction : IVmAction
         switch (Size)
         {
             case Size.Byte: return bytesToConvert[0];
-            case Size.Word: return ((ulong)bytesToConvert[0] << 8) + (ulong)bytesToConvert[1];
-            case Size.Dword: return ((ulong)bytesToConvert[0] << 24) + ((ulong)bytesToConvert[1] << 16) + ((ulong)bytesToConvert[2] << 8) + (ulong)bytesToConvert[3];
-            case Size.Qword: return ((ulong)bytesToConvert[0] << 56) + ((ulong)bytesToConvert[1] << 48) + ((ulong)bytesToConvert[2] << 40) + ((ulong)bytesToConvert[3] << 32) + ((ulong)bytesToConvert[4] << 24) + ((ulong)bytesToConvert[5] << 16) + ((ulong)bytesToConvert[6] << 8) + (ulong)bytesToConvert[7];
-            default: return 0;
+            case Size.Word: return ((ulong)bytesToConvert[1] << 8) + (ulong)bytesToConvert[0];
+            case Size.Dword: return ((ulong)bytesToConvert[3] << 24) + ((ulong)bytesToConvert[2] << 16) + ((ulong)bytesToConvert[1] << 8) + (ulong)bytesToConvert[0];
+            case Size.Qword: return ((ulong)bytesToConvert[7] << 56) + ((ulong)bytesToConvert[6] << 48) + ((ulong)bytesToConvert[5] << 40) + ((ulong)bytesToConvert[4] << 32) + ((ulong)bytesToConvert[3] << 24) + ((ulong)bytesToConvert[2] << 16) + ((ulong)bytesToConvert[1] << 8) + (ulong)bytesToConvert[0];
+            default: throw new ArgumentException($"Cannot convert property {nameof(PreviousValue)} from invalid size {Size}");
         }
     }
 
