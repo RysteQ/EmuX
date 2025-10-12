@@ -20,12 +20,24 @@ public class VirtualGPU : IVirtualGPU
 
     public void Execute()
     {
-        VideoInterrupt shape = (VideoInterrupt)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRAX>().AH);
-        (ushort StartX, ushort EndX) xCoordinates = ((ushort)ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRCX>().ECX, (ushort)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRCX>().ECX >> 16));
-        (ushort StartY, ushort EndY) yCoordinates = ((ushort)ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRDX>().EDX, (ushort)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRDX>().EDX >> 16));
-        byte red = (byte)ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterCS>().CS;
-        byte green = (byte)ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterSS>().SS;
-        byte blue = (byte)ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterDS>().DS;
+        VideoInterrupt shape;
+        (ushort StartX, ushort EndX) xCoordinates = (0, 0);
+        (ushort StartY, ushort EndY) yCoordinates = (0, 0);
+        byte red = 0;
+        byte green = 0;
+        byte blue = 0;
+
+        if (ParentVirtualMachine == null)
+        {
+            throw new ArgumentNullException($"Cannot execute the {nameof(Execute)} method with a null value for the property {nameof(ParentVirtualMachine)}");
+        }
+
+        shape = (VideoInterrupt)(ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRAX>().AH);
+        xCoordinates = ((ushort)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRCX>().ECX, (ushort)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRCX>().ECX >> 16));
+        yCoordinates = ((ushort)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRDX>().EDX, (ushort)(ParentVirtualMachine?.CPU.GetRegister<VirtualRegisterRDX>().EDX >> 16));
+        red = (byte)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterCS>().CS;
+        green = (byte)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterSS>().SS;
+        blue = (byte)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterDS>().DS;
 
         if (xCoordinates.StartX < 0 || xCoordinates.StartX >= Width || yCoordinates.StartY < 0 || yCoordinates.StartY >= Width || xCoordinates.EndX < 0 || xCoordinates.EndX >= Width || yCoordinates.EndY < 0 || yCoordinates.EndY >= Width)
         {
