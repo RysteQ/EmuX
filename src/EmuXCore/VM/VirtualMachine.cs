@@ -6,6 +6,7 @@ using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
+using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Registers;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
@@ -295,6 +296,7 @@ public class VirtualMachine : IVirtualMachine
             { InterruptCode.Disk, typeof(DiskInterrupt) },
             { InterruptCode.RTC, typeof(RTCInterrupt) },
             { InterruptCode.Video, typeof(VideoInterrupt) },
+            { InterruptCode.Device, typeof(DeviceInterrupt) }
         };
 
         if (!Enum.IsDefined(interruptCodeLookup[interruptCode], subInterruptCode))
@@ -307,6 +309,7 @@ public class VirtualMachine : IVirtualMachine
             case InterruptCode.Disk: BIOS.HandleDiskInterrupt((DiskInterrupt)subInterruptCode); break;
             case InterruptCode.RTC: BIOS.HandleRTCInterrupt((RTCInterrupt)subInterruptCode); break;
             case InterruptCode.Video: BIOS.HandleVideoInterrupt((VideoInterrupt)subInterruptCode); break;
+            case InterruptCode.Device: BIOS.HandleDeviceInterrupt((DeviceInterrupt)subInterruptCode); break;
             default: throw new NotImplementedException($"Interrupt code of type {nameof(interruptCode)} has not yet been implemented");
         }
     }
