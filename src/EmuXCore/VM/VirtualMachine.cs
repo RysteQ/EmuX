@@ -315,7 +315,7 @@ public class VirtualMachine : IVirtualMachine
     {
         if (_isActionRegistrationEnabled)
         {
-            Actions.Add(DIFactory.GenerateIVmAction(action, size, previousValue, newValue, registerName, memoryPointer, deviceId));
+            Actions.Add(DIFactory.GenerateIVmAction(action, size, previousValue, newValue, registerName, memoryPointer, deviceId, diskId));
             _currentActionIndex++;
         }
     }
