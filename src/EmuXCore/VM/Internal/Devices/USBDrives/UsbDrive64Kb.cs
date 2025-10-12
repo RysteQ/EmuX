@@ -2,6 +2,7 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuXCore.VM.Internal.Device.USBDrives;
 
@@ -14,31 +15,29 @@ public class UsbDrive64Kb : IVirtualDevice
     {
         DeviceId = deviceId;
         ParentVirtualMachine = parentVirtualMachine;
+        Data = new byte[ushort.MaxValue];
     }
 
-    public void Execute() { }
+    public void Execute()
+    {
+        ushort memoryAddress = 0;
+        byte valueToWrite = 0;
+
+        if (ParentVirtualMachine == null)
+        {
+            throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when executing the {nameof(Execute)} method");
+        }
+
+        memoryAddress = ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRCX>().CX;
+        valueToWrite = ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRDX>().DL;
+
+        ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedDevice, Size.Byte, [Data[memoryAddress]], [valueToWrite], memoryPointer: memoryAddress, deviceId: DeviceId);
+
+        Data[memoryAddress] = valueToWrite;
+    }
 
     public IVirtualMachine? ParentVirtualMachine { get; set; }
     public ushort DeviceId { get; init; }
     public DeviceStatus Status { get; set; } = DeviceStatus.NonOperational;
-    public byte[] Data
-    {
-        get => _data;
-        set
-        {
-            List<(int Index, byte Item)> modificationIndexes = _data.Index().Where(selectedByte => selectedByte.Item != value[selectedByte.Index]).ToList();
-
-            ParentVirtualMachine?.RegisterAction(
-                VmActionCategory.ModifiedDevice,
-                Size.Byte,
-                _data.Skip(modificationIndexes.First().Index).Take(modificationIndexes.Last().Index + 1).ToArray(),
-                value.Skip(modificationIndexes.First().Index).Take(modificationIndexes.Last().Index + 1).ToArray(),
-                memoryPointer: modificationIndexes.First().Index,
-                deviceId: DeviceId);
-
-            _data = value;
-        }
-    }
-
-    private byte[] _data = new byte[ushort.MaxValue];
+    public byte[] Data { get; set; }
 }
