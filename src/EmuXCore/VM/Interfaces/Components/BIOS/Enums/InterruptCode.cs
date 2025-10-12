@@ -8,5 +8,5 @@ public enum InterruptCode : byte
     Video = 0x_10,
     Disk = 0x_13,
     RTC = 0x_1a,
-    Devices = 0x_14
+    Device = 0x_14
 }
