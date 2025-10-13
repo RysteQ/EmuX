@@ -22,7 +22,7 @@ public sealed class InstructionIN : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        ulong ioValue = virtualMachine.GetQuad((int)OperandDecoder.GetOperandValue(virtualMachine, SecondOperand));
+        ulong ioValue = virtualMachine.GetQuad((int)OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!));
 
         switch (FirstOperand!.OperandSize)
         {

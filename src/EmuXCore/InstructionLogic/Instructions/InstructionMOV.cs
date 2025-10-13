@@ -26,16 +26,16 @@ public sealed class InstructionMOV : IInstruction
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
-            register!.Set(OperandDecoder.GetOperandValue(virtualMachine, SecondOperand));
+            register!.Set(OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!));
         }
         else
         {
             switch (SecondOperand!.OperandSize)
             {
-                case Size.Byte: virtualMachine.SetByte(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (byte)OperandDecoder.GetOperandValue(virtualMachine, SecondOperand)); break;
-                case Size.Word: virtualMachine.SetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (ushort)OperandDecoder.GetOperandValue(virtualMachine, SecondOperand)); break;
-                case Size.Dword: virtualMachine.SetDouble(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (uint)OperandDecoder.GetOperandValue(virtualMachine, SecondOperand)); break;
-                case Size.Qword: virtualMachine.SetQuad(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), OperandDecoder.GetOperandValue(virtualMachine, SecondOperand)); break;
+                case Size.Byte: virtualMachine.SetByte(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (byte)OperandDecoder.GetOperandValue(virtualMachine, SecondOperand)); break;
+                case Size.Word: virtualMachine.SetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (ushort)OperandDecoder.GetOperandValue(virtualMachine, SecondOperand)); break;
+                case Size.Dword: virtualMachine.SetDouble(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (uint)OperandDecoder.GetOperandValue(virtualMachine, SecondOperand)); break;
+                case Size.Qword: virtualMachine.SetQuad(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), OperandDecoder.GetOperandValue(virtualMachine, SecondOperand)); break;
             }
         }
     }

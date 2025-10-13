@@ -22,10 +22,10 @@ public sealed class InstructionOR : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        ulong sourceValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
-        ulong destinationValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
+        ulong sourceValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand!);
+        ulong destinationValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!);
 
-        if (FirstOperand.Variant == OperandVariant.Register)
+        if (FirstOperand!.Variant == OperandVariant.Register)
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand);
 

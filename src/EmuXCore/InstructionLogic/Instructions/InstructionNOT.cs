@@ -22,7 +22,7 @@ public sealed class InstructionNOT : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        if (FirstOperand.Variant == OperandVariant.Register)
+        if (FirstOperand!.Variant == OperandVariant.Register)
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand);
 

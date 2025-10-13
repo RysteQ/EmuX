@@ -36,7 +36,7 @@ public sealed class InstructionPOP : IInstruction
         }
         else
         {
-            int addressToWriteTo = OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand);
+            int addressToWriteTo = OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!);
 
             switch (FirstOperand!.OperandSize)
             {

@@ -23,7 +23,7 @@ public sealed class InstructionINT : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        byte interruptCode = OperandDecoder.GetOperandByte(virtualMachine, FirstOperand);
+        byte interruptCode = OperandDecoder.GetOperandByte(virtualMachine, FirstOperand!);
         byte subInterruptCode = virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH;
 
         if (!Enum.IsDefined(typeof(InterruptCode), interruptCode))

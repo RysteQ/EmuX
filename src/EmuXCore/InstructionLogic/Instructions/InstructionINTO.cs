@@ -24,7 +24,7 @@ public sealed class InstructionINTO : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        byte interruptCode = OperandDecoder.GetOperandByte(virtualMachine, FirstOperand);
+        byte interruptCode = OperandDecoder.GetOperandByte(virtualMachine, FirstOperand!);
         byte subInterruptCode = virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH;
 
         if (!virtualMachine.GetFlag(EFlags.OF))

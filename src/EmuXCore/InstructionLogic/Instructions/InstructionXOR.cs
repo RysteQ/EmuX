@@ -23,25 +23,25 @@ public sealed class InstructionXOR : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        ulong firstOperandValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
-        ulong secondOperandValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
+        ulong firstOperandValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand!);
+        ulong secondOperandValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!);
 
         if (Variant.FirstOperand == OperandVariant.Register)
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
-            register!.Set(register!.Get() ^ OperandDecoder.GetOperandValue(virtualMachine, SecondOperand));
+            register!.Set(register!.Get() ^ OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!));
         }
         else
         {
-            ulong valueToSet = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand) ^ OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
+            ulong valueToSet = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand!) ^ OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!);
 
             switch (SecondOperand!.OperandSize)
             {
-                case Size.Byte: virtualMachine.SetByte(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (byte)valueToSet); break;
-                case Size.Word: virtualMachine.SetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (ushort)valueToSet); break;
-                case Size.Dword: virtualMachine.SetDouble(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (uint)valueToSet); break;
-                case Size.Qword: virtualMachine.SetQuad(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), valueToSet); break;
+                case Size.Byte: virtualMachine.SetByte(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (byte)valueToSet); break;
+                case Size.Word: virtualMachine.SetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (ushort)valueToSet); break;
+                case Size.Dword: virtualMachine.SetDouble(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (uint)valueToSet); break;
+                case Size.Qword: virtualMachine.SetQuad(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), valueToSet); break;
             }
         }
 

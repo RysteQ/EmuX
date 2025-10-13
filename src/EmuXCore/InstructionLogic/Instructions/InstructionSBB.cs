@@ -23,8 +23,8 @@ public sealed class InstructionSBB : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        ulong firstOperandValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
-        ulong secondOperandValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
+        ulong firstOperandValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand!);
+        ulong secondOperandValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!);
         ulong valueToSet = firstOperandValue - secondOperandValue;
 
         if (virtualMachine.GetFlag(EFlags.CF))
@@ -42,10 +42,10 @@ public sealed class InstructionSBB : IInstruction
         {
             switch (SecondOperand!.OperandSize)
             {
-                case Size.Byte: virtualMachine.SetByte(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (byte)valueToSet); break;
-                case Size.Word: virtualMachine.SetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (ushort)valueToSet); break;
-                case Size.Dword: virtualMachine.SetDouble(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), (uint)valueToSet); break;
-                case Size.Qword: virtualMachine.SetQuad(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand), valueToSet); break;
+                case Size.Byte: virtualMachine.SetByte(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (byte)valueToSet); break;
+                case Size.Word: virtualMachine.SetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (ushort)valueToSet); break;
+                case Size.Dword: virtualMachine.SetDouble(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), (uint)valueToSet); break;
+                case Size.Qword: virtualMachine.SetQuad(OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!), valueToSet); break;
             }
         }
 

@@ -22,8 +22,8 @@ public sealed class InstructionTEST : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        ulong firstOperandValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
-        ulong secondOperandValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
+        ulong firstOperandValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand!);
+        ulong secondOperandValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!);
         byte testedValue = (byte)(firstOperandValue & secondOperandValue);
 
         virtualMachine.SetFlag(EFlags.OF, false);

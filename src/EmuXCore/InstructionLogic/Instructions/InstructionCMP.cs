@@ -22,8 +22,8 @@ public sealed class InstructionCMP : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        ulong firstOperandValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
-        ulong secondOperandValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand);
+        ulong firstOperandValue = OperandDecoder.GetOperandValue(virtualMachine, FirstOperand!);
+        ulong secondOperandValue = OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!);
 
         virtualMachine.SetFlag(EFlags.CF, FlagStateProcessor.TestCarryFlag(firstOperandValue, secondOperandValue, FirstOperand!.OperandSize));
         virtualMachine.SetFlag(EFlags.OF, FlagStateProcessor.TestOverflowFlag(firstOperandValue, secondOperandValue, firstOperandValue < secondOperandValue ? ~(firstOperandValue - secondOperandValue) : firstOperandValue - secondOperandValue, FirstOperand!.OperandSize));

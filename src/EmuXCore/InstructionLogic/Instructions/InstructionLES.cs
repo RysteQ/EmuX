@@ -25,8 +25,8 @@ public sealed class InstructionLES : IInstruction
     {
         IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
-        register!.Set(virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand)));
-        virtualMachine.CPU.GetRegister<VirtualRegisterES>().ES = virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand) + 2);
+        register!.Set(virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand!)));
+        virtualMachine.CPU.GetRegister<VirtualRegisterES>().ES = virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand!) + 2);
     }
 
     public bool IsValid()

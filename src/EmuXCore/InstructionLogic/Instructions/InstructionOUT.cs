@@ -23,7 +23,7 @@ public sealed class InstructionOUT : IInstruction
     public void Execute(IVirtualMachine virtualMachine)
     {
         IVirtualRegister sourceRegister = virtualMachine.CPU.GetRegister(SecondOperand!.FullOperand);
-        int addressToWriteTo = (int)OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
+        int addressToWriteTo = (int)OperandDecoder.GetOperandValue(virtualMachine, FirstOperand!);
 
         switch (SecondOperand!.OperandSize)
         {
@@ -51,7 +51,7 @@ public sealed class InstructionOUT : IInstruction
             return false;
         }
 
-        if (!new List<string>(["AL", "AX", "EAX"]).Contains(SecondOperand?.FullOperand.ToUpper()))
+        if (!new List<string?>(["AL", "AX", "EAX"]).Contains(SecondOperand?.FullOperand.ToUpper()))
         {
             return false;
         }

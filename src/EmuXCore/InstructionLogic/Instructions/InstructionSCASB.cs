@@ -33,7 +33,7 @@ public sealed class InstructionSCASB : IInstruction
 
         if (Variant == InstructionVariant.OneOperandMemory())
         {
-            memoryOffset = (int)OperandDecoder.GetOperandValue(virtualMachine, FirstOperand);
+            memoryOffset = (int)OperandDecoder.GetOperandValue(virtualMachine, FirstOperand!);
         }
         else
         {

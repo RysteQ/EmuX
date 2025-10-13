@@ -23,7 +23,7 @@ public sealed class InstructionNEG : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        if (FirstOperand.Variant == OperandVariant.Register)
+        if (FirstOperand!.Variant == OperandVariant.Register)
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand);
 

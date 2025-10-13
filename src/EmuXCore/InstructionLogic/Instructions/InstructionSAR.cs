@@ -41,7 +41,8 @@ public sealed class InstructionSAR : IInstruction
                 Size.Byte => valueToShift & 0b_1000_0000,
                 Size.Word => valueToShift & 0b_1000_0000_0000_0000,
                 Size.Dword => valueToShift & 0b_1000_0000_0000_0000_0000_0000_0000_0000,
-                Size.Qword => valueToShift & 0b_1000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000
+                Size.Qword => valueToShift & 0b_1000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000_0000,
+                _ => throw new NotImplementedException($"Invalid size {FirstOperand!.OperandSize}")
             };
 
             virtualMachine.SetFlag(EFlags.CF, (valueToShift >> (int)FirstOperand!.OperandSize * 8 - (i + 1)) % 2 == 1);

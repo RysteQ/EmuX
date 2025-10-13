@@ -23,7 +23,7 @@ public sealed class InstructionLOOP : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        int memoryAddressToJumpTo = OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand);
+        int memoryAddressToJumpTo = OperandDecoder.GetPointerMemoryAddress(virtualMachine, FirstOperand!);
 
         if (memoryAddressToJumpTo <= ushort.MaxValue)
         {

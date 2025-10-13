@@ -30,8 +30,8 @@ public sealed class InstructionAAM : IInstruction
         }
         else
         {
-            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL / OperandDecoder.GetOperandByte(virtualMachine, FirstOperand));
-            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL %= OperandDecoder.GetOperandByte(virtualMachine, FirstOperand);
+            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL / OperandDecoder.GetOperandByte(virtualMachine, FirstOperand!));
+            virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL %= OperandDecoder.GetOperandByte(virtualMachine, FirstOperand!);
         }
 
         virtualMachine.SetFlag(EFlags.SF, FlagStateProcessor.TestSignFlag(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL, Size.Byte));
