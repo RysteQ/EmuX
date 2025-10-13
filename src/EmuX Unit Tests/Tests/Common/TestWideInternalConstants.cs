@@ -7,14 +7,13 @@ using EmuXCore.InstructionLogic.Interfaces;
 using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.Interpreter.Encoder.Logic;
 using EmuXCore.Interpreter.Enums;
+using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.LexicalSyntax;
 using EmuXCore.Interpreter.Models;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM;
-using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Interfaces.Actions;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
@@ -37,13 +36,15 @@ public class TestWideInternalConstants
     protected IFlagStateProcessor GenerateFlagStateProcessor() => new FlagStateProcessor();
     protected KeyValuePair<string, IMemoryLabel> GenerateMemoryLabel(string label, int address, int line) => new(label, new MemoryLabel(label, address, line));
     protected IMemoryOffset GenerateMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand) => new MemoryOffset(type, operand, fullOperand);
+    protected IInterpreter GenerateInterpreter() => new EmuXCore.Interpreter.Interpreter();
 
     protected IToken GenerateToken(TokenType tokenType, string fullSourceCode) => new Token(tokenType, fullSourceCode);
     protected ILexer GenerateLexer() => new Lexer(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
     protected IParser GenerateParser() => new Parser(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
     protected IInstructionLookup GenerateInstructionLookup() => new InstructionLookup();
     protected IPrefixLookup GeneratePrefixLookup() => new PrefixLookup();
-    protected IInstructionEncoder GeenerateInstructionEncoder() => new InstructionEncoder(GenerateVirtualMachine(), GenerateOperandDecoder());
+    protected IInstructionEncoder GenerateInstructionEncoder() => new InstructionEncoder(GenerateVirtualMachine(), GenerateOperandDecoder());
+    protected IInstruction GenerateInstruction<T>(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) where T : IInstruction => (T)Activator.CreateInstance(typeof(T), new object[] { variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor });
 
     protected IVirtualCPU GenerateVirtualCPU() => new VirtualCPU();
     protected IVirtualMemory GenerateVirtualMemory() => new VirtualMemory();
