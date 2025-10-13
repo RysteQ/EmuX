@@ -11,7 +11,7 @@ public class EncoderTests : TestWideInternalConstants
     [TestMethod]
     public void TestEncoder_TestNumber_1_Success()
     {
-        IInstructionEncoder instructionEncoder = GeenerateInstructionEncoder();
+        IInstructionEncoder instructionEncoder = GenerateInstructionEncoder();
         ILexer lexer = GenerateLexer();
         IParser parser = GenerateParser();
         IList<IToken> tokens = [];
