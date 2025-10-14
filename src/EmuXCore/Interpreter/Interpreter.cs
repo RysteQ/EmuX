@@ -25,7 +25,11 @@ public class Interpreter : IInterpreter
 
         _instructions[_currentInstructionIndex].Execute(_virtualMachine);
 
-        _actions.Add(_currentInstructionIndex, [.. _virtualMachine.Actions.TakeLast(_virtualMachine.Actions.Count - _actions.Values.Sum(selectedRecord => selectedRecord.Count))]);
+        if (!_actions.ContainsKey(_currentInstructionIndex))
+        {
+            _actions.Add(_currentInstructionIndex, [.. _virtualMachine.Actions.TakeLast(_virtualMachine.Actions.Count - _actions.Values.Sum(selectedRecord => selectedRecord.Count))]);
+        }
+
         _currentInstructionIndex++;
     }
 
