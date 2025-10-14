@@ -83,4 +83,111 @@ public sealed class InterpreterRuntimeErrorTests : TestWideInternalConstants
 
         Assert.AreEqual<int>(0, interpreter.CurrentInstructionIndex);
     }
+
+
+
+    [TestMethod]
+    public void TestIfExecutionIsSafeWithMultipleStepExecutions()
+    {
+        IVirtualMachine virtualMachine = GenerateVirtualMachine();
+        IInterpreter interpreter = GenerateInterpreter();
+        IInstruction[] instructions =
+        [
+            GenerateInstruction<InstructionNOT>(InstructionVariant.OneOperandRegister(), null, GenerateOperand("AX", OperandVariant.Register, Size.Word, []), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor()),
+            GenerateInstruction<InstructionNOT>(InstructionVariant.OneOperandRegister(), null, GenerateOperand("AX", OperandVariant.Register, Size.Word, []), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor()),
+            GenerateInstruction<InstructionNOT>(InstructionVariant.OneOperandRegister(), null, GenerateOperand("AX", OperandVariant.Register, Size.Word, []), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor())
+        ];
+
+        interpreter.VirtualMachine = virtualMachine;
+        interpreter.Instructions = instructions;
+
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = 0;
+        virtualMachine.Actions.Clear();
+
+        try
+        {
+            for (int i = 0; i < 1000 * instructions.Length; i++)
+            {
+                interpreter.ExecuteStep();
+            }
+
+            Assert.IsTrue(true);
+        }
+        catch (Exception ex)
+        {
+            Assert.Fail(ex.ToString());
+        }
+    }
+
+
+
+    [TestMethod]
+    public void TestIfExecutionIsSafeWithMultipleUndoExecutions()
+    {
+        IVirtualMachine virtualMachine = GenerateVirtualMachine();
+        IInterpreter interpreter = GenerateInterpreter();
+        IInstruction[] instructions =
+        [
+            GenerateInstruction<InstructionNOT>(InstructionVariant.OneOperandRegister(), null, GenerateOperand("AX", OperandVariant.Register, Size.Word, []), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor()),
+            GenerateInstruction<InstructionNOT>(InstructionVariant.OneOperandRegister(), null, GenerateOperand("AX", OperandVariant.Register, Size.Word, []), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor()),
+            GenerateInstruction<InstructionNOT>(InstructionVariant.OneOperandRegister(), null, GenerateOperand("AX", OperandVariant.Register, Size.Word, []), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor())
+        ];
+
+        interpreter.VirtualMachine = virtualMachine;
+        interpreter.Instructions = instructions;
+
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = 0;
+        virtualMachine.Actions.Clear();
+        interpreter.ExecuteStep();
+
+        try
+        {
+            for (int i = 0; i < 1000 * instructions.Length; i++)
+            {
+                interpreter.UndoAction();
+            }
+
+            Assert.IsTrue(true);
+        }
+        catch (Exception ex)
+        {
+            Assert.Fail(ex.ToString());
+        }
+    }
+
+
+
+    [TestMethod]
+    public void TestIfExecutionIsSafeWithMultipleRedoExecutions()
+    {
+        IVirtualMachine virtualMachine = GenerateVirtualMachine();
+        IInterpreter interpreter = GenerateInterpreter();
+        IInstruction[] instructions =
+        [
+            GenerateInstruction<InstructionNOT>(InstructionVariant.OneOperandRegister(), null, GenerateOperand("AX", OperandVariant.Register, Size.Word, []), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor()),
+            GenerateInstruction<InstructionNOT>(InstructionVariant.OneOperandRegister(), null, GenerateOperand("AX", OperandVariant.Register, Size.Word, []), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor()),
+            GenerateInstruction<InstructionNOT>(InstructionVariant.OneOperandRegister(), null, GenerateOperand("AX", OperandVariant.Register, Size.Word, []), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor())
+        ];
+
+        interpreter.VirtualMachine = virtualMachine;
+        interpreter.Instructions = instructions;
+
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = 0;
+        virtualMachine.Actions.Clear();
+        interpreter.ExecuteStep();
+
+        try
+        {
+            for (int i = 0; i < 1000 * instructions.Length; i++)
+            {
+                interpreter.RedoAction();
+            }
+
+            Assert.IsTrue(true);
+        }
+        catch (Exception ex)
+        {
+            Assert.Fail(ex.ToString());
+        }
+    }
 }

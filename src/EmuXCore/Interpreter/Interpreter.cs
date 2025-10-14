@@ -18,7 +18,7 @@ public class Interpreter : IInterpreter
 
     public void ExecuteStep()
     {
-        if (!_instructions.Any())
+        if (!_instructions.Any() || _currentInstructionIndex == _instructions.Count)
         {
             return;
         }
@@ -54,11 +54,10 @@ public class Interpreter : IInterpreter
 
     public void RedoAction()
     {
-        if (_currentInstructionIndex == _instructions.Count)
+        if (_currentInstructionIndex == _actions.Count)
         {
             return;
         }
-
 
         for (int i = _actions[_currentInstructionIndex].Count - 1; i >= 0; i--)
         {
