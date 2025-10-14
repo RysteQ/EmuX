@@ -172,6 +172,8 @@ public interface IVirtualMachine
     /// <param name="actionsToRedo">The actions to redo, default is one</param>
     void RedoActions(int actionsToRedo = 1);
 
+    void InvokeAccessEvent(EventArgs args);
+
     /// <summary>
     /// The event is raised when the memory is accessed from the <c>IVIrtualMachine</c> layer <br/>
     /// Returns an EventArgs object of type IMemoryAccess
@@ -189,6 +191,12 @@ public interface IVirtualMachine
     /// Returns an EventArgs object of type IFlagAccess
     /// </summary>
     event EventHandler? FlagAccessed;
+
+    /// <summary>
+    /// The event is raised when a CPU flag is modified <br/>
+    /// Returns an EventArgs object of type IRegisterAccess
+    /// </summary>
+    event EventHandler? RegisterAccessed;
 
     /// <summary>
     /// The actions that modified the state of the <c>IVIrtualMachine</c> for memory related operations

@@ -7,6 +7,7 @@ using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
+using EmuXCore.VM.Interfaces.Events;
 using EmuXCore.VM.Internal.CPU.Registers;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
@@ -349,9 +350,43 @@ public class VirtualMachine : IVirtualMachine
         _isActionRegistrationEnabled = true;
     }
 
+    public void InvokeAccessEvent(EventArgs args)
+    {
+        if (args is IMemoryAccess)
+        {
+            MemoryAccessed?.Invoke(this, args);
+
+            return;
+        }
+
+        if (args is IStackAccess)
+        {
+            StackAccessed?.Invoke(this, args);
+
+            return;
+        }
+
+        if (args is IFlagAccess)
+        {
+            FlagAccessed?.Invoke(this, args);
+
+            return;
+        }
+
+        if (args is IRegisterAccess)
+        {
+            RegisterAccessed?.Invoke(this, args);
+
+            return;
+        }
+
+        throw new ArgumentException($"Invalid type of args provided when invoking an internal event");
+    }
+
     public event EventHandler? MemoryAccessed;
     public event EventHandler? StackAccessed;
     public event EventHandler? FlagAccessed;
+    public event EventHandler? RegisterAccessed;
 
     public List<IVmAction> Actions { get; set; }
 
