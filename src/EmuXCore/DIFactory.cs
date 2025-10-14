@@ -363,6 +363,16 @@ public static class DIFactory
     /// <returns>The implementation of IStackAccess</returns>
     public static IStackAccess GenerateIStackAccess(Size size, bool pushOrPop, ulong value) => new StackAccess(size, pushOrPop, value);
 
+    /// <summary>
+    /// Generates an instance of IRegisterAccess
+    /// </summary>
+    /// <param name="registerName">The name of the register accessed</param>
+    /// <param name="size">The size of the operation</param>
+    /// <param name="previousValue">The previous value of the register</param>
+    /// <param name="newValue">The new value of the register</param>
+    /// <returns>The implementation of IRegisterAccess</returns>
+    public static IRegisterAccess GenerateIRegisteAccess(string registerName, Size size, ulong previousValue, ulong newValue) => new RegisterAccess(registerName, size, previousValue, newValue);
+
     // VM builder
 
     /// <summary>
