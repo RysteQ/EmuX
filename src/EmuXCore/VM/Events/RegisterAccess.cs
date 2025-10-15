@@ -13,6 +13,8 @@ public class RegisterAccess : EventArgs, IRegisterAccess
         NewValue = newValue;
     }
 
+    // TODO - Possible change ?
+
     public string RegisterName { get; init; }
     public Size Size { get; init; }
     public ulong? PreviousValue { get; init; }
