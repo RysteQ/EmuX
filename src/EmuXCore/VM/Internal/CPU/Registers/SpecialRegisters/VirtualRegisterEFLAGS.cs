@@ -2,6 +2,7 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using System.Security.Cryptography;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
@@ -18,30 +19,54 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
 
     public ulong RFLAGS
     {
-        get => _rflags;
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RFLAGS), Size.Qword));
+
+            return _rflags;
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RFLAGS)], BitConverter.GetBytes(RFLAGS), BitConverter.GetBytes(value), nameof(RFLAGS));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RFLAGS), Size.Qword, RFLAGS, value));
+
             _rflags = value;
         }
     }
 
     public uint EFLAGS
     {
-        get => (uint)(RFLAGS & 0x00000000ffffffff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EFLAGS), Size.Dword));
+
+            return (uint)(RFLAGS & 0x00000000ffffffff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EFLAGS)], BitConverter.GetBytes(EFLAGS), BitConverter.GetBytes(value), nameof(EFLAGS));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EFLAGS), Size.Dword, FLAGS, value));
+
             _rflags = value;
         }
     }
 
     public ushort FLAGS
     {
-        get => (ushort)(EFLAGS & 0x0000ffff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(FLAGS), Size.Word));
+
+            return (ushort)(EFLAGS & 0x0000ffff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(FLAGS)], BitConverter.GetBytes(FLAGS), BitConverter.GetBytes(value), nameof(FLAGS));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(FLAGS), Size.Word, FLAGS, value));
+
             _rflags = (EFLAGS & 0xffff0000) + value;
         }
     }

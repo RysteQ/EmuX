@@ -18,15 +18,23 @@ public class VirtualRegisterDS : IVirtualRegister
 
     public ushort DS
     {
-        get => _ds;
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(DS), Size.Word));
+
+            return _ds;
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(DS)], BitConverter.GetBytes(DS), BitConverter.GetBytes(value), nameof(DS));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(DS), Size.Word, DS, value));
+
             _ds = value;
         }
     }
 
-    public string Name => "SS";
+    public string Name => "DS";
 
     public Dictionary<string, Size> RegisterNamesAndSizes => new()
     {

@@ -18,10 +18,18 @@ public class VirtualRegisterGS : IVirtualRegister
 
     public ushort GS
     {
-        get => _gs;
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(GS), Size.Word));
+
+            return _gs;
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(GS)], BitConverter.GetBytes(GS), BitConverter.GetBytes(value), nameof(GS));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(GS), Size.Word, GS, value));
+
             _gs = value;
         }
     }

@@ -18,50 +18,90 @@ public class VirtualRegisterRBX : IVirtualRegister
 
     public ulong RBX
     {
-        get => _rbx;
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RBX), Size.Qword));
+
+            return _rbx;
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RBX)], BitConverter.GetBytes(RBX), BitConverter.GetBytes(value), nameof(RBX));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RBX), Size.Qword, RBX, value));
+
             _rbx = value;
         }
     }
 
     public uint EBX
     {
-        get => (uint)(RBX & 0x00000000ffffffff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EBX), Size.Dword));
+
+            return (uint)(RBX & 0x00000000ffffffff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EBX)], BitConverter.GetBytes(EBX), BitConverter.GetBytes(value), nameof(EBX));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EBX), Size.Dword, EBX, value));
+            
             _rbx = value;
         }
     }
 
     public ushort BX
     {
-        get => (ushort)(EBX & 0x0000ffff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BX), Size.Word));
+
+            return (ushort)(EBX & 0x0000ffff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BX)], BitConverter.GetBytes(BX), BitConverter.GetBytes(value), nameof(BX));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BX), Size.Word, BX, value));
+            
             _rbx = (EBX & 0xffff0000) + value;
         }
     }
 
     public byte BH
     {
-        get => (byte)((BX & 0xff00) >> 8);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BH), Size.Byte));
+
+            return (byte)((BX & 0xff00) >> 8);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BH)], [BH], [value], nameof(BH));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BH), Size.Byte, BH, value));
+
             _rbx = (ushort)((BX & 0x00ff) + (value << 8));
         }
     }
 
     public byte BL
     {
-        get => (byte)(BX & 0x00ff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BL), Size.Byte));
+
+            return (byte)(BX & 0x00ff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BL)], [BL], [value], nameof(BL));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BL), Size.Byte, BL, value));
+
             _rbx = (ushort)((BX & 0xff00) + value);
         }
     }

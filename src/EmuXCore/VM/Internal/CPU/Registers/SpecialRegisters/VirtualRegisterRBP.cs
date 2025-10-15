@@ -2,6 +2,7 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using System.Reflection.PortableExecutable;
 
 namespace EmuXCore.VM.Internal.CPU.Registers;
 
@@ -18,40 +19,72 @@ public class VirtualRegisterRBP : IVirtualRegister
 
     public ulong RBP
     {
-        get => _rbp;
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RBP), Size.Qword));
+
+            return _rbp;
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RBP)], BitConverter.GetBytes(RBP), BitConverter.GetBytes(value), nameof(RBP));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RBP), Size.Qword, RBP, value));
+
             _rbp = value;
         }
     }
 
     public uint EBP
     {
-        get => (uint)(RBP & 0x00000000ffffffff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EBP), Size.Dword));
+
+            return (uint)(RBP & 0x00000000ffffffff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EBP)], BitConverter.GetBytes(EBP), BitConverter.GetBytes(value), nameof(RBP));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EBP), Size.Dword, EBP, value));
+
             _rbp = value;
         }
     }
 
     public ushort BP
     {
-        get => (ushort)(EBP & 0x0000ffff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BP), Size.Word));
+
+            return (ushort)(EBP & 0x0000ffff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BP)], BitConverter.GetBytes(BP), BitConverter.GetBytes(value), nameof(BP));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BP), Size.Word, BP, value));
+
             _rbp = (EBP & 0xffff0000) + value;
         }
     }
 
     public byte BPL
     {
-        get => (byte)(BP & 0x00ff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BPL), Size.Byte));
+
+            return (byte)(BP & 0x00ff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BPL)], [BPL], [value], nameof(BPL));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BPL), Size.Byte, BPL, value));
+
             _rbp = (ushort)((BP & 0xff00) + value);
         }
     }

@@ -18,30 +18,54 @@ public class VirtualRegisterRIP : IVirtualRegister
 
     public ulong RIP
     {
-        get => _rip;
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RIP), Size.Qword));
+
+            return _rip;
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RIP)], BitConverter.GetBytes(RIP), BitConverter.GetBytes(value), nameof(RIP));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RIP), Size.Qword, RIP, value));
+
             _rip = value;
         }
     }
 
     public uint EIP
     {
-        get => (uint)(RIP & 0x00000000ffffffff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EIP), Size.Dword));
+
+            return (uint)(RIP & 0x00000000ffffffff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EIP)], BitConverter.GetBytes(EIP), BitConverter.GetBytes(value), nameof(EIP));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EIP), Size.Dword, EIP, value));
+
             _rip = value;
         }
     }
 
     public ushort IP
     {
-        get => (ushort)(EIP & 0x0000ffff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(IP), Size.Word));
+
+            return (ushort)(EIP & 0x0000ffff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(IP)], BitConverter.GetBytes(IP), BitConverter.GetBytes(value), nameof(IP));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(IP), Size.Word, IP, value));
+
             _rip = (EIP & 0xffff0000) + value;
         }
     }

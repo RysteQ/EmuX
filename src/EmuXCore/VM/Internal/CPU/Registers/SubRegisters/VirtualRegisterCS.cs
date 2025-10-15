@@ -19,10 +19,19 @@ public class VirtualRegisterCS : IVirtualRegister
 
     public ushort CS
     {
-        get => _cs;
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(CS), Size.Word));
+
+            return CS;  
+        }
+
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(CS)], BitConverter.GetBytes(CS), BitConverter.GetBytes(value), nameof(CS));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(CS), Size.Word, CS, value));
+
             _cs = value;
         }
     }

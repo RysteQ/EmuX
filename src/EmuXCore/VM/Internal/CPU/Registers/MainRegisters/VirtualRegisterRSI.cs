@@ -2,6 +2,7 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using System.Runtime.Intrinsics.Arm;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
@@ -18,40 +19,72 @@ public class VirtualRegisterRSI : IVirtualRegister
 
     public ulong RSI
     {
-        get => _rsi;
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RSI), Size.Qword));
+
+            return _rsi;
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RSI)], BitConverter.GetBytes(RSI), BitConverter.GetBytes(value), nameof(RSI));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RSI), Size.Qword, RSI, value));
+
             _rsi = value;
         }
     }
 
     public uint ESI
     {
-        get => (uint)(RSI & 0x00000000ffffffff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ESI), Size.Dword));
+
+            return (uint)(RSI & 0x00000000ffffffff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(ESI)], BitConverter.GetBytes(ESI), BitConverter.GetBytes(value), nameof(ESI));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ESI), Size.Dword, ESI, value));
+
             _rsi = value;
         }
     }
 
     public ushort SI
     {
-        get => (ushort)(ESI & 0x0000ffff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SI), Size.Word));
+
+            return (ushort)(ESI & 0x0000ffff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SI)], BitConverter.GetBytes(SI), BitConverter.GetBytes(value), nameof(SI));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SI), Size.Word, SI, value));
+
             _rsi = (ESI & 0xffff0000) + value;
         }
     }
 
     public byte SIL
     {
-        get => (byte)(SI & 0x00ff);
+        get
+        {
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SIL), Size.Byte));
+
+            return (byte)(SI & 0x00ff);
+        }
+
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SIL)], [SIL], [value], nameof(SIL));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SIL), Size.Byte, SIL, value));
+
             _rsi = (ushort)((SI & 0xff00) + value);
         }
     }
