@@ -26,7 +26,6 @@ public class VirtualRegisterCS : IVirtualRegister
             return _cs;  
         }
 
-
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(CS)], BitConverter.GetBytes(CS), BitConverter.GetBytes(value), nameof(CS));
