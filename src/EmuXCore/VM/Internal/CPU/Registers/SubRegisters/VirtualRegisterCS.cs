@@ -23,7 +23,7 @@ public class VirtualRegisterCS : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(CS), Size.Word));
 
-            return CS;  
+            return _cs;  
         }
 
 
