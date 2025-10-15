@@ -18,12 +18,14 @@ public interface IRegisterAccess
     public Size Size { get; init; }
     
     /// <summary>
-    /// The previous value of the register
+    /// The previous value of the register <br/>
+    /// Null if the action did not write to the register but read from it
     /// </summary>
-    public ulong PreviousValue { get; init; }
-    
+    public ulong? PreviousValue { get; init; }
+
     /// <summary>
-    /// The new value of the register
+    /// The new value of the register <br/>
+    /// Null if the action did not write to the register but read from it
     /// </summary>
-    public ulong NewValue { get; init; }
+    public ulong? NewValue { get; init; }
 }

@@ -371,7 +371,7 @@ public static class DIFactory
     /// <param name="previousValue">The previous value of the register</param>
     /// <param name="newValue">The new value of the register</param>
     /// <returns>The implementation of IRegisterAccess</returns>
-    public static IRegisterAccess GenerateIRegisteAccess(string registerName, Size size, ulong previousValue, ulong newValue) => new RegisterAccess(registerName, size, previousValue, newValue);
+    public static IRegisterAccess GenerateIRegisteAccess(string registerName, Size size, ulong? previousValue = null, ulong? newValue = null) => new RegisterAccess(registerName, size, previousValue, newValue);
 
     // VM builder
 
