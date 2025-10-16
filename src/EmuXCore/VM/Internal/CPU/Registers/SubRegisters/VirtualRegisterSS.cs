@@ -20,7 +20,7 @@ public class VirtualRegisterSS : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SS), Size.Word));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SS), Size.Word, false));
 
             return _ss;
         }
@@ -28,7 +28,7 @@ public class VirtualRegisterSS : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SS)], BitConverter.GetBytes(SS), BitConverter.GetBytes(value), nameof(SS));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SS), Size.Word, SS, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SS), Size.Word, true, SS, value));
 
             _ss = value;
         }

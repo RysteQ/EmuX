@@ -5,18 +5,18 @@ namespace EmuXCore.VM.Events;
 
 public class RegisterAccess : EventArgs, IRegisterAccess
 {
-    public RegisterAccess(string registerName, Size size, ulong? previousValue, ulong? newValue)
+    public RegisterAccess(string registerName, Size size, bool write, ulong previousValue, ulong newValue)
     {
         RegisterName = registerName;
         Size = size;
+        Write = write;
         PreviousValue = previousValue;
         NewValue = newValue;
     }
 
-    // TODO - Possible change ?
-
     public string RegisterName { get; init; }
     public Size Size { get; init; }
-    public ulong? PreviousValue { get; init; }
-    public ulong? NewValue { get; init; }
+    public bool Write { get; set; }
+    public ulong PreviousValue { get; init; }
+    public ulong NewValue { get; init; }
 }

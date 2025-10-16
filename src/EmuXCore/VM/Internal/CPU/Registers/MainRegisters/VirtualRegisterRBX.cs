@@ -20,7 +20,7 @@ public class VirtualRegisterRBX : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RBX), Size.Qword));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RBX), Size.Qword, false));
 
             return _rbx;
         }
@@ -28,7 +28,7 @@ public class VirtualRegisterRBX : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RBX)], BitConverter.GetBytes(RBX), BitConverter.GetBytes(value), nameof(RBX));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RBX), Size.Qword, RBX, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RBX), Size.Qword, true, RBX, value));
 
             _rbx = value;
         }
@@ -38,7 +38,7 @@ public class VirtualRegisterRBX : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EBX), Size.Dword));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EBX), Size.Dword, false));
 
             return (uint)(RBX & 0x00000000ffffffff);
         }
@@ -46,7 +46,7 @@ public class VirtualRegisterRBX : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EBX)], BitConverter.GetBytes(EBX), BitConverter.GetBytes(value), nameof(EBX));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EBX), Size.Dword, EBX, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EBX), Size.Dword, true, EBX, value));
             
             _rbx = value;
         }
@@ -56,7 +56,7 @@ public class VirtualRegisterRBX : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BX), Size.Word));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BX), Size.Word, false));
 
             return (ushort)(EBX & 0x0000ffff);
         }
@@ -64,7 +64,7 @@ public class VirtualRegisterRBX : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BX)], BitConverter.GetBytes(BX), BitConverter.GetBytes(value), nameof(BX));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BX), Size.Word, BX, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BX), Size.Word, true, BX, value));
             
             _rbx = (EBX & 0xffff0000) + value;
         }
@@ -74,7 +74,7 @@ public class VirtualRegisterRBX : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BH), Size.Byte));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BH), Size.Byte, false));
 
             return (byte)((BX & 0xff00) >> 8);
         }
@@ -82,7 +82,7 @@ public class VirtualRegisterRBX : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BH)], [BH], [value], nameof(BH));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BH), Size.Byte, BH, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BH), Size.Byte, true, BH, value));
 
             _rbx = (ushort)((BX & 0x00ff) + (value << 8));
         }
@@ -92,7 +92,7 @@ public class VirtualRegisterRBX : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BL), Size.Byte));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BL), Size.Byte, false));
 
             return (byte)(BX & 0x00ff);
         }
@@ -100,7 +100,7 @@ public class VirtualRegisterRBX : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BL)], [BL], [value], nameof(BL));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BL), Size.Byte, BL, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BL), Size.Byte, true, BL, value));
 
             _rbx = (ushort)((BX & 0xff00) + value);
         }

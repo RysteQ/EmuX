@@ -21,7 +21,7 @@ public class VirtualRegisterRSI : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RSI), Size.Qword));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RSI), Size.Qword, false  ));
 
             return _rsi;
         }
@@ -29,7 +29,7 @@ public class VirtualRegisterRSI : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RSI)], BitConverter.GetBytes(RSI), BitConverter.GetBytes(value), nameof(RSI));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RSI), Size.Qword, RSI, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RSI), Size.Qword, true, RSI, value));
 
             _rsi = value;
         }
@@ -39,7 +39,7 @@ public class VirtualRegisterRSI : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ESI), Size.Dword));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ESI), Size.Dword, false));
 
             return (uint)(RSI & 0x00000000ffffffff);
         }
@@ -47,7 +47,7 @@ public class VirtualRegisterRSI : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(ESI)], BitConverter.GetBytes(ESI), BitConverter.GetBytes(value), nameof(ESI));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ESI), Size.Dword, ESI, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ESI), Size.Dword, true, ESI, value));
 
             _rsi = value;
         }
@@ -57,7 +57,7 @@ public class VirtualRegisterRSI : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SI), Size.Word));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SI), Size.Word, false));
 
             return (ushort)(ESI & 0x0000ffff);
         }
@@ -65,7 +65,7 @@ public class VirtualRegisterRSI : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SI)], BitConverter.GetBytes(SI), BitConverter.GetBytes(value), nameof(SI));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SI), Size.Word, SI, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SI), Size.Word, true, SI, value));
 
             _rsi = (ESI & 0xffff0000) + value;
         }
@@ -75,7 +75,7 @@ public class VirtualRegisterRSI : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SIL), Size.Byte));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SIL), Size.Byte, false));
 
             return (byte)(SI & 0x00ff);
         }
@@ -83,7 +83,7 @@ public class VirtualRegisterRSI : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SIL)], [SIL], [value], nameof(SIL));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SIL), Size.Byte, SIL, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SIL), Size.Byte, true, SIL, value));
 
             _rsi = (ushort)((SI & 0xff00) + value);
         }
