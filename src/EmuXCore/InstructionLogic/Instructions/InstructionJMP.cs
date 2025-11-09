@@ -21,7 +21,7 @@ public sealed class InstructionJMP : IInstruction
 
     public void Execute(IVirtualMachine virtualMachine)
     {
-        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)virtualMachine.Memory.LabelMemoryLocations[FirstOperand!.Offsets.First().FullOperand].Address;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)virtualMachine.Memory.LabelMemoryLocations[FirstOperand!.FullOperand].Address;
     }
 
     public bool IsValid()

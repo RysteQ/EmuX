@@ -24,7 +24,7 @@ public sealed class InstructionJCXZ : IInstruction
     {
         if (virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().CX == 0)
         {
-            virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)virtualMachine.Memory.LabelMemoryLocations[FirstOperand!.Offsets.First().FullOperand].Address;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)virtualMachine.Memory.LabelMemoryLocations[FirstOperand!.FullOperand].Address;
         }
     }
 

@@ -24,7 +24,7 @@ public sealed class InstructionJPO : IInstruction
     {
         if (!virtualMachine.GetFlag(EFlags.PF))
         {
-            virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)virtualMachine.Memory.LabelMemoryLocations[FirstOperand!.Offsets.First().FullOperand].Address;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)virtualMachine.Memory.LabelMemoryLocations[FirstOperand!.FullOperand].Address;
         }
     }
 
