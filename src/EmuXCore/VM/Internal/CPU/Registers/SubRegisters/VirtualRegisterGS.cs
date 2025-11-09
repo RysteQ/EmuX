@@ -14,7 +14,20 @@ public class VirtualRegisterGS : IVirtualRegister
     }
 
     public ulong Get() => GS;
-    public void Set(ulong value) => GS = (ushort)value;
+
+    public void Set(string register, ulong value)
+    {
+        register = register.ToUpper();
+
+        if (register == nameof(GS))
+        {
+            GS = (ushort)value;
+        }
+        else
+        {
+            throw new ArgumentException($"Invalid register name, cannot find register of name {register} in [{nameof(GS)}]");
+        }
+    }
 
     public ushort GS
     {

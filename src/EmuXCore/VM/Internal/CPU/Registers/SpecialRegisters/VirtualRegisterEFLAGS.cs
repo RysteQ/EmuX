@@ -15,7 +15,28 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
     }
 
     public ulong Get() => RFLAGS;
-    public void Set(ulong value) => RFLAGS = value;
+
+    public void Set(string register, ulong value)
+    {
+        register = register.ToUpper();
+
+        if (register == nameof(RFLAGS))
+        {
+            RFLAGS = value;
+        }
+        else if (register == nameof(EFLAGS))
+        {
+            EFLAGS = (uint)value;
+        }
+        else if (register == nameof(FLAGS))
+        {
+            FLAGS = (ushort)value;
+        }
+        else
+        {
+            throw new ArgumentException($"Invalid register name, cannot find register of name {register} in [{nameof(RFLAGS)} {nameof(EFLAGS)} {nameof(FLAGS)}]");
+        }
+    }
 
     public ulong RFLAGS
     {

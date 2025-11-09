@@ -14,7 +14,32 @@ public class VirtualRegisterRDI : IVirtualRegister
     }
 
     public ulong Get() => RDI;
-    public void Set(ulong value) => RDI = value;
+
+    public void Set(string register, ulong value)
+    {
+        register = register.ToUpper();
+
+        if (register == nameof(RDI))
+        {
+            RDI = value;
+        }
+        else if (register == nameof(EDI))
+        {
+            EDI = (uint)value;
+        }
+        else if (register == nameof(DI))
+        {
+            DI = (ushort)value;
+        }
+        else if (register == nameof(DIL))
+        {
+            DIL = (byte)value;
+        }
+        else
+        {
+            throw new ArgumentException($"Invalid register name, cannot find register of name {register} in [{nameof(RDI)} {nameof(EDI)} {nameof(DI)} {nameof(DIL)}]");
+        }
+    }
 
     public ulong RDI
     {

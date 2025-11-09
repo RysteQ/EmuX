@@ -15,7 +15,36 @@ public class VirtualRegisterRDX : IVirtualRegister
     }
 
     public ulong Get() => RDX;
-    public void Set(ulong value) => RDX = value;
+
+    public void Set(string register, ulong value)
+    {
+        register = register.ToUpper();
+
+        if (register == nameof(RDX))
+        {
+            RDX = value;
+        }
+        else if (register == nameof(EDX))
+        {
+            EDX = (uint)value;
+        }
+        else if (register == nameof(DX))
+        {
+            DX = (ushort)value;
+        }
+        else if (register == nameof(DH))
+        {
+            DH = (byte)value;
+        }
+        else if (register == nameof(DH))
+        {
+            DL = (byte)value;
+        }
+        else
+        {
+            throw new ArgumentException($"Invalid register name, cannot find register of name {register} in [{nameof(RDX)} {nameof(EDX)} {nameof(DX)} {nameof(DH)} {nameof(DL)}]");
+        }
+    }
 
     public ulong RDX
     {

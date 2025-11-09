@@ -15,7 +15,32 @@ public class VirtualRegisterRSI : IVirtualRegister
     }
 
     public ulong Get() => RSI;
-    public void Set(ulong value) => RSI = value;
+
+    public void Set(string register, ulong value)
+    {
+        register = register.ToUpper();
+
+        if (register == nameof(RSI))
+        {
+            RSI = value;
+        }
+        else if (register == nameof(ESI))
+        {
+            ESI = (uint)value;
+        }
+        else if (register == nameof(SI))
+        {
+            SI = (ushort)value;
+        }
+        else if (register == nameof(SIL))
+        {
+            SIL = (byte)value;
+        }
+        else
+        {
+            throw new ArgumentException($"Invalid register name, cannot find register of name {register} in [{nameof(RSI)} {nameof(ESI)} {nameof(SI)} {nameof(SIL)}]");
+        }
+    }
 
     public ulong RSI
     {

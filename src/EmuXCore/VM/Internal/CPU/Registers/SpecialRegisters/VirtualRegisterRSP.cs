@@ -14,7 +14,32 @@ public class VirtualRegisterRSP : IVirtualRegister
     }
 
     public ulong Get() => RSP;
-    public void Set(ulong value) => RSP = value;
+
+    public void Set(string register, ulong value)
+    {
+        register = register.ToUpper();
+
+        if (register == nameof(RSP))
+        {
+            RSP = value;
+        }
+        else if (register == nameof(ESP))
+        {
+            ESP = (uint)value;
+        }
+        else if (register == nameof(SP))
+        {
+            SP = (ushort)value;
+        }
+        else if (register == nameof(SPL))
+        {
+            SPL = (byte)value;
+        }
+        else
+        {
+            throw new ArgumentException($"Invalid register name, cannot find register of name {register} in [{nameof(RSP)} {nameof(ESP)} {nameof(SP)} {nameof(SPL)}]");
+        }
+    }
 
     public ulong RSP
     {

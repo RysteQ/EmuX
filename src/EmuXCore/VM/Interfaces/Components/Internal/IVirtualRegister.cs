@@ -17,7 +17,8 @@ public interface IVirtualRegister : IVirtualComponent
     /// Generic setter method, must set the value of the largest (in terms of binary digits) available register property
     /// </summary>
     /// <param name="value">The value to set the register at</param>
-    void Set(ulong value);
+    /// <param name="register">The name of the register to set the value at, it is case insensitive</param>
+    void Set(string register, ulong value);
 
     /// <summary>
     /// The name of the register

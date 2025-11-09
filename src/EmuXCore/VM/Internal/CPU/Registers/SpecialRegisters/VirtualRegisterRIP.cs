@@ -14,7 +14,28 @@ public class VirtualRegisterRIP : IVirtualRegister
     }
 
     public ulong Get() => RIP;
-    public void Set(ulong value) => RIP = value;
+
+    public void Set(string register, ulong value)
+    {
+        register = register.ToUpper();
+
+        if (register == nameof(RIP))
+        {
+            RIP = value;
+        }
+        else if (register == nameof(EIP))
+        {
+            EIP = (uint)value;
+        }
+        else if (register == nameof(IP))
+        {
+            IP = (ushort)value;
+        }
+        else
+        {
+            throw new ArgumentException($"Invalid register name, cannot find register of name {register} in [{nameof(RIP)} {nameof(EIP)} {nameof(IP)}]");
+        }
+    }
 
     public ulong RIP
     {
