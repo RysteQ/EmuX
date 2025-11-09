@@ -223,7 +223,7 @@ public class Parser : IParser
         }
         else
         {
-            _errors.Add($"Expected {TokenType.VALUE} or {TokenType.REGISTER} or {TokenType.OPEN_BRACKET} or {TokenType.OPEN_BRACKET}, got {Peek().Type} at line {line}");
+            _errors.Add($"Expected {TokenType.VALUE} or {TokenType.REGISTER} or {TokenType.OPEN_BRACKET} or {TokenType.CLOSE_BRACKET}, got {Peek().Type} at line {line}");
 
             return null;
         }
