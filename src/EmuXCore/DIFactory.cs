@@ -18,6 +18,7 @@ using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Actions;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
+using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Interfaces.Events;
@@ -372,6 +373,20 @@ public static class DIFactory
     /// <param name="newValue">The new value of the register</param>
     /// <returns>The implementation of IRegisterAccess</returns>
     public static IRegisterAccess GenerateIRegisteAccess(string registerName, Size size, bool write, ulong previousValue = 0, ulong newValue = 0) => new RegisterAccess(registerName, size, write, previousValue, newValue);
+
+    /// <summary>
+    /// Generates an instance of IVideoCardAccess
+    /// </summary>
+    /// <param name="shape">The shape of the draw event</param>
+    /// <param name="startX">The start of the draw event in the X plane</param>
+    /// <param name="startY">The start of the draw event in the Y plane</param>
+    /// <param name="endX">The end of the draw event in the X plane</param>
+    /// <param name="endY">The end of the draw event in the Y plane</param>
+    /// <param name="red">The red colour value of the draw event</param>
+    /// <param name="green">The green colour value of the draw event</param>
+    /// <param name="blue">The blue colour value of the draw event</param>
+    /// <returns>The implementation of IVideoCardAccess</returns>
+    public static IVideoCardAccess GenerateIVideoCardAccess(VideoInterrupt shape, ushort startX, ushort startY, ushort endX, ushort endY, byte red, byte green, byte blue) => new VideoCardAccess(shape, startX, startY, endX, endY, red, green, blue);
 
     // VM builder
 

@@ -382,11 +382,6 @@ public class Parser : IParser
 
     private bool Accept(params TokenType[] tokenType)
     {
-        if (!_tokens.Any())
-        {
-            return false;
-        }
-
         if (tokenType.Any(selectedTokenType => Peek().Type == selectedTokenType))
         {
             _previousToken = _tokens.FirstOrDefault();
