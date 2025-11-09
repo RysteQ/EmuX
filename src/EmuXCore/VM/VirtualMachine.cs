@@ -121,7 +121,7 @@ public class VirtualMachine : IVirtualMachine
                                                                                                                     (Memory.RAM[memoryLocation + 1] << 16) +
                                                                                                                     (Memory.RAM[memoryLocation + 1] << 8) +
                                                                                                                     Memory.RAM[memoryLocation]), value));
-        
+
         RegisterAction(VmActionCategory.ModifiedMemory, Size.Qword, [.. Memory.RAM.Skip(memoryLocation).Take(8)], BitConverter.GetBytes(value), memoryPointer: memoryLocation);
 
         Memory.RAM[memoryLocation] = (byte)(value & 0x_0000_0000_0000_00ff);

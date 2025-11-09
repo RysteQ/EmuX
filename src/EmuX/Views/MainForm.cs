@@ -1,7 +1,6 @@
 using EmuX_Nano.Modules;
 using EmuX_Nano.Views;
 using EmuXCore;
-using EmuXCore.Common.Interfaces;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;

@@ -2,7 +2,6 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using System.Security.Cryptography;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
 
@@ -36,7 +35,7 @@ public class VirtualRegisterCS : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(CS), Size.Word, false));
 
-            return _cs;  
+            return _cs;
         }
 
         set

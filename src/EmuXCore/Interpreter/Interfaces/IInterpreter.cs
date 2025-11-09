@@ -1,7 +1,6 @@
 ﻿using EmuXCore.Common.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Interfaces.Actions;
 
 namespace EmuXCore.Interpreter.Interfaces;
 

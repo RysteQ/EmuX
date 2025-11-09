@@ -11,7 +11,7 @@ public interface IRegisterAccess
     /// The name of the register that got accessed
     /// </summary>
     public string RegisterName { get; init; }
-    
+
     /// <summary>
     /// The size of the register that got accessed
     /// </summary>

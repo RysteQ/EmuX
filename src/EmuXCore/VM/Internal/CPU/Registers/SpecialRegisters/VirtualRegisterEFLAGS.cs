@@ -2,7 +2,6 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using System.Security.Cryptography;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 

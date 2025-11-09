@@ -100,7 +100,7 @@ public class VirtualRegisterRSP : IVirtualRegister
         get
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SPL), Size.Byte, false));
-            
+
             return (byte)(((_rsp & 0x00000000ffffffff) & 0x0000ffff) & 0x00ff);
         }
 

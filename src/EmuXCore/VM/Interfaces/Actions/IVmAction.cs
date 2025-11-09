@@ -1,6 +1,5 @@
 ﻿using EmuXCore.Common.Enums;
 using EmuXCore.VM.Enums;
-using EmuXCore.VM.Interfaces;
 
 namespace EmuXCore.VM.Interfaces.Actions;
 
@@ -14,7 +13,7 @@ public interface IVmAction
     /// </summary>
     /// <param name="virtualMachineInstance">The virtual machine instance to undo the action</param>
     void Undo(IVirtualMachine virtualMachineInstance);
-    
+
     /// <summary>
     /// Redos the actions taken
     /// </summary>

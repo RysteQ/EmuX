@@ -2,7 +2,6 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using System.Runtime.Intrinsics.Arm;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
@@ -130,7 +129,7 @@ public class VirtualRegisterRDX : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(DL)], [DL], [value], nameof(DL));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(DL), Size.Byte,  true, DL, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(DL), Size.Byte, true, DL, value));
 
             _rdx = (ushort)((((_rdx & 0x00000000ffffffff) & 0x0000ffff) & 0xff00) + value);
         }

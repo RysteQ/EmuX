@@ -14,7 +14,7 @@ public class VirtualRegisterRAX : IVirtualRegister
     }
 
     public ulong Get() => RAX;
-    
+
     public void Set(string register, ulong value)
     {
         register = register.ToUpper();

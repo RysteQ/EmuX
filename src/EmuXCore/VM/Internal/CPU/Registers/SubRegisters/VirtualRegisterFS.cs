@@ -34,7 +34,7 @@ public class VirtualRegisterFS : IVirtualRegister
         get
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(FS), Size.Word, false));
-            
+
             return _fs;
         }
 

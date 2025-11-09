@@ -143,7 +143,7 @@ public class VmAction : IVmAction
         IVirtualRegister? virtualRegister = null;
         ulong currentRegisterValue = 0;
 
-        if (string.IsNullOrEmpty(RegisterName)) 
+        if (string.IsNullOrEmpty(RegisterName))
         {
             throw new ArgumentNullException($"Value {nameof(RegisterName)} is null or empty");
         }

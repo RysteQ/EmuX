@@ -21,7 +21,7 @@ public sealed class InterpreterExecutionTests : TestWideInternalConstants
         [
             GenerateInstruction<InstructionNOT>(InstructionVariant.OneOperandRegister(), null, GenerateOperand("AX", OperandVariant.Register, Size.Word, []), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor())
         ];
-        
+
         interpreter.VirtualMachine = virtualMachine;
         interpreter.Instructions = instructions;
 

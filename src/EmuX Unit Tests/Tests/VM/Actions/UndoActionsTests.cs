@@ -1,5 +1,4 @@
-﻿using EmuXCore.VM.Enums;
-using EmuXCore.VM.Interfaces;
+﻿using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;

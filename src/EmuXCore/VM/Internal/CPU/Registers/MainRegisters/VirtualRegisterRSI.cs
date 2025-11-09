@@ -2,7 +2,6 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using System.Runtime.Intrinsics.Arm;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
@@ -46,7 +45,7 @@ public class VirtualRegisterRSI : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RSI), Size.Qword, false  ));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RSI), Size.Qword, false));
 
             return _rsi;
         }
