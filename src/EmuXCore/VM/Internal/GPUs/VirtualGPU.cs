@@ -65,6 +65,8 @@ public class VirtualGPU : IVirtualGPU
             case VideoInterrupt.DrawLine: DrawLine(startX, startY, endX, endY, r, g, b); break;
             case VideoInterrupt.DrawBox: DrawBox(startX, startY, endX, endY, r, g, b); break;
         }
+
+        ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIVideoCardAccess(shape, startX, startY, endX, endY, r, g, b));
     }
 
     private void DrawPixel(ushort x, ushort y, byte r, byte g, byte b)

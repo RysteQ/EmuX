@@ -199,6 +199,12 @@ public interface IVirtualMachine
     event EventHandler? RegisterAccessed;
 
     /// <summary>
+    /// The event is raised when a CPU flag is modified <br/>
+    /// Returns an EventArgs object of type IRegisterAccess
+    /// </summary>
+    event EventHandler? VideoCardAccessed;
+
+    /// <summary>
     /// The actions that modified the state of the <c>IVIrtualMachine</c> for memory related operations
     /// </summary>
     public List<IVmAction> Actions { get; set; }

@@ -380,6 +380,13 @@ public class VirtualMachine : IVirtualMachine
             return;
         }
 
+        if (args is IVideoCardAccess)
+        {
+            VideoCardAccessed?.Invoke(this, args);
+
+            return;
+        }
+
         throw new ArgumentException($"Invalid type of args provided when invoking an internal event");
     }
 
@@ -387,6 +394,7 @@ public class VirtualMachine : IVirtualMachine
     public event EventHandler? StackAccessed;
     public event EventHandler? FlagAccessed;
     public event EventHandler? RegisterAccessed;
+    public event EventHandler? VideoCardAccessed;
 
     public List<IVmAction> Actions { get; set; }
 
