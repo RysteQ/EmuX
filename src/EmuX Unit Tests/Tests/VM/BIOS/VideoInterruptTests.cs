@@ -17,19 +17,15 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawPixel;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 69;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_45_00;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawPixel);
 
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-        Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-        Assert.AreEqual<byte>(69, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-        Assert.AreEqual<byte>(0, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+        Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+        Assert.AreEqual<byte>(69, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+        Assert.AreEqual<byte>(0, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
     }
 
     [TestMethod]
@@ -40,19 +36,15 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawPixel;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 10;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 11;
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 69;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 10;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_45_0a;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawPixel);
 
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-        Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-        Assert.AreEqual<byte>(69, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-        Assert.AreEqual<byte>(10, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+        Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+        Assert.AreEqual<byte>(69, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+        Assert.AreEqual<byte>(10, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
     }
 
     [TestMethod]
@@ -63,19 +55,15 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawPixel;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 200;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 200;
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 255;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_ff_ff;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawPixel);
 
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-        Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-        Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-        Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+        Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+        Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+        Assert.AreEqual<byte>(255, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
     }
 
     [TestMethod]
@@ -86,19 +74,15 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawPixel;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 20;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 13;
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 16;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 16;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 16;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_10_10_10;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawPixel);
 
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-        Assert.AreEqual<byte>(16, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-        Assert.AreEqual<byte>(16, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-        Assert.AreEqual<byte>(16, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+        Assert.AreEqual<byte>(16, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+        Assert.AreEqual<byte>(16, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+        Assert.AreEqual<byte>(16, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
     }
 
     [TestMethod]
@@ -121,23 +105,19 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawLine;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0 + (10 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (10 << 16); // Y: start + end
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 255;
-        virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawLine);
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_ff_ff_ff;
+        virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawBox);
 
         foreach ((int X, int Y) coordinate in coordinatesToCheck)
         {
             virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = (uint)coordinate.X;
             virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = (uint)coordinate.Y;
-            virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
             virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+            Assert.AreEqual<byte>(255, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
         }
     }
 
@@ -162,23 +142,19 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawLine;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0 + (10 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 10 + (0 << 16); // Y: start + end
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 255;
-        virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawLine);
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_ff_ff_ff;
+        virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawBox);
 
         foreach ((int X, int Y) coordinate in coordinatesToCheck)
         {
             virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = (uint)coordinate.X;
             virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = (uint)coordinate.Y;
-            virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
             virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+            Assert.AreEqual<byte>(255, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
         }
     }
 
@@ -203,23 +179,19 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawLine;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 5 + (5 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (10 << 16); // Y: start + end
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 255;
-        virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawLine);
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_ff_ff_ff;
+        virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawBox);
 
         foreach ((int X, int Y) coordinate in coordinatesToCheck)
         {
             virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = (uint)coordinate.X;
             virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = (uint)coordinate.Y;
-            virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
             virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+            Assert.AreEqual<byte>(255, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
         }
     }
 
@@ -244,23 +216,19 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawLine;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 5 + (15 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 5 + (5 << 16); // Y: start + end
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 255;
-        virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawLine);
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_ff_ff_ff;
+        virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawBox);
 
         foreach ((int X, int Y) coordinate in coordinatesToCheck)
         {
             virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = (uint)coordinate.X;
             virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = (uint)coordinate.Y;
-            virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
             virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+            Assert.AreEqual<byte>(255, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
         }
     }
 
@@ -278,23 +246,19 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawBox;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0 + (10 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (10 << 16); // Y: start + end
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 255;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_ff_ff_ff;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawBox);
 
         foreach ((int X, int Y) coordinate in coordinatesToCheck)
         {
             virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = (uint)coordinate.X;
             virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = (uint)coordinate.Y;
-            virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
             virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+            Assert.AreEqual<byte>(255, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
         }
     }
 
@@ -312,23 +276,19 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawBox;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0 + (5 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (5 << 16); // Y: start + end
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 255;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_ff_ff_ff;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawBox);
 
         foreach ((int X, int Y) coordinate in coordinatesToCheck)
         {
             virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = (uint)coordinate.X;
             virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = (uint)coordinate.Y;
-            virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
             virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+            Assert.AreEqual<byte>(255, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
         }
     }
 
@@ -346,23 +306,19 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawBox;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 5 + (15 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (10 << 16); // Y: start + end
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 255;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_ff_ff_ff;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawBox);
 
         foreach ((int X, int Y) coordinate in coordinatesToCheck)
         {
             virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = (uint)coordinate.X;
             virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = (uint)coordinate.Y;
-            virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
             virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+            Assert.AreEqual<byte>(255, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
         }
     }
 
@@ -380,23 +336,19 @@ public sealed class VideoInterruptTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)VideoInterrupt.DrawBox;
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 5 + (10 << 16); // X: start + end
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0 + (10 << 16); // Y: start + end
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 255;
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 255;
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0x_00_ff_ff_ff_ff;
         virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.DrawBox);
 
         foreach ((int X, int Y) coordinate in coordinatesToCheck)
         {
             virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = (uint)coordinate.X;
             virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = (uint)coordinate.Y;
-            virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = 0;
-            virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = 0;
+            virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = 0;
             virtualMachine.BIOS.HandleVideoInterrupt(VideoInterrupt.ReadPixel);
 
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS);
-            Assert.AreEqual<byte>(255, (byte)virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS);
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16));
+            Assert.AreEqual<byte>(255, (byte)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8));
+            Assert.AreEqual<byte>(255, (byte)(virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff));
         }
     }
 }

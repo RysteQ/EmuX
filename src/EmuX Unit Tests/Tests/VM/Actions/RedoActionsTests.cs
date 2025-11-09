@@ -172,9 +172,9 @@ public sealed class RedoActionsTests : TestWideInternalConstants
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH = (byte)(VideoInterrupt.DrawPixel);
         virtualMachine.CPU.GetRegister<VirtualRegisterRCX>().ECX = 0;
         virtualMachine.CPU.GetRegister<VirtualRegisterRDX>().EDX = 0;
-        virtualMachine.CPU.GetRegister<VirtualRegisterCS>().CS = newValue[0];
-        virtualMachine.CPU.GetRegister<VirtualRegisterSS>().SS = newValue[1];
-        virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = newValue[2];
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = (uint)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_ff_00_ff_ff) + (newValue[0] << 16));
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = (uint)((virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_ff_ff_00_ff) + (newValue[1] << 8));
+        virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX = (virtualMachine.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_ff_ff_ff_00) + newValue[2];
         virtualMachine.Actions.Clear();
         virtualMachine.Interrupt(InterruptCode.Video, VideoInterrupt.DrawPixel);
         virtualMachine.Actions.Last().Undo(virtualMachine);
