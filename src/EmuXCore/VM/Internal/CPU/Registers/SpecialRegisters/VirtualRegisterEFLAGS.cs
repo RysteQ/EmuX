@@ -62,7 +62,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EFLAGS), Size.Dword, false));
 
-            return (uint)(RFLAGS & 0x00000000ffffffff);
+            return (uint)(_rflags & 0x00000000ffffffff);
         }
 
         set
@@ -80,7 +80,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(FLAGS), Size.Word, false));
 
-            return (ushort)(EFLAGS & 0x0000ffff);
+            return (ushort)((_rflags & 0x00000000ffffffff) & 0x0000ffff);
         }
 
         set
@@ -88,7 +88,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(FLAGS)], BitConverter.GetBytes(FLAGS), BitConverter.GetBytes(value), nameof(FLAGS));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(FLAGS), Size.Word, true, FLAGS, value));
 
-            _rflags = (EFLAGS & 0xffff0000) + value;
+            _rflags = ((_rflags & 0x00000000ffffffff) & 0xffff0000) + value;
         }
     }
 

@@ -66,7 +66,7 @@ public class VirtualRegisterRBP : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EBP), Size.Dword, false));
 
-            return (uint)(RBP & 0x00000000ffffffff);
+            return (uint)(_rbp & 0x00000000ffffffff);
         }
 
         set
@@ -84,7 +84,7 @@ public class VirtualRegisterRBP : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BP), Size.Word, false));
 
-            return (ushort)(EBP & 0x0000ffff);
+            return (ushort)((_rbp & 0x00000000ffffffff) & 0x0000ffff);
         }
 
         set
@@ -92,7 +92,7 @@ public class VirtualRegisterRBP : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BP)], BitConverter.GetBytes(BP), BitConverter.GetBytes(value), nameof(BP));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BP), Size.Word, true, BP, value));
 
-            _rbp = (EBP & 0xffff0000) + value;
+            _rbp = ((_rbp & 0x00000000ffffffff) & 0xffff0000) + value;
         }
     }
 
@@ -102,7 +102,7 @@ public class VirtualRegisterRBP : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BPL), Size.Byte, false));
 
-            return (byte)(BP & 0x00ff);
+            return (byte)(((_rbp & 0x00000000ffffffff) & 0x0000ffff) & 0x00ff);
         }
 
         set
@@ -110,7 +110,7 @@ public class VirtualRegisterRBP : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(BPL)], [BPL], [value], nameof(BPL));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(BPL), Size.Byte, true, BPL, value));
 
-            _rbp = (ushort)((BP & 0xff00) + value);
+            _rbp = (ushort)((((_rbp & 0x00000000ffffffff) & 0x0000ffff) & 0xff00) + value);
         }
     }
 

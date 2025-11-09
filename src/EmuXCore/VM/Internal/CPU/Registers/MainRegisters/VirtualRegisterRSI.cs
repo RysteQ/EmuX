@@ -66,7 +66,7 @@ public class VirtualRegisterRSI : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ESI), Size.Dword, false));
 
-            return (uint)(RSI & 0x00000000ffffffff);
+            return (uint)(_rsi & 0x00000000ffffffff);
         }
 
         set
@@ -84,7 +84,7 @@ public class VirtualRegisterRSI : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SI), Size.Word, false));
 
-            return (ushort)(ESI & 0x0000ffff);
+            return (ushort)((_rsi & 0x00000000ffffffff) & 0x0000ffff);
         }
 
         set
@@ -92,7 +92,7 @@ public class VirtualRegisterRSI : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SI)], BitConverter.GetBytes(SI), BitConverter.GetBytes(value), nameof(SI));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SI), Size.Word, true, SI, value));
 
-            _rsi = (ESI & 0xffff0000) + value;
+            _rsi = ((_rsi & 0x00000000ffffffff) & 0xffff0000) + value;
         }
     }
 
@@ -102,7 +102,7 @@ public class VirtualRegisterRSI : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SIL), Size.Byte, false));
 
-            return (byte)(SI & 0x00ff);
+            return (byte)(((_rsi & 0x00000000ffffffff) & 0x0000ffff) & 0x00ff);
         }
 
         set
@@ -110,7 +110,7 @@ public class VirtualRegisterRSI : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SIL)], [SIL], [value], nameof(SIL));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SIL), Size.Byte, true, SIL, value));
 
-            _rsi = (ushort)((SI & 0xff00) + value);
+            _rsi = (ushort)((((_rsi & 0x00000000ffffffff) & 0x0000ffff) & 0xff00) + value);
         }
     }
 

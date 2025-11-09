@@ -69,7 +69,7 @@ public class VirtualRegisterRAX : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EAX), Size.Dword, false));
 
-            return (uint)(RAX & 0x00000000ffffffff);
+            return (uint)(_rax & 0x00000000ffffffff);
         }
 
         set
@@ -87,7 +87,7 @@ public class VirtualRegisterRAX : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(AX), Size.Word, false));
 
-            return (ushort)(EAX & 0x0000ffff);
+            return (ushort)((_rax & 0x00000000ffffffff) & 0x0000ffff);
         }
 
         set
@@ -95,7 +95,7 @@ public class VirtualRegisterRAX : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(AX)], BitConverter.GetBytes(AX), BitConverter.GetBytes(value), nameof(AX));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(AX), Size.Word, true, AX, value));
 
-            _rax = (EAX & 0xffff0000) + value;
+            _rax = (((_rax & 0x00000000ffffffff) & 0x0000ffff) & 0xffff0000) + value;
         }
     }
 
@@ -105,7 +105,7 @@ public class VirtualRegisterRAX : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(AH), Size.Byte, false));
 
-            return (byte)((AX & 0xff00) >> 8);
+            return (byte)((((_rax & 0x00000000ffffffff) & 0x0000ffff) & 0xff00) >> 8);
         }
 
         set
@@ -113,7 +113,7 @@ public class VirtualRegisterRAX : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(AH)], [AH], [value], nameof(AH));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(AH), Size.Byte, true, AH, value));
 
-            _rax = (ushort)((AX & 0x00ff) + (value << 8));
+            _rax = (ushort)((((_rax & 0x00000000ffffffff) & 0x0000ffff) & 0x00ff) + (ulong)(value << 8));
         }
     }
 
@@ -123,7 +123,7 @@ public class VirtualRegisterRAX : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(AL), Size.Byte, false));
 
-            return (byte)(AX & 0x00ff);
+            return (byte)(((_rax & 0x00000000ffffffff) & 0x0000ffff) & 0x00ff);
         }
 
         set
@@ -131,7 +131,7 @@ public class VirtualRegisterRAX : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(AL)], [AL], [value], nameof(AL));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(AL), Size.Byte, true, AL, value));
 
-            _rax = (ushort)((AX & 0xff00) + value);
+            _rax = (ushort)((((_rax & 0x00000000ffffffff) & 0x0000ffff) & 0xff00) + value);
         }
     }
 

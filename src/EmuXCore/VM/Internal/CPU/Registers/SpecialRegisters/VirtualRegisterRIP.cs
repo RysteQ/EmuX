@@ -61,7 +61,7 @@ public class VirtualRegisterRIP : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EIP), Size.Dword, false));
 
-            return (uint)(RIP & 0x00000000ffffffff);
+            return (uint)(_rip & 0x00000000ffffffff);
         }
 
         set
@@ -79,7 +79,7 @@ public class VirtualRegisterRIP : IVirtualRegister
         {
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(IP), Size.Word, false));
 
-            return (ushort)(EIP & 0x0000ffff);
+            return (ushort)((_rip & 0x00000000ffffffff) & 0x0000ffff);
         }
 
         set
@@ -87,7 +87,7 @@ public class VirtualRegisterRIP : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(IP)], BitConverter.GetBytes(IP), BitConverter.GetBytes(value), nameof(IP));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(IP), Size.Word, true, IP, value));
 
-            _rip = (EIP & 0xffff0000) + value;
+            _rip = ((_rip & 0x00000000ffffffff) & 0xffff0000) + value;
         }
     }
 
