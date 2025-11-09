@@ -1,5 +1,9 @@
 using EmuX_Nano.Modules;
+using EmuX_Nano.Views;
 using EmuXCore;
+using EmuXCore.Common.Interfaces;
+using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
+using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Interfaces.Events;
@@ -32,6 +36,7 @@ public partial class MainForm : Form
 
         _virtualMachine = virtualMachineBuilder.Build();
         _virtualMachine.MemoryAccessed += _virtualMachine_MemoryAccessed;
+        _virtualMachine.RegisterAccessed += _virtualMachine_RegisterAccessed;
     }
 
     private void MainForm_Load(object sender, EventArgs e)
@@ -113,7 +118,7 @@ public partial class MainForm : Form
                 {
                     if (ushort.TryParse(newRegisterValue, out ushort newByteValueHigh))
                     {
-                        selectedRegister.Set((selectedRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_00_ff) + (ulong)(newByteValueHigh << 8));
+                        selectedRegister.Set(selectedRegisterName, (selectedRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_00_ff) + (ulong)(newByteValueHigh << 8));
                     }
                     else
                     {
@@ -124,7 +129,7 @@ public partial class MainForm : Form
                 {
                     if (ushort.TryParse(newRegisterValue, out ushort newByteValueLow))
                     {
-                        selectedRegister.Set((selectedRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00) + newByteValueLow);
+                        selectedRegister.Set(selectedRegisterName, (selectedRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00) + newByteValueLow);
                     }
                     else
                     {
@@ -137,7 +142,7 @@ public partial class MainForm : Form
             case EmuXCore.Common.Enums.Size.Word:
                 if (ushort.TryParse(newRegisterValue, out ushort newWordValue))
                 {
-                    selectedRegister.Set((selectedRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_00_00) + newWordValue);
+                    selectedRegister.Set(selectedRegisterName, (selectedRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_00_00) + newWordValue);
                 }
                 else
                 {
@@ -149,7 +154,7 @@ public partial class MainForm : Form
             case EmuXCore.Common.Enums.Size.Dword:
                 if (uint.TryParse(newRegisterValue, out uint newDoubleValue))
                 {
-                    selectedRegister.Set((selectedRegister.Get() & 0x_ff_ff_ff_ff_00_00_00_00) + newDoubleValue);
+                    selectedRegister.Set(selectedRegisterName, (selectedRegister.Get() & 0x_ff_ff_ff_ff_00_00_00_00) + newDoubleValue);
                 }
                 else
                 {
@@ -161,7 +166,7 @@ public partial class MainForm : Form
             case EmuXCore.Common.Enums.Size.Qword:
                 if (uint.TryParse(newRegisterValue, out uint newQuadValue))
                 {
-                    selectedRegister.Set(newQuadValue);
+                    selectedRegister.Set(selectedRegisterName, newQuadValue);
                 }
                 else
                 {
@@ -318,7 +323,15 @@ public partial class MainForm : Form
         }
     }
 
-    private IVirtualMachine _virtualMachine;
+    private void _virtualMachine_RegisterAccessed(object? sender, EventArgs e)
+    {
+        IRegisterAccess registerAccess = (IRegisterAccess)e;
+
+        if (registerAccess.Write)
+        {
+            InitRegistersView();
+        }
+    }
 
     private void openToolStripMenuItem_Click(object sender, EventArgs e)
     {
@@ -397,26 +410,36 @@ public partial class MainForm : Form
 
     private void executeToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        // TODO - Finish the IInterpreter interface and implementation
+        ILexer lexer = DIFactory.GenerateILexer(DIFactory.GenerateIVirtualCPU(), DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
+        IParser parser = DIFactory.GenerateIParser(DIFactory.GenerateIVirtualCPU(), DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
+        IList<IToken> tokens = lexer.Tokenize(richTextboxAssemblyCode.Text);
+        IParserResult parserResult = parser.Parse(tokens);
+
+        if (!parserResult.Success)
+        {
+            _errorsPopup = new(parserResult.Errors.ToArray());
+            _errorsPopup.Show();
+
+            return;
+        }
+
+        if (_executeCodeForm != null)
+        {
+            if (!_executeCodeForm.IsDisposed)
+            {
+                _executeCodeForm.Close();
+            }
+        }
+
+        _executeCodeForm = new(_virtualMachine, parserResult.Instructions.ToList(), parserResult.Labels.ToList());
+        _executeCodeForm.Show();
     }
 
-    private void stepByStepToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        // TODO - Finish the IInterpreter interface and implementation
-    }
-
-    private void executionSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-    {
-        // TODO - Finish the IInterpreter interface and implementation
-    }
-
-    private void richTextboxAssemblyCode_TextChanged(object sender, EventArgs e)
-    {
-        // TODO - syntax highlighting
-    }
-
-    private PopupInput _popupInput = new();
+    private PopupInput _popupInput;
+    private ExecuteCodeForm _executeCodeForm;
+    private ErrorsPopup _errorsPopup;
     private int _memorySearchStart = 0;
     private int _memorySearchEnd = 0;
     private string _filePath = string.Empty;
+    private IVirtualMachine _virtualMachine;
 }

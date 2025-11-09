@@ -41,9 +41,6 @@
             changeFontToolStripMenuItem = new ToolStripMenuItem();
             codeToolStripMenuItem = new ToolStripMenuItem();
             executeToolStripMenuItem = new ToolStripMenuItem();
-            stepByStepToolStripMenuItem = new ToolStripMenuItem();
-            toolStripSeparatorCodeSection = new ToolStripSeparator();
-            executionSettingsToolStripMenuItem = new ToolStripMenuItem();
             aboutToolStripMenuItem = new ToolStripMenuItem();
             mainTabPageControl = new TabControl();
             tabPageAssemblyCode = new TabPage();
@@ -166,7 +163,7 @@
             // 
             // codeToolStripMenuItem
             // 
-            codeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { executeToolStripMenuItem, stepByStepToolStripMenuItem, toolStripSeparatorCodeSection, executionSettingsToolStripMenuItem });
+            codeToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { executeToolStripMenuItem });
             codeToolStripMenuItem.Name = "codeToolStripMenuItem";
             codeToolStripMenuItem.Size = new Size(47, 20);
             codeToolStripMenuItem.Text = "Code";
@@ -177,25 +174,6 @@
             executeToolStripMenuItem.Size = new Size(180, 22);
             executeToolStripMenuItem.Text = "Execute";
             executeToolStripMenuItem.Click += executeToolStripMenuItem_Click;
-            // 
-            // stepByStepToolStripMenuItem
-            // 
-            stepByStepToolStripMenuItem.Name = "stepByStepToolStripMenuItem";
-            stepByStepToolStripMenuItem.Size = new Size(180, 22);
-            stepByStepToolStripMenuItem.Text = "Debug";
-            stepByStepToolStripMenuItem.Click += stepByStepToolStripMenuItem_Click;
-            // 
-            // toolStripSeparatorCodeSection
-            // 
-            toolStripSeparatorCodeSection.Name = "toolStripSeparatorCodeSection";
-            toolStripSeparatorCodeSection.Size = new Size(177, 6);
-            // 
-            // executionSettingsToolStripMenuItem
-            // 
-            executionSettingsToolStripMenuItem.Name = "executionSettingsToolStripMenuItem";
-            executionSettingsToolStripMenuItem.Size = new Size(180, 22);
-            executionSettingsToolStripMenuItem.Text = "Execution settings";
-            executionSettingsToolStripMenuItem.Click += executionSettingsToolStripMenuItem_Click;
             // 
             // aboutToolStripMenuItem
             // 
@@ -231,12 +209,11 @@
             // richTextboxAssemblyCode
             // 
             richTextboxAssemblyCode.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            richTextboxAssemblyCode.Location = new Point(6, 6);
+            richTextboxAssemblyCode.Location = new Point(0, 0);
             richTextboxAssemblyCode.Name = "richTextboxAssemblyCode";
-            richTextboxAssemblyCode.Size = new Size(780, 381);
+            richTextboxAssemblyCode.Size = new Size(792, 394);
             richTextboxAssemblyCode.TabIndex = 0;
             richTextboxAssemblyCode.Text = "";
-            richTextboxAssemblyCode.TextChanged += richTextboxAssemblyCode_TextChanged;
             // 
             // tabPageMemory
             // 
@@ -502,9 +479,6 @@
         private ToolStripMenuItem decreaseFontSizeToolStripMenuItem;
         private ToolStripMenuItem changeFontToolStripMenuItem;
         private ToolStripMenuItem executeToolStripMenuItem;
-        private ToolStripMenuItem stepByStepToolStripMenuItem;
-        private ToolStripSeparator toolStripSeparatorCodeSection;
-        private ToolStripMenuItem executionSettingsToolStripMenuItem;
         private ListBox listBoxVirtualCpuRegisters;
         private NumericUpDown numericUpDownMemoryRangeStart;
         private NumericUpDown numericUpDownMemoryRangeEnd;
