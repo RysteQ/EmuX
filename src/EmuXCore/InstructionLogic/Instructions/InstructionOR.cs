@@ -29,7 +29,7 @@ public sealed class InstructionOR : IInstruction
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand);
 
-            register!.Set(sourceValue | destinationValue);
+            register!.Set(FirstOperand!.FullOperand, sourceValue | destinationValue);
         }
         else
         {

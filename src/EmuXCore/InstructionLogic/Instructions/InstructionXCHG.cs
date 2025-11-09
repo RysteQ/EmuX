@@ -28,7 +28,7 @@ public sealed class InstructionXCHG : IInstruction
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
-            register.Set(OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!));
+            register.Set(FirstOperand!.FullOperand, OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!));
         }
         else
         {
@@ -45,7 +45,7 @@ public sealed class InstructionXCHG : IInstruction
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(SecondOperand!.FullOperand);
 
-            register.Set(firstOperandValue);
+            register.Set(SecondOperand!.FullOperand, firstOperandValue);
         }
         else
         {

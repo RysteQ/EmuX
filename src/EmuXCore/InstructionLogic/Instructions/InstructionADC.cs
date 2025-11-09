@@ -37,7 +37,7 @@ public sealed class InstructionADC : IInstruction
                 valueToSet++;
             }
 
-            register!.Set(valueToSet);
+            register!.Set(FirstOperand!.FullOperand, valueToSet);
         }
         else
         {

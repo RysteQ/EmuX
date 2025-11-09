@@ -26,7 +26,7 @@ public sealed class InstructionNOT : IInstruction
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand.FullOperand);
 
-            register!.Set(~register!.Get());
+            register!.Set(FirstOperand!.FullOperand, ~register!.Get());
         }
         else
         {

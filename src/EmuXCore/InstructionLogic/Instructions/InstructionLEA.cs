@@ -24,7 +24,7 @@ public sealed class InstructionLEA : IInstruction
     {
         IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
-        register!.Set((ulong)OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand!));
+        register!.Set(FirstOperand!.FullOperand, (ulong)OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand!));
     }
 
     public bool IsValid()

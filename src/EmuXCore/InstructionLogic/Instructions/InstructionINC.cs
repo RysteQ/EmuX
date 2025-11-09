@@ -36,7 +36,7 @@ public sealed class InstructionINC : IInstruction
                 case Size.Qword: valueToSet = register!.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00 | register!.Get() + 1; break;
             }
 
-            register!.Set(valueToSet);
+            register!.Set(FirstOperand!.FullOperand, valueToSet);
         }
         else
         {

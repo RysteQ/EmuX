@@ -39,7 +39,7 @@ public sealed class InstructionCLC : IInstruction
         return allowedVariants.Any(allowedVariant => allowedVariant.Id == Variant.Id) && FirstOperand == null && SecondOperand == null && ThirdOperand == null;
     }
 
-    public string Opcode => "CWDE";
+    public string Opcode => "CLC";
 
     public IOperandDecoder OperandDecoder { get; init; }
     public IFlagStateProcessor FlagStateProcessor { get; init; }

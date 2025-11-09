@@ -36,7 +36,7 @@ public sealed class InstructionSBB : IInstruction
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
-            register!.Set(valueToSet);
+            register!.Set(FirstOperand!.FullOperand, valueToSet);
         }
         else
         {

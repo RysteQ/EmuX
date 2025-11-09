@@ -45,10 +45,10 @@ public sealed class InstructionRCL : IInstruction
 
             switch (FirstOperand!.OperandSize)
             {
-                case Size.Byte: virtualRegister.Set((virtualRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00) + valueToSet); break;
-                case Size.Word: virtualRegister.Set((virtualRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_00_00) + valueToSet); break;
-                case Size.Dword: virtualRegister.Set((virtualRegister.Get() & 0x_ff_ff_ff_ff_00_00_00_00) + valueToSet); break;
-                case Size.Qword: virtualRegister.Set(valueToSet); break;
+                case Size.Byte: virtualRegister.Set(FirstOperand!.FullOperand, (virtualRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00) + valueToSet); break;
+                case Size.Word: virtualRegister.Set(FirstOperand!.FullOperand, (virtualRegister.Get() & 0x_ff_ff_ff_ff_ff_ff_00_00) + valueToSet); break;
+                case Size.Dword: virtualRegister.Set(FirstOperand!.FullOperand, (virtualRegister.Get() & 0x_ff_ff_ff_ff_00_00_00_00) + valueToSet); break;
+                case Size.Qword: virtualRegister.Set(FirstOperand!.FullOperand, valueToSet); break;
             }
         }
         else

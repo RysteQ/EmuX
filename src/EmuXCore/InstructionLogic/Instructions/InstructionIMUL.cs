@@ -77,7 +77,7 @@ public sealed class InstructionIMUL : IInstruction
             valueToSet = ThirdOperand == null ? firstOperandValue * secondOperandValue : secondOperandValue * thirdOperandValue;
             updateFlags = (ulong)valueToSet >> 64 == valueToSet;
 
-            register!.Set((ulong)valueToSet);
+            register!.Set(FirstOperand!.FullOperand, (ulong)valueToSet);
         }
 
         virtualMachine.SetFlag(EFlags.CF, !updateFlags);

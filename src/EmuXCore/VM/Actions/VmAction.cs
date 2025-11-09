@@ -62,10 +62,10 @@ public class VmAction : IVmAction
 
         switch (Size)
         {
-            case Size.Byte: virtualRegister.Set((currentRegisterValue & 0x_ff_ff_ff_ff_ff_ff_ff_00) + ConvertBytesToUlong(PreviousValue)); break;
-            case Size.Word: virtualRegister.Set((currentRegisterValue & 0x_ff_ff_ff_ff_ff_ff_00_00) + ConvertBytesToUlong(PreviousValue)); break;
-            case Size.Dword: virtualRegister.Set((currentRegisterValue & 0x_ff_ff_ff_ff_00_00_00_00) + ConvertBytesToUlong(PreviousValue)); break;
-            case Size.Qword: virtualRegister.Set(ConvertBytesToUlong(PreviousValue)); break;
+            case Size.Byte: virtualRegister.Set(RegisterName, (currentRegisterValue & 0x_ff_ff_ff_ff_ff_ff_ff_00) + ConvertBytesToUlong(PreviousValue)); break;
+            case Size.Word: virtualRegister.Set(RegisterName, (currentRegisterValue & 0x_ff_ff_ff_ff_ff_ff_00_00) + ConvertBytesToUlong(PreviousValue)); break;
+            case Size.Dword: virtualRegister.Set(RegisterName, (currentRegisterValue & 0x_ff_ff_ff_ff_00_00_00_00) + ConvertBytesToUlong(PreviousValue)); break;
+            case Size.Qword: virtualRegister.Set(RegisterName, ConvertBytesToUlong(PreviousValue)); break;
             default: throw new ArgumentException("Invalid size");
         }
     }
@@ -143,7 +143,7 @@ public class VmAction : IVmAction
         IVirtualRegister? virtualRegister = null;
         ulong currentRegisterValue = 0;
 
-        if (string.IsNullOrEmpty(RegisterName))
+        if (string.IsNullOrEmpty(RegisterName)) 
         {
             throw new ArgumentNullException($"Value {nameof(RegisterName)} is null or empty");
         }
@@ -153,10 +153,10 @@ public class VmAction : IVmAction
 
         switch (Size)
         {
-            case Size.Byte: virtualRegister.Set((currentRegisterValue | 0x_ff_ff_ff_ff_ff_ff_ff_00) + ConvertBytesToUlong(NewValue)); break;
-            case Size.Word: virtualRegister.Set((currentRegisterValue | 0x_ff_ff_ff_ff_ff_ff_00_00) + ConvertBytesToUlong(NewValue)); break;
-            case Size.Dword: virtualRegister.Set((currentRegisterValue | 0x_ff_ff_ff_ff_00_00_00_00) + ConvertBytesToUlong(NewValue)); break;
-            case Size.Qword: virtualRegister.Set(ConvertBytesToUlong(NewValue)); break;
+            case Size.Byte: virtualRegister.Set(RegisterName, (currentRegisterValue & 0x_ff_ff_ff_ff_ff_ff_ff_00) + ConvertBytesToUlong(NewValue)); break;
+            case Size.Word: virtualRegister.Set(RegisterName, (currentRegisterValue & 0x_ff_ff_ff_ff_ff_ff_00_00) + ConvertBytesToUlong(NewValue)); break;
+            case Size.Dword: virtualRegister.Set(RegisterName, (currentRegisterValue & 0x_ff_ff_ff_ff_00_00_00_00) + ConvertBytesToUlong(NewValue)); break;
+            case Size.Qword: virtualRegister.Set(RegisterName, ConvertBytesToUlong(NewValue)); break;
             default: throw new ArgumentException("Invalid size");
         }
     }

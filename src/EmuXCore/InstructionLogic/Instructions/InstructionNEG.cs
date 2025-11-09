@@ -29,10 +29,10 @@ public sealed class InstructionNEG : IInstruction
 
             switch (FirstOperand.OperandSize)
             {
-                case Size.Byte: register!.Set((0x_00_00_00_00_00_00_00_80 & ~(0x_00_00_00_00_00_00_00_80 & register!.Get())) + (0x_7f_ff_ff_ff_ff_ff_ff_7f & register!.Get())); break;
-                case Size.Word: register!.Set((0x_00_00_00_00_00_00_00_80 & ~(0x_00_00_00_00_00_00_80_00 & register!.Get())) + (0x_7f_ff_ff_ff_ff_ff_7f_ff & register!.Get())); break;
-                case Size.Dword: register!.Set((0x_00_00_00_00_00_00_00_80 & ~(0x_00_00_00_00_80_00_00_00 & register!.Get())) + (0x_0f_ff_ff_ff_7f_ff_ff_ff & register!.Get())); break;
-                case Size.Qword: register!.Set((0x_00_00_00_00_00_00_00_80 & ~(0x_80_00_00_00_00_00_00_00 & register!.Get())) + (0x_7f_ff_ff_ff_ff_ff_ff_ff & register!.Get())); break;
+                case Size.Byte: register!.Set(FirstOperand!.FullOperand, (0x_00_00_00_00_00_00_00_80 & ~(0x_00_00_00_00_00_00_00_80 & register!.Get())) + (0x_7f_ff_ff_ff_ff_ff_ff_7f & register!.Get())); break;
+                case Size.Word: register!.Set(FirstOperand!.FullOperand, (0x_00_00_00_00_00_00_00_80 & ~(0x_00_00_00_00_00_00_80_00 & register!.Get())) + (0x_7f_ff_ff_ff_ff_ff_7f_ff & register!.Get())); break;
+                case Size.Dword: register!.Set(FirstOperand!.FullOperand, (0x_00_00_00_00_00_00_00_80 & ~(0x_00_00_00_00_80_00_00_00 & register!.Get())) + (0x_0f_ff_ff_ff_7f_ff_ff_ff & register!.Get())); break;
+                case Size.Qword: register!.Set(FirstOperand!.FullOperand, (0x_00_00_00_00_00_00_00_80 & ~(0x_80_00_00_00_00_00_00_00 & register!.Get())) + (0x_7f_ff_ff_ff_ff_ff_ff_ff & register!.Get())); break;
             }
         }
         else

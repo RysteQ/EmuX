@@ -26,7 +26,7 @@ public sealed class InstructionMOV : IInstruction
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
-            register!.Set(OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!));
+            register!.Set(FirstOperand!.FullOperand, OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!));
         }
         else
         {

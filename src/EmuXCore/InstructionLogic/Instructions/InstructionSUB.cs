@@ -33,7 +33,7 @@ public sealed class InstructionSUB : IInstruction
 
             valueToSet = register!.Get() - OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!);
 
-            register!.Set(valueToSet);
+            register!.Set(FirstOperand!.FullOperand, valueToSet);
         }
         else
         {

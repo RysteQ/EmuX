@@ -30,7 +30,7 @@ public sealed class InstructionXOR : IInstruction
         {
             IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
-            register!.Set(register!.Get() ^ OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!));
+            register!.Set(FirstOperand!.FullOperand, register!.Get() ^ OperandDecoder.GetOperandValue(virtualMachine, SecondOperand!));
         }
         else
         {

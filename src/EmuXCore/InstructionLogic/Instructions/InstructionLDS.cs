@@ -25,7 +25,7 @@ public sealed class InstructionLDS : IInstruction
     {
         IVirtualRegister register = virtualMachine.CPU.GetRegister(FirstOperand!.FullOperand);
 
-        register!.Set(virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand!)));
+        register!.Set(FirstOperand!.FullOperand, virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand!)));
         virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand!) + 2);
     }
 

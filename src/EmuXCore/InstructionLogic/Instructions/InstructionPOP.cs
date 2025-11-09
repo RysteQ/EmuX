@@ -29,9 +29,9 @@ public sealed class InstructionPOP : IInstruction
 
             switch (FirstOperand!.OperandSize)
             {
-                case Size.Word: register.Set((0x_ff_ff_ff_ff_ff_ff_00_00 & register.Get()) + virtualMachine.PopWord()); break;
-                case Size.Dword: register.Set((0x_ff_ff_ff_ff_00_00_00_00 & register.Get()) + virtualMachine.PopDouble()); break;
-                case Size.Qword: register.Set(virtualMachine.PopQuad()); break;
+                case Size.Word: register.Set(FirstOperand!.FullOperand, (0x_ff_ff_ff_ff_ff_ff_00_00 & register.Get()) + virtualMachine.PopWord()); break;
+                case Size.Dword: register.Set(FirstOperand!.FullOperand, (0x_ff_ff_ff_ff_00_00_00_00 & register.Get()) + virtualMachine.PopDouble()); break;
+                case Size.Qword: register.Set(FirstOperand!.FullOperand, virtualMachine.PopQuad()); break;
             }
         }
         else
