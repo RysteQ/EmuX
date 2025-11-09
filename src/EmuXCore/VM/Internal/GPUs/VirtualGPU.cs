@@ -35,9 +35,9 @@ public class VirtualGPU : IVirtualGPU
         shape = (VideoInterrupt)(ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRAX>().AH);
         xCoordinates = ((ushort)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRCX>().ECX, (ushort)(ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRCX>().ECX >> 16));
         yCoordinates = ((ushort)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRDX>().EDX, (ushort)(ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRDX>().EDX >> 16));
-        red = (byte)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterCS>().CS;
-        green = (byte)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterSS>().SS;
-        blue = (byte)ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterDS>().DS;
+        red = (byte)((ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_ff_00_00) >> 16);
+        green = (byte)((ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_ff_00) >> 8);
+        blue = (byte)(ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRBX>().EBX & 0x_00_00_00_ff);
 
         if (xCoordinates.StartX < 0 || xCoordinates.StartX >= Width || yCoordinates.StartY < 0 || yCoordinates.StartY >= Width || xCoordinates.EndX < 0 || xCoordinates.EndX >= Width || yCoordinates.EndY < 0 || yCoordinates.EndY >= Width)
         {
