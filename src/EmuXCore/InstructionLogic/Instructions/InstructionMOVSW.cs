@@ -2,15 +2,17 @@
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
+using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
 namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionMOVSW : IInstruction
 {
-    public InstructionMOVSW(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor)
+    public InstructionMOVSW(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
     {
         Variant = variant;
         Prefix = prefix;
@@ -19,6 +21,8 @@ public sealed class InstructionMOVSW : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
+
+        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
@@ -40,6 +44,8 @@ public sealed class InstructionMOVSW : IInstruction
             virtualMachine.CPU.GetRegister<VirtualRegisterRSI>().RSI -= 2;
             virtualMachine.CPU.GetRegister<VirtualRegisterRDI>().RDI -= 2;
         }
+
+        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
     }
 
     public bool IsValid()
@@ -66,6 +72,7 @@ public sealed class InstructionMOVSW : IInstruction
     }
 
     public string Opcode => "MOVSW";
+    public ulong Bytes { get; private set; }
 
     public IOperandDecoder OperandDecoder { get; init; }
     public IFlagStateProcessor FlagStateProcessor { get; init; }

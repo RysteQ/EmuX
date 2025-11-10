@@ -2,14 +2,16 @@
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
+using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
 namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionIN : IInstruction
 {
-    public InstructionIN(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor)
+    public InstructionIN(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
     {
         Variant = variant;
         Prefix = prefix;
@@ -18,6 +20,8 @@ public sealed class InstructionIN : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
+
+        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
@@ -30,6 +34,8 @@ public sealed class InstructionIN : IInstruction
             case Size.Word: virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = (ushort)ioValue; break;
             case Size.Dword: virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().EAX = (uint)ioValue; break;
         }
+
+        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
     }
 
     public bool IsValid()
@@ -70,6 +76,7 @@ public sealed class InstructionIN : IInstruction
     }
 
     public string Opcode => "IN";
+    public ulong Bytes { get; private set; }
 
     public IOperandDecoder OperandDecoder { get; init; }
     public IFlagStateProcessor FlagStateProcessor { get; init; }

@@ -2,15 +2,17 @@
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
 
 namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionLDS : IInstruction
 {
-    public InstructionLDS(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor)
+    public InstructionLDS(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
     {
         Variant = variant;
         Prefix = prefix;
@@ -19,6 +21,8 @@ public sealed class InstructionLDS : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
+
+        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
@@ -27,6 +31,7 @@ public sealed class InstructionLDS : IInstruction
 
         register!.Set(FirstOperand!.FullOperand, virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand!)));
         virtualMachine.CPU.GetRegister<VirtualRegisterDS>().DS = virtualMachine.GetWord(OperandDecoder.GetPointerMemoryAddress(virtualMachine, SecondOperand!) + 2);
+        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
     }
 
     public bool IsValid()
@@ -63,6 +68,7 @@ public sealed class InstructionLDS : IInstruction
     }
 
     public string Opcode => "LDS";
+    public ulong Bytes { get; private set; }
 
     public IOperandDecoder OperandDecoder { get; init; }
     public IFlagStateProcessor FlagStateProcessor { get; init; }

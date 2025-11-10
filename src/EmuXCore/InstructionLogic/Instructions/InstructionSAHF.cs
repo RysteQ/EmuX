@@ -1,6 +1,7 @@
 ﻿using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
@@ -9,7 +10,7 @@ namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionSAHF : IInstruction
 {
-    public InstructionSAHF(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor)
+    public InstructionSAHF(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
     {
         Variant = variant;
         Prefix = prefix;
@@ -18,11 +19,14 @@ public sealed class InstructionSAHF : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
+
+        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
     {
         virtualMachine.CPU.GetRegister<VirtualRegisterEFLAGS>().FLAGS = (ushort)(((virtualMachine.CPU.GetRegister<VirtualRegisterEFLAGS>().FLAGS & 0x_ff_00) + (virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AH & 0b_1101_0101)) | 0b_0000_0000_0000_0010);
+        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
     }
 
     public bool IsValid()
@@ -41,6 +45,7 @@ public sealed class InstructionSAHF : IInstruction
     }
 
     public string Opcode => "SAHF";
+    public ulong Bytes { get; private set; }
 
     public IOperandDecoder OperandDecoder { get; init; }
     public IFlagStateProcessor FlagStateProcessor { get; init; }

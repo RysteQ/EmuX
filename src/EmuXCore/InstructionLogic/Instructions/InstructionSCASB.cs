@@ -3,6 +3,7 @@ using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
@@ -13,7 +14,7 @@ namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionSCASB : IInstruction
 {
-    public InstructionSCASB(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor)
+    public InstructionSCASB(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
     {
         Variant = variant;
         Prefix = prefix;
@@ -22,6 +23,8 @@ public sealed class InstructionSCASB : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
+
+        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
@@ -54,6 +57,8 @@ public sealed class InstructionSCASB : IInstruction
         }
 
         virtualMachine.SetFlag(EFlags.OF, FlagStateProcessor.TestOverflowFlag(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL > virtualMachine.GetByte(memoryOffset) ? (ulong)(virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL - virtualMachine.GetByte(memoryOffset)) : (ulong)(virtualMachine.GetByte(memoryOffset) - virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AL), temp, Size.Byte));
+
+        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
     }
 
     public bool IsValid()
@@ -82,6 +87,7 @@ public sealed class InstructionSCASB : IInstruction
     }
 
     public string Opcode => "SCASB";
+    public ulong Bytes { get; private set; }
 
     public IOperandDecoder OperandDecoder { get; init; }
     public IFlagStateProcessor FlagStateProcessor { get; init; }

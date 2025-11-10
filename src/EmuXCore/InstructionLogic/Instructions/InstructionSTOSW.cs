@@ -2,15 +2,17 @@
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
+using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
 
 namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionSTOSW : IInstruction
 {
-    public InstructionSTOSW(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor)
+    public InstructionSTOSW(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
     {
         Variant = variant;
         Prefix = prefix;
@@ -19,6 +21,8 @@ public sealed class InstructionSTOSW : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
+
+        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
@@ -37,6 +41,8 @@ public sealed class InstructionSTOSW : IInstruction
         }
 
         virtualMachine.SetWord(memoryOffset, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX);
+
+        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
     }
 
     public bool IsValid()
@@ -64,6 +70,7 @@ public sealed class InstructionSTOSW : IInstruction
     }
 
     public string Opcode => "STOSW";
+    public ulong Bytes { get; private set; }
 
     public IOperandDecoder OperandDecoder { get; init; }
     public IFlagStateProcessor FlagStateProcessor { get; init; }

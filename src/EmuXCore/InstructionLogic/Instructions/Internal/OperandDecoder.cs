@@ -192,6 +192,6 @@ public class OperandDecoder : IOperandDecoder
 
     public int GetInstructionMemoryAddress(IVirtualMemory memory, IOperand operand)
     {
-        return memory.LabelMemoryLocations[operand.Offsets.First().FullOperand].Line;
+        return memory.LabelMemoryLocations[operand.Offsets.First().FullOperand].Address;
     }
 }
