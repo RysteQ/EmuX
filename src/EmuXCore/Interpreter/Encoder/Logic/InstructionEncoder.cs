@@ -25,8 +25,11 @@ public sealed class InstructionEncoder : IInstructionEncoder
 
     public IInstructionEncoderResult Parse(IList<IInstruction> instructionsToParse)
     {
+        List<byte[]> bytes = [];
+
         foreach (IInstruction instruction in instructionsToParse)
         {
+            _output = [];
 
             if (instruction is InstructionADD)
             {
@@ -301,7 +304,7 @@ public sealed class InstructionEncoder : IInstructionEncoder
             if (instruction is InstructionINT)
             {
                 AddNonary(0xCD);
-                AddNonary(byte.Parse(instruction.FirstOperand.FullOperand));
+                AddNonary(OperandDecoder.GetOperandByte(VirtualMachine, instruction.FirstOperand));
             }
 
             if (instruction is InstructionLEA)
@@ -346,7 +349,7 @@ public sealed class InstructionEncoder : IInstructionEncoder
                         _output.Add(0x66);
                     }
                     _output.Add((byte)(0xE4 + Convert.ToByte(instruction.FirstOperand.OperandSize != Size.Byte)));
-                    _output.AddRange(UlongToBinary(ulong.Parse(instruction.SecondOperand.FullOperand), Size.Byte));
+                    _output.AddRange(UlongToBinary(OperandDecoder.GetOperandQuad(VirtualMachine, instruction.SecondOperand), Size.Byte));
                 }
                 else
                 {
@@ -367,7 +370,7 @@ public sealed class InstructionEncoder : IInstructionEncoder
                         _output.Add(0x66);
                     }
                     _output.Add((byte)(0xE6 + Convert.ToByte(instruction.FirstOperand.OperandSize != Size.Byte)));
-                    _output.AddRange(UlongToBinary(ulong.Parse(instruction.SecondOperand.FullOperand), Size.Byte));
+                    _output.AddRange(UlongToBinary(OperandDecoder.GetOperandQuad(VirtualMachine, instruction.SecondOperand), Size.Byte));
                 }
                 else
                 {
@@ -513,7 +516,7 @@ public sealed class InstructionEncoder : IInstructionEncoder
                 }
                 else
                 {
-                    _output.Add(byte.Parse(instruction.FirstOperand.FullOperand));
+                    _output.Add(OperandDecoder.GetOperandByte(VirtualMachine, instruction.FirstOperand));
                 }
             }
 
@@ -618,7 +621,7 @@ public sealed class InstructionEncoder : IInstructionEncoder
                         _output.Add(0x66);
                     }
                     _output.Add(0x68);
-                    _output.AddRange(UlongToBinary(ulong.Parse(instruction.SecondOperand.FullOperand), Size.Dword));
+                    _output.AddRange(UlongToBinary(OperandDecoder.GetOperandQuad(VirtualMachine, instruction.SecondOperand), Size.Dword));
                 }
                 else
                 {
@@ -681,7 +684,7 @@ public sealed class InstructionEncoder : IInstructionEncoder
                     AddPatches(dispPatches);
                     _output.AddRange(disp);
 
-                    _output.AddRange(UlongToBinary(ulong.Parse(instruction.ThirdOperand.FullOperand), instruction.FirstOperand.OperandSize == Size.Word ? Size.Word : Size.Dword));
+                    _output.AddRange(UlongToBinary(OperandDecoder.GetOperandQuad(VirtualMachine, instruction.ThirdOperand   ), instruction.FirstOperand.OperandSize == Size.Word ? Size.Word : Size.Dword));
                 }
             }
 
@@ -703,9 +706,13 @@ public sealed class InstructionEncoder : IInstructionEncoder
             }
 
             PatchCode();
+
+            bytes.Add(_output.ToArray());
+
+            _output.Clear();
         }
 
-        return DIFactory.GenerateIInstructionEncoderResult([.. _output], new ReadOnlyCollection<string>(_errors));
+        return DIFactory.GenerateIInstructionEncoderResult(bytes, new ReadOnlyCollection<string>(_errors));
     }
 
     // TODO - Analyze this further with future additions / updates
@@ -1266,22 +1273,22 @@ public sealed class InstructionEncoder : IInstructionEncoder
         _output.Add(opcode);
     }
 
-    private void AddShift(IInstruction i, byte opcodeImm, byte opcodeCL, byte opcodeExt)
+    private void AddShift(IInstruction instruction, byte opcodeImm, byte opcodeCL, byte opcodeExt)
     {
-        if (i.SecondOperand.Variant == OperandVariant.Value)
+        if (instruction.SecondOperand.Variant == OperandVariant.Value)
         {
             //imm8
-            AddSimpleUnary(i, opcodeImm, opcodeExt);
-            _output.AddRange(UlongToBinary(ulong.Parse(i.SecondOperand.FullOperand), Size.Byte));
+            AddSimpleUnary(instruction, opcodeImm, opcodeExt);
+            _output.AddRange(UlongToBinary(OperandDecoder.GetOperandQuad(VirtualMachine, instruction.SecondOperand), Size.Byte));
         }
         else
         {
             //CL
-            AddSimpleUnary(i, opcodeCL, opcodeExt);
+            AddSimpleUnary(instruction, opcodeCL, opcodeExt);
         }
     }
 
-    private void AddJump(IInstruction i, bool putZeroFByte, byte opcode, Size displacementSize)
+    private void AddJump(IInstruction instruction, bool putZeroFByte, byte opcode, Size displacementSize)
     {
         //TODO: check for overflow
 
@@ -1297,13 +1304,13 @@ public sealed class InstructionEncoder : IInstructionEncoder
 
         _output.Add(opcode);
 
-        if (i.FirstOperand.Variant == OperandVariant.Value)
+        if (instruction.FirstOperand.Variant == OperandVariant.Value)
         {
-            _output.AddRange(UlongToBinary(ulong.Parse(i.FirstOperand.FullOperand), displacementSize));
+            _output.AddRange(UlongToBinary(OperandDecoder.GetOperandQuad(VirtualMachine, instruction.FirstOperand), displacementSize));
         }
-        else if (i.FirstOperand.Variant == OperandVariant.Label)
+        else if (instruction.FirstOperand.Variant == OperandVariant.Label)
         {
-            AddPatches([i.FirstOperand.FullOperand]);
+            AddPatches([instruction.FirstOperand.FullOperand]);
             _output.AddRange(UlongToBinary((ulong)(-_output.Count - (int)displacementSize + (putZeroFByte ? 0 : 1)), displacementSize));
         }
     }

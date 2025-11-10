@@ -5,16 +5,16 @@ namespace EmuXCore.Interpreter.Models;
 
 public record InstructionEncoderResult : IInstructionEncoderResult
 {
-    public InstructionEncoderResult(byte[] bytes, ReadOnlyCollection<string> errors)
+    public InstructionEncoderResult(IList<byte[]> bytes, IReadOnlyCollection<string> errors)
     {
         _bytes = bytes;
         _errors = errors;
     }
 
-    public byte[] Bytes => _bytes;
-    public ReadOnlyCollection<string> Errors => _errors;
+    public IList<byte[]> Bytes => _bytes;
+    public IReadOnlyCollection<string> Errors => _errors;
     public bool Success => !_errors.Any();
 
-    private byte[] _bytes;
-    private ReadOnlyCollection<string> _errors;
+    private IList<byte[]> _bytes;
+    private IReadOnlyCollection<string> _errors;
 }
