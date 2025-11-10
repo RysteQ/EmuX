@@ -2,9 +2,12 @@
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Interfaces;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.Interpreter.Enums;
+using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
+using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
 
@@ -12,11 +15,12 @@ namespace EmuXCore.Interpreter.LexicalSyntax;
 
 public class Parser : IParser
 {
-    public Parser(IVirtualCPU cpuToParseFor, IInstructionLookup instructionLookup, IPrefixLookup prefixLookup)
+    public Parser(IVirtualMachine virtualMachineToTranslateFor, IInstructionLookup instructionLookup, IPrefixLookup prefixLookup)
     {
-        _CpuToParseFor = cpuToParseFor;
+        _virtualMachineToTranslateFor = virtualMachineToTranslateFor;
         _instructionLookup = instructionLookup;
         _prefixLookup = prefixLookup;
+        _instructionEncoder = DIFactory.GenerateIInstructionEncoder(virtualMachineToTranslateFor, DIFactory.GenerateIOperandDecoder());
     }
 
     public IParserResult Parse(IList<IToken> tokens)
@@ -176,7 +180,7 @@ public class Parser : IParser
 
         if (!string.IsNullOrEmpty(instructionPrefix))
         {
-            return DIFactory.GenerateIInstruction(_instructionLookup.GetInstructionType(instructionOpcode), _prefixLookup.GetPrefixType(instructionPrefix), variantLookup[CalculateInstructionVariantId(operands[0]?.Variant, operands[1]?.Variant, operands[2]?.Variant)], operands[0], operands[1], operands[2], DIFactory.GenerateIOperandDecoder(), DIFactory.GenerateIFlagStateProcessor());
+            return DIFactory.GenerateIInstruction(_instructionLookup.GetInstructionType(instructionOpcode), _prefixLookup.GetPrefixType(instructionPrefix), variantLookup[CalculateInstructionVariantId(operands[0]?.Variant, operands[1]?.Variant, operands[2]?.Variant)], operands[0], operands[1], operands[2], DIFactory.GenerateIOperandDecoder(), DIFactory.GenerateIFlagStateProcessor(), DIFactory.GenerateIInstructionEncoder(_virtualMachineToTranslateFor, DIFactory.GenerateIOperandDecoder()));
         }
 
         return DIFactory.GenerateIInstruction(_instructionLookup.GetInstructionType(instructionOpcode), variantLookup[CalculateInstructionVariantId(operands[0]?.Variant, operands[1]?.Variant, operands[2]?.Variant)], null, operands[0], operands[1], operands[2], DIFactory.GenerateIOperandDecoder(), DIFactory.GenerateIFlagStateProcessor());
@@ -323,7 +327,7 @@ public class Parser : IParser
 
         try
         {
-            virtualRegister = _CpuToParseFor.GetRegister(operand);
+            virtualRegister = _virtualMachineToTranslateFor.CPU.GetRegister(operand);
         }
         catch (Exception ex)
         {
@@ -406,5 +410,7 @@ public class Parser : IParser
 
     private readonly IInstructionLookup _instructionLookup;
     private readonly IPrefixLookup _prefixLookup;
-    private readonly IVirtualCPU _CpuToParseFor;
+    private readonly IVirtualMachine _virtualMachineToTranslateFor;
+    private readonly IInstructionEncoder _instructionEncoder;
+    private IInstructionEncoderResult _instructionEncoderResult;
 }

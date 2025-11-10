@@ -567,7 +567,7 @@ public class Lexeme : ILexeme
                 throw new InvalidCastException("Cannot have a scale index with a non integer type");
             }
 
-            offsets.Add(GenerateMemoryOffset(memoryOffsetType, memoryOffsetOperand, memoryPointerOperand));
+            offsets.Add(DIFactory.GenerateIMemoryOffset(memoryOffsetType, memoryOffsetOperand, memoryPointerOperand));
             memoryPointerOperandsIndex += memoryPointerOperand.Length + 1;
         }
 
@@ -579,11 +579,6 @@ public class Lexeme : ILexeme
         IVirtualRegister virtualRegister = GetRegister(expression);
 
         return DIFactory.GenerateIOperand(expression, OperandVariant.Register, virtualRegister.RegisterNamesAndSizes[expression.ToUpper()], []);
-    }
-
-    private IMemoryOffset GenerateMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand)
-    {
-        return DIFactory.GenerateIMemoryOffset(type, operand, fullOperand);
     }
 
     public ISourceCodeLine SourceCodeLine { get; init; }

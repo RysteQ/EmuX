@@ -1,6 +1,8 @@
 ﻿using EmuXCore;
+using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
@@ -13,13 +15,16 @@ public partial class ExecuteCodeForm : Form
     {
         InitializeComponent();
 
+        _instructionEncoder = DIFactory.GenerateIInstructionEncoder(virtualMachine, DIFactory.GenerateIOperandDecoder());
         _interpreter = DIFactory.GenerateIInterpreter();
         _interpreter.VirtualMachine = virtualMachine;
         _interpreter.Instructions = instructions;
         _interpreter.Labels = labels;
-
+        
         InitUserInterface();
         RegisterVirtualMachineEvents();
+        InitEncodedInstructionsInMemory();
+        ComputeLabelMemoryLocations();
     }
 
     private void InitUserInterface()
@@ -92,6 +97,40 @@ public partial class ExecuteCodeForm : Form
         _interpreter.VirtualMachine.VideoCardAccessed += VirtualMachine_VideoCardAccessed;
     }
 
+    private void InitEncodedInstructionsInMemory()
+    {
+        int offset = 0;
+
+        _instructionEncoderResult = _instructionEncoder.Parse(_interpreter.Instructions);
+
+        foreach (byte[] encodedInstruction in _instructionEncoderResult.Bytes)
+        {
+            foreach (byte instructionByte in encodedInstruction)
+            {
+                _interpreter.VirtualMachine.SetByte(offset, instructionByte);
+                offset++;
+            }
+        }
+    }
+
+    private void ComputeLabelMemoryLocations()
+    {
+        int currentLine = 1;
+        int offset = 0;
+
+        foreach (ILabel label in _interpreter.Labels)
+        {
+            for (int i = currentLine; i < label.Line; i++)
+            {
+                offset += _instructionEncoderResult.Bytes[currentLine - 1].Length;
+            }
+
+             _interpreter.VirtualMachine.Memory.LabelMemoryLocations.Add(label.Name, DIFactory.GenerateIMemoryLabel(label.Name, offset, label.Line));
+
+            currentLine = label.Line;
+        }
+    }
+
     private void VirtualMachine_VideoCardAccessed(object? sender, EventArgs e)
     {
         InitVideoOutput();
@@ -119,10 +158,15 @@ public partial class ExecuteCodeForm : Form
 
     private void buttonExecute_Click(object sender, EventArgs e)
     {
-        while (_interpreter.CurrentInstructionIndex < listBoxInstructions.Items.Count - 1)
+        while (_interpreter.CurrentInstructionIndex < listBoxInstructions.Items.Count - _interpreter.Labels.Count - 1)
         {
             _interpreter.ExecuteStep();
-            listBoxInstructions.SelectedIndex = _interpreter.CurrentInstructionIndex;
+            listBoxInstructions.SelectedIndex++;
+
+            if (listBoxInstructions.SelectedItems[0].ToString().EndsWith(':'))
+            {
+                listBoxInstructions.SelectedIndex++;
+            }
         }
 
         _interpreter.ExecuteStep();
@@ -192,4 +236,6 @@ public partial class ExecuteCodeForm : Form
     public event EventHandler? ResetCodeExecution;
 
     private readonly IInterpreter _interpreter;
+    private readonly IInstructionEncoder _instructionEncoder;
+    private IInstructionEncoderResult _instructionEncoderResult;
 }

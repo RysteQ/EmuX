@@ -410,7 +410,7 @@ public partial class MainForm : Form
     private void executeToolStripMenuItem_Click(object sender, EventArgs e)
     {
         ILexer lexer = DIFactory.GenerateILexer(DIFactory.GenerateIVirtualCPU(), DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
-        IParser parser = DIFactory.GenerateIParser(DIFactory.GenerateIVirtualCPU(), DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
+        IParser parser = DIFactory.GenerateIParser(_virtualMachine, DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
         IList<IToken> tokens = lexer.Tokenize(richTextboxAssemblyCode.Text);
         IParserResult parserResult = parser.Parse(tokens);
 
