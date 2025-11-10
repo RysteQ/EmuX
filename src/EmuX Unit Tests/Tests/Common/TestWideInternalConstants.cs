@@ -1,4 +1,5 @@
-﻿using EmuXCore.Common.Enums;
+﻿using EmuXCore;
+using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
@@ -31,29 +32,30 @@ namespace EmuXCoreUnitTests.Tests.Common;
 
 public class TestWideInternalConstants
 {
-    protected IOperand GenerateOperand(string fullOperand, OperandVariant variant, Size operandSize, IMemoryOffset[] offsets) => new Operand(fullOperand, variant, operandSize, offsets);
-    protected IOperandDecoder GenerateOperandDecoder() => new OperandDecoder();
-    protected IFlagStateProcessor GenerateFlagStateProcessor() => new FlagStateProcessor();
-    protected KeyValuePair<string, IMemoryLabel> GenerateMemoryLabel(string label, int address, int line) => new(label, new MemoryLabel(label, address, line));
-    protected IMemoryOffset GenerateMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand) => new MemoryOffset(type, operand, fullOperand);
-    protected IInterpreter GenerateInterpreter() => new EmuXCore.Interpreter.Interpreter();
+    protected IOperand GenerateOperand(string fullOperand, OperandVariant variant, Size operandSize, IMemoryOffset[] offsets) => DIFactory.GenerateIOperand(fullOperand, variant, operandSize, offsets);
+    protected IOperandDecoder GenerateOperandDecoder() => DIFactory.GenerateIOperandDecoder();
+    protected IFlagStateProcessor GenerateFlagStateProcessor() => DIFactory.GenerateIFlagStateProcessor();
+    protected IInstructionEncoder GenerateIInstructionEncoder() => DIFactory.GenerateIInstructionEncoder(GenerateVirtualMachine(), GenerateOperandDecoder());
+    protected KeyValuePair<string, IMemoryLabel> GenerateMemoryLabel(string label, int address, int line) => new(label, DIFactory.GenerateIMemoryLabel(label, address, line));
+    protected IMemoryOffset GenerateMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand) => DIFactory.GenerateIMemoryOffset(type, operand, fullOperand);
+    protected IInterpreter GenerateInterpreter() => DIFactory.GenerateIInterpreter();
 
-    protected IToken GenerateToken(TokenType tokenType, string fullSourceCode) => new Token(tokenType, fullSourceCode);
-    protected ILexer GenerateLexer() => new Lexer(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
-    protected IParser GenerateParser() => new Parser(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
-    protected IInstructionLookup GenerateInstructionLookup() => new InstructionLookup();
-    protected IPrefixLookup GeneratePrefixLookup() => new PrefixLookup();
-    protected IInstructionEncoder GenerateInstructionEncoder() => new InstructionEncoder(GenerateVirtualMachine(), GenerateOperandDecoder());
+    protected IToken GenerateToken(TokenType tokenType, string fullSourceCode) => DIFactory.GenerateIToken(tokenType, fullSourceCode);
+    protected ILexer GenerateLexer() => DIFactory.GenerateILexer(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
+    protected IParser GenerateParser() => DIFactory.GenerateIParser(GenerateVirtualMachine(), GenerateInstructionLookup(), GeneratePrefixLookup());
+    protected IInstructionLookup GenerateInstructionLookup() => DIFactory.GenerateIInstructionLookup();
+    protected IPrefixLookup GeneratePrefixLookup() => DIFactory.GenerateIPrefixLookup();
+    protected IInstructionEncoder GenerateInstructionEncoder() => DIFactory.GenerateIInstructionEncoder(GenerateVirtualMachine(), GenerateOperandDecoder());
     protected IInstruction GenerateInstruction<T>(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) where T : IInstruction => (T)Activator.CreateInstance(typeof(T), new object[] { variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor });
 
-    protected IVirtualCPU GenerateVirtualCPU() => new VirtualCPU();
-    protected IVirtualMemory GenerateVirtualMemory() => new VirtualMemory();
-    protected IVirtualBIOS GenerateVirtualBIOS() => new VirtualBIOS(GenerateDiskInterruptHandler(), GenerateRTCInterruptHandler(), GenerateVideoInterruptHandler(), GenerateDeviceInterruptHandler());
-    protected IVirtualDisk GenerateVirtualDisk(byte diskNumber, byte platters = 1, ushort tracks = 16, byte sectorPerTrack = 16) => new VirtualDisk(diskNumber, platters, tracks, sectorPerTrack);
-    protected IVirtualRTC GenerateVirtualRTC() => new VirtualRTC();
+    protected IVirtualCPU GenerateVirtualCPU() => DIFactory.GenerateIVirtualCPU();
+    protected IVirtualMemory GenerateVirtualMemory() => DIFactory.GenerateIVirtualMemory();
+    protected IVirtualBIOS GenerateVirtualBIOS() => DIFactory.GenerateIVirtualBIOS(GenerateDiskInterruptHandler(), GenerateRTCInterruptHandler(), GenerateVideoInterruptHandler(), GenerateDeviceInterruptHandler());
+    protected IVirtualDisk GenerateVirtualDisk(byte diskNumber, byte platters = 1, ushort tracks = 16, byte sectorPerTrack = 16) => DIFactory.GenerateIVirtualDisk(diskNumber, platters, tracks, sectorPerTrack);
+    protected IVirtualRTC GenerateVirtualRTC() => DIFactory.GenerateIVirtualRTC();
     protected IVirtualDevice GenerateVirtualDevice<T>(ushort deviceId = 0) where T : IVirtualDevice => (T)Activator.CreateInstance(typeof(T), new object[] { deviceId, null });
-    protected IVirtualMachineBuilder GenerateVirtualMachineBuilder() => new VirtualMachineBuilder();
-    protected IVirtualGPU GenerateVirtualGPU() => new VirtualGPU();
+    protected IVirtualMachineBuilder GenerateVirtualMachineBuilder() => DIFactory.GenerateIVirtualMachineBuilder();
+    protected IVirtualGPU GenerateVirtualGPU() => DIFactory.GenerateIVirtualGPU();
 
     protected IVirtualMachine GenerateVirtualMachine()
     {
@@ -72,8 +74,8 @@ public class TestWideInternalConstants
         return virtualMachineBuilder.Build();
     }
 
-    protected IDiskInterruptHandler GenerateDiskInterruptHandler() => new DiskInterruptHandler();
-    protected IRTCInterruptHandler GenerateRTCInterruptHandler() => new RTCInterruptHandler();
-    protected IVideoInterruptHandler GenerateVideoInterruptHandler() => new VideoInterruptHandler();
-    protected IDeviceInterruptHandler GenerateDeviceInterruptHandler() => new DeviceInterruptHandler();
+    protected IDiskInterruptHandler GenerateDiskInterruptHandler() => DIFactory.GenerateIDiskInterruptHandler();
+    protected IRTCInterruptHandler GenerateRTCInterruptHandler() => DIFactory.GenerateIRTCInterruptHandler();
+    protected IVideoInterruptHandler GenerateVideoInterruptHandler() => DIFactory.GenerateIVideoInterruptHandler();
+    protected IDeviceInterruptHandler GenerateDeviceInterruptHandler() => DIFactory.GenerateIDeviceInterruptHandler();
 }

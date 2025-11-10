@@ -15,6 +15,7 @@ public class EncoderTests : TestWideInternalConstants
         ILexer lexer = GenerateLexer();
         IParser parser = GenerateParser();
         IList<IToken> tokens = [];
+        IList<byte> outputBytes = [];
         IParserResult parserResult;
         IInstructionEncoderResult instructionEncoderResult;
 
@@ -53,11 +54,19 @@ public class EncoderTests : TestWideInternalConstants
         instructionEncoderResult = instructionEncoder.Parse(parserResult.Instructions);
 
         Assert.IsTrue(instructionEncoderResult.Success);
-        Assert.AreEqual<int>(expectedOutput.Length, instructionEncoderResult.Bytes.Length);
+        Assert.AreEqual<int>(expectedOutput.Length, instructionEncoderResult.Bytes.Select(bytes => bytes.Length).Sum());
+
+        foreach (byte[] bytes in instructionEncoderResult.Bytes)
+        {
+            foreach (byte selectedByte in bytes)
+            {
+                outputBytes.Add(selectedByte);
+            }
+        }
 
         for (int i = 0; i < expectedOutput.Length; i++)
         {
-            Assert.AreEqual<byte>(expectedOutput[i], instructionEncoderResult.Bytes[i], $"Invalid byte at position [start + {i}]");
+            Assert.AreEqual<byte>(expectedOutput[i], outputBytes[i], $"Invalid byte at position [start + {i}]");
         }
     }
 }

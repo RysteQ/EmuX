@@ -2,6 +2,7 @@
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Instructions.Internal;
@@ -10,7 +11,7 @@ public class InstructionConstants<T> : TestWideInternalConstants where T : IInst
 {
     protected T GenerateInstruction(InstructionVariant? variant = null, IPrefix? prefix = null, IOperand? firstOperand = null, IOperand? secondOperand = null, IOperand? thirdOperand = null)
     {
-        return (T)Activator.CreateInstance(typeof(T), new object[] { variant ?? InstructionVariant.NoOperands(), prefix, firstOperand, secondOperand, thirdOperand, GenerateOperandDecoder(), GenerateFlagStateProcessor() });
+        return (T)Activator.CreateInstance(typeof(T), new object[] { variant ?? InstructionVariant.NoOperands(), prefix, firstOperand, secondOperand, thirdOperand, GenerateOperandDecoder(), GenerateFlagStateProcessor(), GenerateIInstructionEncoder() });
     }
 
     protected IOperand GenerateOperand(string fullOperand, OperandVariant variant, Size size, IMemoryOffset[]? offsets = null)
