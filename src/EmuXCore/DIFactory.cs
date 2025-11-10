@@ -4,6 +4,8 @@ using EmuXCore.InstructionLogic;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Interfaces;
+using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
+using EmuXCore.Interpreter.Encoder.Logic;
 using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
@@ -79,8 +81,9 @@ public static class DIFactory
     /// <param name="thirdOperand">The third operand, if any, of the IInstruction</param>
     /// <param name="operandDecoder">The operand decoder needed for decoding the operands of the IInstruction</param>
     /// <param name="flagStateProcessor">The flag state processor of the IInstruction needed for updating the CPU flags</param>
+    /// <param name="instructionEncoder">The flag state processor of the IInstruction needed to get the length of the instruction in bytes</param>
     /// <returns>The implementation of IInstruction</returns>
-    public static IInstruction GenerateIInstruction(Type type, Type prefix, InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) => (IInstruction)Activator.CreateInstance(type, variant, Activator.CreateInstance(prefix), firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor)!;
+    public static IInstruction GenerateIInstruction(Type type, Type prefix, InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder) => (IInstruction)Activator.CreateInstance(type, variant, Activator.CreateInstance(prefix), firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, instructionEncoder)!;
 
     /// <summary>
     /// Generates an instance of IMemoryOffset
@@ -170,12 +173,20 @@ public static class DIFactory
     public static IParserResult GenerateILexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors) => new ParserResult(instructions, labels, errors);
 
     /// <summary>
+    /// Generates an instance of IInstructionEncoder
+    /// </summary>
+    /// <param name="virtualMachine">The virtual machien to encode the instructions for</param>
+    /// <param name="operandDecoder">The operand decoder to decode the operands of the instructions with</param>
+    /// <returns>The implementation of IInstructionEncoder</returns>
+    public static IInstructionEncoder GenerateIInstructionEncoder(IVirtualMachine virtualMachine, IOperandDecoder operandDecoder) => new InstructionEncoder(virtualMachine, operandDecoder);
+
+    /// <summary>
     /// Generates an instance of IInstructionEncoderResult
     /// </summary>
     /// <param name="errors">The parsed bytes the IInstructionEncoderResult will hold</param>
     /// <param name="errors">The parse errors the ILexerResult will hold</param>
     /// <returns>The implementation of IInstructionEncoderResult</returns>
-    public static IInstructionEncoderResult GenerateIInstructionEncoderResult(byte[] bytes, ReadOnlyCollection<string> errors) => new InstructionEncoderResult(bytes, errors);
+    public static IInstructionEncoderResult GenerateIInstructionEncoderResult(IList<byte[]> bytes, IReadOnlyCollection<string> errors) => new InstructionEncoderResult(bytes, errors);
 
     /// <summary>
     /// Generates an instance of ISourceCodeLine
@@ -214,7 +225,7 @@ public static class DIFactory
     /// Generates an instance of IParser
     /// </summary>
     /// <returns>The implementation of IParser</returns>
-    public static IParser GenerateIParser(IVirtualCPU virtualCPU, IInstructionLookup instructionLookup, IPrefixLookup prefixLookup) => new Parser(virtualCPU, instructionLookup, prefixLookup);
+    public static IParser GenerateIParser(IVirtualMachine virtualMachine, IInstructionLookup instructionLookup, IPrefixLookup prefixLookup) => new Parser(virtualMachine, instructionLookup, prefixLookup);
 
     /// <summary>
     /// Generates an instance of IParser
