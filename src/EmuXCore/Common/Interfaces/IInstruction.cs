@@ -37,6 +37,11 @@ public interface IInstruction
     string Opcode { get; }
 
     /// <summary>
+    /// The amount of bytes used for the instruction
+    /// </summary>
+    ulong Bytes { get; }
+
+    /// <summary>
     /// The variant of the instruction
     /// </summary>
     InstructionVariant Variant { get; init; }
