@@ -29,11 +29,11 @@ public sealed class InterpreterRuntimeErrorTests : TestWideInternalConstants
         virtualMachine.Actions.Clear();
         interpreter.ExecuteStep();
 
-        Assert.AreEqual<int>(1, interpreter.CurrentInstructionIndex);
+        Assert.AreEqual<int>(0, interpreter.CurrentInstructionIndex);
 
         interpreter.VirtualMachine = GenerateVirtualMachine();
 
-        Assert.AreEqual<int>(0, interpreter.CurrentInstructionIndex);
+        Assert.AreEqual<int>(-1, interpreter.CurrentInstructionIndex);
     }
 
     [TestMethod]
@@ -51,13 +51,16 @@ public sealed class InterpreterRuntimeErrorTests : TestWideInternalConstants
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX = 0;
         virtualMachine.Actions.Clear();
+
+        Assert.AreEqual<int>(-1, interpreter.CurrentInstructionIndex);
+
         interpreter.ExecuteStep();
 
-        Assert.AreEqual<int>(1, interpreter.CurrentInstructionIndex);
+        Assert.AreEqual<int>(0, interpreter.CurrentInstructionIndex);
 
         interpreter.Instructions = [];
 
-        Assert.AreEqual<int>(0, interpreter.CurrentInstructionIndex);
+        Assert.AreEqual<int>(-1, interpreter.CurrentInstructionIndex);
     }
 
     [TestMethod]
@@ -77,11 +80,11 @@ public sealed class InterpreterRuntimeErrorTests : TestWideInternalConstants
         virtualMachine.Actions.Clear();
         interpreter.ExecuteStep();
 
-        Assert.AreEqual<int>(1, interpreter.CurrentInstructionIndex);
+        Assert.AreEqual<int>(0, interpreter.CurrentInstructionIndex);
 
         interpreter.Labels = [];
 
-        Assert.AreEqual<int>(0, interpreter.CurrentInstructionIndex);
+        Assert.AreEqual<int>(-1, interpreter.CurrentInstructionIndex);
     }
 
     [TestMethod]
