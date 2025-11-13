@@ -11,7 +11,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(true, flagStateProcessor.TestCarryFlag(ulong.MaxValue, 1, Size.Qword));
+        Assert.AreEqual<bool>(true, flagStateProcessor.TestCarryFlag(ulong.MaxValue, 1, Size.Qword));
     }
 
     [TestMethod]
@@ -19,7 +19,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(false, flagStateProcessor.TestCarryFlag(ulong.MinValue, 1, Size.Qword));
+        Assert.AreEqual<bool>(false, flagStateProcessor.TestCarryFlag(ulong.MinValue, 1, Size.Qword));
     }
 
     [TestMethod]
@@ -27,7 +27,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(true, flagStateProcessor.TestSignFlag(ulong.MaxValue, Size.Qword));
+        Assert.AreEqual<bool>(true, flagStateProcessor.TestSignFlag(ulong.MaxValue, Size.Qword));
     }
 
     [TestMethod]
@@ -35,7 +35,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(false, flagStateProcessor.TestSignFlag(0, Size.Qword));
+        Assert.AreEqual<bool>(false, flagStateProcessor.TestSignFlag(0, Size.Qword));
     }
 
     [TestMethod]
@@ -43,7 +43,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(true, flagStateProcessor.TestOverflowFlag(ulong.MaxValue, ulong.MaxValue, ulong.MaxValue - ulong.MaxValue, Size.Qword));
+        Assert.AreEqual<bool>(true, flagStateProcessor.TestOverflowFlag(ulong.MaxValue, ulong.MaxValue, ulong.MaxValue - ulong.MaxValue, Size.Qword));
     }
 
     [TestMethod]
@@ -51,7 +51,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(false, flagStateProcessor.TestOverflowFlag(1, 1, 1 + 1, Size.Qword));
+        Assert.AreEqual<bool>(false, flagStateProcessor.TestOverflowFlag(1, 1, 1 + 1, Size.Qword));
     }
 
     [TestMethod]
@@ -59,7 +59,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(true, flagStateProcessor.TestZeroFlag(0));
+        Assert.AreEqual<bool>(true, flagStateProcessor.TestZeroFlag(0));
     }
 
     [TestMethod]
@@ -67,7 +67,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(false, flagStateProcessor.TestZeroFlag(1));
+        Assert.AreEqual<bool>(false, flagStateProcessor.TestZeroFlag(1));
     }
 
     [TestMethod]
@@ -75,7 +75,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(true, flagStateProcessor.TestAuxilliaryFlag(15, 1, true));
+        Assert.AreEqual<bool>(true, flagStateProcessor.TestAuxilliaryFlag(15, 1, true));
     }
 
     [TestMethod]
@@ -83,7 +83,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(false, flagStateProcessor.TestAuxilliaryFlag(0, 0, true));
+        Assert.AreEqual<bool>(false, flagStateProcessor.TestAuxilliaryFlag(0, 0, true));
     }
 
     [TestMethod]
@@ -91,7 +91,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(true, flagStateProcessor.TestAuxilliaryFlag(15, 14, true));
+        Assert.AreEqual<bool>(true, flagStateProcessor.TestAuxilliaryFlag(15, 14, true));
     }
 
     [TestMethod]
@@ -99,7 +99,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
     {
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
-        Assert.AreEqual(false, flagStateProcessor.TestAuxilliaryFlag(17, 1, false));
+        Assert.AreEqual<bool>(false, flagStateProcessor.TestAuxilliaryFlag(17, 1, false));
     }
 
     [TestMethod]
@@ -108,7 +108,7 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
 
-        Assert.AreEqual(true, flagStateProcessor.TestParityFlag(2));
+        Assert.AreEqual<bool>(true, flagStateProcessor.TestParityFlag(2));
     }
 
     [TestMethod]
@@ -117,6 +117,6 @@ public sealed class FlagStateProcessorTests : TestWideInternalConstants
         IFlagStateProcessor flagStateProcessor = GenerateFlagStateProcessor();
 
 
-        Assert.AreEqual(false, flagStateProcessor.TestParityFlag(1));
+        Assert.AreEqual<bool>(false, flagStateProcessor.TestParityFlag(1));
     }
 }

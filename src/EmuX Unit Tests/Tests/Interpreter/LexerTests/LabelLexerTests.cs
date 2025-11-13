@@ -17,11 +17,11 @@ public sealed class LabelLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(4, tokens.Count);
-        Assert.AreEqual(TokenType.LABEL, tokens[0].Type);
-        Assert.AreEqual(TokenType.COLON, tokens[1].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+        Assert.AreEqual<int>(4, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.LABEL, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.COLON, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[3].Type);
     }
 
     [TestMethod]
@@ -33,13 +33,13 @@ public sealed class LabelLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(7, tokens.Count);
-        Assert.AreEqual(TokenType.LABEL, tokens[0].Type);
-        Assert.AreEqual(TokenType.COLON, tokens[1].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[3].Type);
-        Assert.AreEqual(TokenType.LABEL, tokens[4].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[5].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[6].Type);
+        Assert.AreEqual<int>(7, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.LABEL, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.COLON, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[3].Type);
+        Assert.AreEqual<TokenType>(TokenType.LABEL, tokens[4].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[5].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[6].Type);
     }
 }

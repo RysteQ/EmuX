@@ -17,8 +17,8 @@ public sealed class BasicLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(1, tokens.Count);
-        Assert.AreEqual(TokenType.EOF, tokens[0].Type);
+        Assert.AreEqual<int>(1, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[0].Type);
     }
 
     [TestMethod]
@@ -30,8 +30,8 @@ public sealed class BasicLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(1, tokens.Count);
-        Assert.AreEqual(TokenType.EOF, tokens[0].Type);
+        Assert.AreEqual<int>(1, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[0].Type);
     }
 
     [TestMethod]
@@ -43,8 +43,8 @@ public sealed class BasicLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(1, tokens.Count);
-        Assert.AreEqual(TokenType.EOF, tokens[0].Type);
+        Assert.AreEqual<int>(1, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[0].Type);
     }
 
     [TestMethod]
@@ -56,7 +56,7 @@ public sealed class BasicLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(1, tokens.Count);
-        Assert.AreEqual(TokenType.EOF, tokens[0].Type);
+        Assert.AreEqual<int>(1, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[0].Type);
     }
 }

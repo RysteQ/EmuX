@@ -17,17 +17,17 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(10, tokens.Count);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[0].Type);
-        Assert.AreEqual(TokenType.SIZE, tokens[1].Type);
-        Assert.AreEqual(TokenType.POINTER, tokens[2].Type);
-        Assert.AreEqual(TokenType.OPEN_BRACKET, tokens[3].Type);
-        Assert.AreEqual(TokenType.REGISTER, tokens[4].Type);
-        Assert.AreEqual(TokenType.CLOSE_BRACKET, tokens[5].Type);
-        Assert.AreEqual(TokenType.COMMA, tokens[6].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[7].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[8].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[9].Type);
+        Assert.AreEqual<int>(10, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.SIZE, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.POINTER, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.OPEN_BRACKET, tokens[3].Type);
+        Assert.AreEqual<TokenType>(TokenType.REGISTER, tokens[4].Type);
+        Assert.AreEqual<TokenType>(TokenType.CLOSE_BRACKET, tokens[5].Type);
+        Assert.AreEqual<TokenType>(TokenType.COMMA, tokens[6].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[7].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[8].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[9].Type);
     }
 
     [TestMethod]
@@ -39,19 +39,19 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(12, tokens.Count);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[0].Type);
-        Assert.AreEqual(TokenType.SIZE, tokens[1].Type);
-        Assert.AreEqual(TokenType.POINTER, tokens[2].Type);
-        Assert.AreEqual(TokenType.OPEN_BRACKET, tokens[3].Type);
-        Assert.AreEqual(TokenType.REGISTER, tokens[4].Type);
-        Assert.AreEqual(TokenType.ADDITION, tokens[5].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[6].Type);
-        Assert.AreEqual(TokenType.CLOSE_BRACKET, tokens[7].Type);
-        Assert.AreEqual(TokenType.COMMA, tokens[8].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[9].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[10].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[11].Type);
+        Assert.AreEqual<int>(12, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.SIZE, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.POINTER, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.OPEN_BRACKET, tokens[3].Type);
+        Assert.AreEqual<TokenType>(TokenType.REGISTER, tokens[4].Type);
+        Assert.AreEqual<TokenType>(TokenType.ADDITION, tokens[5].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[6].Type);
+        Assert.AreEqual<TokenType>(TokenType.CLOSE_BRACKET, tokens[7].Type);
+        Assert.AreEqual<TokenType>(TokenType.COMMA, tokens[8].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[9].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[10].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[11].Type);
     }
 
     [TestMethod]
@@ -63,19 +63,19 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(12, tokens.Count);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[0].Type);
-        Assert.AreEqual(TokenType.SIZE, tokens[1].Type);
-        Assert.AreEqual(TokenType.POINTER, tokens[2].Type);
-        Assert.AreEqual(TokenType.OPEN_BRACKET, tokens[3].Type);
-        Assert.AreEqual(TokenType.REGISTER, tokens[4].Type);
-        Assert.AreEqual(TokenType.SUBTRACTION, tokens[5].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[6].Type);
-        Assert.AreEqual(TokenType.CLOSE_BRACKET, tokens[7].Type);
-        Assert.AreEqual(TokenType.COMMA, tokens[8].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[9].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[10].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[11].Type);
+        Assert.AreEqual<int>(12, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.SIZE, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.POINTER, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.OPEN_BRACKET, tokens[3].Type);
+        Assert.AreEqual<TokenType>(TokenType.REGISTER, tokens[4].Type);
+        Assert.AreEqual<TokenType>(TokenType.SUBTRACTION, tokens[5].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[6].Type);
+        Assert.AreEqual<TokenType>(TokenType.CLOSE_BRACKET, tokens[7].Type);
+        Assert.AreEqual<TokenType>(TokenType.COMMA, tokens[8].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[9].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[10].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[11].Type);
     }
 
     [TestMethod]
@@ -87,17 +87,17 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(10, tokens.Count);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[0].Type);
-        Assert.AreEqual(TokenType.SIZE, tokens[1].Type);
-        Assert.AreEqual(TokenType.POINTER, tokens[2].Type);
-        Assert.AreEqual(TokenType.OPEN_BRACKET, tokens[3].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[4].Type);
-        Assert.AreEqual(TokenType.CLOSE_BRACKET, tokens[5].Type);
-        Assert.AreEqual(TokenType.COMMA, tokens[6].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[7].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[8].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[9].Type);
+        Assert.AreEqual<int>(10, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.SIZE, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.POINTER, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.OPEN_BRACKET, tokens[3].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[4].Type);
+        Assert.AreEqual<TokenType>(TokenType.CLOSE_BRACKET, tokens[5].Type);
+        Assert.AreEqual<TokenType>(TokenType.COMMA, tokens[6].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[7].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[8].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[9].Type);
     }
 
     [TestMethod]
@@ -109,19 +109,19 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(12, tokens.Count);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[0].Type);
-        Assert.AreEqual(TokenType.SIZE, tokens[1].Type);
-        Assert.AreEqual(TokenType.POINTER, tokens[2].Type);
-        Assert.AreEqual(TokenType.OPEN_BRACKET, tokens[3].Type);
-        Assert.AreEqual(TokenType.REGISTER, tokens[4].Type);
-        Assert.AreEqual(TokenType.ADDITION, tokens[5].Type);
-        Assert.AreEqual(TokenType.REGISTER, tokens[6].Type);
-        Assert.AreEqual(TokenType.CLOSE_BRACKET, tokens[7].Type);
-        Assert.AreEqual(TokenType.COMMA, tokens[8].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[9].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[10].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[11].Type);
+        Assert.AreEqual<int>(12, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.SIZE, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.POINTER, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.OPEN_BRACKET, tokens[3].Type);
+        Assert.AreEqual<TokenType>(TokenType.REGISTER, tokens[4].Type);
+        Assert.AreEqual<TokenType>(TokenType.ADDITION, tokens[5].Type);
+        Assert.AreEqual<TokenType>(TokenType.REGISTER, tokens[6].Type);
+        Assert.AreEqual<TokenType>(TokenType.CLOSE_BRACKET, tokens[7].Type);
+        Assert.AreEqual<TokenType>(TokenType.COMMA, tokens[8].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[9].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[10].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[11].Type);
     }
 
     [TestMethod]
@@ -133,19 +133,19 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(12, tokens.Count);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[0].Type);
-        Assert.AreEqual(TokenType.SIZE, tokens[1].Type);
-        Assert.AreEqual(TokenType.POINTER, tokens[2].Type);
-        Assert.AreEqual(TokenType.OPEN_BRACKET, tokens[3].Type);
-        Assert.AreEqual(TokenType.REGISTER, tokens[4].Type);
-        Assert.AreEqual(TokenType.SUBTRACTION, tokens[5].Type);
-        Assert.AreEqual(TokenType.REGISTER, tokens[6].Type);
-        Assert.AreEqual(TokenType.CLOSE_BRACKET, tokens[7].Type);
-        Assert.AreEqual(TokenType.COMMA, tokens[8].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[9].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[10].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[11].Type);
+        Assert.AreEqual<int>(12, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.SIZE, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.POINTER, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.OPEN_BRACKET, tokens[3].Type);
+        Assert.AreEqual<TokenType>(TokenType.REGISTER, tokens[4].Type);
+        Assert.AreEqual<TokenType>(TokenType.SUBTRACTION, tokens[5].Type);
+        Assert.AreEqual<TokenType>(TokenType.REGISTER, tokens[6].Type);
+        Assert.AreEqual<TokenType>(TokenType.CLOSE_BRACKET, tokens[7].Type);
+        Assert.AreEqual<TokenType>(TokenType.COMMA, tokens[8].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[9].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[10].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[11].Type);
     }
 
     [TestMethod]
@@ -157,16 +157,16 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(10, tokens.Count);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[0].Type);
-        Assert.AreEqual(TokenType.SIZE, tokens[1].Type);
-        Assert.AreEqual(TokenType.POINTER, tokens[2].Type);
-        Assert.AreEqual(TokenType.OPEN_BRACKET, tokens[3].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[4].Type);
-        Assert.AreEqual(TokenType.CLOSE_BRACKET, tokens[5].Type);
-        Assert.AreEqual(TokenType.COMMA, tokens[6].Type);
-        Assert.AreEqual(TokenType.VALUE, tokens[7].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[8].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[9].Type);
+        Assert.AreEqual<int>(10, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.SIZE, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.POINTER, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.OPEN_BRACKET, tokens[3].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[4].Type);
+        Assert.AreEqual<TokenType>(TokenType.CLOSE_BRACKET, tokens[5].Type);
+        Assert.AreEqual<TokenType>(TokenType.COMMA, tokens[6].Type);
+        Assert.AreEqual<TokenType>(TokenType.VALUE, tokens[7].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[8].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[9].Type);
     }
 }

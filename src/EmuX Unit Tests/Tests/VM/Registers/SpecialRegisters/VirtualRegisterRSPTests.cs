@@ -13,8 +13,8 @@ public sealed class VirtualRegisterRSPTests : TestWideInternalConstants
 
         register.RSP = 0x_ffff_0000_ff00_00ff;
 
-        Assert.AreEqual(0x_ffff_0000_ff00_00ff, register.RSP);
-        Assert.AreEqual(0x_ff00_00ff, register.ESP);
+        Assert.AreEqual<ulong>(0x_ffff_0000_ff00_00ff, register.RSP);
+        Assert.AreEqual<uint>(0x_ff00_00ff, register.ESP);
         Assert.AreEqual<ushort>(0x_00ff, register.SP);
         Assert.AreEqual<byte>(0x_ff, register.SPL);
     }
@@ -26,7 +26,7 @@ public sealed class VirtualRegisterRSPTests : TestWideInternalConstants
 
         register.ESP = 0x_ff00_00ff;
 
-        Assert.AreEqual(0x_ff00_00ff, register.ESP);
+        Assert.AreEqual<uint>(0x_ff00_00ff, register.ESP);
         Assert.AreEqual<ushort>(0x_00ff, register.SP);
         Assert.AreEqual<byte>(0x_ff, register.SPL);
     }

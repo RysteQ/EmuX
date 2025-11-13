@@ -22,8 +22,8 @@ public sealed class VirtualRegisterRDITests : TestWideInternalConstants
 
         register.RDI = 0x_ffff_0000_ff00_00ff;
 
-        Assert.AreEqual(0x_ffff_0000_ff00_00ff, register.RDI);
-        Assert.AreEqual(0x_ff00_00ff, register.EDI);
+        Assert.AreEqual<ulong>(0x_ffff_0000_ff00_00ff, register.RDI);
+        Assert.AreEqual<uint>(0x_ff00_00ff, register.EDI);
         Assert.AreEqual<ushort>(0x_00ff, register.DI);
         Assert.AreEqual<byte>(0x_ff, register.DIL);
     }
@@ -35,7 +35,7 @@ public sealed class VirtualRegisterRDITests : TestWideInternalConstants
 
         register.EDI = 0x_ff00_00ff;
 
-        Assert.AreEqual(0x_ff00_00ff, register.EDI);
+        Assert.AreEqual<uint>(0x_ff00_00ff, register.EDI);
         Assert.AreEqual<ushort>(0x_00ff, register.DI);
         Assert.AreEqual<byte>(0x_ff, register.DIL);
     }

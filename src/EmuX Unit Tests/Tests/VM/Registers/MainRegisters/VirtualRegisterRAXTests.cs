@@ -22,8 +22,8 @@ public sealed class VirtualRegisterRAXTests : TestWideInternalConstants
 
         register.RAX = 0x_ffff_0000_ff00_00ff;
 
-        Assert.AreEqual(0x_ffff_0000_ff00_00ff, register.RAX);
-        Assert.AreEqual(0x_ff00_00ff, register.EAX);
+        Assert.AreEqual<ulong>(0x_ffff_0000_ff00_00ff, register.RAX);
+        Assert.AreEqual<uint>(0x_ff00_00ff, register.EAX);
         Assert.AreEqual<ushort>(0x_00ff, register.AX);
         Assert.AreEqual<byte>(0x_00, register.AH);
         Assert.AreEqual<byte>(0x_ff, register.AL);
@@ -36,7 +36,7 @@ public sealed class VirtualRegisterRAXTests : TestWideInternalConstants
 
         register.EAX = 0x_ff00_00ff;
 
-        Assert.AreEqual(0x_ff00_00ff, register.EAX);
+        Assert.AreEqual<uint>(0x_ff00_00ff, register.EAX);
         Assert.AreEqual<ushort>(0x_00ff, register.AX);
         Assert.AreEqual<byte>(0x_00, register.AH);
         Assert.AreEqual<byte>(0x_ff, register.AL);

@@ -22,8 +22,8 @@ public sealed class VirtualRegisterRBXTests : TestWideInternalConstants
 
         register.RBX = 0x_ffff_0000_ff00_00ff;
 
-        Assert.AreEqual(0x_ffff_0000_ff00_00ff, register.RBX);
-        Assert.AreEqual(0x_ff00_00ff, register.EBX);
+        Assert.AreEqual<ulong>(0x_ffff_0000_ff00_00ff, register.RBX);
+        Assert.AreEqual<uint>(0x_ff00_00ff, register.EBX);
         Assert.AreEqual<ushort>(0x_00ff, register.BX);
         Assert.AreEqual<byte>(0x_00, register.BH);
         Assert.AreEqual<byte>(0x_ff, register.BL);
@@ -36,7 +36,7 @@ public sealed class VirtualRegisterRBXTests : TestWideInternalConstants
 
         register.EBX = 0x_ff00_00ff;
 
-        Assert.AreEqual(0x_ff00_00ff, register.EBX);
+        Assert.AreEqual<uint>(0x_ff00_00ff, register.EBX);
         Assert.AreEqual<ushort>(0x_00ff, register.BX);
         Assert.AreEqual<byte>(0x_00, register.BH);
         Assert.AreEqual<byte>(0x_ff, register.BL);

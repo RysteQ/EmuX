@@ -268,7 +268,7 @@ public sealed class RegisterActionsTests : TestWideInternalConstants
         Assert.AreEqual<VmActionCategory>(VmActionCategory.ModifiedGpu, virtualMachine.Actions[0].Action);
         Assert.AreEqual<Size>(Size.Byte, virtualMachine.Actions[0].Size);
         Assert.IsNull(virtualMachine.Actions[0].RegisterName);
-        Assert.AreEqual(0, virtualMachine.Actions[0].MemoryPointer);
+        Assert.AreEqual<int?>(0, virtualMachine.Actions[0].MemoryPointer);
         Assert.IsNull(virtualMachine.Actions[0].DeviceId);
         Assert.IsNull(virtualMachine.Actions[0].DiskId);
         Assert.IsTrue(previousValue.Index().All(selectedByte => selectedByte.Item == virtualMachine.Actions[0].PreviousValue[selectedByte.Index]));

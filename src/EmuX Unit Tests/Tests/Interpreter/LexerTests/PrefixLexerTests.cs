@@ -17,11 +17,11 @@ public sealed class PrefixLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(4, tokens.Count);
-        Assert.AreEqual(TokenType.PREFIX, tokens[0].Type);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[1].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+        Assert.AreEqual<int>(4, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.PREFIX, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[3].Type);
     }
 
     [TestMethod]
@@ -33,11 +33,11 @@ public sealed class PrefixLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(4, tokens.Count);
-        Assert.AreEqual(TokenType.PREFIX, tokens[0].Type);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[1].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+        Assert.AreEqual<int>(4, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.PREFIX, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[3].Type);
     }
 
     [TestMethod]
@@ -49,11 +49,11 @@ public sealed class PrefixLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(4, tokens.Count);
-        Assert.AreEqual(TokenType.PREFIX, tokens[0].Type);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[1].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+        Assert.AreEqual<int>(4, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.PREFIX, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[3].Type);
     }
 
     [TestMethod]
@@ -65,11 +65,11 @@ public sealed class PrefixLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(4, tokens.Count);
-        Assert.AreEqual(TokenType.PREFIX, tokens[0].Type);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[1].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+        Assert.AreEqual<int>(4, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.PREFIX, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[3].Type);
     }
 
     [TestMethod]
@@ -81,10 +81,10 @@ public sealed class PrefixLexerTests : TestWideInternalConstants
 
         tokens = lexer.Tokenize(inputString);
 
-        Assert.AreEqual(4, tokens.Count);
-        Assert.AreEqual(TokenType.PREFIX, tokens[0].Type);
-        Assert.AreEqual(TokenType.INSTRUCTION, tokens[1].Type);
-        Assert.AreEqual(TokenType.EOL, tokens[2].Type);
-        Assert.AreEqual(TokenType.EOF, tokens[3].Type);
+        Assert.AreEqual<int>(4, tokens.Count);
+        Assert.AreEqual<TokenType>(TokenType.PREFIX, tokens[0].Type);
+        Assert.AreEqual<TokenType>(TokenType.INSTRUCTION, tokens[1].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOL, tokens[2].Type);
+        Assert.AreEqual<TokenType>(TokenType.EOF, tokens[3].Type);
     }
 }
