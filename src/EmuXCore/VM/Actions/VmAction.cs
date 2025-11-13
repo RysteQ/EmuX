@@ -237,7 +237,7 @@ public class VmAction : IVmAction
             case Size.Word: return ((ulong)bytesToConvert[1] << 8) + (ulong)bytesToConvert[0];
             case Size.Dword: return ((ulong)bytesToConvert[3] << 24) + ((ulong)bytesToConvert[2] << 16) + ((ulong)bytesToConvert[1] << 8) + (ulong)bytesToConvert[0];
             case Size.Qword: return ((ulong)bytesToConvert[7] << 56) + ((ulong)bytesToConvert[6] << 48) + ((ulong)bytesToConvert[5] << 40) + ((ulong)bytesToConvert[4] << 32) + ((ulong)bytesToConvert[3] << 24) + ((ulong)bytesToConvert[2] << 16) + ((ulong)bytesToConvert[1] << 8) + (ulong)bytesToConvert[0];
-            default: throw new ArgumentException($"Cannot convert property {nameof(PreviousValue)} from invalid size {Size}");
+            default: throw new ArgumentException($"Cannot convert the value given in method {nameof(VmAction)}.{nameof(ConvertBytesToUlong)}, invalid size {Size}");
         }
     }
 
