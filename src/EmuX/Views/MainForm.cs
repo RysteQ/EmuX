@@ -2,6 +2,7 @@ using EmuX_Nano.Modules;
 using EmuX_Nano.Views;
 using EmuXCore;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
+using EmuXCore.Interpreter.Models;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
@@ -409,29 +410,37 @@ public partial class MainForm : Form
 
     private void executeToolStripMenuItem_Click(object sender, EventArgs e)
     {
-        ILexer lexer = DIFactory.GenerateILexer(DIFactory.GenerateIVirtualCPU(), DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
-        IParser parser = DIFactory.GenerateIParser(_virtualMachine, DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
-        IList<IToken> tokens = lexer.Tokenize(richTextboxAssemblyCode.Text);
-        IParserResult parserResult = parser.Parse(tokens);
-
-        if (!parserResult.Success)
+        try
         {
-            _errorsPopup = new(parserResult.Errors.ToArray());
-            _errorsPopup.Show();
+            ILexer lexer = DIFactory.GenerateILexer(DIFactory.GenerateIVirtualCPU(), DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
+            IParser parser = DIFactory.GenerateIParser(_virtualMachine, DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
+            IList<IToken> tokens = lexer.Tokenize(richTextboxAssemblyCode.Text);
+            IParserResult parserResult = parser.Parse(tokens);
 
-            return;
-        }
-
-        if (_executeCodeForm != null)
-        {
-            if (!_executeCodeForm.IsDisposed)
+            if (!parserResult.Success)
             {
-                _executeCodeForm.Close();
-            }
-        }
+                _errorsPopup = new(parserResult.Errors.ToArray());
+                _errorsPopup.Show();
 
-        _executeCodeForm = new(_virtualMachine, parserResult.Instructions.ToList(), parserResult.Labels.ToList());
-        _executeCodeForm.Show();
+                return;
+            }
+
+            if (_executeCodeForm != null)
+            {
+                if (!_executeCodeForm.IsDisposed)
+                {
+                    _executeCodeForm.Close();
+                }
+            }
+
+            _executeCodeForm = new(_virtualMachine, parserResult.Instructions.ToList(), parserResult.Labels.ToList());
+            _executeCodeForm.Show();
+        }
+        catch (Exception ex)
+        {
+            _errorsPopup = new([ex.Message]);
+            _errorsPopup.Show();
+        }
     }
 
     private PopupInput _popupInput;

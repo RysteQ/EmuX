@@ -1,11 +1,14 @@
-﻿using EmuXCore;
+﻿using EmuX_Nano.Modules;
+using EmuXCore;
 using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
+using EmuXCore.VM.Events;
 using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Events;
 
 namespace EmuX_Nano.Views;
 
@@ -67,7 +70,7 @@ public partial class ExecuteCodeForm : Form
 
     private void InitVideoOutput()
     {
-        Bitmap bitmap = new Bitmap(_interpreter.VirtualMachine.GPU.Width, _interpreter.VirtualMachine.GPU.Height);
+        _bitmap = new(_interpreter.VirtualMachine.GPU.Width, _interpreter.VirtualMachine.GPU.Height);
         byte[] rgbDataBuffer = new byte[3];
         int x = 0;
         int y = 0;
@@ -78,18 +81,53 @@ public partial class ExecuteCodeForm : Form
             rgbDataBuffer[1] = _interpreter.VirtualMachine.GPU.Data[i + 1];
             rgbDataBuffer[2] = _interpreter.VirtualMachine.GPU.Data[i + 2];
 
-            bitmap.SetPixel(x, y, Color.FromArgb(rgbDataBuffer[0], rgbDataBuffer[1], rgbDataBuffer[2]));
+            _bitmap.SetPixel(x, y, Color.FromArgb(rgbDataBuffer[0], rgbDataBuffer[1], rgbDataBuffer[2]));
 
             x++;
 
-            if (x == bitmap.Width)
+            if (x == _bitmap.Width)
             {
                 x = 0;
                 y++;
             }
         }
 
-        pictureBoxVideoOutput.Image = bitmap;
+        pictureBoxVideoOutput.Image = _bitmap;
+        pictureBoxVideoOutput.Update();
+    }
+
+    private void UpdateVideoOutput(IVideoCardAccess videoCardAccess)
+    {
+        using (Graphics graphics = Graphics.FromImage(_bitmap))
+        {
+            switch (videoCardAccess.Shape)
+            {
+                case EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts.VideoInterrupt.DrawBox:
+                    graphics.DrawRectangle(
+                        new Pen(Color.FromArgb(videoCardAccess.Red, videoCardAccess.Green, videoCardAccess.Blue)),
+                        videoCardAccess.StartX,
+                        videoCardAccess.StartY,
+                        videoCardAccess.EndX - videoCardAccess.StartX,
+                        videoCardAccess.EndY - videoCardAccess.StartY);
+
+                    break;
+
+                case EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts.VideoInterrupt.DrawLine:
+                    graphics.DrawLine(
+                        new Pen(Color.FromArgb(videoCardAccess.Red, videoCardAccess.Green, videoCardAccess.Blue)), 
+                        new Point(videoCardAccess.StartX, videoCardAccess.StartY), 
+                        new Point(videoCardAccess.EndX, videoCardAccess.EndY));
+
+                    break;
+                
+                case EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts.VideoInterrupt.DrawPixel:
+                    _bitmap.SetPixel(
+                        videoCardAccess.StartX, videoCardAccess.StartY, 
+                        Color.FromArgb(videoCardAccess.Red, videoCardAccess.Green, videoCardAccess.Blue));
+
+                    break;
+            }
+        }
     }
 
     private void RegisterVirtualMachineEvents()
@@ -122,7 +160,7 @@ public partial class ExecuteCodeForm : Form
         {
             for (int i = currentLine; i < label.Line; i++)
             {
-                offset += _instructionEncoderResult.Bytes[currentLine - 1].Length;
+                offset += 5; // DUMMY VALUE
             }
 
              _interpreter.VirtualMachine.Memory.LabelMemoryLocations.Add(label.Name, DIFactory.GenerateIMemoryLabel(label.Name, offset, label.Line));
@@ -133,7 +171,18 @@ public partial class ExecuteCodeForm : Form
 
     private void VirtualMachine_VideoCardAccessed(object? sender, EventArgs e)
     {
-        InitVideoOutput();
+        if (!_videoOutputInitialised)
+        {
+            _videoOutputInitialised = true;
+            InitVideoOutput();
+
+            return;
+        }
+
+        UpdateVideoOutput((IVideoCardAccess)e);
+
+        pictureBoxVideoOutput.Image = _bitmap;
+        pictureBoxVideoOutput.Update();
     }
 
     private string ConvertInstructiongToString(IInstruction instruction)
@@ -158,79 +207,120 @@ public partial class ExecuteCodeForm : Form
 
     private void buttonExecute_Click(object sender, EventArgs e)
     {
-        while (_interpreter.CurrentInstructionIndex < listBoxInstructions.Items.Count - _interpreter.Labels.Count - 1)
+        try
         {
-            _interpreter.ExecuteStep();
-            listBoxInstructions.SelectedIndex++;
-
-            if (listBoxInstructions.SelectedItems[0].ToString().EndsWith(':'))
+            while (_interpreter.CurrentInstructionIndex < listBoxInstructions.Items.Count - _interpreter.Labels.Count - 1)
             {
-                listBoxInstructions.SelectedIndex++;
-            }
-        }
+                _interpreter.ExecuteStep();
+                listBoxInstructions.SelectedIndex = _interpreter.CurrentInstructionIndex;
 
-        _interpreter.ExecuteStep();
+                if (listBoxInstructions.SelectedItems[0].ToString().EndsWith(':'))
+                {
+                    listBoxInstructions.SelectedIndex++;
+                }
+            }
+
+            _interpreter.ExecuteStep();
+        }
+        catch (Exception ex)
+        {
+            _errorsPopup = new([ex.Message]);
+            _errorsPopup.Show();
+        }
     }
 
     private void buttonStep_Click(object sender, EventArgs e)
     {
-        _interpreter.ExecuteStep();
-
-        if (_interpreter.CurrentInstructionIndex < listBoxInstructions.Items.Count)
+        try
         {
-            listBoxInstructions.SelectedIndex = _interpreter.CurrentInstructionIndex;
+            _interpreter.ExecuteStep();
 
-            if (listBoxInstructions.SelectedItems[0].ToString().EndsWith(':'))
+            if (_interpreter.CurrentInstructionIndex < listBoxInstructions.Items.Count)
             {
-                listBoxInstructions.SelectedIndex--;
+                listBoxInstructions.SelectedIndex = _interpreter.CurrentInstructionIndex;
+
+                if (listBoxInstructions.SelectedItems[0].ToString().EndsWith(':'))
+                {
+                    listBoxInstructions.SelectedIndex--;
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            _errorsPopup = new([ex.Message]);
+            _errorsPopup.Show();
         }
     }
 
     private void buttonUndo_Click(object sender, EventArgs e)
     {
-        _interpreter.UndoAction();
-
-        listBoxInstructions.SelectedIndex--;
-
-        if (listBoxInstructions.SelectedIndex == -1)
+        try
         {
-            listBoxInstructions.SelectedIndex++;
+            _interpreter.UndoAction();
 
-            return;
-        }
+            listBoxInstructions.SelectedIndex--;
 
-        if (listBoxInstructions.SelectedIndex != -1)
-        {
-            if (listBoxInstructions.SelectedItems[0].ToString().EndsWith(':'))
+            if (listBoxInstructions.SelectedIndex == -1)
             {
-                listBoxInstructions.SelectedIndex--;
+                listBoxInstructions.SelectedIndex++;
+
+                return;
             }
+
+            if (listBoxInstructions.SelectedIndex != -1)
+            {
+                if (listBoxInstructions.SelectedItems[0].ToString().EndsWith(':'))
+                {
+                    listBoxInstructions.SelectedIndex--;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _errorsPopup = new([ex.Message]);
+            _errorsPopup.Show();
         }
     }
 
     private void buttonRedo_Click(object sender, EventArgs e)
     {
-        _interpreter.RedoAction();
-
-        if (_interpreter.CurrentInstructionIndex < listBoxInstructions.Items.Count)
+        try
         {
-            listBoxInstructions.SelectedIndex = _interpreter.CurrentInstructionIndex;
+            _interpreter.RedoAction();
 
-            if (listBoxInstructions.SelectedItems[0].ToString().EndsWith(':'))
+            if (_interpreter.CurrentInstructionIndex < listBoxInstructions.Items.Count)
             {
-                listBoxInstructions.SelectedIndex++;
+                listBoxInstructions.SelectedIndex = _interpreter.CurrentInstructionIndex;
+
+                if (listBoxInstructions.SelectedItems[0].ToString().EndsWith(':'))
+                {
+                    listBoxInstructions.SelectedIndex++;
+                }
             }
+        }
+        catch (Exception ex)
+        {
+            _errorsPopup = new([ex.Message]);
+            _errorsPopup.Show();
         }
     }
 
     private void buttonReset_Click(object sender, EventArgs e)
     {
-        _interpreter.ResetExecution();
+        try
+        {
+            _interpreter.ResetExecution();
+            _videoOutputInitialised = false;
 
-        InitSelectedInstruction();
+            InitSelectedInstruction();
 
-        ResetCodeExecution?.Invoke(this, EventArgs.Empty);
+            ResetCodeExecution?.Invoke(this, EventArgs.Empty);
+        }
+        catch (Exception ex)
+        {
+            _errorsPopup = new([ex.Message]);
+            _errorsPopup.Show();
+        }
     }
 
     public event EventHandler? ResetCodeExecution;
@@ -238,4 +328,7 @@ public partial class ExecuteCodeForm : Form
     private readonly IInterpreter _interpreter;
     private readonly IInstructionEncoder _instructionEncoder;
     private IInstructionEncoderResult _instructionEncoderResult;
+    private bool _videoOutputInitialised = false;
+    private Bitmap _bitmap;
+    private ErrorsPopup _errorsPopup;
 }
