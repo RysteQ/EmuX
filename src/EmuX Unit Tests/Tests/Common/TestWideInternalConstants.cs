@@ -46,7 +46,7 @@ public class TestWideInternalConstants
     protected IInstructionLookup GenerateInstructionLookup() => DIFactory.GenerateIInstructionLookup();
     protected IPrefixLookup GeneratePrefixLookup() => DIFactory.GenerateIPrefixLookup();
     protected IInstructionEncoder GenerateInstructionEncoder() => DIFactory.GenerateIInstructionEncoder(GenerateVirtualMachine(), GenerateOperandDecoder());
-    protected IInstruction GenerateInstruction<T>(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) where T : IInstruction => (T)Activator.CreateInstance(typeof(T), new object[] { variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor });
+    protected IInstruction GenerateInstruction<T>(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes = 5) where T : IInstruction => (T)Activator.CreateInstance(typeof(T), new object[] { variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, bytes });
 
     protected IVirtualCPU GenerateVirtualCPU() => DIFactory.GenerateIVirtualCPU();
     protected IVirtualMemory GenerateVirtualMemory() => DIFactory.GenerateIVirtualMemory();
