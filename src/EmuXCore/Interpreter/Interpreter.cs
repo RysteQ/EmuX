@@ -21,31 +21,32 @@ public class Interpreter : IInterpreter
 
     public void ExecuteStep()
     {
-        if (!_instructions.Any() || _currentInstructionIndex == _instructions.Count)
+        ulong currentInstructionPointer = _virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP;
+
+        if (!_instructions.Any() || _currentInstructionIndex == _instructions.Count - 1)
         {
             return;
         }
 
         _memoryInstructionLookupTable[_virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP].Execute(_virtualMachine);
+        _currentInstructionIndex = _memoryInstructionLookupTable.Select(selector => selector.Key).ToList().IndexOf(currentInstructionPointer);
 
         if (!_actions.ContainsKey(_currentInstructionIndex))
         {
             _actions.Add(_currentInstructionIndex, [.. _virtualMachine.Actions.TakeLast(_virtualMachine.Actions.Count - _actions.Values.Sum(selectedRecord => selectedRecord.Count))]);
         }
-
-        _currentInstructionIndex = _memoryInstructionLookupTable.Select(selector => selector.Key).ToList().IndexOf(_virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP);
     }
 
     public void UndoAction()
     {
-        if (_currentInstructionIndex == 0)
+        if (_currentInstructionIndex == -1)
         {
             return;
         }
 
-        for (int i = _actions[_currentInstructionIndex - 1].Count - 1; i >= 0; i--)
+        for (int i = _actions[_currentInstructionIndex].Count - 1; i >= 0; i--)
         {
-            _actions[_currentInstructionIndex - 1][i].Undo(_virtualMachine);
+            _actions[_currentInstructionIndex][i].Undo(_virtualMachine);
         }
 
         _currentInstructionIndex--;
@@ -61,14 +62,14 @@ public class Interpreter : IInterpreter
 
     public void RedoAction()
     {
-        if (_currentInstructionIndex == _actions.Count)
+        if (_currentInstructionIndex >= _actions.Count - 1)
         {
             return;
         }
 
-        for (int i = _actions[_currentInstructionIndex].Count - 1; i >= 0; i--)
+        for (int i = _actions[_currentInstructionIndex + 1].Count - 1; i >= 0; i--)
         {
-            _actions[_currentInstructionIndex][i].Redo(_virtualMachine);
+            _actions[_currentInstructionIndex + 1][i].Redo(_virtualMachine);
         }
 
         _currentInstructionIndex++;
@@ -106,7 +107,7 @@ public class Interpreter : IInterpreter
         _instructionEncoder = DIFactory.GenerateIInstructionEncoder(_virtualMachine, DIFactory.GenerateIOperandDecoder());
         _memoryInstructionLookupTable.Clear();
         _actions.Clear();
-        _currentInstructionIndex = 0;
+        _currentInstructionIndex = -1;
 
         if (_instructions.Any())
         {
@@ -115,7 +116,7 @@ public class Interpreter : IInterpreter
             for (int i = 0; i < _instructions.Count; i++)
             {
                 _memoryInstructionLookupTable.Add(memoryOffset, _instructions[i]);
-                memoryOffset += (ulong)(_instructionEncoderResult.Bytes[i].Length);
+                memoryOffset += _instructions[i].Bytes;
             }
         }
     }

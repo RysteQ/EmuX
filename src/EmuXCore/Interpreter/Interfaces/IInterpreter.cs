@@ -67,7 +67,7 @@ public interface IInterpreter
     public IInstruction CurrentInstruction { get; }
 
     /// <summary>
-    /// The current instruction index being executed
+    /// The current instruction index being executed, -1 if no instruction has been executed / all actions have been undone
     /// </summary>
     public int CurrentInstructionIndex { get; }
 }
