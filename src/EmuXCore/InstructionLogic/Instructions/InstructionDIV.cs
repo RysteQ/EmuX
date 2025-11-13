@@ -11,7 +11,7 @@ namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionDIV : IInstruction
 {
-    public InstructionDIV(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
+    public InstructionDIV(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes)
     {
         Variant = variant;
         Prefix = prefix;
@@ -20,8 +20,7 @@ public sealed class InstructionDIV : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
-
-        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
+        Bytes = bytes;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
@@ -31,6 +30,8 @@ public sealed class InstructionDIV : IInstruction
 
         if (toDivideBy == 0)
         {
+            virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
             throw new Exception("Cannot divide by zero");
         }
 
@@ -41,6 +42,8 @@ public sealed class InstructionDIV : IInstruction
 
                 if (divisionResult.Quotient > byte.MaxValue)
                 {
+                    virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
                     throw new Exception($"Result is larger than what a {Size.Byte} can handle");
                 }
 
@@ -54,6 +57,8 @@ public sealed class InstructionDIV : IInstruction
 
                 if (divisionResult.Quotient > ushort.MaxValue)
                 {
+                    virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
                     throw new Exception($"Result is larger than what a {Size.Word} can handle");
                 }
 
@@ -67,6 +72,8 @@ public sealed class InstructionDIV : IInstruction
 
                 if (divisionResult.Quotient > uint.MaxValue)
                 {
+                    virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
                     throw new Exception($"Result is larger than what a {Size.Dword} can handle");
                 }
 
@@ -80,6 +87,8 @@ public sealed class InstructionDIV : IInstruction
 
                 if (bigDivisionResult.Quotient > ulong.MaxValue)
                 {
+                    virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
                     throw new Exception($"Result is larger than what a {Size.Qword} can handle");
                 }
 

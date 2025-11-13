@@ -11,7 +11,7 @@ namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionLOOP : IInstruction
 {
-    public InstructionLOOP(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
+    public InstructionLOOP(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes)
     {
         Variant = variant;
         Prefix = prefix;
@@ -20,8 +20,7 @@ public sealed class InstructionLOOP : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
-
-        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
+        Bytes = bytes;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
@@ -41,8 +40,10 @@ public sealed class InstructionLOOP : IInstruction
         {
             virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)virtualMachine.Memory.LabelMemoryLocations[FirstOperand!.Offsets.First().FullOperand].Address;
         }
-
-        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+        else
+        {
+            virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+        }
     }
 
     public bool IsValid()

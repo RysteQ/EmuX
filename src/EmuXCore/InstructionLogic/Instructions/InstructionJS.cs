@@ -10,7 +10,7 @@ namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionJS : IInstruction
 {
-    public InstructionJS(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
+    public InstructionJS(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes)
     {
         Variant = variant;
         Prefix = prefix;
@@ -19,8 +19,7 @@ public sealed class InstructionJS : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
-
-        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
+        Bytes = bytes;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
@@ -29,8 +28,10 @@ public sealed class InstructionJS : IInstruction
         {
             virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)virtualMachine.Memory.LabelMemoryLocations[FirstOperand!.FullOperand].Address;
         }
-
-        virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+        else
+        {
+            virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+        }
     }
 
     public bool IsValid()

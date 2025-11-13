@@ -11,7 +11,7 @@ namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionIDIV : IInstruction
 {
-    public InstructionIDIV(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
+    public InstructionIDIV(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes)
     {
         Variant = variant;
         Prefix = prefix;
@@ -20,8 +20,7 @@ public sealed class InstructionIDIV : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
-
-        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
+        Bytes = bytes;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
@@ -31,6 +30,8 @@ public sealed class InstructionIDIV : IInstruction
 
         if (toDivideBy == 0)
         {
+            virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
             throw new Exception("Cannot divide by zero");
         }
 
@@ -41,6 +42,8 @@ public sealed class InstructionIDIV : IInstruction
 
                 if (divisionResult.Quotient > 0x7f || divisionResult.Quotient > 0x80)
                 {
+                    virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
                     throw new Exception($"Divide error");
                 }
 
@@ -54,6 +57,8 @@ public sealed class InstructionIDIV : IInstruction
 
                 if (divisionResult.Quotient > 0x7fff || divisionResult.Quotient > 0x8000)
                 {
+                    virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
                     throw new Exception($"Divide error");
                 }
 
@@ -67,6 +72,8 @@ public sealed class InstructionIDIV : IInstruction
 
                 if (divisionResult.Quotient > 0x7fffffff || divisionResult.Quotient > 0x80000000)
                 {
+                    virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
                     throw new Exception($"Divide error");
                 }
 
@@ -80,6 +87,8 @@ public sealed class InstructionIDIV : IInstruction
 
                 if (bigDivisionResult.Quotient > 0x7fffffffffffffff || bigDivisionResult.Quotient > 0x8000000000000000)
                 {
+                    virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
                     throw new Exception($"Divide error");
                 }
 

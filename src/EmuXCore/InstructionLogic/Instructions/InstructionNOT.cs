@@ -11,7 +11,7 @@ namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionNOT : IInstruction
 {
-    public InstructionNOT(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
+    public InstructionNOT(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes)
     {
         Variant = variant;
         Prefix = prefix;
@@ -20,8 +20,7 @@ public sealed class InstructionNOT : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
-
-        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
+        Bytes = bytes;
     }
 
     public void Execute(IVirtualMachine virtualMachine)

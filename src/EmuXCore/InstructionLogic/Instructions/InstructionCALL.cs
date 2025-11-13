@@ -10,7 +10,7 @@ namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionCALL : IInstruction
 {
-    public InstructionCALL(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
+    public InstructionCALL(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes)
     {
         Variant = variant;
         Prefix = prefix;
@@ -19,19 +19,26 @@ public sealed class InstructionCALL : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
-
-        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
+        Bytes = bytes;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
     {
         switch (FirstOperand!.OperandSize)
         {
-            case Size.Byte: throw new ArgumentException($"Cannot call when the size of the operand is of type {nameof(Size.Byte)}");
+            case Size.Byte:
+                virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
+                throw new ArgumentException($"Cannot call when the size of the operand is of type {nameof(Size.Byte)}");
+            
             case Size.Word: virtualMachine.PushWord(virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().IP); break;
             case Size.Dword: virtualMachine.PushDouble(virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().EIP); break;
             case Size.Qword: virtualMachine.PushQuad(virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP); break;
-            default: throw new ArgumentException($"Unknown operand size for {nameof(FirstOperand.OperandSize)}");
+            
+            default:
+                virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
+                throw new ArgumentException($"Unknown operand size for {nameof(FirstOperand.OperandSize)}");
         }
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)OperandDecoder.GetInstructionMemoryAddress(virtualMachine.Memory, FirstOperand!);

@@ -13,7 +13,7 @@ namespace EmuXCore.InstructionLogic.Instructions;
 
 public sealed class InstructionINTO : IInstruction
 {
-    public InstructionINTO(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder)
+    public InstructionINTO(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes)
     {
         Variant = variant;
         Prefix = prefix;
@@ -22,8 +22,7 @@ public sealed class InstructionINTO : IInstruction
         ThirdOperand = thirdOperand;
         OperandDecoder = operandDecoder;
         FlagStateProcessor = flagStateProcessor;
-
-        Bytes = (ulong)instructionEncoder.Parse([this]).Bytes.First().Length;
+        Bytes = bytes;
     }
 
     public void Execute(IVirtualMachine virtualMachine)
@@ -33,11 +32,15 @@ public sealed class InstructionINTO : IInstruction
 
         if (!virtualMachine.GetFlag(EFlags.OF))
         {
+            virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
             return;
         }
 
         if (!Enum.IsDefined(typeof(InterruptCode), interruptCode))
         {
+            virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
+
             throw new Exception($"Interrupt code {interruptCode} has not been defined");
         }
 
