@@ -11,7 +11,7 @@ public class InstructionConstants<T> : TestWideInternalConstants where T : IInst
 {
     protected T GenerateInstruction(InstructionVariant? variant = null, IPrefix? prefix = null, IOperand? firstOperand = null, IOperand? secondOperand = null, IOperand? thirdOperand = null)
     {
-        return (T)Activator.CreateInstance(typeof(T), new object[] { variant ?? InstructionVariant.NoOperands(), prefix, firstOperand, secondOperand, thirdOperand, GenerateOperandDecoder(), GenerateFlagStateProcessor(), GenerateIInstructionEncoder() });
+        return (T)Activator.CreateInstance(typeof(T), new object[] { variant ?? InstructionVariant.NoOperands(), prefix, firstOperand, secondOperand, thirdOperand, GenerateOperandDecoder(), GenerateFlagStateProcessor(), (ulong)5 });
     }
 
     protected IOperand GenerateOperand(string fullOperand, OperandVariant variant, Size size, IMemoryOffset[]? offsets = null)
