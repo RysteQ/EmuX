@@ -4,6 +4,7 @@ using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
+using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 using EmuXCoreUnitTests.Tests.Instructions.Internal;
 
 namespace EmuXCoreUnitTests.Tests.Instructions;
@@ -16,7 +17,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction();
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -24,7 +25,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandValue(), GeneratePrefix(), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -32,7 +33,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandRegister(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -40,7 +41,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -48,7 +49,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandLabel(), GeneratePrefix(), GenerateOperand("test_label", OperandVariant.Label, Size.Byte, []));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -56,7 +57,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterValue(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -64,7 +65,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterRegister(), GeneratePrefix(), GenerateOperand("dx", OperandVariant.Register, Size.Word), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
-        Assert.AreEqual(true, instruction.IsValid());
+        Assert.AreEqual<bool>(true, instruction.IsValid());
     }
 
     [TestMethod]
@@ -72,7 +73,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GeneratePrefix(), GenerateOperand("ax", OperandVariant.Register, Size.Word), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "[test_label]")]));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -80,7 +81,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -88,7 +89,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -96,7 +97,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsValueRegister(), GeneratePrefix(), GenerateOperand("10", OperandVariant.Value, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
-        Assert.AreEqual(true, instruction.IsValid());
+        Assert.AreEqual<bool>(true, instruction.IsValid());
     }
 
     [TestMethod]
@@ -104,7 +105,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterRegisterValue(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -112,7 +113,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -124,7 +125,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
         {
             IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterRegister(), prefix, GenerateOperand("dx", OperandVariant.Register, Size.Word), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
-            Assert.AreEqual(validPrefixes.Any(selectedPrefix => selectedPrefix.Type == prefix.Type), instruction.IsValid());
+            Assert.AreEqual<bool>(validPrefixes.Any(selectedPrefix => selectedPrefix.Type == prefix.Type), instruction.IsValid());
         }
     }
 
@@ -139,6 +140,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<byte>(10, virtualMachine.GetByte(64));
+        Assert.AreNotEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP);
     }
 
     [TestMethod]
@@ -152,6 +154,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<ushort>(1390, virtualMachine.GetWord(64));
+        Assert.AreNotEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP);
     }
 
     [TestMethod]
@@ -165,6 +168,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<uint>(729810, virtualMachine.GetDouble(64));
+        Assert.AreNotEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP);
     }
 
     [TestMethod]
@@ -179,6 +183,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<byte>(10, virtualMachine.GetByte(1024));
+        Assert.AreNotEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP);
     }
 
     [TestMethod]
@@ -193,6 +198,7 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<ushort>(1082, virtualMachine.GetWord(1024));
+        Assert.AreNotEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP);
     }
 
     [TestMethod]
@@ -207,5 +213,6 @@ public sealed class InstructionOUTTests : InstructionConstants<InstructionOUT>
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<uint>(2817283, virtualMachine.GetDouble(1024));
+        Assert.AreNotEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP);
     }
 }

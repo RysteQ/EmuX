@@ -16,7 +16,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction();
 
-        Assert.AreEqual(true, instruction.IsValid());
+        Assert.AreEqual<bool>(true, instruction.IsValid());
     }
 
     [TestMethod]
@@ -24,7 +24,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandValue(), GeneratePrefix(), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -32,7 +32,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandRegister(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -48,7 +48,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandLabel(), GeneratePrefix(), GenerateOperand("test_label", OperandVariant.Label, Size.Byte, []));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -56,7 +56,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterValue(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -64,7 +64,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterRegister(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -72,7 +72,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsRegisterMemory(), GeneratePrefix(), GenerateOperand("ax", OperandVariant.Register, Size.Word), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Word, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "[test_label]")]));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -80,7 +80,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryValue(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -88,7 +88,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -96,7 +96,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.TwoOperandsMemoryRegister(), GeneratePrefix(), GenerateOperand("10", OperandVariant.Value, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -104,7 +104,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterRegisterValue(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -112,7 +112,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.ThreeOperandsRegisterMemoryValue(), GeneratePrefix(), GenerateOperand("al", OperandVariant.Register, Size.Byte), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, []), GenerateOperand("10", OperandVariant.Value, Size.Byte));
 
-        Assert.AreEqual(false, instruction.IsValid());
+        Assert.AreEqual<bool>(false, instruction.IsValid());
     }
 
     [TestMethod]
@@ -124,7 +124,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
         {
             IInstruction instruction = GenerateInstruction(null, prefix);
 
-            Assert.AreEqual(validPrefixes.Any(selectedPrefix => selectedPrefix.Type == prefix.Type), instruction.IsValid());
+            Assert.AreEqual<bool>(validPrefixes.Any(selectedPrefix => selectedPrefix.Type == prefix.Type), instruction.IsValid());
         }
     }
 
@@ -138,6 +138,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
         instruction.Execute(virtualMachine);
 
         Assert.AreEqual<uint>(0, virtualMachine.PopDouble());
+        Assert.AreNotEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP);
     }
 
     [TestMethod]
@@ -150,6 +151,7 @@ public sealed class InstructionPUSHFDTests : InstructionConstants<InstructionPUS
         virtualMachine.CPU.GetRegister<VirtualRegisterEFLAGS>().EFLAGS = valueToPushAndPop;
         instruction.Execute(virtualMachine);
 
-        Assert.AreEqual(valueToPushAndPop, virtualMachine.PopDouble());
+        Assert.AreEqual<uint>(valueToPushAndPop, virtualMachine.PopDouble());
+        Assert.AreNotEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP);
     }
 }
