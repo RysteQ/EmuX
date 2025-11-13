@@ -68,7 +68,7 @@ public static class DIFactory
     /// <param name="operandDecoder">The operand decoder needed for decoding the operands of the IInstruction</param>
     /// <param name="flagStateProcessor">The flag state processor of the IInstruction needed for updating the CPU flags</param>
     /// <returns>The implementation of IInstruction</returns>
-    public static IInstruction GenerateIInstruction(Type type, InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) => (IInstruction)Activator.CreateInstance(type, variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor)!;
+    public static IInstruction GenerateIInstruction(Type type, InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) => (IInstruction)Activator.CreateInstance(type, variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, (ulong)5)!;
 
     /// <summary>
     /// Generates an instance of IInstruction
@@ -83,7 +83,7 @@ public static class DIFactory
     /// <param name="flagStateProcessor">The flag state processor of the IInstruction needed for updating the CPU flags</param>
     /// <param name="instructionEncoder">The flag state processor of the IInstruction needed to get the length of the instruction in bytes</param>
     /// <returns>The implementation of IInstruction</returns>
-    public static IInstruction GenerateIInstruction(Type type, Type prefix, InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, IInstructionEncoder instructionEncoder) => (IInstruction)Activator.CreateInstance(type, variant, Activator.CreateInstance(prefix), firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, instructionEncoder)!;
+    public static IInstruction GenerateIInstruction(Type type, Type prefix, InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes) => (IInstruction)Activator.CreateInstance(type, variant, Activator.CreateInstance(prefix), firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, bytes)!;
 
     /// <summary>
     /// Generates an instance of IMemoryOffset
