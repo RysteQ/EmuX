@@ -1,6 +1,6 @@
 # Contributing
 
-EmuX is open to all kinds of contribution given it is a FOSS. With that said there are some limitation when contributing that must be covered for EmuX to keep a certain level of consistency and a standard in terms of quality of code.
+EmuX is open to all kinds of contribution given it is source available. With that said there are some limitation when contributing that must be covered for EmuX to keep a certain level of consistency and a standard in terms of quality of code.
 
 ## Optimisation is second priority
 
@@ -8,7 +8,7 @@ We all love optimised code, but optimised code may have a negative effect in the
 
 ## The user is above all
 
-Although this is a hobby project of mine that doesn't mean I place myself above the user. The user is of the upmost priority, so much so that any software that doesn't place the user on top is not open source software, but just another hobby project by the programmers for themselves and no one else.
+Although this is a hobby project of mine that doesn't mean I place myself above the user. The user is of the upmost priority, so much so that any software that doesn't place the user on top is not open source software or source available, but just another hobby project by the programmers for themselves and no one else.
 
 ## Depedency injection is a must
 
@@ -16,8 +16,8 @@ Depedency injection is a must for this code base, for this reason alone if we ar
 
 ## Consistency
 
-Consistency is important, for it allows a developer to easily navigate around and understand the code much easier if they are used to a consistent codebase.
+Consistency is important for it allows a developer to easily navigate around and understand the code much easier if they are used to a consistent codebase.
 
 ## EmuX versus EmuXCore
 
-EmuX is not the same as EmuXCore. EmuXCore is, asthe name suggest, the core of the application, that means it is UI agnostic but carries the core functionality which allows us to make it cross platform. EmuX on the other hand is the entirety of the project, EmuXCore included as well as the unit tests and all UI solutions.
+EmuX is not the same as EmuXCore. EmuXCore is, as the name suggests, the core of the application, that means it is UI agnostic but carries the core functionality which allows us to make it cross platform. EmuX on the other hand is the entirety of the project, EmuXCore included as well as the unit tests and all UI solutions.
