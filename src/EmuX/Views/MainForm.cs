@@ -415,6 +415,7 @@ public partial class MainForm : Form
             ILexer lexer = DIFactory.GenerateILexer(DIFactory.GenerateIVirtualCPU(), DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
             IParser parser = DIFactory.GenerateIParser(_virtualMachine, DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
             IList<IToken> tokens = lexer.Tokenize(richTextboxAssemblyCode.Text);
+            IList<int> sameNameLabels = [];
             IParserResult parserResult = parser.Parse(tokens);
 
             if (!parserResult.Success)
@@ -432,6 +433,27 @@ public partial class MainForm : Form
                     _executeCodeForm.Close();
                 }
             }
+
+            for (int i = 0; i < parserResult.Labels.Count; i++)
+            {
+                for (int j = i + 1; j < parserResult.Labels.Count; j++)
+                {
+                    if (parserResult.Labels[i].Name == parserResult.Labels[j].Name)
+                    {
+                        sameNameLabels.Add(j);
+                    }
+                }
+            }
+
+            if (sameNameLabels.Any())
+            {
+                _errorsPopup = new([$"Cannot have same named labels, lines to look at [{string.Join('\n', sameNameLabels.Select(selector => selector.ToString()).ToList())}]"]);
+                _errorsPopup.Show();
+
+                return;
+            }
+
+            _virtualMachine.Memory.LabelMemoryLocations.Clear();
 
             _executeCodeForm = new(_virtualMachine, parserResult.Instructions.ToList(), parserResult.Labels.ToList());
             _executeCodeForm.Show();

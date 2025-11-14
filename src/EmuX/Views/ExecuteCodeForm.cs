@@ -23,7 +23,7 @@ public partial class ExecuteCodeForm : Form
         _interpreter.VirtualMachine = virtualMachine;
         _interpreter.Instructions = instructions;
         _interpreter.Labels = labels;
-        
+
         InitUserInterface();
         RegisterVirtualMachineEvents();
         InitEncodedInstructionsInMemory();
@@ -47,7 +47,11 @@ public partial class ExecuteCodeForm : Form
             return;
         }
 
-        InitSelectedInstruction();
+        if (_interpreter.Instructions.Any())
+        {
+            InitSelectedInstruction();
+        }
+
         InitVideoOutput();
     }
 
@@ -114,15 +118,15 @@ public partial class ExecuteCodeForm : Form
 
                 case EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts.VideoInterrupt.DrawLine:
                     graphics.DrawLine(
-                        new Pen(Color.FromArgb(videoCardAccess.Red, videoCardAccess.Green, videoCardAccess.Blue)), 
-                        new Point(videoCardAccess.StartX, videoCardAccess.StartY), 
+                        new Pen(Color.FromArgb(videoCardAccess.Red, videoCardAccess.Green, videoCardAccess.Blue)),
+                        new Point(videoCardAccess.StartX, videoCardAccess.StartY),
                         new Point(videoCardAccess.EndX, videoCardAccess.EndY));
 
                     break;
-                
+
                 case EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts.VideoInterrupt.DrawPixel:
                     _bitmap.SetPixel(
-                        videoCardAccess.StartX, videoCardAccess.StartY, 
+                        videoCardAccess.StartX, videoCardAccess.StartY,
                         Color.FromArgb(videoCardAccess.Red, videoCardAccess.Green, videoCardAccess.Blue));
 
                     break;
@@ -163,7 +167,9 @@ public partial class ExecuteCodeForm : Form
                 offset += 5; // DUMMY VALUE
             }
 
-             _interpreter.VirtualMachine.Memory.LabelMemoryLocations.Add(label.Name, DIFactory.GenerateIMemoryLabel(label.Name, offset, label.Line));
+            offset -= 5;
+
+            _interpreter.VirtualMachine.Memory.LabelMemoryLocations.Add(label.Name, DIFactory.GenerateIMemoryLabel(label.Name, offset + 5, label.Line));
 
             currentLine = label.Line;
         }
@@ -323,6 +329,18 @@ public partial class ExecuteCodeForm : Form
         }
     }
 
+    private void listBoxInstructions_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (_changingIndex)
+        {
+            return;
+        }
+
+        _changingIndex = true;
+        listBoxInstructions.SelectedIndex = _interpreter.CurrentInstructionIndex;
+        _changingIndex = false;
+    }
+
     public event EventHandler? ResetCodeExecution;
 
     private readonly IInterpreter _interpreter;
@@ -331,4 +349,5 @@ public partial class ExecuteCodeForm : Form
     private bool _videoOutputInitialised = false;
     private Bitmap _bitmap;
     private ErrorsPopup _errorsPopup;
+    private bool _changingIndex = false;
 }

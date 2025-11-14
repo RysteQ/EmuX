@@ -45,8 +45,9 @@
             listBoxInstructions.FormattingEnabled = true;
             listBoxInstructions.Location = new Point(12, 12);
             listBoxInstructions.Name = "listBoxInstructions";
-            listBoxInstructions.Size = new Size(385, 229);
+            listBoxInstructions.Size = new Size(386, 229);
             listBoxInstructions.TabIndex = 0;
+            listBoxInstructions.SelectedIndexChanged += listBoxInstructions_SelectedIndexChanged;
             // 
             // buttonExecute
             // 
