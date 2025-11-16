@@ -2,7 +2,7 @@
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
-namespace EmuXCore.VM.Internal.BIOS.Internal;
+namespace EmuXCore.VM.Internal.BIOS.InterruptHandlers;
 
 public class RTCInterruptHandler : IRTCInterruptHandler
 {

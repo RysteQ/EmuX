@@ -5,7 +5,7 @@ using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
-using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
+using EmuXCore.VM.Internal.CPU.Registers.SegmentRegisters;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.VM.Actions;

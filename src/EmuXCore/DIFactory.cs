@@ -25,7 +25,7 @@ using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Interfaces.Events;
 using EmuXCore.VM.Internal.BIOS;
-using EmuXCore.VM.Internal.BIOS.Internal;
+using EmuXCore.VM.Internal.BIOS.InterruptHandlers;
 using EmuXCore.VM.Internal.CPU;
 using EmuXCore.VM.Internal.Disk;
 using EmuXCore.VM.Internal.GPUs;

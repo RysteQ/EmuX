@@ -6,7 +6,7 @@ using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
-using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
+using EmuXCore.VM.Internal.CPU.Registers.SegmentRegisters;
 
 namespace EmuXCore.InstructionLogic.Instructions;
 
