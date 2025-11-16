@@ -1,7 +1,7 @@
-using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
+using EmuXCore.VM.Internal.CPU.Registers.SegmentRegisters;
 using EmuXCoreUnitTests.Tests.Common;
 
-namespace EmuXCoreUnitTests.Tests.VM.Registers.SubRegisters;
+namespace EmuXCoreUnitTests.Tests.VM.Registers.SegmentRegisters;
 
 [TestClass]
 public sealed class VirtualRegisterCSTests : TestWideInternalConstants

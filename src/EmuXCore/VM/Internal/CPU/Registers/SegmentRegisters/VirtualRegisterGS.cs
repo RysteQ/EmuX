@@ -3,7 +3,7 @@ using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 
-namespace EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
+namespace EmuXCore.VM.Internal.CPU.Registers.SegmentRegisters;
 
 public class VirtualRegisterGS : IVirtualRegister
 {

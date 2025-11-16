@@ -3,7 +3,7 @@ using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using System.Drawing;
 
-namespace EmuXCore.VM.Internal.BIOS.Internal;
+namespace EmuXCore.VM.Internal.BIOS.InterruptHandlers;
 
 public class VideoInterruptHandler : IVideoInterruptHandler
 {

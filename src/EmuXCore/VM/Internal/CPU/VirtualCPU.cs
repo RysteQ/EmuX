@@ -4,7 +4,7 @@ using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.CPU.Registers;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
-using EmuXCore.VM.Internal.CPU.Registers.SubRegisters;
+using EmuXCore.VM.Internal.CPU.Registers.SegmentRegisters;
 
 namespace EmuXCore.VM.Internal.CPU;
 
