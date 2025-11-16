@@ -17,3 +17,5 @@ Lastly you also need to modify the `Interrupt` method inside the `IVirtualMachin
 ## Using an existing BIOS interrupt
 
 If the interrupt already exist then you should modify the interrupt handler class inside of the `EmuXCore\VM\Internal\BIOS\InterruptHandlers` to add the new interrupt method. Once that is done you need to modify the `IVirtualBIOS` implementation to handle the new interrupt handler method.
+
+Remember to also update the `BIOS interrupts` list for any and all interrupts.
