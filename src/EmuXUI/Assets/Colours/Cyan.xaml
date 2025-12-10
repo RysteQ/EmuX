@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key = "Cyan50">#E0F7FA</Color>
+    <Color x:Key = "Cyan100">#B2EBF2</Color>
+    <Color x:Key = "Cyan200">#80DEEA</Color>
+    <Color x:Key = "Cyan300">#4DD0E1</Color>
+    <Color x:Key = "Cyan400">#26C6DA</Color>
+    <Color x:Key = "Cyan500">#00BCD4</Color>
+    <Color x:Key = "Cyan600">#00ACC1</Color>
+    <Color x:Key = "Cyan700">#0097A7</Color>
+    <Color x:Key = "Cyan800">#00838F</Color>
+    <Color x:Key = "Cyan900">#006064</Color>
+    <Color x:Key = "CyanA100">#84FFFF</Color>
+    <Color x:Key = "CyanA200">#18FFFF</Color>
+    <Color x:Key = "CyanA400">#00E5FF</Color>
+    <Color x:Key = "CyanA700">#00B8D4</Color>
+    
+</ResourceDictionary>

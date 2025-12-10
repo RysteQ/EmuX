@@ -6,8 +6,12 @@ namespace EmuXCore.VM.Internal.Memory;
 
 public class VirtualMemory : IVirtualMemory
 {
-    public VirtualMemory(IVirtualMachine? parentVirtualMachine = null)
+    public VirtualMemory(uint ioMemory, uint videoMemory, uint generalPurposeMemory, IVirtualMachine? parentVirtualMachine = null)
     {
+        IO_MEMORY = ioMemory;
+        VIDEO_MEMORY = videoMemory;
+        GENERAL_PURPOSE_MEMORY = generalPurposeMemory;
+
         RAM = new byte[IO_MEMORY + VIDEO_MEMORY + GENERAL_PURPOSE_MEMORY];
         LabelMemoryLocations = new Dictionary<string, IMemoryLabel>();
 
@@ -20,8 +24,8 @@ public class VirtualMemory : IVirtualMemory
 
     public IDictionary<string, IMemoryLabel> LabelMemoryLocations { get; set; }
 
-    public uint IO_MEMORY { get; } = 65_536;
-    public uint VIDEO_MEMORY { get; } = 921_600;
-    public uint GENERAL_PURPOSE_MEMORY { get; } = 1_048_576;
+    public uint IO_MEMORY { get; init; }
+    public uint VIDEO_MEMORY { get; init; }
+    public uint GENERAL_PURPOSE_MEMORY { get; init; }
     public IVirtualMachine? ParentVirtualMachine { get; set; }
 }

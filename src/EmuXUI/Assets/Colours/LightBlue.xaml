@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key = "LightBlue50">#E1F5FE</Color>
+    <Color x:Key = "LightBlue100">#B3E5FC</Color>
+    <Color x:Key = "LightBlue200">#81D4FA</Color>
+    <Color x:Key = "LightBlue300">#4FC3F7</Color>
+    <Color x:Key = "LightBlue400">#29B6F6</Color>
+    <Color x:Key = "LightBlue500">#03A9F4</Color>
+    <Color x:Key = "LightBlue600">#039BE5</Color>
+    <Color x:Key = "LightBlue700">#0288D1</Color>
+    <Color x:Key = "LightBlue800">#0277BD</Color>
+    <Color x:Key = "LightBlue900">#01579B</Color>
+    <Color x:Key = "LightBlueA100">#80D8FF</Color>
+    <Color x:Key = "LightBlueA200">#40C4FF</Color>
+    <Color x:Key = "LightBlueA400">#00B0FF</Color>
+    <Color x:Key = "LightBlueA700">#0091EA</Color>
+    
+</ResourceDictionary>

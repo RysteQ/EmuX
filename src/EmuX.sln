@@ -1,15 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
-VisualStudioVersion = 18.0.11205.157 d18.0
+VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuX_Nano", "EmuX\EmuX_Nano.csproj", "{5CF06762-B76D-46AF-A69E-63F7F4F61ECD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuXCoreUnitTests", "EmuX Unit Tests\EmuXCoreUnitTests.csproj", "{5CD21144-78F0-45F1-891D-F65BE626887D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuXCoreUnitTests", "EmuXUnitTests\EmuXCoreUnitTests.csproj", "{5CD21144-78F0-45F1-891D-F65BE626887D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuXCore", "EmuXCore\EmuXCore.csproj", "{A461504A-6FF2-4B2E-808D-19BA5C20C3EE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuXMAUI", "EmuXMAUI\EmuXMAUI.csproj", "{93F6FA4E-4F78-45BF-A165-F331E42CDCD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuXUI", "EmuXUI\EmuXUI.csproj", "{50860BB8-86C0-4951-A389-12407C21D37B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,11 +29,12 @@ Global
 		{A461504A-6FF2-4B2E-808D-19BA5C20C3EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A461504A-6FF2-4B2E-808D-19BA5C20C3EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A461504A-6FF2-4B2E-808D-19BA5C20C3EE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93F6FA4E-4F78-45BF-A165-F331E42CDCD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93F6FA4E-4F78-45BF-A165-F331E42CDCD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93F6FA4E-4F78-45BF-A165-F331E42CDCD3}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{93F6FA4E-4F78-45BF-A165-F331E42CDCD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93F6FA4E-4F78-45BF-A165-F331E42CDCD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{50860BB8-86C0-4951-A389-12407C21D37B}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{50860BB8-86C0-4951-A389-12407C21D37B}.Debug|Any CPU.Build.0 = Debug|x64
+		{50860BB8-86C0-4951-A389-12407C21D37B}.Debug|Any CPU.Deploy.0 = Debug|x64
+		{50860BB8-86C0-4951-A389-12407C21D37B}.Release|Any CPU.ActiveCfg = Release|x64
+		{50860BB8-86C0-4951-A389-12407C21D37B}.Release|Any CPU.Build.0 = Release|x64
+		{50860BB8-86C0-4951-A389-12407C21D37B}.Release|Any CPU.Deploy.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

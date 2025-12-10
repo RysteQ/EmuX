@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Application
+    x:Class="EmuXUI.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:EmuXUI">
+    
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+
+                <ResourceDictionary Source = "ms-appx:///Assets/Colours/Amber.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Blue.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/BlueGrey.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Brown.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Cyan.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/DeepOrange.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/DeepPurple.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Green.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Grey.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Indigo.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/LightBlue.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/LightGreen.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Lime.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Orange.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Pink.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Purple.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Red.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Teal.xaml" />
+                <ResourceDictionary Source = "/Assets/Colours/Yellow.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+</Application>

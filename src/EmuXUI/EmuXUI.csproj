@@ -1,0 +1,170 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>EmuXUI</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x86;x64;ARM64</Platforms>
+    <RuntimeIdentifiers>win-x86;win-x64;win-arm64</RuntimeIdentifiers>
+    <PublishProfile>win-$(Platform).pubxml</PublishProfile>
+    <UseWinUI>true</UseWinUI>
+    <WinUISDKReferences>false</WinUISDKReferences>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Remove="Assets\Colours\Amber.xaml" />
+    <Content Remove="Assets\Colours\Blue.xaml" />
+    <Content Remove="Assets\Colours\BlueGrey.xaml" />
+    <Content Remove="Assets\Colours\Brown.xaml" />
+    <Content Remove="Assets\Colours\Cyan.xaml" />
+    <Content Remove="Assets\Colours\DeepOrange.xaml" />
+    <Content Remove="Assets\Colours\DeepPurple.xaml" />
+    <Content Remove="Assets\Colours\Green.xaml" />
+    <Content Remove="Assets\Colours\Grey.xaml" />
+    <Content Remove="Assets\Colours\Indigo.xaml" />
+    <Content Remove="Assets\Colours\LightBlue.xaml" />
+    <Content Remove="Assets\Colours\LightGreen.xaml" />
+    <Content Remove="Assets\Colours\Lime.xaml" />
+    <Content Remove="Assets\Colours\Orange.xaml" />
+    <Content Remove="Assets\Colours\Pink.xaml" />
+    <Content Remove="Assets\Colours\Purple.xaml" />
+    <Content Remove="Assets\Colours\Red.xaml" />
+    <Content Remove="Assets\Colours\Teal.xaml" />
+    <Content Remove="Assets\Colours\Yellow.xaml" />
+    <Content Remove="Assets\SyntaxHighlighting\x86AssemblySyntaxHighlighting.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Assets\Colours\Amber.xaml" />
+    <None Remove="Assets\Colours\Blue.xaml" />
+    <None Remove="Assets\Colours\BlueGrey.xaml" />
+    <None Remove="Assets\Colours\Brown.xaml" />
+    <None Remove="Assets\Colours\Cyan.xaml" />
+    <None Remove="Assets\Colours\DeepOrange.xaml" />
+    <None Remove="Assets\Colours\DeepPurple.xaml" />
+    <None Remove="Assets\Colours\Green.xaml" />
+    <None Remove="Assets\Colours\Grey.xaml" />
+    <None Remove="Assets\Colours\Indigo.xaml" />
+    <None Remove="Assets\Colours\LightBlue.xaml" />
+    <None Remove="Assets\Colours\LightGreen.xaml" />
+    <None Remove="Assets\Colours\Lime.xaml" />
+    <None Remove="Assets\Colours\Orange.xaml" />
+    <None Remove="Assets\Colours\Pink.xaml" />
+    <None Remove="Assets\Colours\Purple.xaml" />
+    <None Remove="Assets\Colours\Red.xaml" />
+    <None Remove="Assets\Colours\Teal.xaml" />
+    <None Remove="Assets\Colours\Yellow.xaml" />
+    <None Remove="Views\ExecutionWindow.xaml" />
+    <None Remove="Views\VirtualMachineConfigurationWindow.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Manifest Include="$(ApplicationManifest)" />
+  </ItemGroup>
+
+  <!--
+    Defining the "Msix" ProjectCapability here allows the Single-project MSIX Packaging
+    Tools extension to be activated for this project even if the Windows App SDK Nuget
+    package has not yet been restored.
+  -->
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.7175" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.251106002" />
+    <PackageReference Include="TextControlBox.WinUI.JuliusKirsch" Version="1.4.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Dialogs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\EmuXCore\EmuXCore.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Assets\Colours\Amber.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Blue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\BlueGrey.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Brown.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Cyan.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\DeepOrange.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\DeepPurple.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Green.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Grey.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Indigo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\LightBlue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\LightGreen.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Lime.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Orange.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Pink.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Purple.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Red.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Teal.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Assets\Colours\Yellow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\ExecutionWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\VirtualMachineConfigurationWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Popups\AboutPopup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+
+  <!--
+    Defining the "HasPackageAndPublishMenuAddedByProject" property here allows the Solution
+    Explorer "Package and Publish" context menu entry to be enabled for this project even if
+    the Windows App SDK Nuget package has not yet been restored.
+  -->
+  <PropertyGroup Condition="'$(DisableHasPackageAndPublishMenuAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <HasPackageAndPublishMenu>true</HasPackageAndPublishMenu>
+  </PropertyGroup>
+
+  <!-- Publish Properties -->
+  <PropertyGroup>
+    <PublishReadyToRun Condition="'$(Configuration)' == 'Debug'">False</PublishReadyToRun>
+    <PublishReadyToRun Condition="'$(Configuration)' != 'Debug'">True</PublishReadyToRun>
+    <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
+    <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
+  </PropertyGroup>
+</Project>

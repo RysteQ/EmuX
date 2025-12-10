@@ -334,7 +334,7 @@ public static class DIFactory
     /// </summary>
     /// <param name="parentVirtualMachine">The virtual machine the IVirtualMemory is part of</param>
     /// <returns>The implementation of IVirtualMemory</returns>
-    public static IVirtualMemory GenerateIVirtualMemory(IVirtualMachine? parentVirtualMachine = null) => new VirtualMemory(parentVirtualMachine);
+    public static IVirtualMemory GenerateIVirtualMemory(uint ioMemory, uint videoMemory, uint generalPurposeMemory, IVirtualMachine? parentVirtualMachine = null) => new VirtualMemory(ioMemory, videoMemory, generalPurposeMemory, parentVirtualMachine);
 
     /// <summary>
     /// Generates an instance of IVirtualRTC

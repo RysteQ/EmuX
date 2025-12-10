@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Color x:Key = "Indigo50">#E8EAF6</Color>
+    <Color x:Key = "Indigo100">#C5CAE9</Color>
+    <Color x:Key = "Indigo200">#9FA8DA</Color>
+    <Color x:Key = "Indigo300">#7986CB</Color>
+    <Color x:Key = "Indigo400">#5C6BC0</Color>
+    <Color x:Key = "Indigo500">#3F51B5</Color>
+    <Color x:Key = "Indigo600">#3949AB</Color>
+    <Color x:Key = "Indigo700">#303F9F</Color>
+    <Color x:Key = "Indigo800">#283593</Color>
+    <Color x:Key = "Indigo900">#1A237E</Color>
+    <Color x:Key = "IndigoA100">#8C9EFF</Color>
+    <Color x:Key = "IndigoA200">#536DFE</Color>
+    <Color x:Key = "IndigoA400">#3D5AFE</Color>
+    <Color x:Key = "IndigoA700">#304FFE</Color>
+    
+</ResourceDictionary>

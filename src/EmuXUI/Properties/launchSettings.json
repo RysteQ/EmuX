@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "EmuXUI (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "EmuXUI (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
