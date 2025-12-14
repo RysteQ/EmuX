@@ -1,4 +1,5 @@
-﻿using EmuXUI.Models.Internal;
+﻿using EmuXCore.VM.Interfaces.Components;
+using EmuXUI.Models.Internal;
 using System;
 
 namespace EmuXUI.Models.Static;

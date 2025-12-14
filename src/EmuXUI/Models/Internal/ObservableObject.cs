@@ -15,5 +15,13 @@ public class ObservableObject : INotifyPropertyChanged
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
     }
 
+    /// <summary>
+    /// Triggers the INotifyPropertyChanged event
+    /// </summary>
+    protected void OnPropertyChanged([CallerMemberName] string? caller = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(caller));
+    }
+
     public event PropertyChangedEventHandler? PropertyChanged;
 }
