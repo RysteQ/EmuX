@@ -28,14 +28,11 @@ namespace EmuXUI.Views;
 /// </summary>
 public sealed partial class VirtualMachineConfigurationWindow : Window
 {
-    public VirtualMachineConfigurationWindow()
+    public VirtualMachineConfigurationWindow(ref IVirtualMachine virtualMachine)
     {
         InitializeComponent();
 
-        ViewModel = new();
-        
-        _virtualMachineBuilder = DIFactory.GenerateIVirtualMachineBuilder();
-        _changedMade = false;
+        ViewModel = new(ref virtualMachine);
         
         InitUI();
     }
@@ -66,13 +63,14 @@ public sealed partial class VirtualMachineConfigurationWindow : Window
         presenter.IsMaximizable = false;
     }
 
-    public event EventHandler? ClosingWindow;
+    private void SaveVirtualMachineConfigurationsButtonClick(object sender, RoutedEventArgs e)
+    {
+        ViewModel.CommandSave.Execute(null);
 
-    public bool ChangesMade { get => _changedMade; }
-    public IVirtualMachine VirtualMachine { get => _virtualMachineBuilder.Build(); }
+        SavedVirtualMachineConfiguration?.Invoke(this, ViewModel.VirtualMachineConfiguration);
+    }
+
+    public event EventHandler? SavedVirtualMachineConfiguration;
 
     public VirtualMachineConfigurationViewModel ViewModel { get; set; }
-
-    private IVirtualMachineBuilder _virtualMachineBuilder;
-    private bool _changedMade;
 }

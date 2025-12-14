@@ -6,7 +6,6 @@
     xmlns:local="using:EmuXUI.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:viewModels="using:EmuXUI.ViewModels"
     xmlns:uiStaticModels="using:EmuXUI.Models.Static"
     xmlns:uiObservableModels="using:EmuXUI.Models.Observable"
     xmlns:emuXCoreDisks="using:EmuXCore.VM.Interfaces.Components"
@@ -84,7 +83,7 @@
 
                         <TextBlock Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Center" Text = "CPU" />
 
-                        <ComboBox Grid.Row = "0" Grid.Column = "1" HorizontalAlignment = "Stretch" ItemsSource = "{x:Bind ViewModel.AvailableCPUs, Mode = OneTime}" DisplayMemberPath = "CpuModelName" SelectedItem = "{x:Bind ViewModel.SelectedCPU}" />
+                        <ComboBox Grid.Row = "0" Grid.Column = "1" HorizontalAlignment = "Stretch" ItemsSource = "{x:Bind ViewModel.AvailableCPUs, Mode = OneTime}" DisplayMemberPath = "CpuModelName" SelectedItem = "{x:Bind ViewModel.VirtualMachineConfiguration.SelectedCPU, Mode = TwoWay}" />
                     </Grid>
                 </Frame>
 
@@ -101,7 +100,7 @@
 
                         <TextBlock Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Center" Text = "GPU" />
 
-                        <ComboBox Grid.Row = "0" Grid.Column = "1" HorizontalAlignment = "Stretch" ItemsSource = "{x:Bind ViewModel.AvailableGPUs, Mode = OneTime}" DisplayMemberPath = "GpuModelName" SelectedItem = "{x:Bind ViewModel.SelectedGPU}" />
+                        <ComboBox Grid.Row = "0" Grid.Column = "1" HorizontalAlignment = "Stretch" ItemsSource = "{x:Bind ViewModel.AvailableGPUs, Mode = OneTime}" DisplayMemberPath = "GpuModelName" SelectedItem = "{x:Bind ViewModel.VirtualMachineConfiguration.SelectedGPU, Mode = TwoWay}" />
                     </Grid>
                 </Frame>
 
@@ -125,15 +124,15 @@
                         </StackPanel>
 
                         <TextBlock Grid.Row = "1" Grid.Column = "0" VerticalAlignment = "Center" Text = "IO Memory" />
-                        <NumberBox Grid.Row = "1" Grid.Column = "1" Value = "{x:Bind ViewModel.SelectedIOMemoryInKbAmount}" Minimum = "1" ValidationMode = "InvalidInputOverwritten" />
+                        <NumberBox Grid.Row = "1" Grid.Column = "1" Value = "{x:Bind ViewModel.VirtualMachineConfiguration.SelectedIOMemoryInKbAmount, Mode = TwoWay}" Minimum = "1" ValidationMode = "InvalidInputOverwritten" />
                         <TextBlock Grid.Row = "1" Grid.Column = "2" VerticalAlignment = "Center" Text = "Kb" />
 
                         <TextBlock Grid.Row = "2" Grid.Column = "0" VerticalAlignment = "Center" Text = "Video Memory" />
-                        <NumberBox Grid.Row = "2" Grid.Column = "1" Value = "{x:Bind ViewModel.SelectedVideoMemoryInKbAmount}" Minimum = "1" ValidationMode = "InvalidInputOverwritten" />
+                        <NumberBox Grid.Row = "2" Grid.Column = "1" Value = "{x:Bind ViewModel.VirtualMachineConfiguration.SelectedVideoMemoryInKbAmount, Mode = TwoWay}" Minimum = "1" ValidationMode = "InvalidInputOverwritten" />
                         <TextBlock Grid.Row = "2" Grid.Column = "2" VerticalAlignment = "Center" Text = "Kb" />
 
                         <TextBlock Grid.Row = "3" Grid.Column = "0" VerticalAlignment = "Center" Text = "General Purpose Memory" />
-                        <NumberBox Grid.Row = "3" Grid.Column = "1" Value = "{x:Bind ViewModel.SelectedGeneralPurposeMemoryInKbAmount}" Minimum = "1" ValidationMode = "InvalidInputOverwritten" />
+                        <NumberBox Grid.Row = "3" Grid.Column = "1" Value = "{x:Bind ViewModel.VirtualMachineConfiguration.SelectedGeneralPurposeMemoryInKbAmount, Mode = TwoWay}" Minimum = "1" ValidationMode = "InvalidInputOverwritten" />
                         <TextBlock Grid.Row = "3" Grid.Column = "2" VerticalAlignment = "Center" Text = "Kb" />
                     </Grid>
                 </Frame>
@@ -141,8 +140,8 @@
 
             <Frame Grid.Row = "1" Grid.Column = "0">
                 <StackPanel Orientation = "Vertical" VerticalAlignment = "Bottom" Spacing = "10">
-                    <Button HorizontalAlignment = "Stretch" Content = "Reset to original state" />
-                    <Button HorizontalAlignment = "Stretch" Content = "Save" />
+                    <Button HorizontalAlignment = "Stretch" Content = "Reset to original state" Command = "{x:Bind ViewModel.CommandRestoreDefaultValue, Mode = OneTime}" />
+                    <Button HorizontalAlignment = "Stretch" Content = "Save" Click = "SaveVirtualMachineConfigurationsButtonClick" />
                 </StackPanel>
             </Frame>
 
@@ -169,11 +168,11 @@
                             </Grid.ColumnDefinitions>
                             
                             <TextBlock Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Center" Text = "Disks" />
-                            <Button Grid.Row = "0" Grid.Column = "1" Content = "D" Command = "{x:Bind ViewModel.CommandDeleteDisk}" />
+                            <Button Grid.Row = "0" Grid.Column = "1" Content = "D" Command = "{x:Bind ViewModel.CommandDeleteDisk, Mode = OneTime}" />
                         </Grid>
                     </Frame>
 
-                    <ListBox Grid.Row = "1" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.Disks}" SelectedItem = "{x:Bind ViewModel.SelectedDisk}" SelectionMode = "Single" Background = "{StaticResource Grey850}">
+                    <ListBox Grid.Row = "1" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.VirtualMachineConfiguration.Disks, Mode = OneWay}" SelectedItem = "{x:Bind ViewModel.SelectedDisk, Mode = TwoWay}" SelectionMode = "Single" Background = "{StaticResource Grey850}">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType = "ListBoxItem">
                                 <Setter Property = "HorizontalContentAlignment" Value = "Stretch" />
@@ -192,9 +191,9 @@
                                     </Grid.ColumnDefinitions>
 
                                     <StackPanel Grid.Row = "0" Grid.Column = "0" Orientation = "Horizontal" Spacing = "5">
-                                        <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Left" Text = "{x:Bind Caption, Mode = OneWay}" />
+                                        <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Left" Text = "{x:Bind Caption, Mode = OneTime}" />
                                         <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Left" Text = "-" />
-                                        <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Left" Text = "{x:Bind Bytes, Mode = OneWay}" />
+                                        <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Left" Text = "{x:Bind Bytes, Mode = OneTime}" />
                                         <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Left" Text = "bytes" />
                                     </StackPanel>
                                 </Grid>
@@ -221,8 +220,8 @@
 
                     <Grid Grid.Row = "1" Grid.Column = "0">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height = "50*" />
-                            <RowDefinition Height = "50*" />
+                            <RowDefinition Height = "70*" />
+                            <RowDefinition Height = "30*" />
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -241,7 +240,7 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <TextBlock Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Center" Text = "Platters" />
-                                <TextBox Grid.Row = "0" Grid.Column = "1" />
+                                <NumberBox Grid.Row = "0" Grid.Column = "1" Value = "{x:Bind ViewModel.NewDisk.Platters, Mode = TwoWay}" Minimum = "1" Maximum = "8" />
                             </Grid>
                             
                             <Grid ColumnSpacing = "10">
@@ -255,7 +254,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Center" Text = "Tracks" />
-                                <TextBox Grid.Row = "0" Grid.Column = "1" />
+                                <NumberBox Grid.Row = "0" Grid.Column = "1" Value = "{x:Bind ViewModel.NewDisk.Tracks, Mode = TwoWay}" Minimum = "1" Maximum = "32" />
                             </Grid>
                             
                             <Grid ColumnSpacing = "10">
@@ -269,7 +268,7 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Center" Text = "Sectors" />
-                                <TextBox Grid.Row = "0" Grid.Column = "1" />
+                                <NumberBox Grid.Row = "0" Grid.Column = "1" Value = "{x:Bind ViewModel.NewDisk.Sectors, Mode = TwoWay}" Minimum = "1" Maximum = "128" />
                             </Grid>
 
                             <Grid ColumnSpacing = "10">
@@ -283,11 +282,11 @@
                                 </Grid.ColumnDefinitions>
 
                                 <TextBlock Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Center" Text = "Bytes" />
-                                <TextBlock Grid.Row = "0" Grid.Column = "1" VerticalAlignment = "Center" Text = "0" />
+                                <NumberBox Grid.Row = "0" Grid.Column = "1" IsEnabled = "False" Value = "{x:Bind ViewModel.NewDisk.TotalBytes, Mode = OneWay}" />
                             </Grid>
                         </StackPanel>
 
-                        <Button Grid.Row = "1" Grid.Column = "0" VerticalAlignment = "Bottom" HorizontalAlignment = "Stretch" Content = "Add" />
+                        <Button Grid.Row = "1" Grid.Column = "0" VerticalAlignment = "Bottom" HorizontalAlignment = "Stretch" Content = "Add" Command = "{x:Bind ViewModel.CommandAddDisk, Mode = OneTime}" />
                     </Grid>
                 </Grid>
             </Frame>
@@ -315,11 +314,11 @@
                             </Grid.ColumnDefinitions>
                             
                             <TextBlock Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Center" HorizontalAlignment = "Center" Text = "Devices" />
-                            <Button Grid.Row = "0" Grid.Column = "1" Content = "D" Command = "{x:Bind ViewModel.CommandDeleteDevice}" />
+                            <Button Grid.Row = "0" Grid.Column = "1" Content = "D" Command = "{x:Bind ViewModel.CommandDeleteDevice, Mode = OneTime}" />
                         </Grid>
                     </Frame>
 
-                    <ListBox Grid.Row = "1" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.Devices}" SelectedItem = "{x:Bind ViewModel.SelectedDevice}" SelectionMode = "Single" Background = "{StaticResource Grey850}">
+                    <ListBox Grid.Row = "1" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.VirtualMachineConfiguration.Devices, Mode = OneWay}" SelectedItem = "{x:Bind ViewModel.SelectedDevice, Mode = TwoWay}" SelectionMode = "Single" Background = "{StaticResource Grey850}">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType = "ListBoxItem">
                                 <Setter Property = "HorizontalContentAlignment" Value = "Stretch" />
@@ -338,7 +337,7 @@
                                     </Grid.ColumnDefinitions>
 
                                     <StackPanel Grid.Row = "0" Grid.Column = "0" Orientation = "Horizontal" Spacing = "5">
-                                        <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Left" Text = "{x:Bind DeviceName, Mode = OneWay}" />
+                                        <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Left" Text = "{x:Bind DeviceName, Mode = OneTime}" />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
@@ -363,7 +362,7 @@
                         <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Center" Text = "New Device" />
                     </Frame>
 
-                    <ListBox Grid.Row = "1" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.Devices, Mode = OneTime}" SelectedItem = "{x:Bind ViewModel.SelectedDevice}" SelectionMode = "Single" Background = "{StaticResource Grey850}">
+                    <ListBox Grid.Row = "1" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.AvailableDevices, Mode = OneTime}" SelectedItem = "{x:Bind ViewModel.NewDevice, Mode = TwoWay}" SelectionMode = "Single" Background = "{StaticResource Grey850}">
                         <ListBox.ItemContainerStyle>
                             <Style TargetType = "ListBoxItem">
                                 <Setter Property = "HorizontalContentAlignment" Value = "Stretch" />
@@ -382,14 +381,14 @@
                                     </Grid.ColumnDefinitions>
 
                                     <StackPanel Grid.Row = "0" Grid.Column = "0" Orientation = "Horizontal" Spacing = "5">
-                                        <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Left" Text = "{x:Bind DeviceName, Mode = OneWay}" />
+                                        <TextBlock VerticalAlignment = "Center" HorizontalAlignment = "Left" Text = "{x:Bind DeviceName, Mode = OneTime}" />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <Button Grid.Row = "2" Grid.Column = "0" VerticalAlignment = "Bottom" HorizontalAlignment = "Stretch" Content = "Add" />
+                    <Button Grid.Row = "2" Grid.Column = "0" VerticalAlignment = "Bottom" HorizontalAlignment = "Stretch" Content = "Add" Command = "{x:Bind ViewModel.CommandAddDevice, Mode = OneTime}" />
                 </Grid>
             </Frame>
         </Grid>
