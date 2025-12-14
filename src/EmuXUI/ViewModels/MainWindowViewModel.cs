@@ -1,9 +1,11 @@
 ﻿using EmuXCore;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.Device.USBDrives;
+using EmuXUI.Models.Logic;
 using EmuXUI.Popups;
 using EmuXUI.ViewModels.Internal;
 using EmuXUI.Views;
+using System;
 using System.Windows.Input;
 
 namespace EmuXUI.ViewModels;
@@ -13,10 +15,6 @@ public sealed class MainWindowViewModel : BaseViewModel
     public MainWindowViewModel()
     {
         ConfigureVirtualMachine();
-
-        _virtualMachineConfigurationWindow = new();
-        _executionWindow = new(_virtualMachine);
-        _aboutPopup = new();
 
         CommandConfigureVirtualMachine = GenerateCommand(DisplayVirtualMachineConfigurationWindow);
         CommandExecuteCode = GenerateCommand(DisplayExecutionWindow);
@@ -41,17 +39,30 @@ public sealed class MainWindowViewModel : BaseViewModel
 
     private void DisplayVirtualMachineConfigurationWindow()
     {
-        _virtualMachineConfigurationWindow.Activate();
+        VirtualMachineConfigurationWindow virtualMachineConfigurationWindow = new(ref _virtualMachine);
+
+        virtualMachineConfigurationWindow.SavedVirtualMachineConfiguration += VirtualMachineConfigurationWindow_SavedVirtualMachineConfiguration;
+
+        virtualMachineConfigurationWindow.Activate();
+    }
+
+    private void VirtualMachineConfigurationWindow_SavedVirtualMachineConfiguration(object? sender, EventArgs e)
+    {
+        _virtualMachineConfiguration = (VirtualMachineConfiguration)e;
     }
 
     private void DisplayExecutionWindow()
     {
-        _executionWindow.Activate();
+        ExecutionWindow executionWindow = new(_virtualMachine);
+
+        executionWindow.Activate();
     }
 
     private void DisplayAboutWindow()
     {
-        _aboutPopup.Activate();
+        AboutPopup aboutPopup = new();
+
+        aboutPopup.Activate();
     }
 
     public string SourceCode { get; set; }
@@ -60,9 +71,6 @@ public sealed class MainWindowViewModel : BaseViewModel
     public ICommand CommandExecuteCode { get; set; }
     public ICommand CommandDisplayAboutEmuX { get; set; }
 
-    private VirtualMachineConfigurationWindow _virtualMachineConfigurationWindow;
-    private ExecutionWindow _executionWindow;
-    private AboutPopup _aboutPopup;
-
+    private VirtualMachineConfiguration _virtualMachineConfiguration;
     private IVirtualMachine _virtualMachine;
 }

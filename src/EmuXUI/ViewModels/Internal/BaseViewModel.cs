@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EmuXUI.Models.Internal;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
