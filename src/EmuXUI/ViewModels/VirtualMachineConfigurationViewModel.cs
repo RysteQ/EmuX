@@ -5,6 +5,7 @@ using EmuXCore.VM.Internal.Device.USBDrives;
 using EmuXUI.Models.Logic;
 using EmuXUI.Models.Observable;
 using EmuXUI.Models.Static;
+using EmuXUI.Popups;
 using EmuXUI.ViewModels.Internal;
 using System;
 using System.Collections.ObjectModel;
@@ -56,7 +57,9 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
 
         if (VirtualMachineConfiguration.Disks.Count > 100)
         {
-            return; // TODO - Warning
+            new InfoPopup(Enums.InfoPopupSeverity.Error, "Cannot have more than 100 disks").Activate();
+
+            return;
         }
 
         if (VirtualMachineConfiguration.Disks.Any())
@@ -83,7 +86,9 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
     {
         if (VirtualMachineConfiguration.Devices.Count > 100)
         {
-            return; // TODO - Warning 
+            new InfoPopup(Enums.InfoPopupSeverity.Error, "Cannot have more than 100 devices").Activate();
+
+            return;
         }
 
         if (NewDevice == null)
