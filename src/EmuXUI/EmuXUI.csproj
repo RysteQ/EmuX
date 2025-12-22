@@ -77,9 +77,6 @@
     <PackageReference Include="TextControlBox.WinUI.JuliusKirsch" Version="1.4.0" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Dialogs\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\EmuXCore\EmuXCore.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -146,7 +143,9 @@
     <Page Update="Views\VirtualMachineConfigurationWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Update="Popups\AboutPopup.xaml">
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Popups\InfoPopup.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

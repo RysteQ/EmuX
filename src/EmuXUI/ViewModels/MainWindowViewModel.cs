@@ -2,10 +2,10 @@
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.Device.USBDrives;
 using EmuXUI.Models.Logic;
-using EmuXUI.Popups;
 using EmuXUI.ViewModels.Internal;
 using EmuXUI.Views;
 using System;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace EmuXUI.ViewModels;
@@ -17,8 +17,7 @@ public sealed class MainWindowViewModel : BaseViewModel
         ConfigureVirtualMachine();
 
         CommandConfigureVirtualMachine = GenerateCommand(DisplayVirtualMachineConfigurationWindow);
-        CommandExecuteCode = GenerateCommand(DisplayExecutionWindow);
-        CommandDisplayAboutEmuX = GenerateCommand(DisplayAboutWindow);
+        CommandExecuteCode = GenerateCommand(async () => await DisplayExecutionWindow());
     }
 
     private void ConfigureVirtualMachine()
@@ -51,25 +50,15 @@ public sealed class MainWindowViewModel : BaseViewModel
         _virtualMachineConfiguration = (VirtualMachineConfiguration)e;
     }
 
-    private void DisplayExecutionWindow()
+    private async Task DisplayExecutionWindow()
     {
-        ExecutionWindow executionWindow = new(_virtualMachine);
-
-        executionWindow.Activate();
-    }
-
-    private void DisplayAboutWindow()
-    {
-        AboutPopup aboutPopup = new();
-
-        aboutPopup.Activate();
+        // TODO
     }
 
     public string SourceCode { get; set; }
 
     public ICommand CommandConfigureVirtualMachine { get; set; }
     public ICommand CommandExecuteCode { get; set; }
-    public ICommand CommandDisplayAboutEmuX { get; set; }
 
     private VirtualMachineConfiguration _virtualMachineConfiguration;
     private IVirtualMachine _virtualMachine;
