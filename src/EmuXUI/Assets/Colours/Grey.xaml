@@ -15,6 +15,7 @@
     <Color x:Key = "Grey850">#323232</Color>
     <Color x:Key = "Grey875">#2a2a2a</Color>
     <Color x:Key = "Grey900">#212121</Color>
+    <Color x:Key = "Grey925">#1a1a1a</Color>
     <Color x:Key = "Grey950">#111111</Color>
     <Color x:Key = "GreyA100">#FFFFFF</Color>
     <Color x:Key = "GreyA200">#777777</Color>
