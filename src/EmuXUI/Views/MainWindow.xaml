@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:EmuXUI.ViewModels"
     xmlns:codeEditor="using:TextControlBoxNS"
+    xmlns:uiStaticModels="using:EmuXUI.Models.Static"
     mc:Ignorable="d"
     Title="EmuX">
 
@@ -85,9 +86,37 @@
                 <ColumnDefinition Width = "*" />
             </Grid.ColumnDefinitions>
 
-            <codeEditor:TextControlBox x:Name = "SourceCodeTextControlBox" Grid.Row = "0" Grid.Column = "0" Grid.ColumnSpan = "2" KeyDown = "SourceCodeTextControlBox_KeyDown" PointerPressed = "SourceCodeTextControlBox_PointerPressed" />
+            <codeEditor:TextControlBox x:Name = "SourceCodeTextControlBox" Grid.Row = "0" Grid.Column = "0" KeyDown = "SourceCodeTextControlBox_KeyDown" PointerPressed = "SourceCodeTextControlBox_PointerPressed" />
 
-            <Grid Grid.Row = "1" Grid.Column = "0" Background = "#50000000">
+            <Grid x:Name = "GridFindStringReferenceControlsGroup" Grid.Row = "0" Grid.Column = "1" Visibility = "Collapsed">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "Auto" />
+                    <RowDefinition Height = "*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width = "*" />
+                    <ColumnDefinition Width = "Auto" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Row = "0" Grid.Column = "1" Padding = "10,10,10,10" Spacing = "6" Background = "#50000000">
+                    <StackPanel  Orientation = "Horizontal" Spacing = "10">
+                        <TextBox x:Name = "TextBoxFindString" Width = "160" Height = "30" KeyDown = "TextBoxFindString_KeyDown" />
+                        <Button x:Name = "ButtonFindSingleReferenceToString" Height = "30" Width = "30" Click = "ButtonFindSingleReferenceToString_Click" />
+                        <Button x:Name = "ButtonFindAllReferencesToString" Height = "30" Width = "30" Click = "ButtonFindAllReferencesToString_Click" />
+                    </StackPanel>
+
+                    <StackPanel x:Name = "StackPanelReplaceStringControlsGroup"  Spacing = "10" Orientation = "Horizontal" Visibility = "Collapsed">
+                        <TextBox x:Name = "TextBoxReplaceString" Width = "160" Height = "30" KeyDown = "TextBoxReplaceString_KeyDown" />
+                        <Button x:Name = "ButtonReplaceSingleReferenceToString" Height = "30" Width = "30" Click = "ButtonFindSingleReferenceToString_Click" />
+                        <Button x:Name = "ButtonReplaceAllReferencesToString" Height = "30" Width = "30" Click = "ButtonFindAllReferencesToString_Click" />
+                    </StackPanel>
+
+                    <CheckBox x:Name = "CheckboxMatchStringReferenceToLookupCase" Content = "Match case" />
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Row = "2" Grid.Column = "0" Background = "#50000000">
                 <Grid.RowDefinitions>
                     <RowDefinition Height = "*" />
                 </Grid.RowDefinitions>
