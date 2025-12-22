@@ -1,4 +1,5 @@
 using EmuXUI.Assets.SyntaxHighlighting;
+using EmuXUI.Popups;
 using EmuXUI.ViewModels;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
@@ -13,6 +14,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using TextControlBoxNS;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -74,9 +76,18 @@ public sealed partial class MainWindow : Window
         ViewModel.CommandExecuteCode.Execute(null);
     }
 
-    private void AboutMenuBarItem_Tapped(object sender, TappedRoutedEventArgs e)
+    private async void AboutMenuBarItem_Tapped(object sender, TappedRoutedEventArgs e)
     {
-        ViewModel.CommandDisplayAboutEmuX.Execute(null);
+        ContentDialog noWifiDialog = new()
+        {
+            Title = "About",
+            Content = "Created by RysteQ on GitHub\n\nVersion: 1.0.0",
+            CloseButtonText = "Okay"
+        };
+
+        noWifiDialog.XamlRoot = this.Content.XamlRoot;
+
+        ContentDialogResult result = await noWifiDialog.ShowAsync();
     }
 
     private void SourceCodeTextControlBox_PointerPressed(object sender, PointerRoutedEventArgs e)
