@@ -54,16 +54,84 @@ public sealed partial class MainWindow : Window
 
     private void InitMenuBar()
     {
+        MenuFlyoutItemOpenFile.Tapped += MenuFlyoutItemOpenFile_Tapped; ;
+        MenuFlyoutItemSaveFile.Tapped += MenuFlyoutItemSaveFile_Tapped; ;
+        MenuFlyoutItemSaveFileAs.Tapped += MenuFlyoutItemSaveFileAs_Tapped; ;
+
+        MenuFlyoutItemUndo.Tapped += MenuFlyoutItemUndo_Tapped; ;
+        MenuFlyoutItemRedo.Tapped += MenuFlyoutItemRedo_Tapped; ;
+        MenuFlyoutItemFind.Tapped += MenuFlyoutItemFind_Tapped; ;
+        MenuFlyoutItemFindAll.Tapped += MenuFlyoutItemFindAll_Tapped; ;
+        MenuFlyoutItemReplace.Tapped += MenuFlyoutItemReplace_Tapped; ;
+        MenuFlyoutItemReplaceAll.Tapped += MenuFlyoutItemReplaceAll_Tapped; ;
+        MenuFlyoutItemFontSettings.Tapped += MenuFlyoutItemFontSettings_Tapped; ;
+        MenuFlyoutItemSyntaxSettings.Tapped += MenuFlyoutItemSyntaxSettings_Tapped; ;
+
         VirtualMachineMenuBarItem.Tapped += VirtualMachineMenuBarItem_Tapped;
         ExecuteMenuBarItem.Tapped += ExecuteMenuBarItem_Tapped;
         AboutMenuBarItem.Tapped += AboutMenuBarItem_Tapped;
     }
-
+    
     private void InitCodeEditor()
     {
         SourceCodeTextControlBox.EnableSyntaxHighlighting = true;
         SourceCodeTextControlBox.ShowLineHighlighter = true;
         SourceCodeTextControlBox.SyntaxHighlighting = new x86Assembly();
+    }
+
+    private void MenuFlyoutItemOpenFile_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void MenuFlyoutItemSaveFile_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void MenuFlyoutItemSaveFileAs_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void MenuFlyoutItemUndo_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void MenuFlyoutItemRedo_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void MenuFlyoutItemFind_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void MenuFlyoutItemFindAll_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void MenuFlyoutItemReplace_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void MenuFlyoutItemReplaceAll_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void MenuFlyoutItemFontSettings_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void MenuFlyoutItemSyntaxSettings_Tapped(object sender, TappedRoutedEventArgs e)
+    {
+        throw new NotImplementedException();
     }
 
     private void VirtualMachineMenuBarItem_Tapped(object sender, TappedRoutedEventArgs e)

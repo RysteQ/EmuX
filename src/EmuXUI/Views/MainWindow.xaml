@@ -51,22 +51,22 @@
         <MenuBar Grid.Row = "1" Grid.Column = "0" Background = "#50000000">
             <MenuBarItem Title = "File">
                 <MenuBarItem.Items>
-                    <MenuFlyoutItem Text = "Open file" />
-                    <MenuFlyoutItem Text = "Save file" />
-                    <MenuFlyoutItem Text = "Save file as" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemOpenFile" Text = "Open file" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSaveFile" Text = "Save file" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSaveFileAs" Text = "Save file as" />
                 </MenuBarItem.Items>
             </MenuBarItem>
 
             <MenuBarItem Title = "Edit">
                 <MenuBarItem.Items>
-                    <MenuFlyoutItem Text = "Undo" />
-                    <MenuFlyoutItem Text = "Redo" />
-                    <MenuFlyoutItem Text = "Find" />
-                    <MenuFlyoutItem Text = "Find all" />
-                    <MenuFlyoutItem Text = "Replace" />
-                    <MenuFlyoutItem Text = "Replace all" />
-                    <MenuFlyoutItem Text = "Font settings" />
-                    <MenuFlyoutItem Text = "Sytntax settings" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemUndo" Text = "Undo" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemRedo" Text = "Redo" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFind" Text = "Find" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFindAll" Text = "Find all" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemReplace" Text = "Replace" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemReplaceAll" Text = "Replace all" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFontSettings" Text = "Font settings" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSyntaxSettings" Text = "Sytntax settings" />
                 </MenuBarItem.Items>
             </MenuBarItem>
 
