@@ -51,22 +51,22 @@
         <MenuBar Grid.Row = "1" Grid.Column = "0" Background = "#50000000">
             <MenuBarItem Title = "File">
                 <MenuBarItem.Items>
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemOpenFile" Text = "Open file" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSaveFile" Text = "Save file" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSaveFileAs" Text = "Save file as" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemOpenFile" Text = "Open file" Click = "MenuFlyoutItemOpenFile_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSaveFile" Text = "Save file" Click = "MenuFlyoutItemSaveFile_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSaveFileAs" Text = "Save file as" Click = "MenuFlyoutItemSaveFileAs_Click" />
                 </MenuBarItem.Items>
             </MenuBarItem>
 
             <MenuBarItem Title = "Edit">
                 <MenuBarItem.Items>
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemUndo" Text = "Undo" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemRedo" Text = "Redo" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFind" Text = "Find" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFindAll" Text = "Find all" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemReplace" Text = "Replace" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemReplaceAll" Text = "Replace all" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFontSettings" Text = "Font settings" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSyntaxSettings" Text = "Sytntax settings" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemUndo" Text = "Undo" Click = "MenuFlyoutItemUndo_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemRedo" Text = "Redo" Click = "MenuFlyoutItemRedo_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFind" Text = "Find" Click = "MenuFlyoutItemFind_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFindAll" Text = "Find all" Click = "MenuFlyoutItemFindAll_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemReplace" Text = "Replace" Click = "MenuFlyoutItemReplace_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemReplaceAll" Text = "Replace all" Click = "MenuFlyoutItemReplaceAll_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFontSettings" Text = "Font settings" Click = "MenuFlyoutItemFontSettings_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSyntaxSettings" Text = "Sytntax settings" Click = "MenuFlyoutItemSyntaxSettings_Click" />
                 </MenuBarItem.Items>
             </MenuBarItem>
 
