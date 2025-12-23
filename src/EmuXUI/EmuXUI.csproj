@@ -33,6 +33,8 @@
     <Content Remove="Assets\Colours\Red.xaml" />
     <Content Remove="Assets\Colours\Teal.xaml" />
     <Content Remove="Assets\Colours\Yellow.xaml" />
+    <Content Remove="Assets\icon_find.png" />
+    <Content Remove="Assets\icon_find_all.png" />
     <Content Remove="Assets\SyntaxHighlighting\x86AssemblySyntaxHighlighting.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -55,6 +57,10 @@
     <None Remove="Assets\Colours\Red.xaml" />
     <None Remove="Assets\Colours\Teal.xaml" />
     <None Remove="Assets\Colours\Yellow.xaml" />
+    <None Remove="Assets\Icons\icon_find.png" />
+    <None Remove="Assets\Icons\icon_find_all.png" />
+    <None Remove="Assets\Icons\icon_replace.png" />
+    <None Remove="Assets\Icons\icon_replace_all.png" />
     <None Remove="Views\ExecutionWindow.xaml" />
     <None Remove="Views\VirtualMachineConfigurationWindow.xaml" />
   </ItemGroup>
