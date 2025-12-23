@@ -1,6 +1,4 @@
 using EmuXUI.Assets.SyntaxHighlighting;
-using EmuXUI.Dialogs;
-using EmuXUI.Models.Static;
 using EmuXUI.Popups;
 using EmuXUI.ViewModels;
 using Microsoft.UI.Input;

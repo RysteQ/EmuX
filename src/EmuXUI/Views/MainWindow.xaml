@@ -52,20 +52,63 @@
         <MenuBar Grid.Row = "1" Grid.Column = "0" Background = "#50000000">
             <MenuBarItem Title = "File">
                 <MenuBarItem.Items>
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemOpenFile" Text = "Open file" Click = "MenuFlyoutItemOpenFile_Click" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSaveFile" Text = "Save file" Click = "MenuFlyoutItemSaveFile_Click" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSaveFileAs" Text = "Save file as" Click = "MenuFlyoutItemSaveFileAs_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemOpenFile" Text = "Open file" Click = "MenuFlyoutItemOpenFile_Click">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers = "Control" Key = "O" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSaveFile" Text = "Save file" Click = "MenuFlyoutItemSaveFile_Click">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers = "Control" Key = "S" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSaveFileAs" Text = "Save file as" Click = "MenuFlyoutItemSaveFileAs_Click">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers = "Control,Shift" Key = "S" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
                 </MenuBarItem.Items>
             </MenuBarItem>
 
             <MenuBarItem Title = "Edit">
                 <MenuBarItem.Items>
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemUndo" Text = "Undo" Click = "MenuFlyoutItemUndo_Click" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemRedo" Text = "Redo" Click = "MenuFlyoutItemRedo_Click" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFind" Text = "Find" Click = "MenuFlyoutItemFind_Click" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFindAll" Text = "Find all" Click = "MenuFlyoutItemFindAll_Click" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemReplace" Text = "Replace" Click = "MenuFlyoutItemReplace_Click" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemReplaceAll" Text = "Replace all" Click = "MenuFlyoutItemReplaceAll_Click" />
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemUndo" Text = "Undo" Click = "MenuFlyoutItemUndo_Click">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers = "Control" Key = "Z" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemRedo" Text = "Redo" Click = "MenuFlyoutItemRedo_Click">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers = "Control" Key = "X" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFind" Text = "Find" Click = "MenuFlyoutItemFind_Click">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers = "Control" Key = "F" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFindAll" Text = "Find all" Click = "MenuFlyoutItemFindAll_Click">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers = "Control,Shift" Key = "F" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemReplace" Text = "Replace" Click = "MenuFlyoutItemReplace_Click">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers = "Control" Key = "R" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
+
+                    <MenuFlyoutItem x:Name = "MenuFlyoutItemReplaceAll" Text = "Replace all" Click = "MenuFlyoutItemReplaceAll_Click">
+                        <MenuFlyoutItem.KeyboardAccelerators>
+                            <KeyboardAccelerator Modifiers = "Control,Shift" Key = "R" />
+                        </MenuFlyoutItem.KeyboardAccelerators>
+                    </MenuFlyoutItem>
                 </MenuBarItem.Items>
             </MenuBarItem>
 
