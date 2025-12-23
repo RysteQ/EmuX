@@ -245,6 +245,7 @@ public sealed partial class MainWindow : Window
         {
             GridFindStringReferenceControlsGroup.Visibility = Visibility.Collapsed;
             SourceCodeTextControlBox.EndSearch();
+            SourceCodeTextControlBox.Focus(FocusState.Keyboard);
         }
 
         if (e.Key != VirtualKey.Enter)
@@ -275,6 +276,7 @@ public sealed partial class MainWindow : Window
         {
             GridFindStringReferenceControlsGroup.Visibility = Visibility.Collapsed;
             SourceCodeTextControlBox.EndSearch();
+            SourceCodeTextControlBox.Focus(FocusState.Keyboard);
         }
 
         if (e.Key != VirtualKey.Enter || _findModeEnabled)
