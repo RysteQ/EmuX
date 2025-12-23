@@ -241,6 +241,12 @@ public sealed partial class MainWindow : Window
     
     private void TextBoxFindString_KeyDown(object sender, KeyRoutedEventArgs e)
     {
+        if (e.Key == VirtualKey.Escape)
+        {
+            GridFindStringReferenceControlsGroup.Visibility = Visibility.Collapsed;
+            SourceCodeTextControlBox.EndSearch();
+        }
+
         if (e.Key != VirtualKey.Enter)
         {
             return;
@@ -265,6 +271,12 @@ public sealed partial class MainWindow : Window
 
     private void TextBoxReplaceString_KeyDown(object sender, KeyRoutedEventArgs e)
     {
+        if (e.Key == VirtualKey.Escape)
+        {
+            GridFindStringReferenceControlsGroup.Visibility = Visibility.Collapsed;
+            SourceCodeTextControlBox.EndSearch();
+        }
+
         if (e.Key != VirtualKey.Enter || _findModeEnabled)
         {
             return;
