@@ -1,4 +1,5 @@
 using EmuXUI.Assets.SyntaxHighlighting;
+using EmuXUI.Dialogs;
 using EmuXUI.Models.Static;
 using EmuXUI.Popups;
 using EmuXUI.ViewModels;
@@ -219,23 +220,13 @@ public sealed partial class MainWindow : Window
         TextBoxFindString.Focus(FocusState.Keyboard);
     }
 
-    private void MenuFlyoutItemFontSettings_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
-
-    private void MenuFlyoutItemSyntaxSettings_Click(object sender, RoutedEventArgs e)
-    {
-
-    }
-
     private void SourceCodeTextControlBox_PointerPressed(object sender, PointerRoutedEventArgs e)
     {
         if (GridFindStringReferenceControlsGroup.Visibility == Visibility.Visible)
         {
             GridFindStringReferenceControlsGroup.Visibility = Visibility.Collapsed;
         }
-
+        
         UpdateSizeRowColumnTextBlocks();
     }
 

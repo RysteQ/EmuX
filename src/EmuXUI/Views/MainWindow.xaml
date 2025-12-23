@@ -66,8 +66,6 @@
                     <MenuFlyoutItem x:Name = "MenuFlyoutItemFindAll" Text = "Find all" Click = "MenuFlyoutItemFindAll_Click" />
                     <MenuFlyoutItem x:Name = "MenuFlyoutItemReplace" Text = "Replace" Click = "MenuFlyoutItemReplace_Click" />
                     <MenuFlyoutItem x:Name = "MenuFlyoutItemReplaceAll" Text = "Replace all" Click = "MenuFlyoutItemReplaceAll_Click" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemFontSettings" Text = "Font settings" Click = "MenuFlyoutItemFontSettings_Click" />
-                    <MenuFlyoutItem x:Name = "MenuFlyoutItemSyntaxSettings" Text = "Sytntax settings" Click = "MenuFlyoutItemSyntaxSettings_Click" />
                 </MenuBarItem.Items>
             </MenuBarItem>
 
