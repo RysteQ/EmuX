@@ -7,13 +7,113 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    Activated="Window_Activated"
     Title="ExecutionWindow">
 
     <Window.SystemBackdrop>
         <MicaBackdrop />
     </Window.SystemBackdrop>
 
-    <Grid>
+    <Grid x:Name = "mainGrid" Background = "{StaticResource Grey900}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height = "Auto" />
+            <RowDefinition Height = "*" />
+        </Grid.RowDefinitions>
 
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width = "*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid x:Name = "TitleBarGrid" Grid.Row = "0" Grid.Column = "0" Background = "{StaticResource Grey950}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height = "*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width = "*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Row = "0" Grid.Column = "0" Margin = "10,10,10,10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width = "*" />
+                </Grid.ColumnDefinitions>
+
+                <TextBlock Grid.Row = "0" Grid.Column = "0" HorizontalAlignment = "Center" FontSize = "16" Text = "EmuX - Code Execution" />
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row = "1" Grid.Column = "0" Padding = "10,10,10,10" RowSpacing = "10" ColumnSpacing = "10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height = "*" />
+                <RowDefinition Height = "*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width = "*" />
+                <ColumnDefinition Width = "Auto" />
+            </Grid.ColumnDefinitions>
+
+            <ListBox Grid.Row = "0" Grid.Column = "0">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation = "Horizontal" Spacing = "10">
+                            
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+            <StackPanel Grid.Row = "0" Grid.Column = "1" Orientation = "Vertical" Spacing = "10">
+                <Button x:Name = "ButtonExecute" Content = "Execute" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandExecuteCode}" />
+                <Button Content = "Step" HorizontalAlignment = "Stretch" />
+                <Button Content = "Undo" HorizontalAlignment = "Stretch" />
+                <Button Content = "Redo" HorizontalAlignment = "Stretch" />
+                <Button Content = "Reset" HorizontalAlignment = "Stretch" />
+            </StackPanel>
+
+            <TabView Grid.Row = "1" Grid.Column = "0" Grid.ColumnSpan = "2" IsAddTabButtonVisible = "False" CanDragTabs = "False" CanReorderTabs = "False">
+                <TabViewItem Header = "Video" IsClosable = "False">
+                    <Grid VerticalAlignment = "Top" HorizontalAlignment = "Left" ColumnSpacing = "10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height = "*" />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width = "Auto" />
+                            <ColumnDefinition Width = "*" />
+                        </Grid.ColumnDefinitions>
+
+                        <Image Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Top" HorizontalAlignment = "Left" Height = "{x:Bind ViewModel.VideoOutput.Height, Mode = OneTime}" Width = "{x:Bind ViewModel.VideoOutput.Height, Mode = OneTime}" Source = "{x:Bind ViewModel.VideoOutput.Image, Mode = OneWay}" />
+
+                        <StackPanel Grid.Row = "0" Grid.Column = "1" Margin = "0,10,0,0" Orientation = "Vertical" Spacing = "10">
+                            <StackPanel Orientation = "Horizontal" Spacing = "0">
+                                <TextBlock Margin = "0,0,10,0" Text = "Height:" FontWeight = "Bold" />
+                                <TextBlock Text = "{x:Bind ViewModel.VideoOutput.Height, Mode = OneTime}" />
+                                <TextBlock Text = "px" FontWeight = "Bold" />
+                            </StackPanel>
+
+                            <StackPanel Orientation = "Horizontal" Spacing = "0">
+                                <TextBlock Margin = "0,0,10,0" Text = "Width:" FontWeight = "Bold" />
+                                <TextBlock Text = "{x:Bind ViewModel.VideoOutput.Width, Mode = OneTime}" />
+                                <TextBlock Text = "px" FontWeight = "Bold" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Grid>
+                </TabViewItem>
+
+                <TabViewItem Content = "Memory" IsClosable = "False">
+
+                </TabViewItem>
+
+                <TabViewItem Content = "Registers" IsClosable = "False">
+
+                </TabViewItem>
+            </TabView>
+        </Grid>
     </Grid>
+    
 </Window>
