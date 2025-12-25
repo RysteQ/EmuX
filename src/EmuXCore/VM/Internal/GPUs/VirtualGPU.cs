@@ -127,8 +127,8 @@ public class VirtualGPU : IVirtualGPU
         DrawLine(startX, endY, endX, endY, r, g, b);
     }
 
-    public ushort Height { get => 640; }
-    public ushort Width { get => 480; }
+    public ushort Height { get => 320; }
+    public ushort Width { get => 240; }
     public byte[] Data { get => _data; }
     public IVirtualMachine? ParentVirtualMachine { get; set; }
 
