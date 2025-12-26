@@ -11,6 +11,5 @@ public sealed class VirtualMachineConfiguration : EventArgs
     public ObservableCollection<DiskSelection> Disks { get; set; }
     public ObservableCollection<DeviceSelection> Devices { get; set; }
     public uint SelectedIOMemoryInKbAmount { get; set; }
-    public uint SelectedVideoMemoryInKbAmount { get; set; }
     public uint SelectedGeneralPurposeMemoryInKbAmount { get; set; }
 }
