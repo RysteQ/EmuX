@@ -93,21 +93,58 @@ public class Interpreter : IInterpreter
         _currentInstructionIndex = 0;
     }
 
-    private ulong NextInstructionMemoryAddress(ulong currentInstructionMemoryAddress)
+    private void ConfigureInstructionsLookupTable()
     {
-        List<ulong> instructionMemoryAddresses = _memoryInstructionLookupTable.Select(selectedRecord => selectedRecord.Key).ToList();
-        int currentInstructionMemoryAddressIndex = instructionMemoryAddresses.IndexOf(currentInstructionMemoryAddress);
-        return instructionMemoryAddresses[currentInstructionMemoryAddressIndex + 1];
+        if (Instructions == null)
+        {
+            return;
+        }
+
+        _memoryInstructionLookupTable.Clear();
+
+        for (int i = 0; i < Instructions.Count; i++)
+        {
+            _memoryInstructionLookupTable.Add((ulong)(i * 5), Instructions[i]);
+        }
     }
 
-    public IVirtualMachine VirtualMachine { get; set; }
-    public IList<IInstruction> Instructions { get; set; }
-    public IList<ILabel> Labels { get; set; }
+    public IVirtualMachine VirtualMachine
+    {
+        get => field;
+        set
+        {
+            field = value;
+
+            ConfigureInstructionsLookupTable();
+        }
+    }
+
+    public IList<IInstruction> Instructions
+    {
+        get => field;
+        set
+        {
+            field = value;
+
+            ConfigureInstructionsLookupTable();
+        }
+    }
+
+    public IList<ILabel> Labels
+    {
+        get => field;
+        set
+        {
+            field = value;
+
+            ConfigureInstructionsLookupTable();
+        }
+    }
+
 
     public IInstruction CurrentInstruction => Instructions[_currentInstructionIndex];
     public int CurrentInstructionIndex => _currentInstructionIndex;
 
-    private IInstructionEncoderResult _instructionEncoderResult;
     private Dictionary<ulong, IInstruction> _memoryInstructionLookupTable = [];
     private Dictionary<int, List<IVmAction>> _actions = [];
     private int _currentInstructionIndex;

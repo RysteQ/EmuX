@@ -176,7 +176,7 @@ public class Parser : IParser
 
         if (!string.IsNullOrEmpty(instructionPrefix))
         {
-            return DIFactory.GenerateIInstruction(_instructionLookup.GetInstructionType(instructionOpcode), _prefixLookup.GetPrefixType(instructionPrefix), variantLookup[CalculateInstructionVariantId(operands[0]?.Variant, operands[1]?.Variant, operands[2]?.Variant)], operands[0], operands[1], operands[2], DIFactory.GenerateIOperandDecoder(), DIFactory.GenerateIFlagStateProcessor(), 5);
+            return DIFactory.GenerateIInstruction(_instructionLookup.GetInstructionType(instructionOpcode), _prefixLookup.GetPrefixType(instructionPrefix), variantLookup[CalculateInstructionVariantId(operands[0]?.Variant, operands[1]?.Variant, operands[2]?.Variant)], operands[0], operands[1], operands[2], DIFactory.GenerateIOperandDecoder(), DIFactory.GenerateIFlagStateProcessor());
         }
 
         return DIFactory.GenerateIInstruction(_instructionLookup.GetInstructionType(instructionOpcode), variantLookup[CalculateInstructionVariantId(operands[0]?.Variant, operands[1]?.Variant, operands[2]?.Variant)], null, operands[0], operands[1], operands[2], DIFactory.GenerateIOperandDecoder(), DIFactory.GenerateIFlagStateProcessor());
@@ -407,5 +407,4 @@ public class Parser : IParser
     private readonly IInstructionLookup _instructionLookup;
     private readonly IPrefixLookup _prefixLookup;
     private readonly IVirtualMachine _virtualMachineToTranslateFor;
-    private IInstructionEncoderResult _instructionEncoderResult;
 }

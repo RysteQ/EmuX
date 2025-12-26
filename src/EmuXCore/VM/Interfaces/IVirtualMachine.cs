@@ -199,8 +199,8 @@ public interface IVirtualMachine
     event EventHandler? RegisterAccessed;
 
     /// <summary>
-    /// The event is raised when a CPU flag is modified <br/>
-    /// Returns an EventArgs object of type IRegisterAccess
+    /// The event is raised when the GPU memory buffer is modified <br/>
+    /// Returns an EventArgs object of type IVideoCardAccess
     /// </summary>
     event EventHandler? VideoCardAccessed;
 
