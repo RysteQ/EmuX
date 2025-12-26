@@ -36,6 +36,10 @@ public sealed class ExecutionViewModel : BaseViewModel
         _virtualMachine = virtualMachine;
 
         CommandExecuteCode = GenerateCommand(async () => await ExecuteCode());
+        CommandStepToNextInstruction = GenerateCommand(async () => await StepInstruction());
+        CommandUndoInstruction = GenerateCommand(async () => await UndoInstruction());
+        CommandRedoInstruction = GenerateCommand(async () => await RedoInstruction());
+        CommandResetInstruction = GenerateCommand(async () => await ResetExecution());
         CommandSearchMemory = GenerateCommand(async () => await SearchMemory());
 
         VideoOutput = new(_virtualMachine.GPU.Height, _virtualMachine.GPU.Width);
@@ -49,7 +53,27 @@ public sealed class ExecutionViewModel : BaseViewModel
 
     private async Task ExecuteCode()
     {
-        _virtualMachine.SetDouble(0, 65536);
+        // TODO
+    }
+
+    private async Task StepInstruction()
+    {
+        // TODO
+    }
+
+    private async Task UndoInstruction()
+    {
+        // TODO
+    }
+
+    private async Task RedoInstruction()
+    {
+        // TODO
+    }
+
+    private async Task ResetExecution()
+    {
+        // TODO
     }
 
     private async Task SearchMemory()
@@ -209,6 +233,10 @@ public sealed class ExecutionViewModel : BaseViewModel
     }
 
     public ICommand CommandExecuteCode { get; private set; }
+    public ICommand CommandStepToNextInstruction { get; private set; }
+    public ICommand CommandUndoInstruction { get; private set; }
+    public ICommand CommandRedoInstruction { get; private set; }
+    public ICommand CommandResetInstruction { get; private set; }
     public ICommand CommandSearchMemory { get; private set; }
 
     public Bitmap VideoOutput { get; private set; }

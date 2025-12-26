@@ -70,10 +70,10 @@
 
             <StackPanel Grid.Row = "0" Grid.Column = "1" Orientation = "Vertical" Spacing = "10">
                 <Button x:Name = "ButtonExecute" Content = "Execute" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandExecuteCode, Mode = OneTime}" />
-                <Button Content = "Step" HorizontalAlignment = "Stretch" />
-                <Button Content = "Undo" HorizontalAlignment = "Stretch" />
-                <Button Content = "Redo" HorizontalAlignment = "Stretch" />
-                <Button Content = "Reset" HorizontalAlignment = "Stretch" />
+                <Button Content = "Step" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandStepToNextInstruction, Mode = OneTime}" />
+                <Button Content = "Undo" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandUndoInstruction, Mode = OneTime}" />
+                <Button Content = "Redo" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandRedoInstruction, Mode = OneTime}" />
+                <Button Content = "Reset" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandRedoInstruction, Mode = OneTime}" />
             </StackPanel>
 
             <TabView Grid.Row = "1" Grid.Column = "0" Grid.ColumnSpan = "2" VerticalAlignment = "Stretch" IsAddTabButtonVisible = "False" CanDragTabs = "False" CanReorderTabs = "False">
