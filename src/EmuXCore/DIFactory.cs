@@ -4,8 +4,6 @@ using EmuXCore.InstructionLogic;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Interfaces;
-using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
-using EmuXCore.Interpreter.Encoder.Logic;
 using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
@@ -31,7 +29,6 @@ using EmuXCore.VM.Internal.Disk;
 using EmuXCore.VM.Internal.GPUs;
 using EmuXCore.VM.Internal.Memory;
 using EmuXCore.VM.Internal.RTC;
-using System.Collections.ObjectModel;
 
 namespace EmuXCore;
 
@@ -171,14 +168,6 @@ public static class DIFactory
     /// <param name="errors">The parse errors the ILexerResult will hold</param>
     /// <returns>The implementation of ILexerResult</returns>
     public static IParserResult GenerateILexerResult(IList<IInstruction> instructions, IList<ILabel> labels, IList<string> errors) => new ParserResult(instructions, labels, errors);
-
-    /// <summary>
-    /// Generates an instance of IInstructionEncoder
-    /// </summary>
-    /// <param name="virtualMachine">The virtual machien to encode the instructions for</param>
-    /// <param name="operandDecoder">The operand decoder to decode the operands of the instructions with</param>
-    /// <returns>The implementation of IInstructionEncoder</returns>
-    public static IInstructionEncoder GenerateIInstructionEncoder(IVirtualMachine virtualMachine, IOperandDecoder operandDecoder) => new InstructionEncoder(virtualMachine, operandDecoder);
 
     /// <summary>
     /// Generates an instance of IInstructionEncoderResult

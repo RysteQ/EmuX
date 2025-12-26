@@ -2,7 +2,6 @@
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
-using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
@@ -30,11 +29,11 @@ public sealed class InstructionCALL : IInstruction
                 virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
 
                 throw new ArgumentException($"Cannot call when the size of the operand is of type {nameof(Size.Byte)}");
-            
+
             case Size.Word: virtualMachine.PushWord(virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().IP); break;
             case Size.Dword: virtualMachine.PushDouble(virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().EIP); break;
             case Size.Qword: virtualMachine.PushQuad(virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP); break;
-            
+
             default:
                 virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
 

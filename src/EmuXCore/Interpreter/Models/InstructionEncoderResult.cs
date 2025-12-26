@@ -1,5 +1,4 @@
 ﻿using EmuXCore.Interpreter.Models.Interfaces;
-using System.Collections.ObjectModel;
 
 namespace EmuXCore.Interpreter.Models;
 

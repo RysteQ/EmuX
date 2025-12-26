@@ -1,11 +1,9 @@
 ﻿using EmuXCore.Common.Interfaces;
-using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Actions;
 using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
-using System.Linq;
 
 namespace EmuXCore.Interpreter;
 
@@ -21,19 +19,19 @@ public class Interpreter : IInterpreter
 
     public void ExecuteStep()
     {
-        ulong currentInstructionPointer = _virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP;
+        ulong currentInstructionPointer = VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP;
 
-        if (!_instructions.Any() || _currentInstructionIndex == _instructions.Count - 1)
+        if (!Instructions.Any() || _currentInstructionIndex == Instructions.Count - 1)
         {
             return;
         }
 
-        _memoryInstructionLookupTable[_virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP].Execute(_virtualMachine);
+        _memoryInstructionLookupTable[VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP].Execute(VirtualMachine);
         _currentInstructionIndex = _memoryInstructionLookupTable.Select(selector => selector.Key).ToList().IndexOf(currentInstructionPointer);
 
         if (!_actions.ContainsKey(_currentInstructionIndex))
         {
-            _actions.Add(_currentInstructionIndex, [.. _virtualMachine.Actions.TakeLast(_virtualMachine.Actions.Count - _actions.Values.Sum(selectedRecord => selectedRecord.Count))]);
+            _actions.Add(_currentInstructionIndex, [.. VirtualMachine.Actions.TakeLast(VirtualMachine.Actions.Count - _actions.Values.Sum(selectedRecord => selectedRecord.Count))]);
         }
     }
 
@@ -46,7 +44,7 @@ public class Interpreter : IInterpreter
 
         for (int i = _actions[_currentInstructionIndex].Count - 1; i >= 0; i--)
         {
-            _actions[_currentInstructionIndex][i].Undo(_virtualMachine);
+            _actions[_currentInstructionIndex][i].Undo(VirtualMachine);
         }
 
         _currentInstructionIndex--;
@@ -69,7 +67,7 @@ public class Interpreter : IInterpreter
 
         for (int i = _actions[_currentInstructionIndex + 1].Count - 1; i >= 0; i--)
         {
-            _actions[_currentInstructionIndex + 1][i].Redo(_virtualMachine);
+            _actions[_currentInstructionIndex + 1][i].Redo(VirtualMachine);
         }
 
         _currentInstructionIndex++;
@@ -85,40 +83,14 @@ public class Interpreter : IInterpreter
 
     public void ResetExecution()
     {
-        for (int i = _virtualMachine.Actions.Count - 1; i >= 0; i--)
+        for (int i = VirtualMachine.Actions.Count - 1; i >= 0; i--)
         {
-            _virtualMachine.Actions[i].Undo(_virtualMachine);
+            VirtualMachine.Actions[i].Undo(VirtualMachine);
         }
 
-        _virtualMachine.Actions.Clear();
+        VirtualMachine.Actions.Clear();
         _actions.Clear();
         _currentInstructionIndex = 0;
-    }
-
-    private void ConfigureCriticalProperties()
-    {
-        ulong memoryOffset = 0;
-
-        if (_virtualMachine == null)
-        {
-            throw new ArgumentNullException($"Property {nameof(VirtualMachine)} cannot be null");
-        }
-
-        _instructionEncoder = DIFactory.GenerateIInstructionEncoder(_virtualMachine, DIFactory.GenerateIOperandDecoder());
-        _memoryInstructionLookupTable.Clear();
-        _actions.Clear();
-        _currentInstructionIndex = -1;
-
-        if (_instructions.Any())
-        {
-            _instructionEncoderResult = _instructionEncoder.Parse(_instructions);
-
-            for (int i = 0; i < _instructions.Count; i++)
-            {
-                _memoryInstructionLookupTable.Add(memoryOffset, _instructions[i]);
-                memoryOffset += _instructions[i].Bytes;
-            }
-        }
     }
 
     private ulong NextInstructionMemoryAddress(ulong currentInstructionMemoryAddress)
@@ -128,45 +100,15 @@ public class Interpreter : IInterpreter
         return instructionMemoryAddresses[currentInstructionMemoryAddressIndex + 1];
     }
 
-    public IVirtualMachine VirtualMachine
-    {
-        get => _virtualMachine;
-        set
-        {
-            _virtualMachine = value;
-            ConfigureCriticalProperties();
-        }
-    }
-
-    public IList<IInstruction> Instructions
-    {
-        get => _instructions;
-        set
-        {
-            _instructions = value;
-            ConfigureCriticalProperties();
-        }
-    }
-
-    public IList<ILabel> Labels
-    {
-        get => _labels;
-        set
-        {
-            _labels = value;
-            ConfigureCriticalProperties();
-        }
-    }
+    public IVirtualMachine VirtualMachine { get; set; }
+    public IList<IInstruction> Instructions { get; set; }
+    public IList<ILabel> Labels { get; set; }
 
     public IInstruction CurrentInstruction => Instructions[_currentInstructionIndex];
     public int CurrentInstructionIndex => _currentInstructionIndex;
 
-    private IInstructionEncoder _instructionEncoder;
     private IInstructionEncoderResult _instructionEncoderResult;
     private Dictionary<ulong, IInstruction> _memoryInstructionLookupTable = [];
-    private IVirtualMachine _virtualMachine;
-    private IList<IInstruction> _instructions = [];
-    private IList<ILabel> _labels = [];
     private Dictionary<int, List<IVmAction>> _actions = [];
     private int _currentInstructionIndex;
 }

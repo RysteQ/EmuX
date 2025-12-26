@@ -2,13 +2,10 @@
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Interfaces;
-using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.Interpreter.Enums;
-using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
 
 namespace EmuXCore.Interpreter.LexicalSyntax;
@@ -20,7 +17,6 @@ public class Parser : IParser
         _virtualMachineToTranslateFor = virtualMachineToTranslateFor;
         _instructionLookup = instructionLookup;
         _prefixLookup = prefixLookup;
-        _instructionEncoder = DIFactory.GenerateIInstructionEncoder(virtualMachineToTranslateFor, DIFactory.GenerateIOperandDecoder());
     }
 
     public IParserResult Parse(IList<IToken> tokens)
@@ -411,6 +407,5 @@ public class Parser : IParser
     private readonly IInstructionLookup _instructionLookup;
     private readonly IPrefixLookup _prefixLookup;
     private readonly IVirtualMachine _virtualMachineToTranslateFor;
-    private readonly IInstructionEncoder _instructionEncoder;
     private IInstructionEncoderResult _instructionEncoderResult;
 }

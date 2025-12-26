@@ -1,6 +1,4 @@
-﻿using System.Collections.ObjectModel;
-
-namespace EmuXCore.Interpreter.Models.Interfaces;
+﻿namespace EmuXCore.Interpreter.Models.Interfaces;
 
 public interface IInstructionEncoderResult
 {
