@@ -79,6 +79,7 @@ public sealed partial class MainWindow : Window
 
     private void ExecuteMenuBarItem_Tapped(object sender, TappedRoutedEventArgs e)
     {
+        ViewModel.SourceCode = SourceCodeTextControlBox.Text;
         ViewModel.CommandExecuteCode.Execute(null);
     }
 
