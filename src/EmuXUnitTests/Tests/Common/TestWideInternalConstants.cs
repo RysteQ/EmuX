@@ -20,7 +20,6 @@ using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Internal.BIOS;
-using EmuXCore.VM.Internal.BIOS.Internal;
 using EmuXCore.VM.Internal.CPU;
 using EmuXCore.VM.Internal.Device.USBDrives;
 using EmuXCore.VM.Internal.Disk;
@@ -49,7 +48,7 @@ public class TestWideInternalConstants
     protected IInstruction GenerateInstruction<T>(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes = 5) where T : IInstruction => (T)Activator.CreateInstance(typeof(T), new object[] { variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, bytes });
 
     protected IVirtualCPU GenerateVirtualCPU() => DIFactory.GenerateIVirtualCPU();
-    protected IVirtualMemory GenerateVirtualMemory() => DIFactory.GenerateIVirtualMemory();
+    protected IVirtualMemory GenerateVirtualMemory() => DIFactory.GenerateIVirtualMemory(65_536, 1_048_576);
     protected IVirtualBIOS GenerateVirtualBIOS() => DIFactory.GenerateIVirtualBIOS(GenerateDiskInterruptHandler(), GenerateRTCInterruptHandler(), GenerateVideoInterruptHandler(), GenerateDeviceInterruptHandler());
     protected IVirtualDisk GenerateVirtualDisk(byte diskNumber, byte platters = 1, ushort tracks = 16, byte sectorPerTrack = 16) => DIFactory.GenerateIVirtualDisk(diskNumber, platters, tracks, sectorPerTrack);
     protected IVirtualRTC GenerateVirtualRTC() => DIFactory.GenerateIVirtualRTC();
