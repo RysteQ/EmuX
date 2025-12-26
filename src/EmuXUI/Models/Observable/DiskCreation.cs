@@ -8,60 +8,59 @@ public sealed class DiskCreation : ObservableObject
     public DiskCreation()
     {
         _bytesPerSector = DIFactory.GenerateIVirtualDisk(0, 0, 0, 0).BytesPerSector;
-        _platters = 1;
-        _tracks = 1;
-        _sectors = 1;
+        Platters = 1;
+        Tracks = 1;
+        Sectors = 1;
     }
 
     public int DiskNumber
     {
-        get => _diskNumber;
+        get => field;
         set
         {
-            OnPropertyChanged(ref _diskNumber, value);
+            field = value;
+
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
     
     public int Platters
     {
-        get => _platters;
+        get => field;
         set
         {
-            OnPropertyChanged(ref _platters, value);
+            field = value;
+
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
     
     public int Tracks
     {
-        get => _tracks;
+        get => field;
         set
         {
-            OnPropertyChanged(ref _tracks, value);
+            field = value;
+
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
     
     public int Sectors
     {
-        get => _sectors;
+        get => field;
         set
         {
-            OnPropertyChanged(ref _sectors, value);
+            field = value;
+
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
 
     public int TotalBytes
     {
-        get => _platters * _tracks * _sectors * _bytesPerSector;
+        get => Platters * Tracks * Sectors * _bytesPerSector;
     }
-
-    private int _diskNumber;
-    private int _platters;
-    private int _tracks;
-    private int _sectors;
 
     private readonly int _bytesPerSector;
 }
