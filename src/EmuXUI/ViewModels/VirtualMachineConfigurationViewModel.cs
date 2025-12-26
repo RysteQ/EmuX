@@ -115,7 +115,6 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
             ],
 
             SelectedIOMemoryInKbAmount = 65_536,
-            SelectedVideoMemoryInKbAmount = 921_600,
             SelectedGeneralPurposeMemoryInKbAmount = 1_048_576
         };
 
@@ -149,7 +148,7 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
         
         virtualMachineBuilder = virtualMachineBuilder
             .SetCpu(VirtualMachineConfiguration.SelectedCPU.CPU)
-            .SetMemory(DIFactory.GenerateIVirtualMemory(VirtualMachineConfiguration.SelectedIOMemoryInKbAmount * 1024, VirtualMachineConfiguration.SelectedVideoMemoryInKbAmount * 1024, VirtualMachineConfiguration.SelectedGeneralPurposeMemoryInKbAmount * 1024))
+            .SetMemory(DIFactory.GenerateIVirtualMemory(VirtualMachineConfiguration.SelectedIOMemoryInKbAmount * 1024, VirtualMachineConfiguration.SelectedGeneralPurposeMemoryInKbAmount * 1024))
             .SetBios(DIFactory.GenerateIVirtualBIOS(DIFactory.GenerateIDiskInterruptHandler(), DIFactory.GenerateIRTCInterruptHandler(), DIFactory.GenerateIVideoInterruptHandler(), DIFactory.GenerateIDeviceInterruptHandler()))
             .SetRTC(DIFactory.GenerateIVirtualRTC())
             .SetGPU(VirtualMachineConfiguration.SelectedGPU.GPU)

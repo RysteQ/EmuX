@@ -43,7 +43,7 @@
                     <ColumnDefinition Width = "*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row = "0" Grid.Column = "0" HorizontalAlignment = "Center" FontSize = "16" Text = "EmuX" />
+                <TextBlock Grid.Row = "0" Grid.Column = "0" HorizontalAlignment = "Center" FontSize = "16" Text = "EmuX - Virtual Machine Configuration" />
             </Grid>
         </Grid>
 
@@ -110,7 +110,6 @@
                             <RowDefinition Height = "25*" />
                             <RowDefinition Height = "25*" />
                             <RowDefinition Height = "25*" />
-                            <RowDefinition Height = "25*" />
                         </Grid.RowDefinitions>
 
                         <Grid.ColumnDefinitions>
@@ -127,13 +126,9 @@
                         <NumberBox Grid.Row = "1" Grid.Column = "1" Value = "{x:Bind ViewModel.VirtualMachineConfiguration.SelectedIOMemoryInKbAmount, Mode = TwoWay}" Minimum = "1" ValidationMode = "InvalidInputOverwritten" />
                         <TextBlock Grid.Row = "1" Grid.Column = "2" VerticalAlignment = "Center" Text = "Kb" />
 
-                        <TextBlock Grid.Row = "2" Grid.Column = "0" VerticalAlignment = "Center" Text = "Video Memory" />
-                        <NumberBox Grid.Row = "2" Grid.Column = "1" Value = "{x:Bind ViewModel.VirtualMachineConfiguration.SelectedVideoMemoryInKbAmount, Mode = TwoWay}" Minimum = "1" ValidationMode = "InvalidInputOverwritten" />
+                        <TextBlock Grid.Row = "2" Grid.Column = "0" VerticalAlignment = "Center" Text = "General Purpose Memory" />
+                        <NumberBox Grid.Row = "2" Grid.Column = "1" Value = "{x:Bind ViewModel.VirtualMachineConfiguration.SelectedGeneralPurposeMemoryInKbAmount, Mode = TwoWay}" Minimum = "1" ValidationMode = "InvalidInputOverwritten" />
                         <TextBlock Grid.Row = "2" Grid.Column = "2" VerticalAlignment = "Center" Text = "Kb" />
-
-                        <TextBlock Grid.Row = "3" Grid.Column = "0" VerticalAlignment = "Center" Text = "General Purpose Memory" />
-                        <NumberBox Grid.Row = "3" Grid.Column = "1" Value = "{x:Bind ViewModel.VirtualMachineConfiguration.SelectedGeneralPurposeMemoryInKbAmount, Mode = TwoWay}" Minimum = "1" ValidationMode = "InvalidInputOverwritten" />
-                        <TextBlock Grid.Row = "3" Grid.Column = "2" VerticalAlignment = "Center" Text = "Kb" />
                     </Grid>
                 </Frame>
             </Grid>

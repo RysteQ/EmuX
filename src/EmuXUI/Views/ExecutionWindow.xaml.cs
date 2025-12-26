@@ -1,5 +1,6 @@
 using EmuXCore.Common.Interfaces;
 using EmuXCore.VM.Interfaces;
+using EmuXUI.Models.Events;
 using EmuXUI.ViewModels;
 using Microsoft.UI;
 using Microsoft.UI.Windowing;
@@ -34,7 +35,7 @@ public sealed partial class ExecutionWindow : Window
         InitializeComponent();
 
         ViewModel = new(instructions, virtualMachine);
-        
+
         InitUI();
     }
 

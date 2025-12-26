@@ -6,6 +6,7 @@
     xmlns:local="using:EmuXUI.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ObservableModels="using:EmuXUI.Models.Observable"
     mc:Ignorable="d"
     Activated="Window_Activated"
     Title="ExecutionWindow">
@@ -68,14 +69,14 @@
             </ListBox>
 
             <StackPanel Grid.Row = "0" Grid.Column = "1" Orientation = "Vertical" Spacing = "10">
-                <Button x:Name = "ButtonExecute" Content = "Execute" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandExecuteCode}" />
+                <Button x:Name = "ButtonExecute" Content = "Execute" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandExecuteCode, Mode = OneTime}" />
                 <Button Content = "Step" HorizontalAlignment = "Stretch" />
                 <Button Content = "Undo" HorizontalAlignment = "Stretch" />
                 <Button Content = "Redo" HorizontalAlignment = "Stretch" />
                 <Button Content = "Reset" HorizontalAlignment = "Stretch" />
             </StackPanel>
 
-            <TabView Grid.Row = "1" Grid.Column = "0" Grid.ColumnSpan = "2" IsAddTabButtonVisible = "False" CanDragTabs = "False" CanReorderTabs = "False">
+            <TabView Grid.Row = "1" Grid.Column = "0" Grid.ColumnSpan = "2" VerticalAlignment = "Stretch" IsAddTabButtonVisible = "False" CanDragTabs = "False" CanReorderTabs = "False">
                 <TabViewItem Header = "Video" IsClosable = "False">
                     <Grid VerticalAlignment = "Top" HorizontalAlignment = "Left" ColumnSpacing = "10">
                         <Grid.RowDefinitions>
@@ -105,12 +106,124 @@
                     </Grid>
                 </TabViewItem>
 
-                <TabViewItem Content = "Memory" IsClosable = "False">
+                <TabViewItem Header = "Memory" IsClosable = "False" VerticalAlignment = "Stretch">
+                    <Grid Margin = "10" VerticalAlignment = "Stretch">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height = "*" />
+                        </Grid.RowDefinitions>
 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width = "*" />
+                            <ColumnDefinition Width = "*" />
+                        </Grid.ColumnDefinitions>
+
+                        <ListBox x:Name = "ListBoxSearchedMemoryBytes" Grid.Row = "0" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.SearchedBytes, Mode = OneWay}" CharacterSpacing="0">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType = "ListBoxItem">
+                                    <Setter Property = "HorizontalContentAlignment" Value = "Stretch" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType = "ObservableModels:MemoryByte">
+                                    <Grid HorizontalAlignment = "Stretch" ColumnSpacing = "10">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height = "*" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width = "30*" />
+                                            <ColumnDefinition Width = "70*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <TextBlock Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Center" Text = "{x:Bind Index, Mode = OneTime}" />
+                                        <NumberBox Grid.Row = "0" Grid.Column = "1" Minimum = "0" Maximum = "255" Value = "{x:Bind Value, Mode = TwoWay}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <StackPanel Grid.Row = "0" Grid.Column = "1" Margin = "10" Spacing = "10">
+                            <Frame Padding = "10" Background = "{StaticResource Grey850}" CornerRadius = "10">
+                                <StackPanel Spacing = "4">
+                                    <StackPanel Orientation = "Horizontal" Spacing = "4">
+                                        <TextBlock Text = "IO Memory:" />
+                                        <TextBlock Text = "{x:Bind ViewModel.IOMemory, Mode = OneTime}" FontWeight = "Bold" />
+                                        <TextBlock Text = "bytes" />
+                                    </StackPanel>
+
+                                    <StackPanel Spacing = "10">
+                                        <StackPanel Orientation = "Horizontal" Spacing = "4">
+                                            <TextBlock Text = "GP memory:" />
+                                            <TextBlock Text = "{x:Bind ViewModel.GeneralPurposeMemory, Mode = OneTime}" FontWeight = "Bold" />
+                                            <TextBlock Text = "bytes" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Frame>
+
+                            <Frame Background = "{StaticResource Grey850}" CornerRadius = "10">
+                                <Grid RowSpacing = "10">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height = "Auto" />
+                                        <RowDefinition Height = "Auto" />
+                                        <RowDefinition Height = "Auto" />
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width = "30*" />
+                                        <ColumnDefinition Width = "70*" />
+                                    </Grid.ColumnDefinitions>
+
+                                    <TextBlock Grid.Row = "0" Grid.Column = "0" Margin = "10,0,0,0" VerticalAlignment = "Center" Text = "Start" />
+                                    <NumberBox Grid.Row = "0" Grid.Column = "1" Minimum = "0" Value = "{x:Bind ViewModel.StartMemorySearchIndex, Mode = TwoWay}" />
+
+                                    <TextBlock Grid.Row = "1" Grid.Column = "0" Margin = "10,0,0,0" VerticalAlignment = "Center" Text = "Bytes" />
+                                    <NumberBox Grid.Row = "1" Grid.Column = "1" Minimum = "0" Value = "{x:Bind ViewModel.MemorySearchBytesToGet, Mode = TwoWay}" />
+
+                                    <Button Grid.Row = "2" Grid.Column = "0" Grid.ColumnSpan = "2" HorizontalAlignment = "Stretch" Content = "Search" Command = "{x:Bind ViewModel.CommandSearchMemory, Mode =OneTime}" />
+                                </Grid>
+                            </Frame>
+                        </StackPanel>
+                    </Grid>
                 </TabViewItem>
 
-                <TabViewItem Content = "Registers" IsClosable = "False">
+                <TabViewItem Header = "Registers" IsClosable = "False" VerticalAlignment = "Stretch">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height = "*" />
+                        </Grid.RowDefinitions>
 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width = "*" />
+                        </Grid.ColumnDefinitions>
+
+                        <ListBox Grid.Row = "0" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.Registers, Mode = OneTime}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType = "ListBoxItem">
+                                    <Setter Property = "HorizontalContentAlignment" Value = "Stretch" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            
+                            <ListBox.ItemTemplate>
+                                <DataTemplate x:DataType = "ObservableModels:Register">
+                                    <Grid>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height = "*" />
+                                        </Grid.RowDefinitions>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width = "30*" />
+                                            <ColumnDefinition Width = "70*" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <TextBlock Grid.Row = "0" Grid.Column = "0" VerticalAlignment = "Center" Text = "{x:Bind Name, Mode = OneTime}" />
+                                        <NumberBox Grid.Row = "0" Grid.Column = "1" Minimum = "0" Maximum = "{x:Bind MaximumValue}" Value = "{x:Bind Value, Mode = TwoWay}" />
+                                    </Grid>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
                 </TabViewItem>
             </TabView>
         </Grid>
