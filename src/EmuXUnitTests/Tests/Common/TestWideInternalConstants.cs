@@ -5,8 +5,6 @@ using EmuXCore.InstructionLogic;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Interfaces;
-using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
-using EmuXCore.Interpreter.Encoder.Logic;
 using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
@@ -34,7 +32,6 @@ public class TestWideInternalConstants
     protected IOperand GenerateOperand(string fullOperand, OperandVariant variant, Size operandSize, IMemoryOffset[] offsets) => DIFactory.GenerateIOperand(fullOperand, variant, operandSize, offsets);
     protected IOperandDecoder GenerateOperandDecoder() => DIFactory.GenerateIOperandDecoder();
     protected IFlagStateProcessor GenerateFlagStateProcessor() => DIFactory.GenerateIFlagStateProcessor();
-    protected IInstructionEncoder GenerateIInstructionEncoder() => DIFactory.GenerateIInstructionEncoder(GenerateVirtualMachine(), GenerateOperandDecoder());
     protected KeyValuePair<string, IMemoryLabel> GenerateMemoryLabel(string label, int address, int line) => new(label, DIFactory.GenerateIMemoryLabel(label, address, line));
     protected IMemoryOffset GenerateMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand) => DIFactory.GenerateIMemoryOffset(type, operand, fullOperand);
     protected IInterpreter GenerateInterpreter() => DIFactory.GenerateIInterpreter();
@@ -44,7 +41,6 @@ public class TestWideInternalConstants
     protected IParser GenerateParser() => DIFactory.GenerateIParser(GenerateVirtualMachine(), GenerateInstructionLookup(), GeneratePrefixLookup());
     protected IInstructionLookup GenerateInstructionLookup() => DIFactory.GenerateIInstructionLookup();
     protected IPrefixLookup GeneratePrefixLookup() => DIFactory.GenerateIPrefixLookup();
-    protected IInstructionEncoder GenerateInstructionEncoder() => DIFactory.GenerateIInstructionEncoder(GenerateVirtualMachine(), GenerateOperandDecoder());
     protected IInstruction GenerateInstruction<T>(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes = 5) where T : IInstruction => (T)Activator.CreateInstance(typeof(T), new object[] { variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, bytes });
 
     protected IVirtualCPU GenerateVirtualCPU() => DIFactory.GenerateIVirtualCPU();
