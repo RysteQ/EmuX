@@ -27,7 +27,7 @@ public partial class MainForm : Form
 
         virtualMachineBuilder = virtualMachineBuilder
             .SetCpu(DIFactory.GenerateIVirtualCPU())
-            .SetMemory(DIFactory.GenerateIVirtualMemory(65_536, 921_600, 1_048_576))
+            .SetMemory(DIFactory.GenerateIVirtualMemory(65_536, 921_600))
             .SetBios(DIFactory.GenerateIVirtualBIOS(DIFactory.GenerateIDiskInterruptHandler(), DIFactory.GenerateIRTCInterruptHandler(), DIFactory.GenerateIVideoInterruptHandler(), DIFactory.GenerateIDeviceInterruptHandler()))
             .SetRTC(DIFactory.GenerateIVirtualRTC())
             .AddDisk(DIFactory.GenerateIVirtualDisk(1, 16, 16, 255))
