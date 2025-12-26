@@ -34,8 +34,10 @@ public sealed class VirtualRegisterRIPTests : TestWideInternalConstants
     {
         VirtualRegisterRIP register = new();
 
+        register.RIP = ulong.MaxValue;
         register.IP = 0x_00ff;
 
+        Assert.AreEqual<ulong>(0x_ff_ff_ff_ff_ff_ff_00_ff, register.RIP);
         Assert.AreEqual<ushort>(0x_00ff, register.IP);
     }
 }

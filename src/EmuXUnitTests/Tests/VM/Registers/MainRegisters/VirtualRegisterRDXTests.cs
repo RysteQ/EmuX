@@ -47,8 +47,10 @@ public sealed class VirtualRegisterRDXTests : TestWideInternalConstants
     {
         VirtualRegisterRDX register = new();
 
+        register.RDX = ulong.MaxValue;
         register.DX = 0x_00ff;
 
+        Assert.AreEqual<ulong>(0x_ff_ff_ff_ff_ff_ff_00_ff, register.RDX);
         Assert.AreEqual<ushort>(0x_00ff, register.DX);
         Assert.AreEqual<byte>(0x_00, register.DH);
         Assert.AreEqual<byte>(0x_ff, register.DL);
@@ -59,8 +61,10 @@ public sealed class VirtualRegisterRDXTests : TestWideInternalConstants
     {
         VirtualRegisterRDX register = new();
 
+        register.RDX = ulong.MaxValue;
         register.DH = 0x_00;
 
+        Assert.AreEqual<ulong>(0x_ff_ff_ff_ff_ff_ff_00_ff, register.RDX);
         Assert.AreEqual<byte>(0x_00, register.DH);
     }
 
@@ -69,8 +73,10 @@ public sealed class VirtualRegisterRDXTests : TestWideInternalConstants
     {
         VirtualRegisterRDX register = new();
 
+        register.RDX = ulong.MaxValue - byte.MaxValue;
         register.DL = 0x_ff;
 
+        Assert.AreEqual<ulong>(0x_ff_ff_ff_ff_ff_ff_ff_ff, register.RDX);
         Assert.AreEqual<byte>(0x_ff, register.DL);
     }
 }

@@ -45,8 +45,10 @@ public sealed class VirtualRegisterRSITests : TestWideInternalConstants
     {
         VirtualRegisterRSI register = new();
 
+        register.RSI = ulong.MaxValue;
         register.SI = 0x_00ff;
 
+        Assert.AreEqual<ulong>(0x_ff_ff_ff_ff_ff_ff_00_ff, register.RSI);
         Assert.AreEqual<ushort>(0x_00ff, register.SI);
         Assert.AreEqual<byte>(0x_ff, register.SIL);
     }
@@ -56,8 +58,10 @@ public sealed class VirtualRegisterRSITests : TestWideInternalConstants
     {
         VirtualRegisterRSI register = new();
 
+        register.RSI = ulong.MaxValue - byte.MaxValue;
         register.SIL = 0x_ff;
 
+        Assert.AreEqual<ulong>(0x_ff_ff_ff_ff_ff_ff_ff_ff, register.RSI);
         Assert.AreEqual<byte>(0x_ff, register.SIL);
     }
 }

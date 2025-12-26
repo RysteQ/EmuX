@@ -36,6 +36,7 @@ public sealed class VirtualRegisterRCXTests : TestWideInternalConstants
 
         register.ECX = 0x_ff00_00ff;
 
+        Assert.AreEqual<ulong>(0x_00_00_00_00_ff_00_00_ff, register.RCX);
         Assert.AreEqual<uint>(0x_ff00_00ff, register.ECX);
         Assert.AreEqual<ushort>(0x_00ff, register.CX);
         Assert.AreEqual<byte>(0x_00, register.CH);
@@ -47,8 +48,10 @@ public sealed class VirtualRegisterRCXTests : TestWideInternalConstants
     {
         VirtualRegisterRCX register = new();
 
+        register.RCX = ulong.MaxValue;
         register.CX = 0x_00ff;
 
+        Assert.AreEqual<ulong>(0x_ff_ff_ff_ff_ff_ff_00_ff, register.RCX);
         Assert.AreEqual<ushort>(0x_00ff, register.CX);
         Assert.AreEqual<byte>(0x_00, register.CH);
         Assert.AreEqual<byte>(0x_ff, register.CL);
@@ -59,8 +62,10 @@ public sealed class VirtualRegisterRCXTests : TestWideInternalConstants
     {
         VirtualRegisterRCX register = new();
 
+        register.RCX = ulong.MaxValue;
         register.CH = 0x_00;
 
+        Assert.AreEqual<ulong>(0x_ff_ff_ff_ff_ff_ff_00_ff, register.RCX);
         Assert.AreEqual<byte>(0x_00, register.CH);
     }
 
@@ -69,8 +74,10 @@ public sealed class VirtualRegisterRCXTests : TestWideInternalConstants
     {
         VirtualRegisterRCX register = new();
 
+        register.RCX = ulong.MaxValue - byte.MaxValue;
         register.CL = 0x_ff;
 
+        Assert.AreEqual<ulong>(0x_ff_ff_ff_ff_ff_ff_ff_ff, register.RCX);
         Assert.AreEqual<byte>(0x_ff, register.CL);
     }
 }
