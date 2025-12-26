@@ -1,4 +1,5 @@
 using EmuXCore.Common.Interfaces;
+using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXUI.Models.Events;
 using EmuXUI.ViewModels;
@@ -30,11 +31,11 @@ namespace EmuXUI.Views;
 /// </summary>
 public sealed partial class ExecutionWindow : Window
 {
-    public ExecutionWindow(IList<IInstruction> instructions, IVirtualMachine virtualMachine)
+    public ExecutionWindow(IList<IInstruction> instructions, IList<ILabel> labels, IVirtualMachine virtualMachine)
     {
         InitializeComponent();
 
-        ViewModel = new(instructions, virtualMachine);
+        ViewModel = new(instructions, labels, virtualMachine);
 
         InitUI();
     }

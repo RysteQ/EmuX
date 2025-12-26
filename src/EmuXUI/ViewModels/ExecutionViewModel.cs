@@ -1,79 +1,140 @@
-﻿using Windows.UI;
+﻿using EmuXCore;
 using EmuXCore.Common.Interfaces;
+using EmuXCore.InstructionLogic.Instructions.Internal;
+using EmuXCore.Interpreter;
+using EmuXCore.Interpreter.Interfaces;
+using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Interfaces.Events;
+using EmuXUI.Enums;
 using EmuXUI.Models.Events;
 using EmuXUI.Models.Observable;
+using EmuXUI.Models.Static;
+using EmuXUI.Popups;
 using EmuXUI.ViewModels.Internal;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Media.Imaging;
-using Newtonsoft.Json.Linq;
+using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Storage;
-using Windows.Storage.Streams;
-using static System.Net.Mime.MediaTypeNames;
-using EmuXCore.VM.Interfaces.Events;
-using EmuXCore.VM.Interfaces.Components.Internal;
-using EmuXUI.Popups;
-using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 
 namespace EmuXUI.ViewModels;
 
 public sealed class ExecutionViewModel : BaseViewModel
 {
-    public ExecutionViewModel(IList<IInstruction> instructions, IVirtualMachine virtualMachine)
+    public ExecutionViewModel(IList<IInstruction> instructions, IList<ILabel> labels, IVirtualMachine virtualMachine)
     {
-        _instructions = instructions;
-        _virtualMachine = virtualMachine;
-
         CommandExecuteCode = GenerateCommand(async () => await ExecuteCode());
         CommandStepToNextInstruction = GenerateCommand(async () => await StepInstruction());
         CommandUndoInstruction = GenerateCommand(async () => await UndoInstruction());
         CommandRedoInstruction = GenerateCommand(async () => await RedoInstruction());
         CommandResetInstruction = GenerateCommand(async () => await ResetExecution());
         CommandSearchMemory = GenerateCommand(async () => await SearchMemory());
+        
+        _interpreter = DIFactory.GenerateIInterpreter();
+        _interpreter.VirtualMachine = virtualMachine;
+        _interpreter.Instructions = instructions;
+        _interpreter.Labels = labels;
 
-        VideoOutput = new(_virtualMachine.GPU.Height, _virtualMachine.GPU.Width);
+        VideoOutput = new(_interpreter.VirtualMachine.GPU.Height, _interpreter.VirtualMachine.GPU.Width);
+        SourceCodeLines = [];
         SearchedBytes = [];
         Registers = [];
 
-        _virtualMachine.MemoryAccessed += VirtualMachine_MemoryAccessed;
+        _interpreter.VirtualMachine.MemoryAccessed += VirtualMachine_MemoryAccessed;
+        _interpreter.VirtualMachine.RegisterAccessed += VirtualMachine_RegisterAccessed;
+        _interpreter.VirtualMachine.VideoCardAccessed += VirtualMachine_VideoCardAccessed;
 
+        InitInstructions();
         InitRegisters();
     }
 
     private async Task ExecuteCode()
     {
-        // TODO
+        try
+        {
+            while (_interpreter.CurrentInstructionIndex < SourceCodeLines.Count - _interpreter.Labels.Count - 1)
+            {
+                _interpreter.ExecuteStep();
+
+                UpdateCurrentInstructionIndex();
+            }
+
+            _interpreter.ExecuteStep();
+
+            UpdateCurrentInstructionIndex();
+        }
+        catch (Exception ex)
+        {
+            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
+        }
     }
 
     private async Task StepInstruction()
     {
-        // TODO
+        try
+        {
+            _interpreter.ExecuteStep();
+
+            UpdateCurrentInstructionIndex();
+        }
+        catch (Exception ex)
+        {
+            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
+        }
     }
 
     private async Task UndoInstruction()
     {
-        // TODO
+        try
+        {
+            if (_interpreter.CurrentInstructionIndex == 0)
+            {
+                return;
+            }
+
+            _interpreter.UndoAction();
+
+            UpdateCurrentInstructionIndex();
+        }
+        catch (Exception ex)
+        {
+            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
+        }
     }
 
     private async Task RedoInstruction()
     {
-        // TODO
+        try
+        {
+            _interpreter.RedoAction();
+
+            UpdateCurrentInstructionIndex();
+        }
+        catch (Exception ex)
+        {
+            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
+        }
     }
 
     private async Task ResetExecution()
     {
-        // TODO
+        try
+        {
+            _interpreter.ResetExecution();
+
+            UpdateCurrentInstructionIndex();
+        }
+        catch (Exception ex)
+        {
+            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
+        }
     }
 
     private async Task SearchMemory()
@@ -82,11 +143,43 @@ public sealed class ExecutionViewModel : BaseViewModel
 
         for (int i = StartMemorySearchIndex; i < StartMemorySearchIndex + MemorySearchBytesToGet; i++)
         {
-            SearchedBytes.Add(new(i, _virtualMachine.GetByte(i)));
+            SearchedBytes.Add(new(i, _interpreter.VirtualMachine.GetByte(i)));
             SearchedBytes.Last().ValueChanged += SearchedMemoryByte_ValueChanged;
         }
 
         OnPropertyChanged(nameof(SearchedBytes));
+    }
+
+    private void InitInstructions()
+    {
+        for (int i = 0; i < _interpreter.Instructions.Count; i++)
+        {
+            SourceCodeLines.Add(new(i + 1, ConvertInstructiongToString(_interpreter.Instructions[i]), _interpreter.Instructions[i]));
+        }
+
+        foreach (ILabel label in _interpreter.Labels)
+        {
+            SourceCodeLines.Insert(label.Line - 1, new(label.Line, $"{label.Name}:", null));
+        }
+
+        for (int i = 0; i < SourceCodeLines.Count; i++)
+        {
+            SourceCodeLines[i].Line = i + 1;
+        }
+
+        while (SourceCodeLines[CurrentInstructionIndex].SourceCode.EndsWith(':'))
+        {
+            CurrentInstructionIndex++;
+        }
+        
+        OnPropertyChanged(nameof(SourceCodeLines));
+    }
+
+    private void UpdateCurrentInstructionIndex()
+    {
+        CurrentInstructionIndex = SourceCodeLines
+            .Where(record => record.Instruction == _interpreter.CurrentInstruction)
+            .First().Line - 1;
     }
 
     private void InitRegisters()
@@ -97,11 +190,11 @@ public sealed class ExecutionViewModel : BaseViewModel
 
             Registers.Clear();
 
-            foreach (IVirtualRegister virtualRegister in _virtualMachine.CPU.Registers)
+            foreach (IVirtualRegister virtualRegister in _interpreter.VirtualMachine.CPU.Registers)
             {
                 foreach (KeyValuePair<string, EmuXCore.Common.Enums.Size> register in virtualRegister.RegisterNamesAndSizes)
                 {
-                    registerValue = _virtualMachine.CPU.GetRegister(register.Key).Get();
+                    registerValue = _interpreter.VirtualMachine.CPU.GetRegister(register.Key).Get();
 
                     registerValue = register.Value switch
                     {
@@ -114,7 +207,7 @@ public sealed class ExecutionViewModel : BaseViewModel
 
                     if (register.Key.EndsWith('H'))
                     {
-                        registerValue = _virtualMachine.CPU.GetRegister(register.Key).Get() & 0x000000000000ff00;
+                        registerValue = _interpreter.VirtualMachine.CPU.GetRegister(register.Key).Get() & 0x000000000000ff00;
                         registerValue = registerValue >> 8;
                     }
 
@@ -133,7 +226,7 @@ public sealed class ExecutionViewModel : BaseViewModel
 
         if (writtenByte.PreviousValue != writtenByte.NewValue)
         {
-            _virtualMachine.SetByte(writtenByte.Index, writtenByte.NewValue);
+            _interpreter.VirtualMachine.SetByte(writtenByte.Index, writtenByte.NewValue);
         }
     }
     
@@ -148,7 +241,7 @@ public sealed class ExecutionViewModel : BaseViewModel
             return;
         }
 
-        selectedRegister = _virtualMachine.CPU.GetRegister(writtenToRegisterEvent.RegisterName);
+        selectedRegister = _interpreter.VirtualMachine.CPU.GetRegister(writtenToRegisterEvent.RegisterName);
         registerSize = selectedRegister.RegisterNamesAndSizes[writtenToRegisterEvent.RegisterName];
 
         selectedRegister.Set(writtenToRegisterEvent.RegisterName, writtenToRegisterEvent.NewValue);
@@ -206,6 +299,25 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
     }
 
+    private void VirtualMachine_RegisterAccessed(object? sender, EventArgs e)
+    {
+        IRegisterAccess registerAccess = (IRegisterAccess)e;
+
+        if (!registerAccess.Write)
+        {
+            return;
+        }
+
+        InitRegisters();
+    }
+
+
+    private async void VirtualMachine_VideoCardAccessed(object? sender, EventArgs e)
+    {
+        await VideoOutput.WriteEntireImage(_interpreter.VirtualMachine.GPU.Data);
+        VideoOutput.Update();
+    }
+
     private void UpdateSearchedBytesDueToWriteEvent(int index, params byte[] bytes)
     {
         MemoryByte[] memoryBytes = SearchedBytes
@@ -226,9 +338,29 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
     }
 
+    private string ConvertInstructiongToString(IInstruction instruction)
+    {
+        if (instruction.Variant == InstructionVariant.NoOperands())
+        {
+            return instruction.Opcode;
+        }
+
+        if (instruction.FirstOperand != null && instruction.SecondOperand == null && instruction.ThirdOperand == null)
+        {
+            return $"{instruction.Opcode} {instruction.FirstOperand?.FullOperand}";
+        }
+
+        if (instruction.FirstOperand != null && instruction.SecondOperand != null && instruction.ThirdOperand == null)
+        {
+            return $"{instruction.Opcode} {instruction.FirstOperand?.FullOperand}, {instruction.SecondOperand?.FullOperand}";
+        }
+
+        return $"{instruction.Opcode} {instruction.FirstOperand?.FullOperand}, {instruction.SecondOperand?.FullOperand}, {instruction.ThirdOperand?.FullOperand}";
+    }
+
     public async Task UpdateBitmap()
     {
-        await VideoOutput.WriteEntireImage(_virtualMachine.GPU.Data);
+        await VideoOutput.WriteEntireImage(_interpreter.VirtualMachine.GPU.Data);
         VideoOutput.Update();
     }
 
@@ -240,11 +372,18 @@ public sealed class ExecutionViewModel : BaseViewModel
     public ICommand CommandSearchMemory { get; private set; }
 
     public Bitmap VideoOutput { get; private set; }
+    public ObservableCollection<SourceCodeLine> SourceCodeLines { get; set; }
     public ObservableCollection<MemoryByte> SearchedBytes { get; set; }
     public ObservableCollection<Register> Registers { get; set; }
 
-    public uint IOMemory { get => _virtualMachine.Memory.IO_MEMORY; }
-    public uint GeneralPurposeMemory { get => _virtualMachine.Memory.GENERAL_PURPOSE_MEMORY; }
+    public int CurrentInstructionIndex
+    {
+        get => field;
+        private set => OnPropertyChanged(ref field, value);
+    }
+
+    public uint IOMemory { get => _interpreter.VirtualMachine.Memory.IO_MEMORY; }
+    public uint GeneralPurposeMemory { get => _interpreter.VirtualMachine.Memory.GENERAL_PURPOSE_MEMORY; }
 
     public int StartMemorySearchIndex
     {
@@ -258,6 +397,5 @@ public sealed class ExecutionViewModel : BaseViewModel
         set => OnPropertyChanged(ref field, value);
     }
 
-    private readonly IList<IInstruction> _instructions;
-    private readonly IVirtualMachine _virtualMachine;
+    private readonly IInterpreter _interpreter;
 }

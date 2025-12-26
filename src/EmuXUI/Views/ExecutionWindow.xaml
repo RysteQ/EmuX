@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ObservableModels="using:EmuXUI.Models.Observable"
+    xmlns:StaticModels="using:EmuXUI.Models.Static"
     mc:Ignorable="d"
     Activated="Window_Activated"
     Title="ExecutionWindow">
@@ -58,11 +59,13 @@
                 <ColumnDefinition Width = "Auto" />
             </Grid.ColumnDefinitions>
 
-            <ListBox Grid.Row = "0" Grid.Column = "0">
+            <ListBox Grid.Row = "0" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.SourceCodeLines, Mode = OneWay}" SelectedIndex = "{x:Bind ViewModel.CurrentInstructionIndex, Mode = OneWay}">
                 <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation = "Horizontal" Spacing = "10">
-                            
+                    <DataTemplate x:DataType = "StaticModels:SourceCodeLine">
+                        <StackPanel Orientation = "Horizontal" Spacing = "6">
+                            <TextBlock Text = "{x:Bind Line}" />
+                            <TextBlock Text = "-" />
+                            <TextBlock Text = "{x:Bind SourceCode}" />
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -73,7 +76,7 @@
                 <Button Content = "Step" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandStepToNextInstruction, Mode = OneTime}" />
                 <Button Content = "Undo" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandUndoInstruction, Mode = OneTime}" />
                 <Button Content = "Redo" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandRedoInstruction, Mode = OneTime}" />
-                <Button Content = "Reset" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandRedoInstruction, Mode = OneTime}" />
+                <Button Content = "Reset" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandResetInstruction, Mode = OneTime}" />
             </StackPanel>
 
             <TabView Grid.Row = "1" Grid.Column = "0" Grid.ColumnSpan = "2" VerticalAlignment = "Stretch" IsAddTabButtonVisible = "False" CanDragTabs = "False" CanReorderTabs = "False">
