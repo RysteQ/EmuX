@@ -3,7 +3,6 @@ using EmuXCore;
 using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
-using EmuXCore.Interpreter.Encoder.Interfaces.Logic;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Events;
@@ -18,7 +17,6 @@ public partial class ExecuteCodeForm : Form
     {
         InitializeComponent();
 
-        _instructionEncoder = DIFactory.GenerateIInstructionEncoder(virtualMachine, DIFactory.GenerateIOperandDecoder());
         _interpreter = DIFactory.GenerateIInterpreter();
         _interpreter.VirtualMachine = virtualMachine;
         _interpreter.Instructions = instructions;
@@ -26,7 +24,6 @@ public partial class ExecuteCodeForm : Form
 
         InitUserInterface();
         RegisterVirtualMachineEvents();
-        InitEncodedInstructionsInMemory();
         ComputeLabelMemoryLocations();
     }
 
@@ -137,22 +134,6 @@ public partial class ExecuteCodeForm : Form
     private void RegisterVirtualMachineEvents()
     {
         _interpreter.VirtualMachine.VideoCardAccessed += VirtualMachine_VideoCardAccessed;
-    }
-
-    private void InitEncodedInstructionsInMemory()
-    {
-        int offset = 0;
-
-        _instructionEncoderResult = _instructionEncoder.Parse(_interpreter.Instructions);
-
-        foreach (byte[] encodedInstruction in _instructionEncoderResult.Bytes)
-        {
-            foreach (byte instructionByte in encodedInstruction)
-            {
-                _interpreter.VirtualMachine.SetByte(offset, instructionByte);
-                offset++;
-            }
-        }
     }
 
     private void ComputeLabelMemoryLocations()
@@ -344,8 +325,6 @@ public partial class ExecuteCodeForm : Form
     public event EventHandler? ResetCodeExecution;
 
     private readonly IInterpreter _interpreter;
-    private readonly IInstructionEncoder _instructionEncoder;
-    private IInstructionEncoderResult _instructionEncoderResult;
     private bool _videoOutputInitialised = false;
     private Bitmap _bitmap;
     private ErrorsPopup _errorsPopup;
