@@ -87,7 +87,7 @@ public class VirtualRegisterRIP : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(IP)], BitConverter.GetBytes(IP), BitConverter.GetBytes(value), nameof(IP));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(IP), Size.Word, true, IP, value));
 
-            _rip = ((_rip & 0x00000000ffffffff) & 0xffff0000) + value;
+            _rip = (_rip & 0x_ff_ff_ff_ff_ff_ff_00_00) + value;
         }
     }
 

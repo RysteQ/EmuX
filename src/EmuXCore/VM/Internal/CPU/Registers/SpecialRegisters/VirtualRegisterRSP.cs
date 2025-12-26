@@ -91,7 +91,7 @@ public class VirtualRegisterRSP : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SP)], BitConverter.GetBytes(SP), BitConverter.GetBytes(value), nameof(SP));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SP), Size.Word, true, SP, value));
 
-            _rsp = ((_rsp & 0x00000000ffffffff) & 0xffff0000) + value;
+            _rsp = (_rsp & 0x_ff_ff_ff_ff_ff_ff_00_00) + value;
         }
     }
 
@@ -109,7 +109,7 @@ public class VirtualRegisterRSP : IVirtualRegister
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SPL)], [SPL], [value], nameof(SP));
             ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SPL), Size.Byte, true, SPL, value));
 
-            _rsp = (ushort)((((_rsp & 0x00000000ffffffff) & 0x0000ffff) & 0xff00) + value);
+            _rsp = (_rsp & 0x_ff_ff_ff_ff_ff_ff_ff_00) + value;
         }
     }
 
