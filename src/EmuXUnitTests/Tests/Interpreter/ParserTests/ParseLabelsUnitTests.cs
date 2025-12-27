@@ -63,4 +63,24 @@ public sealed class ParseLabelsUnitTests : TestWideInternalConstants
         Assert.AreEqual<int>(0, parserResult.Instructions.Count);
         Assert.AreEqual<bool>(true, parserResult.Errors.Any());
     }
+
+    [TestMethod]
+    public void ParseOneLabelAndOneJumpInstruction()
+    {
+        List<IToken> tokens = 
+        [
+            GenerateToken(TokenType.LABEL, "test_label"), GenerateToken(TokenType.COLON, ":"), GenerateToken(TokenType.EOL, "\n"),
+            GenerateToken(TokenType.INSTRUCTION, "jmp"), GenerateToken(TokenType.LABEL, "test_label"), GenerateToken(TokenType.EOL, "\n"),
+            GenerateToken(TokenType.EOF, string.Empty)
+        ];
+        IParser parser = GenerateParser();
+        IParserResult parserResult;
+
+        parserResult = parser.Parse(tokens);
+
+        Assert.AreEqual<int>(1, parserResult.Labels.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.Count);
+        Assert.AreEqual<int>(1, parserResult.Instructions.First().FirstOperand!.Offsets.Length);
+        Assert.AreEqual<bool>(false, parserResult.Errors.Any());
+    }
 }
