@@ -25,19 +25,12 @@ public sealed class InstructionCALL : IInstruction
     {
         switch (FirstOperand!.OperandSize)
         {
-            case Size.Byte:
-                virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
-
-                throw new ArgumentException($"Cannot call when the size of the operand is of type {nameof(Size.Byte)}");
-
             case Size.Word: virtualMachine.PushWord(virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().IP); break;
             case Size.Dword: virtualMachine.PushDouble(virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().EIP); break;
-            case Size.Qword: virtualMachine.PushQuad(virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP); break;
 
-            default:
-                virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP += Bytes;
-
-                throw new ArgumentException($"Unknown operand size for {nameof(FirstOperand.OperandSize)}");
+            case Size.Byte:
+            case Size.Qword:
+            default: virtualMachine.PushQuad(virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP); break;
         }
 
         virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP = (ulong)OperandDecoder.GetInstructionMemoryAddress(virtualMachine.Memory, FirstOperand!);

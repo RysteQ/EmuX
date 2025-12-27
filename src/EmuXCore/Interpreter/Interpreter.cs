@@ -11,23 +11,29 @@ public class Interpreter : IInterpreter
 {
     public void Execute()
     {
-        foreach (IInstruction instruction in Instructions)
+        _executingCode = true;
+
+        while (_memoryInstructionLookupTable.ContainsKey(VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP))
         {
             ExecuteStep();
         }
+
+        _executingCode = false;
     }
 
     public void ExecuteStep()
     {
         ulong currentInstructionPointer = VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP;
 
-        if (!Instructions.Any() || _currentInstructionIndex == Instructions.Count - 1)
+        if (!Instructions.Any() || _currentInstructionIndex == Instructions.Count || !_memoryInstructionLookupTable.ContainsKey(currentInstructionPointer))
         {
+            _currentInstructionIndex = -1;
+
             return;
         }
 
-        _memoryInstructionLookupTable[VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP].Execute(VirtualMachine);
         _currentInstructionIndex = _memoryInstructionLookupTable.Select(selector => selector.Key).ToList().IndexOf(currentInstructionPointer);
+        _memoryInstructionLookupTable[VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP].Execute(VirtualMachine);
 
         if (!_actions.ContainsKey(_currentInstructionIndex))
         {
@@ -106,6 +112,33 @@ public class Interpreter : IInterpreter
         {
             _memoryInstructionLookupTable.Add((ulong)(i * 5), Instructions[i]);
         }
+
+        _currentInstructionIndex = -1;
+    }
+
+    private void ComputeLabelMemoryLocations()
+    {
+        int currentLine = 1;
+        int offset = 0;
+
+        if (Labels == null)
+        {
+            return;
+        }
+
+        foreach (ILabel label in Labels)
+        {
+            for (int i = currentLine; i < label.Line; i++)
+            {
+                offset += 5; // DUMMY VALUE
+            }
+
+            offset -= 5;
+
+            VirtualMachine.Memory.LabelMemoryLocations.Add(label.Name, DIFactory.GenerateIMemoryLabel(label.Name, offset + 5, label.Line));
+
+            currentLine = label.Line;
+        }
     }
 
     public IVirtualMachine VirtualMachine
@@ -116,6 +149,7 @@ public class Interpreter : IInterpreter
             field = value;
 
             ConfigureInstructionsLookupTable();
+            ComputeLabelMemoryLocations();
         }
     }
 
@@ -127,6 +161,7 @@ public class Interpreter : IInterpreter
             field = value;
 
             ConfigureInstructionsLookupTable();
+            ComputeLabelMemoryLocations();
         }
     }
 
@@ -138,14 +173,17 @@ public class Interpreter : IInterpreter
             field = value;
 
             ConfigureInstructionsLookupTable();
+            ComputeLabelMemoryLocations();
         }
     }
 
 
     public IInstruction CurrentInstruction => Instructions[_currentInstructionIndex];
     public int CurrentInstructionIndex => _currentInstructionIndex;
+    public bool ExecutingCode => _executingCode;
 
     private Dictionary<ulong, IInstruction> _memoryInstructionLookupTable = [];
     private Dictionary<int, List<IVmAction>> _actions = [];
-    private int _currentInstructionIndex;
+    private int _currentInstructionIndex = -1;
+    private bool _executingCode = false;
 }

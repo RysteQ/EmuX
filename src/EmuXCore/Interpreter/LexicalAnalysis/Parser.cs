@@ -219,6 +219,7 @@ public class Parser : IParser
         else if (Accept(TokenType.LABEL))
         {
             fullOperand += _previousToken!.SourceCode;
+            offsets = [DIFactory.GenerateIMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, _previousToken!.SourceCode)];
             variant = OperandVariant.Label;
         }
         else

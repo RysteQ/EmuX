@@ -70,4 +70,9 @@ public interface IInterpreter
     /// The current instruction index being executed, -1 if no instruction has been executed / all actions have been undone
     /// </summary>
     public int CurrentInstructionIndex { get; }
+
+    /// <summary>
+    /// Useful for the Execute() method to indicate when the execution of the code has finished or not
+    /// </summary>
+    public bool ExecutingCode { get; }
 }

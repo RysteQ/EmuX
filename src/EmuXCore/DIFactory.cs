@@ -51,7 +51,7 @@ public static class DIFactory
     /// <param name="operandDecoder">The operand decoder needed for decoding the operands of the IInstruction</param>
     /// <param name="flagStateProcessor">The flag state processor of the IInstruction needed for updating the CPU flags</param>
     /// <returns>The implementation of IInstruction</returns>
-    public static IInstruction GenerateIInstruction<T>(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) where T : IInstruction => (T)Activator.CreateInstance(typeof(T), variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, 5)!;
+    public static IInstruction GenerateIInstruction<T>(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) where T : IInstruction => (T)Activator.CreateInstance(typeof(T), variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, (ulong)5)!;
 
     /// <summary>
     /// Generates an instance of IInstruction
@@ -79,7 +79,7 @@ public static class DIFactory
     /// <param name="operandDecoder">The operand decoder needed for decoding the operands of the IInstruction</param>
     /// <param name="flagStateProcessor">The flag state processor of the IInstruction needed for updating the CPU flags</param>
     /// <returns>The implementation of IInstruction</returns>
-    public static IInstruction GenerateIInstruction(Type type, Type prefix, InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) => (IInstruction)Activator.CreateInstance(type, variant, Activator.CreateInstance(prefix), firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, 5)!;
+    public static IInstruction GenerateIInstruction(Type type, Type prefix, InstructionVariant variant, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor) => (IInstruction)Activator.CreateInstance(type, variant, Activator.CreateInstance(prefix), firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, (ulong)5)!;
 
     /// <summary>
     /// Generates an instance of IMemoryOffset
