@@ -42,6 +42,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         _interpreter.Instructions = instructions;
         _interpreter.Labels = labels;
 
+        CurrentInstructionIndex = 0;
         VideoOutput = new(_interpreter.VirtualMachine.GPU.Height, _interpreter.VirtualMachine.GPU.Width);
         SourceCodeLines = [];
         SearchedBytes = [];
@@ -59,11 +60,38 @@ public sealed class ExecutionViewModel : BaseViewModel
     {
         try
         {
-            while (_interpreter.CurrentInstructionIndex < SourceCodeLines.Count - _interpreter.Labels.Count - 1)
+            do
             {
                 _interpreter.ExecuteStep();
 
                 UpdateCurrentInstructionIndex();
+            } while (_interpreter.CurrentInstructionIndex != -1);
+
+            await Task.Run(() =>
+            {
+                Console.Beep();
+            });
+        }
+        catch (Exception ex)
+        {
+            InfoPopup.Show(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}\n\nStack trace\n\n{ex.StackTrace}");
+
+            CommandResetInstruction.Execute(null);
+        }
+    }
+
+    private async Task StepInstruction()
+    {
+        try
+        {
+            if (_interpreter.CurrentInstructionIndex == -1)
+            {
+                await Task.Run(() =>
+                {
+                    Console.Beep();
+                });
+
+                return;
             }
 
             _interpreter.ExecuteStep();
@@ -72,21 +100,9 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
-        }
-    }
+            InfoPopup.Show(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}\n\nStack trace\n\n{ex.StackTrace}");
 
-    private async Task StepInstruction()
-    {
-        try
-        {
-            _interpreter.ExecuteStep();
-
-            UpdateCurrentInstructionIndex();
-        }
-        catch (Exception ex)
-        {
-            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
+            CommandResetInstruction.Execute(null);
         }
     }
 
@@ -105,7 +121,9 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
+            InfoPopup.Show(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}\n\nStack trace\n\n{ex.StackTrace}");
+
+            CommandResetInstruction.Execute(null);
         }
     }
 
@@ -119,7 +137,9 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
+            InfoPopup.Show(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}\n\nStack trace\n\n{ex.StackTrace}");
+
+            CommandResetInstruction.Execute(null);
         }
     }
 
@@ -133,7 +153,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
         catch (Exception ex)
         {
-            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
+            InfoPopup.Show(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}\n\nStack trace\n\n{ex.StackTrace}");
         }
     }
 
@@ -177,6 +197,13 @@ public sealed class ExecutionViewModel : BaseViewModel
 
     private void UpdateCurrentInstructionIndex()
     {
+        if (_interpreter.CurrentInstructionIndex == -1)
+        {
+            CurrentInstructionIndex = 0;
+
+            return;
+        }
+
         CurrentInstructionIndex = SourceCodeLines
             .Where(record => record.Instruction == _interpreter.CurrentInstruction)
             .First().Line - 1;
