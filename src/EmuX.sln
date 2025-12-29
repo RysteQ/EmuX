@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuX_Nano", "EmuX\EmuX_Nano.csproj", "{5CF06762-B76D-46AF-A69E-63F7F4F61ECD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuXCoreUnitTests", "EmuXUnitTests\EmuXCoreUnitTests.csproj", "{5CD21144-78F0-45F1-891D-F65BE626887D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmuXCore", "EmuXCore\EmuXCore.csproj", "{A461504A-6FF2-4B2E-808D-19BA5C20C3EE}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5CF06762-B76D-46AF-A69E-63F7F4F61ECD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CF06762-B76D-46AF-A69E-63F7F4F61ECD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CF06762-B76D-46AF-A69E-63F7F4F61ECD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CF06762-B76D-46AF-A69E-63F7F4F61ECD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5CD21144-78F0-45F1-891D-F65BE626887D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5CD21144-78F0-45F1-891D-F65BE626887D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5CD21144-78F0-45F1-891D-F65BE626887D}.Release|Any CPU.ActiveCfg = Release|Any CPU
