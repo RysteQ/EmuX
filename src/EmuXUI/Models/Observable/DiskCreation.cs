@@ -18,8 +18,7 @@ public sealed class DiskCreation : ObservableObject
         get => field;
         set
         {
-            field = value;
-
+            OnPropertyChanged(ref field, value);
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
@@ -29,8 +28,7 @@ public sealed class DiskCreation : ObservableObject
         get => field;
         set
         {
-            field = value;
-
+            OnPropertyChanged(ref field, value);
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
@@ -40,8 +38,7 @@ public sealed class DiskCreation : ObservableObject
         get => field;
         set
         {
-            field = value;
-
+            OnPropertyChanged(ref field, value);
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
@@ -51,8 +48,7 @@ public sealed class DiskCreation : ObservableObject
         get => field;
         set
         {
-            field = value;
-
+            OnPropertyChanged(ref field, value);
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
