@@ -15,6 +15,11 @@ public sealed partial class InfoPopup : Window
         InitialisePopupContents(severity, message);
     }
 
+    public static void Show(InfoPopupSeverity severity, string message)
+    {
+        new InfoPopup(severity, message).Activate();
+    }
+
     private void InitUI()
     {
         ExtendsContentIntoTitleBar = true;
