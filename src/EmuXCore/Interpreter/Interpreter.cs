@@ -126,6 +126,8 @@ public class Interpreter : IInterpreter
             return;
         }
 
+        VirtualMachine.Memory.LabelMemoryLocations.Clear();
+
         foreach (ILabel label in Labels)
         {
             for (int i = currentLine; i < label.Line; i++)
