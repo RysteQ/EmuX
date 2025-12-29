@@ -2,9 +2,11 @@
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
+using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Internal.Device.USBDrives;
 using EmuXUI.Enums;
 using EmuXUI.Models.Logic;
+using EmuXUI.Models.Static;
 using EmuXUI.Popups;
 using EmuXUI.ViewModels.Internal;
 using EmuXUI.Views;
@@ -46,7 +48,18 @@ public sealed class MainWindowViewModel : BaseViewModel
 
     private void DisplayVirtualMachineConfigurationWindow()
     {
-        VirtualMachineConfigurationWindow virtualMachineConfigurationWindow = new(ref _virtualMachine);
+        VirtualMachineConfigurationWindow virtualMachineConfigurationWindow = new
+        (
+            new()
+            {
+                SelectedCPU = new(string.Empty, _virtualMachine.CPU),
+                SelectedGPU = new(string.Empty, _virtualMachine.GPU),
+                Disks = _virtualMachine.Disks.Select(selector => new DiskSelection(selector)).ToList(),
+                Devices = _virtualMachine.Devices.Select(selector => new DeviceSelection(string.Empty, selector.GetType())).ToList(),
+                SelectedIOMemoryInKbAmount = (int)_virtualMachine.Memory.IO_MEMORY / 1024,
+                SelectedGeneralPurposeMemoryInKbAmount = (int)_virtualMachine.Memory.GENERAL_PURPOSE_MEMORY / 1024
+            }
+        );
 
         virtualMachineConfigurationWindow.SavedVirtualMachineConfiguration += VirtualMachineConfigurationWindow_SavedVirtualMachineConfiguration;
 
@@ -55,7 +68,27 @@ public sealed class MainWindowViewModel : BaseViewModel
 
     private void VirtualMachineConfigurationWindow_SavedVirtualMachineConfiguration(object? sender, EventArgs e)
     {
-        _virtualMachineConfiguration = (VirtualMachineConfiguration)e;
+        IVirtualMachineBuilder virtualMachineBuilder = DIFactory.GenerateIVirtualMachineBuilder();
+        VirtualMachineConfiguration _virtualMachineConfiguration = (VirtualMachineConfiguration)e;
+
+        virtualMachineBuilder = virtualMachineBuilder
+            .SetCpu(_virtualMachineConfiguration.SelectedCPU.CPU)
+            .SetMemory(DIFactory.GenerateIVirtualMemory((uint)_virtualMachineConfiguration.SelectedIOMemoryInKbAmount * 1024, (uint)_virtualMachineConfiguration.SelectedGeneralPurposeMemoryInKbAmount * 1024))
+            .SetBios(DIFactory.GenerateIVirtualBIOS(DIFactory.GenerateIDiskInterruptHandler(), DIFactory.GenerateIRTCInterruptHandler(), DIFactory.GenerateIVideoInterruptHandler(), DIFactory.GenerateIDeviceInterruptHandler()))
+            .SetRTC(DIFactory.GenerateIVirtualRTC())
+            .SetGPU(_virtualMachineConfiguration.SelectedGPU.GPU);
+
+        foreach (DiskSelection disk in _virtualMachineConfiguration.Disks)
+        {
+            virtualMachineBuilder = virtualMachineBuilder.AddDisk(disk.VirtualDisk);
+        }
+
+        for (int i = 0; i < _virtualMachineConfiguration.Devices.Count; i++)
+        {
+            virtualMachineBuilder = virtualMachineBuilder.AddVirtualDevice((IVirtualDevice)Activator.CreateInstance(_virtualMachineConfiguration.Devices[i].DeviceType, (ushort)(i + 1), null)!);
+        }
+
+        _virtualMachine = virtualMachineBuilder.Build();
     }
 
     private async Task DisplayExecutionWindow()
@@ -67,10 +100,11 @@ public sealed class MainWindowViewModel : BaseViewModel
             IList<IToken> tokens = lexer.Tokenize(SourceCode);
             IList<int> sameNameLabels = [];
             IParserResult parserResult = parser.Parse(tokens);
+            string instructionErrors = string.Empty;
 
             if (!parserResult.Success)
             {
-                new InfoPopup(InfoPopupSeverity.Warning, string.Join('\n', parserResult.Errors.ToArray())).Activate();
+                InfoPopup.Show(InfoPopupSeverity.Warning, string.Join('\n', parserResult.Errors.ToArray()));
 
                 return;
             }
@@ -88,18 +122,33 @@ public sealed class MainWindowViewModel : BaseViewModel
 
             if (sameNameLabels.Any())
             {
-                new InfoPopup(InfoPopupSeverity.Warning, $"Cannot have same named labels, lines to look at [{string.Join('\n', sameNameLabels.Select(selector => selector.ToString()).ToList())}]").Activate();
+                InfoPopup.Show(InfoPopupSeverity.Warning, $"Cannot have same named labels, lines to look at [{string.Join('\n', sameNameLabels.Select(selector => selector.ToString()).ToList())}]");
 
                 return;
             }
 
-            _virtualMachine.Memory.LabelMemoryLocations.Clear();
+            for (int i = 0; i < parserResult.Instructions.Count; i++)
+            {
+                if (!parserResult.Instructions[i].IsValid())
+                {
+                    instructionErrors += $"Instruction {i + 1} is not valid\n";
+                }
+            }
 
-            new ExecutionWindow(parserResult.Instructions, parserResult.Labels, _virtualMachine).Activate();
+            if (string.IsNullOrEmpty(instructionErrors))
+            {
+                _virtualMachine.Memory.LabelMemoryLocations.Clear();
+
+                new ExecutionWindow(parserResult.Instructions, parserResult.Labels, _virtualMachine).Activate();
+            }
+            else
+            {
+                InfoPopup.Show(InfoPopupSeverity.Warning, instructionErrors);
+            }
         }
         catch (Exception ex)
         {
-            new InfoPopup(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}").Activate();
+            InfoPopup.Show(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}");
         }
     }
 
@@ -108,6 +157,5 @@ public sealed class MainWindowViewModel : BaseViewModel
 
     public string SourceCode { get; set; }
 
-    private VirtualMachineConfiguration _virtualMachineConfiguration;
     private IVirtualMachine _virtualMachine;
 }

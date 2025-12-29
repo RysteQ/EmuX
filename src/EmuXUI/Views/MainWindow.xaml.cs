@@ -40,7 +40,7 @@ public sealed partial class MainWindow : Window
     {
         InitializeComponent();
 
-        ViewModel = new MainWindowViewModel();
+        ViewModel = new();
 
         InitUI();
     }
@@ -69,6 +69,7 @@ public sealed partial class MainWindow : Window
     {
         SourceCodeTextControlBox.EnableSyntaxHighlighting = true;
         SourceCodeTextControlBox.ShowLineHighlighter = true;
+        SourceCodeTextControlBox.NumberOfSpacesForTab = 4;
         SourceCodeTextControlBox.SyntaxHighlighting = new x86Assembly();
     }
 
@@ -79,22 +80,27 @@ public sealed partial class MainWindow : Window
 
     private void ExecuteMenuBarItem_Tapped(object sender, TappedRoutedEventArgs e)
     {
+        if (string.IsNullOrWhiteSpace(SourceCodeTextControlBox.Text))
+        {
+            return;
+        }
+
         ViewModel.SourceCode = SourceCodeTextControlBox.Text;
         ViewModel.CommandExecuteCode.Execute(null);
     }
 
     private async void AboutMenuBarItem_Tapped(object sender, TappedRoutedEventArgs e)
     {
-        ContentDialog noWifiDialog = new()
+        ContentDialog versionDialog = new()
         {
             Title = "About",
-            Content = "Created by RysteQ on GitHub\n\nVersion: 1.0.0",
+            Content = "Created by RysteQ on GitHub\n\nVersion: 2.0.0",
             CloseButtonText = "Okay"
         };
 
-        noWifiDialog.XamlRoot = this.Content.XamlRoot;
+        versionDialog.XamlRoot = this.Content.XamlRoot;
 
-        ContentDialogResult result = await noWifiDialog.ShowAsync();
+        ContentDialogResult result = await versionDialog.ShowAsync();
     }
 
     private async void MenuFlyoutItemOpenFile_Click(object sender, RoutedEventArgs e)
@@ -119,6 +125,7 @@ public sealed partial class MainWindow : Window
 
         _selectedFile = pickedFile.Path;
         SourceCodeTextControlBox.Text = File.ReadAllText(_selectedFile);
+        SourceCodeTextControlBox.Focus(FocusState.Keyboard);
     }
 
     private async void MenuFlyoutItemSaveFile_Click(object sender, RoutedEventArgs e)
@@ -148,13 +155,14 @@ public sealed partial class MainWindow : Window
 
         if (saveLocation == null)
         {
-            new InfoPopup(Enums.InfoPopupSeverity.Warning, "The file wasn't saved, a valid save location is required").Activate();
+            InfoPopup.Show(Enums.InfoPopupSeverity.Warning, "The file wasn't saved, a valid save location is required");
 
             return;
         }
 
         _selectedFile = saveLocation.Path;
         File.WriteAllText(_selectedFile, SourceCodeTextControlBox.Text);
+        SourceCodeTextControlBox.Focus(FocusState.Keyboard);
     }
 
     private void MenuFlyoutItemUndo_Click(object sender, RoutedEventArgs e)

@@ -1,12 +1,12 @@
 ﻿using EmuXCore;
-using EmuXCore.VM.Interfaces;
-using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Internal.Device.USBDrives;
+using EmuXUI.Enums;
 using EmuXUI.Models.Logic;
 using EmuXUI.Models.Observable;
 using EmuXUI.Models.Static;
 using EmuXUI.Popups;
 using EmuXUI.ViewModels.Internal;
+using Microsoft.Windows.AI.ContentSafety;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -16,14 +16,16 @@ namespace EmuXUI.ViewModels;
 
 public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
 {
-    public VirtualMachineConfigurationViewModel(ref IVirtualMachine virtualMachine)
+    public VirtualMachineConfigurationViewModel(VirtualMachineConfiguration currentVirtualMachineConfiguration)
     {
+        VirtualMachineConfiguration = currentVirtualMachineConfiguration;
+
         CommandDeleteDisk = GenerateCommand(DeleteDisk);
         CommandAddDisk = GenerateCommand(AddDisk);
         CommandDeleteDevice = GenerateCommand(DeleteDevice);
         CommandAddDevice = GenerateCommand(AddDevice);
-        CommandRestoreDefaultValue = GenerateCommand(InitialiseDefaultValues);
-        CommandSave = GenerateCommand(SaveVirtualMachine);
+        CommandRestoreDefaultValue = GenerateCommand(RestoreDefaultValues);
+        CommandSaveConfiguration = GenerateCommand(SaveConfiguration);
 
         AvailableCPUs = new
         ([
@@ -35,9 +37,7 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
             new("GPU Mk1", DIFactory.GenerateIVirtualGPU())
         ]);
 
-        _virtualMachine = virtualMachine;
-
-        InitialiseDefaultValues();
+        RestoreDefaultValues();
     }
 
     private void DeleteDisk()
@@ -47,28 +47,33 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
             return;
         }
 
-        VirtualMachineConfiguration.Disks.Remove(SelectedDisk);
-        OnPropertyChanged(nameof(VirtualMachineConfiguration.Disks));
+        if (Disks.Count == 1)
+        {
+            InfoPopup.Show(InfoPopupSeverity.Warning, "At least one disk is required");
+
+            return;
+        }
+
+        Disks.Remove(SelectedDisk);
     }
 
     private void AddDisk()
     {
         byte diskNumber = 1;
 
-        if (VirtualMachineConfiguration.Disks.Count > 100)
+        if (Disks.Count > 100)
         {
-            new InfoPopup(Enums.InfoPopupSeverity.Error, "Cannot have more than 100 disks").Activate();
+            InfoPopup.Show(InfoPopupSeverity.Error, "Cannot have more than 100 disks");
 
             return;
         }
 
-        if (VirtualMachineConfiguration.Disks.Any())
+        if (Disks.Any())
         {
-            diskNumber = VirtualMachineConfiguration.Disks.Last().VirtualDisk.DiskNumber;
+            diskNumber = Disks.Last().VirtualDisk.DiskNumber;
         }
 
-        VirtualMachineConfiguration.Disks.Add(new(DIFactory.GenerateIVirtualDisk(diskNumber, (byte)NewDisk.Platters, (ushort)NewDisk.Tracks, (byte)NewDisk.Sectors)));
-        OnPropertyChanged(nameof(VirtualMachineConfiguration.Disks));
+        Disks.Add(new(DIFactory.GenerateIVirtualDisk(diskNumber, (byte)NewDisk.Platters, (ushort)NewDisk.Tracks, (byte)NewDisk.Sectors)));
     }
 
     private void DeleteDevice()
@@ -78,15 +83,14 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
             return;
         }
 
-        VirtualMachineConfiguration.Devices.Remove(SelectedDevice);
-        OnPropertyChanged(nameof(VirtualMachineConfiguration.Devices));
+        Devices.Remove(SelectedDevice);
     }
 
     private void AddDevice()
     {
-        if (VirtualMachineConfiguration.Devices.Count > 100)
+        if (Devices.Count > 100)
         {
-            new InfoPopup(Enums.InfoPopupSeverity.Error, "Cannot have more than 100 devices").Activate();
+            InfoPopup.Show(InfoPopupSeverity.Error, "Cannot have more than 100 devices");
 
             return;
         }
@@ -96,75 +100,75 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
             return;
         }
 
-        VirtualMachineConfiguration.Devices.Add(NewDevice);
-        OnPropertyChanged(nameof(VirtualMachineConfiguration.Devices));
+        Devices.Add(NewDevice);
     }
 
-    private void InitialiseDefaultValues()
+    private void RestoreDefaultValues()
     {
-        VirtualMachineConfiguration = new()
+        if (Devices == null)
         {
-            Disks =
-            [
-                new(DIFactory.GenerateIVirtualDisk(1, 16, 16, 64))
-            ],
+            Devices = [];
+        }
+        else
+        {
+            Devices.Clear();
+        }
 
-            Devices =
-            [
-                new("USB Drive 64Kb", typeof(UsbDrive64Kb))
-            ],
-
-            SelectedIOMemoryInKbAmount = 65_536,
-            SelectedGeneralPurposeMemoryInKbAmount = 1_048_576
-        };
+        if (Disks == null)
+        {
+            Disks = [];
+        }
+        else
+        {
+            Disks.Clear();
+        }
 
         AvailableDevices =
         [
             new("USB Drive 64Kb", typeof(UsbDrive64Kb))
         ];
 
+        foreach (DeviceSelection device in VirtualMachineConfiguration.Devices)
+        {
+            if (device.DeviceType == typeof(UsbDrive64Kb))
+            {
+                Devices.Add(new("USB Drive 64Kb", typeof(UsbDrive64Kb)));
+            }
+            else
+            {
+                InfoPopup.Show(InfoPopupSeverity.Error, $"Device type {device.DeviceType} is not recognisable");
+            }
+        }
+
+        foreach (DiskSelection disk in VirtualMachineConfiguration.Disks)
+        {
+            Disks.Add(disk);
+        }
+
+        SelectedIOMemoryInKbAmount = VirtualMachineConfiguration.SelectedIOMemoryInKbAmount;
+        SelectedGeneralPurposeMemoryInKbAmount = VirtualMachineConfiguration.SelectedGeneralPurposeMemoryInKbAmount;
+
         NewDisk = new();
-        VirtualMachineConfiguration.SelectedCPU = AvailableCPUs.First();
-        VirtualMachineConfiguration.SelectedGPU = AvailableGPUs.First();
+        SelectedCPU = AvailableCPUs.First(record => record.CPU.GetType() == VirtualMachineConfiguration.SelectedCPU.CPU.GetType());
+        SelectedGPU = AvailableGPUs.First(record => record.GPU.GetType() == VirtualMachineConfiguration.SelectedGPU.GPU.GetType());
         SelectedDisk = null;
         SelectedDevice = null;
         NewDevice = null;
 
-        OnPropertyChanged(nameof(VirtualMachineConfiguration.Disks));
-        OnPropertyChanged(nameof(VirtualMachineConfiguration.Devices));
-        OnPropertyChanged(nameof(AvailableDevices));
-
-        OnPropertyChanged(nameof(NewDisk));
-        OnPropertyChanged(nameof(VirtualMachineConfiguration.SelectedCPU));
-        OnPropertyChanged(nameof(VirtualMachineConfiguration.SelectedGPU));
-        OnPropertyChanged(nameof(SelectedDisk));
-        OnPropertyChanged(nameof(SelectedDevice));
-        OnPropertyChanged(nameof(NewDevice));
+        OnPropertyChanged(nameof(SelectedCPU));
+        OnPropertyChanged(nameof(SelectedGPU));
     }
 
-    private void SaveVirtualMachine()
+    private void SaveConfiguration()
     {
-        IVirtualMachineBuilder virtualMachineBuilder = DIFactory.GenerateIVirtualMachineBuilder();
-        
-        virtualMachineBuilder = virtualMachineBuilder
-            .SetCpu(VirtualMachineConfiguration.SelectedCPU.CPU)
-            .SetMemory(DIFactory.GenerateIVirtualMemory(VirtualMachineConfiguration.SelectedIOMemoryInKbAmount * 1024, VirtualMachineConfiguration.SelectedGeneralPurposeMemoryInKbAmount * 1024))
-            .SetBios(DIFactory.GenerateIVirtualBIOS(DIFactory.GenerateIDiskInterruptHandler(), DIFactory.GenerateIRTCInterruptHandler(), DIFactory.GenerateIVideoInterruptHandler(), DIFactory.GenerateIDeviceInterruptHandler()))
-            .SetRTC(DIFactory.GenerateIVirtualRTC())
-            .SetGPU(VirtualMachineConfiguration.SelectedGPU.GPU)
-            .AddVirtualDevice(DIFactory.GenerateIVirtualDevice<UsbDrive64Kb>(1));
+        VirtualMachineConfiguration.SelectedCPU = SelectedCPU;
+        VirtualMachineConfiguration.SelectedGPU = SelectedGPU;
+        VirtualMachineConfiguration.Disks = Disks.ToList();
+        VirtualMachineConfiguration.Devices = Devices.ToList();
+        VirtualMachineConfiguration.SelectedIOMemoryInKbAmount = SelectedIOMemoryInKbAmount;
+        VirtualMachineConfiguration.SelectedGeneralPurposeMemoryInKbAmount = SelectedGeneralPurposeMemoryInKbAmount;
 
-        foreach (DiskSelection disk in VirtualMachineConfiguration.Disks)
-        {
-            virtualMachineBuilder = virtualMachineBuilder.AddDisk(disk.VirtualDisk);
-        }
-
-        for (int i = 0; i < VirtualMachineConfiguration.Devices.Count; i++)
-        {
-            virtualMachineBuilder = virtualMachineBuilder.AddVirtualDevice((IVirtualDevice)Activator.CreateInstance(VirtualMachineConfiguration.Devices[i].DeviceType, (ushort)(i + 1), null)!);
-        }
-
-        _virtualMachine = virtualMachineBuilder.Build();
+        SavedConfiguration?.Invoke(this, VirtualMachineConfiguration);
     }
 
     public ICommand CommandDeleteDisk { get; init; }
@@ -172,7 +176,72 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
     public ICommand CommandDeleteDevice { get; init; }
     public ICommand CommandAddDevice { get; init; }
     public ICommand CommandRestoreDefaultValue { get; init; }
-    public ICommand CommandSave { get; init; }
+    public ICommand CommandSaveConfiguration { get; init; }
+
+    public event EventHandler? SavedConfiguration;
+
+    public CpuSelection SelectedCPU
+    {
+        get => field;
+        set => field = value;
+    }
+    
+    public GpuSelection SelectedGPU
+    {
+        get => field;
+        set => field = value;
+    }
+
+    public ObservableCollection<DiskSelection> Disks
+    {
+        get => field;
+        set
+        {
+            OnPropertyChanged(ref field, value);
+        }
+    }
+
+    public ObservableCollection<DeviceSelection> Devices
+    {
+        get => field;
+        set => OnPropertyChanged(ref field, value);
+    }
+
+    public int SelectedIOMemoryInKbAmount
+    {
+        get => field;
+        set
+        {
+            if (value > MAXIMUM_IO_MEMORY_KB)
+            {
+                InfoPopup.Show(InfoPopupSeverity.Warning, $"IO memory cannot exceed {MAXIMUM_IO_MEMORY_KB} kilobytes");
+
+                OnPropertyChanged(ref field, MAXIMUM_IO_MEMORY_KB);
+
+                return;
+            }
+
+            OnPropertyChanged(ref field, value);
+        }
+    }
+    
+    public int SelectedGeneralPurposeMemoryInKbAmount
+    {
+        get => field;
+        set
+        {
+            if (value > MAXIMUM_GP_MEMORY_KB)
+            {
+                InfoPopup.Show(InfoPopupSeverity.Warning, $"General purpose memory cannot exceed {MAXIMUM_GP_MEMORY_KB} kilobytes");
+
+                OnPropertyChanged(ref field, MAXIMUM_GP_MEMORY_KB);
+
+                return;
+            }
+
+            OnPropertyChanged(ref field, value);
+        }
+    }
 
     public ObservableCollection<CpuSelection> AvailableCPUs { get; init; }
     public ObservableCollection<GpuSelection> AvailableGPUs { get; init; }
@@ -182,7 +251,8 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
     public DeviceSelection? SelectedDevice { get; set; }
     public DeviceSelection? NewDevice { get; set; }
 
-    public VirtualMachineConfiguration VirtualMachineConfiguration { get; set; }
+    public VirtualMachineConfiguration VirtualMachineConfiguration { get; init; }
 
-    private IVirtualMachine _virtualMachine;
+    private const int MAXIMUM_IO_MEMORY_KB = 512;
+    private const int MAXIMUM_GP_MEMORY_KB = 2048;
 }
