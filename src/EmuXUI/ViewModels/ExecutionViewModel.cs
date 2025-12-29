@@ -67,6 +67,8 @@ public sealed class ExecutionViewModel : BaseViewModel
                 UpdateCurrentInstructionIndex();
             } while (_interpreter.CurrentInstructionIndex != -1);
 
+            CurrentInstructionIndex = SourceCodeLines.Last().Line - 1;
+
             await Task.Run(() =>
             {
                 Console.Beep();
