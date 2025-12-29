@@ -63,8 +63,6 @@
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType = "StaticModels:SourceCodeLine">
                         <StackPanel Orientation = "Horizontal" Spacing = "6">
-                            <TextBlock Text = "{x:Bind Line}" />
-                            <TextBlock Text = "-" />
                             <TextBlock Text = "{x:Bind SourceCode}" />
                         </StackPanel>
                     </DataTemplate>
