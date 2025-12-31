@@ -80,7 +80,7 @@ public sealed partial class MainWindow : Window
 
     private void ExecuteMenuBarItem_Tapped(object sender, TappedRoutedEventArgs e)
     {
-        if (string.IsNullOrWhiteSpace(SourceCodeTextControlBox.Text))
+        if (SourceCodeTextControlBox.CharacterCount() == 0)
         {
             return;
         }
@@ -124,7 +124,7 @@ public sealed partial class MainWindow : Window
         }
 
         _selectedFile = pickedFile.Path;
-        SourceCodeTextControlBox.Text = File.ReadAllText(_selectedFile);
+        SourceCodeTextControlBox.SetText(File.ReadAllText(_selectedFile));
         SourceCodeTextControlBox.Focus(FocusState.Keyboard);
     }
 
@@ -137,7 +137,7 @@ public sealed partial class MainWindow : Window
             return;
         }
 
-        File.WriteAllText(_selectedFile, SourceCodeTextControlBox.Text);
+        File.WriteAllLines(_selectedFile, SourceCodeTextControlBox.Lines);
     }
 
     private async void MenuFlyoutItemSaveFileAs_Click(object sender, RoutedEventArgs e)
@@ -161,7 +161,7 @@ public sealed partial class MainWindow : Window
         }
 
         _selectedFile = saveLocation.Path;
-        File.WriteAllText(_selectedFile, SourceCodeTextControlBox.Text);
+        File.WriteAllLines(_selectedFile, SourceCodeTextControlBox.Lines);
         SourceCodeTextControlBox.Focus(FocusState.Keyboard);
     }
 
@@ -319,7 +319,7 @@ public sealed partial class MainWindow : Window
 
     private void FindAndNavigateToTextReference()
     {
-        string[] sourceCodeLines = SourceCodeTextControlBox.Text.Split('\n');
+        string[] sourceCodeLines = SourceCodeTextControlBox.Lines.ToArray();
         StringComparison comparison = StringComparison.OrdinalIgnoreCase;
 
         if (string.IsNullOrEmpty(TextBoxFindString.Text))
@@ -337,23 +337,20 @@ public sealed partial class MainWindow : Window
             comparison = StringComparison.Ordinal;
         }
 
-        for (int i = SourceCodeTextControlBox.CurrentLineIndex; i < sourceCodeLines.Length; i++)
+        if (SourceCodeTextControlBox.BeginSearch(TextBoxFindString.Text, false, (bool)CheckboxMatchStringReferenceToLookupCase.IsChecked!) == SearchResult.Found)
         {
-            if (sourceCodeLines[i].Contains(TextBoxFindString.Text, comparison))
+            SourceCodeTextControlBox.FindNext();
+            SourceCodeTextControlBox.Focus(FocusState.Keyboard);
+        }
+        else
+        {
+            Task.Run(() =>
             {
-                GridFindStringReferenceControlsGroup.Visibility = Visibility.Collapsed;
-
-                SourceCodeTextControlBox.SetCursorPosition(i, sourceCodeLines[i].IndexOf(TextBoxFindString.Text));
-                SourceCodeTextControlBox.Focus(FocusState.Keyboard);
-
-                return;
-            }
+                Console.Beep();
+            });
         }
 
-        Task.Run(() =>
-        {
-            Console.Beep();
-        });
+        SourceCodeTextControlBox.EndSearch();
     }
 
     private void FindAllTextReferences()
