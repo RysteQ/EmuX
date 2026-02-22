@@ -124,10 +124,27 @@
             </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width = "20px" />
                 <ColumnDefinition Width = "*" />
             </Grid.ColumnDefinitions>
 
-            <codeEditor:TextControlBox x:Name = "SourceCodeTextControlBox" Grid.Row = "0" Grid.Column = "0" KeyDown = "SourceCodeTextControlBox_KeyDown" PointerPressed = "SourceCodeTextControlBox_PointerPressed" />
+            <Grid Grid.Row = "0" Grid.Column = "0" Margin = "0" Padding = "0,4,0,12" Background = "#ff292929">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height = "*" />
+                </Grid.RowDefinitions>
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width = "*" />
+                </Grid.ColumnDefinitions>
+
+                <ScrollViewer x:Name = "ScrollbarForBreakpoints" Grid.Row = "0" Grid.Column = "0" Margin = "0" Padding = "0" VerticalScrollBarVisibility = "Hidden" HorizontalScrollBarVisibility = "Hidden" IsHorizontalRailEnabled="True">
+                    <StackPanel Orientation = "Vertical">
+                        <ItemsControl x:Name = "ListBoxBreakpoints" Margin = "0" Padding = "0" ScrollViewer.VerticalScrollBarVisibility = "Hidden" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+
+            <codeEditor:TextControlBox x:Name = "SourceCodeTextControlBox" Grid.Row = "0" Grid.Column = "1" KeyDown = "SourceCodeTextControlBox_KeyDown" KeyUp = "SourceCodeTextControlBox_KeyUp" PointerWheelChanged = "SourceCodeTextControlBox_PointerWheelChanged" PointerMoved = "SourceCodeTextControlBox_PointerMoved" />
 
             <Grid x:Name = "GridFindStringReferenceControlsGroup" Grid.Row = "0" Grid.Column = "1" Visibility = "Collapsed">
                 <Grid.RowDefinitions>
@@ -169,7 +186,7 @@
                 </StackPanel>
             </Grid>
 
-            <Grid Grid.Row = "2" Grid.Column = "0" Background = "#50000000">
+            <Grid Grid.Row = "2" Grid.Column = "0" Grid.ColumnSpan = "2" Background = "#50000000">
                 <Grid.RowDefinitions>
                     <RowDefinition Height = "*" />
                 </Grid.RowDefinitions>

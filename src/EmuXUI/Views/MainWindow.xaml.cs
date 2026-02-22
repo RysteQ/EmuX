@@ -1,6 +1,7 @@
 using EmuXUI.Assets.SyntaxHighlighting;
 using EmuXUI.Popups;
 using EmuXUI.ViewModels;
+using Microsoft.UI;
 using Microsoft.UI.Input;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -50,6 +51,7 @@ public sealed partial class MainWindow : Window
         InitTitleBar();
         InitMenuBar();
         InitCodeEditor();
+        ConfigureBreakpoints();
     }
 
     private void InitTitleBar()
@@ -80,12 +82,23 @@ public sealed partial class MainWindow : Window
 
     private void ExecuteMenuBarItem_Tapped(object sender, TappedRoutedEventArgs e)
     {
+        List<int> breakpointLines = [];
+
         if (SourceCodeTextControlBox.CharacterCount() == 0)
         {
             return;
         }
 
+        for (int i = 0; i < _breakpointEnabledStatus.Count; i++)
+        {
+            if (!string.IsNullOrEmpty(SourceCodeTextControlBox.GetLineText(i)) && !SourceCodeTextControlBox.GetLineText(i).EndsWith(':') && _breakpointEnabledStatus[i])
+            {
+                breakpointLines.Add(i);
+            }
+        }
+
         ViewModel.SourceCode = SourceCodeTextControlBox.Text;
+        ViewModel.Breakpoints = breakpointLines;
         ViewModel.CommandExecuteCode.Execute(null);
     }
 
@@ -94,7 +107,7 @@ public sealed partial class MainWindow : Window
         ContentDialog versionDialog = new()
         {
             Title = "About",
-            Content = "Created by RysteQ on GitHub\n\nVersion: 2.0.2",
+            Content = "Created by RysteQ on GitHub\n\nVersion: 2.1.2",
             CloseButtonText = "Okay"
         };
 
@@ -227,16 +240,6 @@ public sealed partial class MainWindow : Window
         TextBoxFindString.Focus(FocusState.Keyboard);
     }
 
-    private void SourceCodeTextControlBox_PointerPressed(object sender, PointerRoutedEventArgs e)
-    {
-        if (GridFindStringReferenceControlsGroup.Visibility == Visibility.Visible)
-        {
-            GridFindStringReferenceControlsGroup.Visibility = Visibility.Collapsed;
-        }
-        
-        UpdateSizeRowColumnTextBlocks();
-    }
-
     private void SourceCodeTextControlBox_KeyDown(object sender, KeyRoutedEventArgs e)
     {
         if (GridFindStringReferenceControlsGroup.Visibility == Visibility.Visible)
@@ -245,9 +248,17 @@ public sealed partial class MainWindow : Window
             SourceCodeTextControlBox.EndSearch();
         }
 
+        ConfigureBreakpoints();
+        UpdateBreakpointScrollbar();
         UpdateSizeRowColumnTextBlocks();
     }
-    
+
+    private void SourceCodeTextControlBox_KeyUp(object sender, KeyRoutedEventArgs e)
+    {
+        ConfigureBreakpoints();
+        UpdateBreakpointScrollbar();
+    }
+
     private void TextBoxFindString_KeyDown(object sender, KeyRoutedEventArgs e)
     {
         if (e.Key == VirtualKey.Escape)
@@ -307,6 +318,7 @@ public sealed partial class MainWindow : Window
     {
         _findAllStringReferencesClicked = false;
 
+        UpdateBreakpointScrollbar();
         FindAndNavigateToTextReference();
     }
 
@@ -379,10 +391,129 @@ public sealed partial class MainWindow : Window
         ColumnTextBlock.Text = $"Col: {SourceCodeTextControlBox.CursorPosition.CharacterPosition}";
     }
 
+    private void ConfigureBreakpoints()
+    {
+        if (SourceCodeTextControlBox.Lines.Any())
+        {
+            if ((
+                    string.IsNullOrEmpty(SourceCodeTextControlBox.GetLineText(SourceCodeTextControlBox.CurrentLineIndex)) 
+                    || SourceCodeTextControlBox.GetLineText(SourceCodeTextControlBox.CurrentLineIndex).EndsWith(':')
+                )
+                && ListBoxBreakpoints.Items.Count == SourceCodeTextControlBox.NumberOfLines)
+            {
+                RemoveLineBreakpoint(SourceCodeTextControlBox.CurrentLineIndex);
+
+                return;
+            }
+        }
+
+        if (ListBoxBreakpoints.Items.Count > SourceCodeTextControlBox.NumberOfLines)
+        {
+            RemoveLinesBreakpoint();
+        }
+        else if (ListBoxBreakpoints.Items.Count < SourceCodeTextControlBox.NumberOfLines)
+        {
+            AddLinesBreakpoint();
+        }
+    }
+
+    private void RemoveLineBreakpoint(int lineIndex)
+    {
+        ListBoxBreakpoints.Items.RemoveAt(lineIndex);
+        _breakpointGridButtons.RemoveAt(lineIndex);
+        _breakpointEnabledStatus.RemoveAt(lineIndex);
+    }
+
+    private void RemoveLinesBreakpoint()
+    {
+        do
+        {
+            if (!string.IsNullOrEmpty(SourceCodeTextControlBox.GetLineText(SourceCodeTextControlBox.CurrentLineIndex)))
+            {
+                RemoveLineBreakpoint(SourceCodeTextControlBox.CurrentLineIndex + 1);
+
+                continue;
+            }
+
+            RemoveLineBreakpoint(SourceCodeTextControlBox.CurrentLineIndex);
+        }
+        while (ListBoxBreakpoints.Items.Count > SourceCodeTextControlBox.NumberOfLines);
+    }
+
+    private void AddLinesBreakpoint()
+    {
+        Grid breakpointToAdd;
+        int lineOffset = 0;
+
+        do
+        {
+            breakpointToAdd = new Grid()
+            {
+                Height = SourceCodeTextControlBox.ActualLineHeight,
+                Background = new SolidColorBrush(new Color() { A = 0 }),
+                Width = 20,
+                BorderThickness = new(1),
+                CornerRadius = new(4),
+                Margin = new(0),
+                Padding = new(0)
+            };
+
+            breakpointToAdd.Tapped += (sender, e) =>
+            {
+                Grid clickedBreakpoint = (Grid)sender;
+                int breakpointIndex = _breakpointGridButtons.IndexOf(clickedBreakpoint);
+
+                if (_breakpointEnabledStatus[breakpointIndex])
+                {
+                    clickedBreakpoint.Background = new SolidColorBrush(new Color() { A = 0 });
+                    _breakpointEnabledStatus[breakpointIndex] = false;
+                }
+                else if (!string.IsNullOrEmpty(SourceCodeTextControlBox.GetLineText(breakpointIndex)) && !SourceCodeTextControlBox.GetLineText(breakpointIndex).EndsWith(':'))
+                {
+                    clickedBreakpoint.Background = new SolidColorBrush(new Color() { A = 255, R = 216, G = 0, B = 0 });
+                    _breakpointEnabledStatus[breakpointIndex] = true;
+                }
+            };
+
+            if (SourceCodeTextControlBox.CurrentLineIndex >= ListBoxBreakpoints.Items.Count)
+            {
+                ListBoxBreakpoints.Items.Add(breakpointToAdd);
+                _breakpointGridButtons.Add(breakpointToAdd);
+                _breakpointEnabledStatus.Add(false);
+            }
+            else
+            {
+                ListBoxBreakpoints.Items.Insert(SourceCodeTextControlBox.CurrentLineIndex + lineOffset, breakpointToAdd);
+                _breakpointGridButtons.Insert(SourceCodeTextControlBox.CurrentLineIndex + lineOffset, breakpointToAdd);
+                _breakpointEnabledStatus.Insert(SourceCodeTextControlBox.CurrentLineIndex + lineOffset, false);
+            }
+
+            lineOffset++;
+        }
+        while (ListBoxBreakpoints.Items.Count < SourceCodeTextControlBox.NumberOfLines);
+    }
+
+    private void SourceCodeTextControlBox_PointerWheelChanged(object sender, PointerRoutedEventArgs e)
+    {
+        UpdateBreakpointScrollbar();
+    }
+
+    private void SourceCodeTextControlBox_PointerMoved(object sender, PointerRoutedEventArgs e)
+    {
+        UpdateBreakpointScrollbar();
+    }
+
+    private void UpdateBreakpointScrollbar()
+    {
+        ScrollbarForBreakpoints.ChangeView(0, Math.Round(SourceCodeTextControlBox.VerticalScroll * 4 / SourceCodeTextControlBox.ActualLineHeight, MidpointRounding.ToZero) * SourceCodeTextControlBox.ActualLineHeight, 1);
+    }
+
     public MainWindowViewModel ViewModel { get; set; }
 
     private string _selectedFile = string.Empty;
     private bool _findModeEnabled = false;
     private bool _findAllStringReferencesClicked = false;
     private bool _replaceAllStringReferencesClicked = false;
+    private List<Grid> _breakpointGridButtons = [];
+    private List<bool> _breakpointEnabledStatus = [];
 }

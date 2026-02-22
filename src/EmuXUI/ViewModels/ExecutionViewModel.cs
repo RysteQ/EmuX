@@ -28,7 +28,7 @@ namespace EmuXUI.ViewModels;
 
 public sealed class ExecutionViewModel : BaseViewModel
 {
-    public ExecutionViewModel(IList<IInstruction> instructions, IList<ILabel> labels, IVirtualMachine virtualMachine)
+    public ExecutionViewModel(IList<IInstruction> instructions, IList<ILabel> labels, IList<int> breakpoints, IVirtualMachine virtualMachine)
     {
         CommandExecuteCode = GenerateCommand(async () => await ExecuteCode());
         CommandStepToNextInstruction = GenerateCommand(async () => await StepInstruction());
@@ -52,16 +52,32 @@ public sealed class ExecutionViewModel : BaseViewModel
         _interpreter.VirtualMachine.RegisterAccessed += VirtualMachine_RegisterAccessed;
         _interpreter.VirtualMachine.VideoCardAccessed += VirtualMachine_VideoCardAccessed;
 
-        InitInstructions();
+        InitInstructions(breakpoints);
         InitRegisters();
     }
 
     private async Task ExecuteCode()
     {
+        bool advanced = false;
+
         try
         {
             do
             {
+                if (_interpreter.CurrentInstructionIndex != -1)
+                {
+                    if (SourceCodeLines[_interpreter.CurrentInstructionIndex].Breakpoint && advanced)
+                    {
+                        await Task.Run(() =>
+                        {
+                            Console.Beep();
+                        });
+
+                        return;
+                    }
+                }
+
+                advanced = true;
                 _interpreter.ExecuteStep();
 
                 UpdateCurrentInstructionIndex();
@@ -86,17 +102,15 @@ public sealed class ExecutionViewModel : BaseViewModel
     {
         try
         {
-            if (_interpreter.CurrentInstructionIndex == -1)
+            _interpreter.ExecuteStep();
+
+            if (SourceCodeLines[_interpreter.CurrentInstructionIndex].Breakpoint)
             {
                 await Task.Run(() =>
                 {
                     Console.Beep();
                 });
-
-                return;
             }
-
-            _interpreter.ExecuteStep();
 
             UpdateCurrentInstructionIndex();
         }
@@ -114,10 +128,23 @@ public sealed class ExecutionViewModel : BaseViewModel
         {
             if (_interpreter.CurrentInstructionIndex == 0)
             {
+                await Task.Run(() =>
+                {
+                    Console.Beep();
+                });
+
                 return;
             }
 
             _interpreter.UndoAction();
+
+            if (SourceCodeLines[_interpreter.CurrentInstructionIndex].Breakpoint)
+            {
+                await Task.Run(() =>
+                {
+                    Console.Beep();
+                });
+            }
 
             UpdateCurrentInstructionIndex();
         }
@@ -172,21 +199,26 @@ public sealed class ExecutionViewModel : BaseViewModel
         OnPropertyChanged(nameof(SearchedBytes));
     }
 
-    private void InitInstructions()
+    private void InitInstructions(IList<int> breakpoints)
     {
         for (int i = 0; i < _interpreter.Instructions.Count; i++)
         {
-            SourceCodeLines.Add(new(i + 1, ConvertInstructiongToString(_interpreter.Instructions[i]), _interpreter.Instructions[i]));
+            SourceCodeLines.Add(new(i + 1, false, ConvertInstructiongToString(_interpreter.Instructions[i]), _interpreter.Instructions[i]));
         }
 
         foreach (ILabel label in _interpreter.Labels)
         {
-            SourceCodeLines.Insert(label.Line - 1, new(label.Line, $"{label.Name}:", null));
+            SourceCodeLines.Insert(label.Line - 1, new(label.Line, false, $"{label.Name}:", null));
         }
 
         for (int i = 0; i < SourceCodeLines.Count; i++)
         {
             SourceCodeLines[i].Line = i + 1;
+            
+            if (breakpoints.Contains(SourceCodeLines[i].Line - 1) && SourceCodeLines[i].Instruction != null)
+            {
+                SourceCodeLines[i].Breakpoint = true;
+            }
         }
 
         while (SourceCodeLines[CurrentInstructionIndex].SourceCode.EndsWith(':'))

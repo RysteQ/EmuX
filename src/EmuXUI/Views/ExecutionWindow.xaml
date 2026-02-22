@@ -62,9 +62,19 @@
             <ListBox Grid.Row = "0" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.SourceCodeLines, Mode = OneWay}" SelectedIndex = "{x:Bind ViewModel.CurrentInstructionIndex, Mode = OneWay}">
                 <ListBox.ItemTemplate>
                     <DataTemplate x:DataType = "StaticModels:SourceCodeLine">
-                        <StackPanel Orientation = "Horizontal" Spacing = "6">
-                            <TextBlock Text = "{x:Bind SourceCode}" />
-                        </StackPanel>
+                        <Grid ColumnSpacing = "6">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height = "*" />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width = "10px" />
+                                <ColumnDefinition Width = "*" />
+                            </Grid.ColumnDefinitions>
+                            
+                            <Frame Grid.Row = "0" Grid.Column = "0" Height = "10" Width = "10" CornerRadius = "100" Background = "Red" Visibility = "{x:Bind Breakpoint}" />
+                            <TextBlock Grid.Row = "0" Grid.Column = "1" Text = "{x:Bind SourceCode}" />
+                        </Grid>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>

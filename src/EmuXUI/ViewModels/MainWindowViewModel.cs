@@ -26,6 +26,7 @@ public sealed class MainWindowViewModel : BaseViewModel
 
         CommandConfigureVirtualMachine = GenerateCommand(DisplayVirtualMachineConfigurationWindow);
         CommandExecuteCode = GenerateCommand(async () => await DisplayExecutionWindow());
+        Breakpoints = [];
 
         SourceCode = string.Empty;
     }
@@ -139,7 +140,7 @@ public sealed class MainWindowViewModel : BaseViewModel
             {
                 _virtualMachine.Memory.LabelMemoryLocations.Clear();
 
-                new ExecutionWindow(parserResult.Instructions, parserResult.Labels, _virtualMachine).Activate();
+                new ExecutionWindow(parserResult.Instructions, parserResult.Labels, Breakpoints, _virtualMachine).Activate();
             }
             else
             {
@@ -156,6 +157,7 @@ public sealed class MainWindowViewModel : BaseViewModel
     public ICommand CommandExecuteCode { get; set; }
 
     public string SourceCode { get; set; }
+    public IList<int> Breakpoints { get; set; }
 
     private IVirtualMachine _virtualMachine;
 }

@@ -20,6 +20,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -31,11 +32,11 @@ namespace EmuXUI.Views;
 /// </summary>
 public sealed partial class ExecutionWindow : Window
 {
-    public ExecutionWindow(IList<IInstruction> instructions, IList<ILabel> labels, IVirtualMachine virtualMachine)
+    public ExecutionWindow(IList<IInstruction> instructions, IList<ILabel> labels, IList<int> breakpoints, IVirtualMachine virtualMachine)
     {
         InitializeComponent();
 
-        ViewModel = new(instructions, labels, virtualMachine);
+        ViewModel = new(instructions, labels, breakpoints, virtualMachine);
 
         InitUI();
     }
