@@ -21,11 +21,12 @@ Someone can modify the container in the following ways
 
 Someone can also do the following action when debugging their code
 1) Step through the code one instruction at a time
-2) Undo the actions of previous instruction
-3) Read and / or modify the memory values
-4) Read and / or modify the register values
-5) View the screen buffer in real time
-6) Reset code execution / the state of the container
+2) Add breakpoints
+3) Undo the actions of previous instruction
+4) Read and / or modify the memory values
+5) Read and / or modify the register values
+6) View the screen buffer in real time
+7) Reset code execution / the state of the container
 
 ## How does EmuX work
 
@@ -66,4 +67,4 @@ If you want you can only take the latest version of EmuXCore to use it for your 
 
 ---
 
-Version: 2.0.1
+Version: 2.1.2
