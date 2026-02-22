@@ -32,6 +32,7 @@ public class InstructionLookup : IInstructionLookup
         { "JS", typeof(InstructionJS) }, { "JZ", typeof(InstructionJZ) }, { "LAHF", typeof(InstructionLAHF) }, { "LDS", typeof(InstructionLDS) }, { "LEA", typeof(InstructionLEA) },
         { "LES", typeof(InstructionLES) }, { "LODSB", typeof(InstructionLODSB) }, { "LODSW", typeof(InstructionLODSW) }, { "LOOP", typeof(InstructionLOOP) }, { "MOV", typeof(InstructionMOV) },
         { "MOVSB", typeof(InstructionMOVSB) }, { "MOVSW", typeof(InstructionMOVSW) }, { "MUL", typeof(InstructionMUL) }, { "NEG", typeof(InstructionNEG) }, { "NOT", typeof(InstructionNOT) },
+        { "NOP", typeof(InstructionNOP) },
         { "OR", typeof(InstructionOR) }, { "OUT", typeof(InstructionOUT) }, { "POP", typeof(InstructionPOP) }, { "POPF", typeof(InstructionPOPF) }, { "POPFD", typeof(InstructionPOPFD) },
         { "POPFQ", typeof(InstructionPOPFQ) }, { "PUSH", typeof(InstructionPUSH) }, { "PUSHF", typeof(InstructionPUSHF) }, { "PUSHFD", typeof(InstructionPUSHFD) }, { "PUSHFQ", typeof(InstructionPUSHFQ) },
         { "RCL", typeof(InstructionRCL) }, { "RCR", typeof(InstructionRCR) }, { "RET", typeof(InstructionRET) }, { "ROL", typeof(InstructionROL) }, { "ROR", typeof(InstructionROR) },

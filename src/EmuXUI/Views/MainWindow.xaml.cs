@@ -94,7 +94,7 @@ public sealed partial class MainWindow : Window
         ContentDialog versionDialog = new()
         {
             Title = "About",
-            Content = "Created by RysteQ on GitHub\n\nVersion: 2.0.1",
+            Content = "Created by RysteQ on GitHub\n\nVersion: 2.0.2",
             CloseButtonText = "Okay"
         };
 
