@@ -2,6 +2,7 @@
 using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic;
+using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Interfaces;
@@ -34,7 +35,7 @@ public class TestWideInternalConstants
     protected IFlagStateProcessor GenerateFlagStateProcessor() => DIFactory.GenerateIFlagStateProcessor();
     protected KeyValuePair<string, IMemoryLabel> GenerateMemoryLabel(string label, int address, int line) => new(label, DIFactory.GenerateIMemoryLabel(label, address, line));
     protected IMemoryOffset GenerateMemoryOffset(MemoryOffsetType type, MemoryOffsetOperand operand, string fullOperand) => DIFactory.GenerateIMemoryOffset(type, operand, fullOperand);
-    protected IInterpreter GenerateInterpreter() => DIFactory.GenerateIInterpreter();
+    protected IInterpreter GenerateInterpreter() => DIFactory.GenerateIInterpreter(typeof(InstructionCALL), typeof(InstructionRET));
 
     protected IToken GenerateToken(TokenType tokenType, string fullSourceCode) => DIFactory.GenerateIToken(tokenType, fullSourceCode);
     protected ILexer GenerateLexer() => DIFactory.GenerateILexer(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
