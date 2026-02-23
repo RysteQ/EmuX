@@ -1,5 +1,6 @@
 ﻿using EmuXCore;
 using EmuXCore.Common.Interfaces;
+using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.Interpreter;
 using EmuXCore.Interpreter.Interfaces;
@@ -31,13 +32,14 @@ public sealed class ExecutionViewModel : BaseViewModel
     public ExecutionViewModel(IList<IInstruction> instructions, IList<ILabel> labels, IList<int> breakpoints, IVirtualMachine virtualMachine)
     {
         CommandExecuteCode = GenerateCommand(async () => await ExecuteCode());
+        CommandStepOver = GenerateCommand(async () => await ExecuteStepOver());
         CommandStepToNextInstruction = GenerateCommand(async () => await StepInstruction());
         CommandUndoInstruction = GenerateCommand(async () => await UndoInstruction());
         CommandRedoInstruction = GenerateCommand(async () => await RedoInstruction());
         CommandResetInstruction = GenerateCommand(async () => await ResetExecution());
         CommandSearchMemory = GenerateCommand(async () => await SearchMemory());
         
-        _interpreter = DIFactory.GenerateIInterpreter();
+        _interpreter = DIFactory.GenerateIInterpreter(typeof(InstructionCALL), typeof(InstructionRET));
         _interpreter.VirtualMachine = virtualMachine;
         _interpreter.Instructions = instructions;
         _interpreter.Labels = labels;
@@ -98,18 +100,47 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
     }
 
+    private async Task ExecuteStepOver()
+    {
+        try
+        {
+            _interpreter.ExecuteStepOver();
+
+            UpdateCurrentInstructionIndex();
+        }
+        catch (Exception ex)
+        {
+            InfoPopup.Show(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}\n\nStack trace\n\n{ex.StackTrace}");
+
+            CommandResetInstruction.Execute(null);
+        }
+    }
+    
     private async Task StepInstruction()
     {
         try
         {
-            _interpreter.ExecuteStep();
-
-            if (SourceCodeLines[_interpreter.CurrentInstructionIndex].Breakpoint)
+            if (_interpreter.CurrentInstructionIndex == -1)
             {
                 await Task.Run(() =>
                 {
                     Console.Beep();
                 });
+
+                return;
+            }
+
+            _interpreter.ExecuteStep();
+
+            if (_interpreter.CurrentInstructionIndex != -1)
+            {
+                if (SourceCodeLines[_interpreter.CurrentInstructionIndex].Breakpoint)
+                {
+                    await Task.Run(() =>
+                    {
+                        Console.Beep();
+                    });
+                }
             }
 
             UpdateCurrentInstructionIndex();
@@ -426,6 +457,7 @@ public sealed class ExecutionViewModel : BaseViewModel
     }
 
     public ICommand CommandExecuteCode { get; private set; }
+    public ICommand CommandStepOver { get; private set; }
     public ICommand CommandStepToNextInstruction { get; private set; }
     public ICommand CommandUndoInstruction { get; private set; }
     public ICommand CommandRedoInstruction { get; private set; }
