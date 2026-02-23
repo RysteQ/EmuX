@@ -67,4 +67,4 @@ If you want you can only take the latest version of EmuXCore to use it for your 
 
 ---
 
-Version: 2.1.2
+Version: 2.2.4
