@@ -1,4 +1,5 @@
 ﻿using EmuXCore.Common.Interfaces;
+using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
@@ -9,6 +10,12 @@ namespace EmuXCore.Interpreter;
 
 public class Interpreter : IInterpreter
 {
+    public Interpreter(Type callInstruction, Type retInstruction)
+    {
+        _callInstruction = callInstruction;
+        _retInstruction = retInstruction;
+    }
+
     public void Execute()
     {
         _executingCode = true;
@@ -19,6 +26,28 @@ public class Interpreter : IInterpreter
         }
 
         _executingCode = false;
+    }
+
+    public void ExecuteStepOver()
+    {
+        ulong currentInstructionPointer = VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP;
+
+        if (!Instructions.Any() || _currentInstructionIndex == Instructions.Count || !_memoryInstructionLookupTable.ContainsKey(currentInstructionPointer))
+        {
+            _currentInstructionIndex = -1;
+
+            return;
+        }
+
+        if (_memoryInstructionLookupTable[VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP].GetType() == _callInstruction)
+        {
+            while (_memoryInstructionLookupTable[VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP].GetType() != _retInstruction)
+            {
+                ExecuteStep();
+            }
+        }
+
+        ExecuteStep();
     }
 
     public void ExecuteStep()
@@ -188,4 +217,6 @@ public class Interpreter : IInterpreter
     private Dictionary<int, List<IVmAction>> _actions = [];
     private int _currentInstructionIndex = -1;
     private bool _executingCode = false;
+    private readonly Type _callInstruction;
+    private readonly Type _retInstruction;
 }

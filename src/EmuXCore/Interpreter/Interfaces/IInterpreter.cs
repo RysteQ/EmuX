@@ -20,6 +20,11 @@ public interface IInterpreter
     void ExecuteStep();
 
     /// <summary>
+    /// Just like execute step but if the instruction is a call instruction, it will execute all instructions until the return instruction of the call instruction is reached
+    /// </summary>
+    void ExecuteStepOver();
+
+    /// <summary>
     /// Undo a single action
     /// </summary>
     void UndoAction();
