@@ -1,5 +1,4 @@
 ﻿using EmuXCore.Common.Interfaces;
-using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;

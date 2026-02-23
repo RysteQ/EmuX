@@ -5,8 +5,8 @@ using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
-using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SegmentRegisters;
+using EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 using EmuXCoreUnitTests.Tests.Instructions.Internal;
 
 namespace EmuXCoreUnitTests.Tests.Instructions;

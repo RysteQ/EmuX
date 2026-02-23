@@ -18,7 +18,7 @@ public sealed class Register : ObservableObject
 
     public string Name { get; init; }
     public Size Size { get; init; }
-    
+
     public double Value
     {
         get => field;
@@ -29,7 +29,7 @@ public sealed class Register : ObservableObject
             OnPropertyChanged(ref field, value);
         }
     }
-    
+
     public double MaximumValue
     {
         get

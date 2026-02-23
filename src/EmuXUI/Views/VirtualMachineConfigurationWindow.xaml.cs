@@ -15,7 +15,7 @@ public sealed partial class VirtualMachineConfigurationWindow : Window
 
         ViewModel = new(currentVirtualMachineConfiguration);
         ViewModel.SavedConfiguration += ViewModel_SavedConfiguration;
-        
+
         InitUI();
     }
 
@@ -35,12 +35,12 @@ public sealed partial class VirtualMachineConfigurationWindow : Window
         WindowId windowId = Win32Interop.GetWindowIdFromWindow(windowHandle);
         AppWindow? applicationWindow = AppWindow.GetFromWindowId(windowId);
         OverlappedPresenter? presenter = applicationWindow?.Presenter as OverlappedPresenter;
-        
-        if  (presenter == null)
+
+        if (presenter == null)
         {
             return;
         }
-        
+
         presenter.IsResizable = false;
         presenter.IsMaximizable = false;
     }

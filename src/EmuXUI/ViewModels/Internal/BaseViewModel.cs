@@ -1,5 +1,4 @@
-﻿using EmuXUI.Models.Internal;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
@@ -57,7 +56,7 @@ public class BaseViewModel : INotifyPropertyChanged
     /// </summary>
     public bool Loading
     {
-        get => _loading; 
+        get => _loading;
         set => OnPropertyChanged(ref _loading, value);
     }
 

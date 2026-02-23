@@ -22,7 +22,7 @@ public sealed class DiskCreation : ObservableObject
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
-    
+
     public int Platters
     {
         get => field;
@@ -32,7 +32,7 @@ public sealed class DiskCreation : ObservableObject
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
-    
+
     public int Tracks
     {
         get => field;
@@ -42,7 +42,7 @@ public sealed class DiskCreation : ObservableObject
             OnPropertyChanged(nameof(TotalBytes));
         }
     }
-    
+
     public int Sectors
     {
         get => field;

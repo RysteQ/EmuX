@@ -1,7 +1,6 @@
 ﻿using EmuXUI.Models.Static;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 
 namespace EmuXUI.Models.Logic;
 

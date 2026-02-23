@@ -2,7 +2,6 @@
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Internal;
-using EmuXCore.Interpreter;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
@@ -15,13 +14,11 @@ using EmuXUI.Models.Static;
 using EmuXUI.Popups;
 using EmuXUI.ViewModels.Internal;
 using Microsoft.UI.Dispatching;
-using Microsoft.UI.Xaml.Data;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -38,7 +35,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         CommandRedoInstruction = GenerateCommand(async () => await RedoInstruction());
         CommandResetInstruction = GenerateCommand(async () => await ResetExecution());
         CommandSearchMemory = GenerateCommand(async () => await SearchMemory());
-        
+
         _interpreter = DIFactory.GenerateIInterpreter(typeof(InstructionCALL), typeof(InstructionRET));
         _interpreter.VirtualMachine = virtualMachine;
         _interpreter.Instructions = instructions;
@@ -115,7 +112,7 @@ public sealed class ExecutionViewModel : BaseViewModel
             CommandResetInstruction.Execute(null);
         }
     }
-    
+
     private async Task StepInstruction()
     {
         try
@@ -245,7 +242,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         for (int i = 0; i < SourceCodeLines.Count; i++)
         {
             SourceCodeLines[i].Line = i + 1;
-            
+
             if (breakpoints.Contains(SourceCodeLines[i].Line - 1) && SourceCodeLines[i].Instruction != null)
             {
                 SourceCodeLines[i].Breakpoint = true;
@@ -256,7 +253,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         {
             CurrentInstructionIndex++;
         }
-        
+
         OnPropertyChanged(nameof(SourceCodeLines));
     }
 
@@ -321,7 +318,7 @@ public sealed class ExecutionViewModel : BaseViewModel
             _interpreter.VirtualMachine.SetByte(writtenByte.Index, writtenByte.NewValue);
         }
     }
-    
+
     private void Register_ValueChanged(object? sender, EventArgs e)
     {
         WrittenToRegisterEvent writtenToRegisterEvent = (WrittenToRegisterEvent)e;
@@ -358,8 +355,8 @@ public sealed class ExecutionViewModel : BaseViewModel
                 break;
 
             case EmuXCore.Common.Enums.Size.Word:
-                UpdateSearchedBytesDueToWriteEvent(memoryAccess.MemoryAddress, 
-                    (byte)(memoryAccess.NewValue & 0x_00_00_00_00_00_00_00_ff), 
+                UpdateSearchedBytesDueToWriteEvent(memoryAccess.MemoryAddress,
+                    (byte)(memoryAccess.NewValue & 0x_00_00_00_00_00_00_00_ff),
                     (byte)((memoryAccess.NewValue & 0x_00_00_00_00_00_00_ff_00) >> 8)
                 );
 
@@ -374,7 +371,7 @@ public sealed class ExecutionViewModel : BaseViewModel
                 );
 
                 break;
-            
+
             case EmuXCore.Common.Enums.Size.Qword:
                 UpdateSearchedBytesDueToWriteEvent(memoryAccess.MemoryAddress,
                     (byte)(memoryAccess.NewValue & 0x_00_00_00_00_00_00_00_ff),
@@ -483,7 +480,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         get => field;
         set => OnPropertyChanged(ref field, value);
     }
-    
+
     public int MemorySearchBytesToGet
     {
         get => field;

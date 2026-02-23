@@ -6,7 +6,6 @@ using EmuXUI.Models.Observable;
 using EmuXUI.Models.Static;
 using EmuXUI.Popups;
 using EmuXUI.ViewModels.Internal;
-using Microsoft.Windows.AI.ContentSafety;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -185,7 +184,7 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
         get => field;
         set => field = value;
     }
-    
+
     public GpuSelection SelectedGPU
     {
         get => field;
@@ -224,7 +223,7 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
             OnPropertyChanged(ref field, value);
         }
     }
-    
+
     public int SelectedGeneralPurposeMemoryInKbAmount
     {
         get => field;

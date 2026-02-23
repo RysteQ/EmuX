@@ -67,7 +67,7 @@ public sealed class ParseLabelsUnitTests : TestWideInternalConstants
     [TestMethod]
     public void ParseOneLabelAndOneJumpInstruction()
     {
-        List<IToken> tokens = 
+        List<IToken> tokens =
         [
             GenerateToken(TokenType.LABEL, "test_label"), GenerateToken(TokenType.COLON, ":"), GenerateToken(TokenType.EOL, "\n"),
             GenerateToken(TokenType.INSTRUCTION, "jmp"), GenerateToken(TokenType.LABEL, "test_label"), GenerateToken(TokenType.EOL, "\n"),

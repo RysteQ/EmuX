@@ -1,7 +1,6 @@
 ﻿using EmuXCore;
 using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
-using EmuXCore.InstructionLogic;
 using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
@@ -9,22 +8,13 @@ using EmuXCore.InstructionLogic.Interfaces;
 using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
-using EmuXCore.Interpreter.LexicalSyntax;
-using EmuXCore.Interpreter.Models;
 using EmuXCore.Interpreter.Models.Interfaces;
-using EmuXCore.VM;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
-using EmuXCore.VM.Internal.BIOS;
-using EmuXCore.VM.Internal.CPU;
 using EmuXCore.VM.Internal.Device.USBDrives;
-using EmuXCore.VM.Internal.Disk;
-using EmuXCore.VM.Internal.GPUs;
-using EmuXCore.VM.Internal.Memory;
-using EmuXCore.VM.Internal.RTC;
 
 namespace EmuXCoreUnitTests.Tests.Common;
 

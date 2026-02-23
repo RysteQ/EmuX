@@ -1,7 +1,4 @@
 ﻿using EmuXCore;
-using EmuXCore.Common.Interfaces;
-using EmuXCore.Interpreter;
-using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;

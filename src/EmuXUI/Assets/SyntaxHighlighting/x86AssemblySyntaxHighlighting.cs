@@ -8,7 +8,7 @@ public sealed class x86Assembly : SyntaxHighlightLanguage
     {
         Name = "x86Assembly";
         Author = "Eustathios Koutsos";
-        Filter = [ ".asm" ];
+        Filter = [".asm"];
         Description = "Syntax highlighting for the original x86 ISA assembly";
         Highlights =
         [
