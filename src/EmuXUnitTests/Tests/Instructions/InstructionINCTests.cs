@@ -182,6 +182,19 @@ public sealed class InstructionINCTests : InstructionConstants<InstructionINC>
     }
 
     [TestMethod]
+    public void TestExecuteMethod_IncrementRegisterQuad_Overflow()
+    {
+        IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandRegister(), GeneratePrefix(), GenerateOperand("rax", OperandVariant.Register, Size.Qword));
+        IVirtualMachine virtualMachine = GenerateVirtualMachine();
+
+        virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX = ulong.MaxValue;
+        instruction.Execute(virtualMachine);
+
+        Assert.AreEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().RAX);
+        Assert.AreNotEqual<ulong>(0, virtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP);
+    }
+
+    [TestMethod]
     public void TestExecuteMethod_IncrementMemoryByte()
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandMemory(), GeneratePrefix(), GenerateOperand("[test_label]", OperandVariant.Memory, Size.Byte, [GenerateMemoryOffset(MemoryOffsetType.Label, MemoryOffsetOperand.NaN, "test_label")]));

@@ -35,7 +35,7 @@ public sealed class InstructionINC : IInstruction
                 case Size.Byte: valueToSet = register!.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00 | (ulong)(((byte)register!.Get() & 0x_00_00_00_00_00_00_00_ff) + 1); break;
                 case Size.Word: valueToSet = register!.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00 | (ulong)(((ushort)register!.Get() & 0x_00_00_00_00_00_00_ff_ff) + 1); break;
                 case Size.Dword: valueToSet = register!.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00 | ((uint)register!.Get() & 0x_00_00_00_00_ff_ff_ff_ff) + 1; break;
-                case Size.Qword: valueToSet = register!.Get() & 0x_ff_ff_ff_ff_ff_ff_ff_00 | register!.Get() + 1; break;
+                case Size.Qword: valueToSet = register!.Get() + 1; break;
             }
 
             register!.Set(FirstOperand!.FullOperand, valueToSet);
