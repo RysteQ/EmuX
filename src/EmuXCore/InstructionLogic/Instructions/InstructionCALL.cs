@@ -40,6 +40,7 @@ public sealed class InstructionCALL : IInstruction
     {
         InstructionVariant[] allowedVariants =
         [
+            InstructionVariant.OneOperandLabel(),
             InstructionVariant.OneOperandMemory()
         ];
 
