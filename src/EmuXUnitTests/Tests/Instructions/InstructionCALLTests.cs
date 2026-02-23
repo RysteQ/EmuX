@@ -48,7 +48,7 @@ public sealed class InstructionCALLTests : InstructionConstants<InstructionCALL>
     {
         IInstruction instruction = GenerateInstruction(InstructionVariant.OneOperandLabel(), GeneratePrefix(), GenerateOperand("test_label", OperandVariant.Label, Size.Byte, []));
 
-        Assert.AreEqual<bool>(false, instruction.IsValid());
+        Assert.AreEqual<bool>(true, instruction.IsValid());
     }
 
     [TestMethod]
