@@ -180,7 +180,7 @@ public static class DIFactory
     /// Generates an instance of IInterpreter
     /// </summary>
     /// <returns>The implementation of IInterepreter</returns>
-    public static IInterpreter GenerateIInterpreter() => new Interpreter.Interpreter();
+    public static IInterpreter GenerateIInterpreter(Type callInstruction, Type returnInstruction) => new Interpreter.Interpreter(callInstruction, returnInstruction);
 
     /// <summary>
     /// Generates an instance of ILexer
