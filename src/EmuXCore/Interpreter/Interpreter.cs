@@ -124,7 +124,7 @@ public class Interpreter : IInterpreter
 
         VirtualMachine.Actions.Clear();
         _actions.Clear();
-        _currentInstructionIndex = 0;
+        _currentInstructionIndex = -1;
     }
 
     private void ConfigureInstructionsLookupTable()
