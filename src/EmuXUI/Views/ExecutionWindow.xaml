@@ -59,8 +59,8 @@
                 <ColumnDefinition Width = "Auto" />
             </Grid.ColumnDefinitions>
 
-            <ListBox Grid.Row = "0" Grid.Column = "0" ItemsSource = "{x:Bind ViewModel.SourceCodeLines, Mode = OneWay}" SelectedIndex = "{x:Bind ViewModel.CurrentInstructionIndex, Mode = OneWay}">
-                <ListBox.ItemTemplate>
+            <ListView Grid.Row = "0" Grid.Column = "0" IsHitTestVisible = "False" ItemsSource = "{x:Bind ViewModel.SourceCodeLines, Mode = OneWay}" SelectedIndex = "{x:Bind ViewModel.NextInstructionIndex, Mode = OneWay}">
+                <ListView.ItemTemplate>
                     <DataTemplate x:DataType = "StaticModels:SourceCodeLine">
                         <Grid ColumnSpacing = "6">
                             <Grid.RowDefinitions>
@@ -76,8 +76,8 @@
                             <TextBlock Grid.Row = "0" Grid.Column = "1" Text = "{x:Bind SourceCode}" />
                         </Grid>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <StackPanel Grid.Row = "0" Grid.Column = "1" Orientation = "Vertical" Spacing = "10">
                 <Button x:Name = "ButtonExecute" Content = "Execute" HorizontalAlignment = "Stretch" Command = "{x:Bind ViewModel.CommandExecuteCode, Mode = OneTime}" />

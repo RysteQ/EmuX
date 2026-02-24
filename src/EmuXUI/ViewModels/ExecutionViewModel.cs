@@ -41,7 +41,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         _interpreter.Instructions = instructions;
         _interpreter.Labels = labels;
 
-        CurrentInstructionIndex = 0;
+        _currentInstructionIndex = -1;
         VideoOutput = new(_interpreter.VirtualMachine.GPU.Height, _interpreter.VirtualMachine.GPU.Width);
         SourceCodeLines = [];
         SearchedBytes = [];
@@ -82,7 +82,7 @@ public sealed class ExecutionViewModel : BaseViewModel
                 UpdateCurrentInstructionIndex();
             } while (_interpreter.CurrentInstructionIndex != -1);
 
-            CurrentInstructionIndex = SourceCodeLines.Last().Line - 1;
+            _currentInstructionIndex = SourceCodeLines.Last().Line - 1;
 
             await Task.Run(() =>
             {
@@ -117,7 +117,7 @@ public sealed class ExecutionViewModel : BaseViewModel
     {
         try
         {
-            if (_interpreter.CurrentInstructionIndex == -1)
+            if (NextInstructionIndex == -1)
             {
                 await Task.Run(() =>
                 {
@@ -249,9 +249,9 @@ public sealed class ExecutionViewModel : BaseViewModel
             }
         }
 
-        while (SourceCodeLines[CurrentInstructionIndex].SourceCode.EndsWith(':'))
+        while (SourceCodeLines[_currentInstructionIndex + 1].SourceCode.EndsWith(':'))
         {
-            CurrentInstructionIndex++;
+            _currentInstructionIndex++;
         }
 
         OnPropertyChanged(nameof(SourceCodeLines));
@@ -261,14 +261,24 @@ public sealed class ExecutionViewModel : BaseViewModel
     {
         if (_interpreter.CurrentInstructionIndex == -1)
         {
-            CurrentInstructionIndex = 0;
+            _currentInstructionIndex = -1;
+            NextInstructionIndex = 0;
 
             return;
         }
 
-        CurrentInstructionIndex = SourceCodeLines
+        _currentInstructionIndex = SourceCodeLines
             .Where(record => record.Instruction == _interpreter.CurrentInstruction)
             .First().Line - 1;
+
+        if (_currentInstructionIndex < _interpreter.Instructions.Count - 1)
+        {
+            NextInstructionIndex = _currentInstructionIndex + 1;
+        }
+        else
+        {
+            NextInstructionIndex = -1;
+        }
     }
 
     private void InitRegisters()
@@ -466,7 +476,7 @@ public sealed class ExecutionViewModel : BaseViewModel
     public ObservableCollection<MemoryByte> SearchedBytes { get; set; }
     public ObservableCollection<Register> Registers { get; set; }
 
-    public int CurrentInstructionIndex
+    public int NextInstructionIndex
     {
         get => field;
         private set => OnPropertyChanged(ref field, value);
@@ -488,4 +498,5 @@ public sealed class ExecutionViewModel : BaseViewModel
     }
 
     private readonly IInterpreter _interpreter;
+    private int _currentInstructionIndex;
 }
