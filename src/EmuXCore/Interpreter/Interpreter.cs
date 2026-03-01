@@ -18,13 +18,15 @@ public class Interpreter : IInterpreter
     public void Execute()
     {
         _executingCode = true;
+        _allowCodeExecution = true;
 
-        while (_memoryInstructionLookupTable.ContainsKey(VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP))
+        while (_memoryInstructionLookupTable.ContainsKey(VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP) && _allowCodeExecution)
         {
             ExecuteStep();
         }
 
         _executingCode = false;
+        _allowCodeExecution = true;
     }
 
     public void ExecuteStepOver()
@@ -33,7 +35,7 @@ public class Interpreter : IInterpreter
 
         if (!Instructions.Any() || _currentInstructionIndex == Instructions.Count || !_memoryInstructionLookupTable.ContainsKey(currentInstructionPointer))
         {
-            _currentInstructionIndex = -1;
+            UpdateInstructionIndex(-1);
 
             return;
         }
@@ -55,12 +57,12 @@ public class Interpreter : IInterpreter
 
         if (!Instructions.Any() || _currentInstructionIndex == Instructions.Count || !_memoryInstructionLookupTable.ContainsKey(currentInstructionPointer))
         {
-            _currentInstructionIndex = -1;
+            UpdateInstructionIndex(-1);
 
             return;
         }
 
-        _currentInstructionIndex = _memoryInstructionLookupTable.Select(selector => selector.Key).ToList().IndexOf(currentInstructionPointer);
+        UpdateInstructionIndex(_memoryInstructionLookupTable.Select(selector => selector.Key).ToList().IndexOf(currentInstructionPointer));
         _memoryInstructionLookupTable[VirtualMachine.CPU.GetRegister<VirtualRegisterRIP>().RIP].Execute(VirtualMachine);
 
         if (!_actions.ContainsKey(_currentInstructionIndex))
@@ -81,7 +83,7 @@ public class Interpreter : IInterpreter
             _actions[_currentInstructionIndex][i].Undo(VirtualMachine);
         }
 
-        _currentInstructionIndex--;
+        UpdateInstructionIndex(_currentInstructionIndex - 1);
     }
 
     public void UndoActions(int actions)
@@ -104,7 +106,7 @@ public class Interpreter : IInterpreter
             _actions[_currentInstructionIndex + 1][i].Redo(VirtualMachine);
         }
 
-        _currentInstructionIndex++;
+        UpdateInstructionIndex(_currentInstructionIndex + 1);
     }
 
     public void RedoActions(int actions)
@@ -113,6 +115,11 @@ public class Interpreter : IInterpreter
         {
             RedoAction();
         }
+    }
+
+    public void StopExecution()
+    {
+        _allowCodeExecution = false;
     }
 
     public void ResetExecution()
@@ -124,7 +131,8 @@ public class Interpreter : IInterpreter
 
         VirtualMachine.Actions.Clear();
         _actions.Clear();
-        _currentInstructionIndex = -1;
+
+        UpdateInstructionIndex(-1);
     }
 
     private void ConfigureInstructionsLookupTable()
@@ -141,7 +149,7 @@ public class Interpreter : IInterpreter
             _memoryInstructionLookupTable.Add((ulong)(i * 5), Instructions[i]);
         }
 
-        _currentInstructionIndex = -1;
+        UpdateInstructionIndex(-1);
     }
 
     private void ComputeLabelMemoryLocations()
@@ -169,6 +177,12 @@ public class Interpreter : IInterpreter
 
             currentLine = label.Line;
         }
+    }
+
+    private void UpdateInstructionIndex(int index)
+    {
+        _currentInstructionIndex = index;
+        InstructionIndexUpdated?.Invoke(this, EventArgs.Empty);
     }
 
     public IVirtualMachine VirtualMachine
@@ -207,6 +221,7 @@ public class Interpreter : IInterpreter
         }
     }
 
+    public event EventHandler? InstructionIndexUpdated;
 
     public IInstruction CurrentInstruction => Instructions[_currentInstructionIndex];
     public int CurrentInstructionIndex => _currentInstructionIndex;
@@ -218,4 +233,6 @@ public class Interpreter : IInterpreter
     private bool _executingCode = false;
     private readonly Type _callInstruction;
     private readonly Type _retInstruction;
+
+    private volatile bool _allowCodeExecution = true;
 }

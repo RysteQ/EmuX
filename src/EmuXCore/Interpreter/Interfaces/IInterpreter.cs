@@ -47,37 +47,44 @@ public interface IInterpreter
     void RedoActions(int actions);
 
     /// <summary>
+    /// 
+    /// </summary>
+    void StopExecution();
+
+    /// <summary>
     /// Resets the execution of the program and the IVirtualMachine to its previous state
     /// </summary>
     void ResetExecution();
 
+    event EventHandler? InstructionIndexUpdated;
+
     /// <summary>
     /// The <c>IVirtualMachine</c> implementation to run the code under
     /// </summary>
-    public IVirtualMachine VirtualMachine { get; set; }
+    IVirtualMachine VirtualMachine { get; set; }
 
     /// <summary>
     /// The instructions to execute
     /// </summary>
-    public IList<IInstruction> Instructions { get; set; }
+    IList<IInstruction> Instructions { get; set; }
 
     /// <summary>
     /// The labels required for the code to run
     /// </summary>
-    public IList<ILabel> Labels { get; set; }
+    IList<ILabel> Labels { get; set; }
 
     /// <summary>
     /// The current instruction being executed 
     /// </summary>
-    public IInstruction CurrentInstruction { get; }
+    IInstruction CurrentInstruction { get; }
 
     /// <summary>
     /// The current instruction index being executed, -1 if no instruction has been executed / all actions have been undone
     /// </summary>
-    public int CurrentInstructionIndex { get; }
+    int CurrentInstructionIndex { get; }
 
     /// <summary>
     /// Useful for the Execute() method to indicate when the execution of the code has finished or not
     /// </summary>
-    public bool ExecutingCode { get; }
+    bool ExecutingCode { get; }
 }
