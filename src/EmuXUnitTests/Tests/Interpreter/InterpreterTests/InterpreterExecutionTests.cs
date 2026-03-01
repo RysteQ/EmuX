@@ -99,4 +99,28 @@ public sealed class InterpreterExecutionTests : TestWideInternalConstants
 
         Assert.AreEqual<ushort>(ushort.MaxValue - 10, virtualMachine.CPU.GetRegister<VirtualRegisterRAX>().AX);
     }
+
+    [TestMethod]
+    public void TestInfiniteInstructionExecutionThenStop()
+    {
+        IVirtualMachine virtualMachine = GenerateVirtualMachine();
+        IInterpreter interpreter = GenerateInterpreter();
+        IInstruction[] instructions =
+        [
+            GenerateInstruction<InstructionJMP>(InstructionVariant.OneOperandMemory(), null, GenerateOperand("start", OperandVariant.Memory, Size.Word, [GenerateMemoryOffset(MemoryOffsetType.Integer, MemoryOffsetOperand.NaN, "start")]), null, null, GenerateOperandDecoder(), GenerateFlagStateProcessor())
+        ];
+
+        virtualMachine.Memory.LabelMemoryLocations.Add(GenerateMemoryLabel("start", 0, 1));
+        interpreter.VirtualMachine = virtualMachine;
+        interpreter.Instructions = instructions;
+
+        virtualMachine.Actions.Clear();
+
+        Task.Run(() => interpreter.Execute());
+        Thread.Sleep(10);
+        Task.Run(() => interpreter.StopExecution());
+        Thread.Sleep(10);
+
+        Assert.IsFalse(interpreter.ExecutingCode);
+    }
 }
