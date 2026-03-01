@@ -28,13 +28,14 @@ public sealed class ExecutionViewModel : BaseViewModel
 {
     public ExecutionViewModel(IList<IInstruction> instructions, IList<ILabel> labels, IList<int> breakpoints, IVirtualMachine virtualMachine)
     {
-        CommandExecuteCode = GenerateCommand(async () => await ExecuteCode());
-        CommandStepOver = GenerateCommand(async () => await ExecuteStepOver());
-        CommandStepToNextInstruction = GenerateCommand(async () => await StepInstruction());
-        CommandUndoInstruction = GenerateCommand(async () => await UndoInstruction());
-        CommandRedoInstruction = GenerateCommand(async () => await RedoInstruction());
-        CommandResetInstruction = GenerateCommand(async () => await ResetExecution());
-        CommandSearchMemory = GenerateCommand(async () => await SearchMemory());
+        CommandExecuteCode = GenerateCommand(ExecuteCode);
+        CommandStepOver = GenerateCommand(ExecuteStepOver);
+        CommandStepToNextInstruction = GenerateCommand(StepInstruction);
+        CommandUndoInstruction = GenerateCommand(UndoInstruction);
+        CommandRedoInstruction = GenerateCommand(RedoInstruction);
+        CommandResetInstruction = GenerateCommand(ResetExecution);
+        CommandStopExecution = GenerateCommand(ResetExecution);
+        CommandSearchMemory = GenerateCommand(SearchMemory);
 
         _interpreter = DIFactory.GenerateIInterpreter(typeof(InstructionCALL), typeof(InstructionRET));
         _interpreter.VirtualMachine = virtualMachine;
@@ -55,7 +56,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         InitRegisters();
     }
 
-    private async Task ExecuteCode()
+    private void ExecuteCode()
     {
         bool advanced = false;
 
@@ -67,10 +68,7 @@ public sealed class ExecutionViewModel : BaseViewModel
                 {
                     if (SourceCodeLines[_interpreter.CurrentInstructionIndex].Breakpoint && advanced)
                     {
-                        await Task.Run(() =>
-                        {
-                            Console.Beep();
-                        });
+                        Task.Run(Console.Beep);
 
                         return;
                     }
@@ -84,10 +82,7 @@ public sealed class ExecutionViewModel : BaseViewModel
 
             _currentInstructionIndex = SourceCodeLines.Last().Line - 1;
 
-            await Task.Run(() =>
-            {
-                Console.Beep();
-            });
+            Task.Run(Console.Beep);
         }
         catch (Exception ex)
         {
@@ -97,7 +92,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
     }
 
-    private async Task ExecuteStepOver()
+    private void ExecuteStepOver()
     {
         try
         {
@@ -113,16 +108,13 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
     }
 
-    private async Task StepInstruction()
+    private void StepInstruction()
     {
         try
         {
             if (NextInstructionIndex == -1)
             {
-                await Task.Run(() =>
-                {
-                    Console.Beep();
-                });
+                Task.Run(Console.Beep);
 
                 return;
             }
@@ -133,10 +125,7 @@ public sealed class ExecutionViewModel : BaseViewModel
             {
                 if (SourceCodeLines[_interpreter.CurrentInstructionIndex].Breakpoint)
                 {
-                    await Task.Run(() =>
-                    {
-                        Console.Beep();
-                    });
+                    Task.Run(Console.Beep);
                 }
             }
 
@@ -150,16 +139,13 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
     }
 
-    private async Task UndoInstruction()
+    private void UndoInstruction()
     {
         try
         {
             if (_interpreter.CurrentInstructionIndex == 0)
             {
-                await Task.Run(() =>
-                {
-                    Console.Beep();
-                });
+                Task.Run(Console.Beep);
 
                 return;
             }
@@ -168,10 +154,7 @@ public sealed class ExecutionViewModel : BaseViewModel
 
             if (SourceCodeLines[_interpreter.CurrentInstructionIndex].Breakpoint)
             {
-                await Task.Run(() =>
-                {
-                    Console.Beep();
-                });
+                Task.Run(Console.Beep);
             }
 
             UpdateCurrentInstructionIndex();
@@ -184,7 +167,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
     }
 
-    private async Task RedoInstruction()
+    private void RedoInstruction()
     {
         try
         {
@@ -200,7 +183,7 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
     }
 
-    private async Task ResetExecution()
+    private void ResetExecution()
     {
         try
         {
@@ -214,7 +197,19 @@ public sealed class ExecutionViewModel : BaseViewModel
         }
     }
 
-    private async Task SearchMemory()
+    private void StopExecution()
+    {
+        try
+        {
+            // TODO
+        }
+        catch (Exception ex)
+        {
+            InfoPopup.Show(InfoPopupSeverity.Error, $"Exception: {ex.InnerException} - {ex.Message}\n\nStack trace\n\n{ex.StackTrace}");
+        }
+    }
+
+    private void SearchMemory()
     {
         SearchedBytes.Clear();
 
@@ -469,6 +464,7 @@ public sealed class ExecutionViewModel : BaseViewModel
     public ICommand CommandUndoInstruction { get; private set; }
     public ICommand CommandRedoInstruction { get; private set; }
     public ICommand CommandResetInstruction { get; private set; }
+    public ICommand CommandStopExecution { get; private set; }
     public ICommand CommandSearchMemory { get; private set; }
 
     public Bitmap VideoOutput { get; private set; }
