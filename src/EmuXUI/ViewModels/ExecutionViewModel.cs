@@ -34,7 +34,6 @@ public sealed class ExecutionViewModel : BaseViewModel
         CommandUndoInstruction = GenerateCommand(UndoInstruction);
         CommandRedoInstruction = GenerateCommand(RedoInstruction);
         CommandResetInstruction = GenerateCommand(ResetExecution);
-        CommandStopExecution = GenerateCommand(ResetExecution);
         CommandSearchMemory = GenerateCommand(SearchMemory);
 
         _interpreter = DIFactory.GenerateIInterpreter(typeof(InstructionCALL), typeof(InstructionRET));
@@ -464,7 +463,6 @@ public sealed class ExecutionViewModel : BaseViewModel
     public ICommand CommandUndoInstruction { get; private set; }
     public ICommand CommandRedoInstruction { get; private set; }
     public ICommand CommandResetInstruction { get; private set; }
-    public ICommand CommandStopExecution { get; private set; }
     public ICommand CommandSearchMemory { get; private set; }
 
     public Bitmap VideoOutput { get; private set; }
