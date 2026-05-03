@@ -172,4 +172,9 @@
     <PublishTrimmed Condition="'$(Configuration)' == 'Debug'">False</PublishTrimmed>
     <PublishTrimmed Condition="'$(Configuration)' != 'Debug'">True</PublishTrimmed>
   </PropertyGroup>
+
+	<PropertyGroup>
+		<WindowsPackageType>None</WindowsPackageType>
+		<OutputType>WinExe</OutputType>
+	</PropertyGroup>
 </Project>
