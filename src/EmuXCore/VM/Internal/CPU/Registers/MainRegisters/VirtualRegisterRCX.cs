@@ -137,7 +137,7 @@ public class VirtualRegisterRCX : IVirtualRegister
 
     public string Name => "RCX";
 
-    public Dictionary<string, Size> RegisterNamesAndSizes => new()
+    public IDictionary<string, Size> RegisterNamesAndSizes => new Dictionary<string, Size>
     {
         { nameof(RCX), Size.Qword },
         { nameof(ECX), Size.Dword },

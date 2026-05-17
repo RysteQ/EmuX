@@ -93,7 +93,7 @@ public class VirtualRegisterRIP : IVirtualRegister
 
     public string Name => "RIP";
 
-    public Dictionary<string, Size> RegisterNamesAndSizes => new()
+    public IDictionary<string, Size> RegisterNamesAndSizes => new Dictionary<string, Size>
     {
         { nameof(RIP), Size.Qword },
         { nameof(EIP), Size.Dword },

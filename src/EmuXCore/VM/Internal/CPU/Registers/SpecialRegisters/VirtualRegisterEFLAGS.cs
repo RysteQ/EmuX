@@ -93,7 +93,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
 
     public string Name => "RFLAGS";
 
-    public Dictionary<string, Size> RegisterNamesAndSizes => new()
+    public IDictionary<string, Size> RegisterNamesAndSizes => new Dictionary<string, Size>
     {
         { nameof(RFLAGS), Size.Qword },
         { nameof(EFLAGS), Size.Dword },

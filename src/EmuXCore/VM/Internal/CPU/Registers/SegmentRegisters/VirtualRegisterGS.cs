@@ -49,7 +49,7 @@ public class VirtualRegisterGS : IVirtualRegister
 
     public string Name => "GS";
 
-    public Dictionary<string, Size> RegisterNamesAndSizes => new()
+    public IDictionary<string, Size> RegisterNamesAndSizes => new Dictionary<string, Size>
     {
         { nameof(GS), Size.Word }
     };
