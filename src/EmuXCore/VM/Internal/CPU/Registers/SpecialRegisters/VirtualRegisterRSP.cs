@@ -2,6 +2,7 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Interfaces.Exceptions;
 
 namespace EmuXCore.VM.Internal.CPU.Registers;
 
@@ -37,7 +38,7 @@ public class VirtualRegisterRSP : IVirtualRegister
         }
         else
         {
-            throw new ArgumentException($"Invalid register name, cannot find register of name {register} in [{nameof(RSP)} {nameof(ESP)} {nameof(SP)} {nameof(SPL)}]");
+            throw new VirtualRegisterNotFoundException($"Invalid register name, cannot find register of name {register} in [{nameof(RSP)} {nameof(ESP)} {nameof(SP)} {nameof(SPL)}]");
         }
     }
 
@@ -45,7 +46,7 @@ public class VirtualRegisterRSP : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RSP), Size.Qword, false));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(RSP), Size.Qword, false));
 
             return _rsp;
         }
@@ -53,7 +54,7 @@ public class VirtualRegisterRSP : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RSP)], BitConverter.GetBytes(RSP), BitConverter.GetBytes(value), nameof(RSP));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RSP), Size.Qword, true, RSP, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(RSP), Size.Qword, true, RSP, value));
 
             _rsp = value;
         }
@@ -63,7 +64,7 @@ public class VirtualRegisterRSP : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ESP), Size.Dword, false));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(ESP), Size.Dword, false));
 
             return (uint)(_rsp & 0x00000000ffffffff);
         }
@@ -71,7 +72,7 @@ public class VirtualRegisterRSP : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(ESP)], BitConverter.GetBytes(ESP), BitConverter.GetBytes(value), nameof(ESP));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ESP), Size.Dword, true, ESP, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(ESP), Size.Dword, true, ESP, value));
 
             _rsp = value;
         }
@@ -81,7 +82,7 @@ public class VirtualRegisterRSP : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SP), Size.Word, false));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(SP), Size.Word, false));
 
             return (ushort)((_rsp & 0x00000000ffffffff) & 0x0000ffff);
         }
@@ -89,7 +90,7 @@ public class VirtualRegisterRSP : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SP)], BitConverter.GetBytes(SP), BitConverter.GetBytes(value), nameof(SP));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SP), Size.Word, true, SP, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(SP), Size.Word, true, SP, value));
 
             _rsp = (_rsp & 0x_ff_ff_ff_ff_ff_ff_00_00) + value;
         }
@@ -99,7 +100,7 @@ public class VirtualRegisterRSP : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SPL), Size.Byte, false));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(SPL), Size.Byte, false));
 
             return (byte)(((_rsp & 0x00000000ffffffff) & 0x0000ffff) & 0x00ff);
         }
@@ -107,7 +108,7 @@ public class VirtualRegisterRSP : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(SPL)], [SPL], [value], nameof(SP));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(SPL), Size.Byte, true, SPL, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(SPL), Size.Byte, true, SPL, value));
 
             _rsp = (_rsp & 0x_ff_ff_ff_ff_ff_ff_ff_00) + value;
         }

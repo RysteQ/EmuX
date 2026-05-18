@@ -2,6 +2,7 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Exceptions;
 
 namespace EmuXCore.VM.Internal.Disk;
 
@@ -62,17 +63,17 @@ public class VirtualDisk : IVirtualDisk
     {
         if (platter >= Platters)
         {
-            throw new IndexOutOfRangeException($"Platter {platter + 1} is not accessible since there are only {Platters} platters available");
+            throw new InvalidDiskPlatterException($"Platter {platter + 1} is not accessible since there are only {Platters} platters available");
         }
 
         if (track >= Tracks)
         {
-            throw new IndexOutOfRangeException($"Track {track + 1} is not accessible since there are only {Tracks} tracks per platter available");
+            throw new InvalidDiskTrackException($"Track {track + 1} is not accessible since there are only {Tracks} tracks per platter available");
         }
 
         if (sector >= Sectors)
         {
-            throw new IndexOutOfRangeException($"Sector {sector + 1} is not accessible since there are only {Sectors} tracks per sector available");
+            throw new InvalidDiskSectorException($"Sector {sector + 1} is not accessible since there are only {Sectors} tracks per sector available");
         }
     }
 

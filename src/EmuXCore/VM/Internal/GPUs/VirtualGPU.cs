@@ -2,6 +2,7 @@
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
+using EmuXCore.VM.Interfaces.Exceptions;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using System.Drawing;
 
@@ -28,7 +29,7 @@ public class VirtualGPU : IVirtualGPU
 
         if (ParentVirtualMachine == null)
         {
-            throw new ArgumentNullException($"Cannot execute the {nameof(Execute)} method with a null value for the property {nameof(ParentVirtualMachine)}");
+            throw new VirtualMachineNotFoundException($"Cannot execute the {nameof(Execute)} method with a null value for the property {nameof(ParentVirtualMachine)}");
         }
 
         shape = (VideoInterrupt)(ParentVirtualMachine!.CPU.GetRegister<VirtualRegisterRAX>().AH);
@@ -40,7 +41,7 @@ public class VirtualGPU : IVirtualGPU
 
         if (xCoordinates.StartX < 0 || xCoordinates.StartX >= Width || yCoordinates.StartY < 0 || yCoordinates.StartY >= Width || xCoordinates.EndX < 0 || xCoordinates.EndX >= Width || yCoordinates.EndY < 0 || yCoordinates.EndY >= Width)
         {
-            throw new IndexOutOfRangeException($"The X and Y coordinates must be width X[0:{Width - 1}] and Y[0:{Height - 1}");
+            throw new InvalidGPUOperationException($"The X and Y coordinates must be width X[0:{Width - 1}] and Y[0:{Height - 1}");
         }
 
         DrawShape(shape, xCoordinates.StartX, yCoordinates.StartY, xCoordinates.EndX, yCoordinates.EndY, red, green, blue);
@@ -50,7 +51,7 @@ public class VirtualGPU : IVirtualGPU
     {
         if ((x < 0 || x >= Width) || (y < 0 || y >= Width))
         {
-            throw new IndexOutOfRangeException($"The X and Y coordinates must be width X[0:{Width - 1}] and Y[0:{Height - 1}");
+            throw new InvalidGPUOperationException($"The X and Y coordinates must be width X[0:{Width - 1}] and Y[0:{Height - 1}");
         }
 
         return Color.FromArgb(_data[(x + y * Width) * 3], _data[(x + y * Width) * 3 + 1], _data[(x + y * Width) * 3 + 2]);

@@ -1,5 +1,6 @@
 ﻿using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
+using EmuXCore.VM.Interfaces.Exceptions;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SegmentRegisters;
 
@@ -20,7 +21,7 @@ public class DiskInterruptHandler : IDiskInterruptHandler
 
         if (selectedDisk == null)
         {
-            throw new DriveNotFoundException($"Drive with drive number {disk} not found");
+            throw new VirtualDiskNotFoundException($"Drive with drive number {disk} not found");
         }
 
         buffer = new byte[selectedDisk.BytesPerSector];
@@ -49,7 +50,7 @@ public class DiskInterruptHandler : IDiskInterruptHandler
 
         if (selectedDisk == null)
         {
-            throw new DriveNotFoundException($"Drive with drive number {disk} not found");
+            throw new VirtualDiskNotFoundException($"Drive with drive number {disk} not found");
         }
 
         buffer = new byte[selectedDisk.BytesPerSector];

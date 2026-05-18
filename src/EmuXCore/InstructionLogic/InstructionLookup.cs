@@ -1,5 +1,7 @@
-﻿using EmuXCore.InstructionLogic.Instructions;
+﻿using EmuXCore.Common.Interfaces;
+using EmuXCore.InstructionLogic.Instructions;
 using EmuXCore.InstructionLogic.Interfaces;
+using EmuXCore.InstructionLogic.Interfaces.Exceptions;
 
 namespace EmuXCore.InstructionLogic;
 
@@ -12,6 +14,11 @@ public class InstructionLookup : IInstructionLookup
 
     public Type GetInstructionType(string instruction)
     {
+        if (!_allInstructionNamesAndTypes.ContainsKey(instruction.ToUpper()))
+        {
+            throw new InvalidPrefixException($"An instruction with the name {instruction} does not exist");
+        }
+
         return _allInstructionNamesAndTypes[instruction.ToUpper()];
     }
 

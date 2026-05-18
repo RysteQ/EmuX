@@ -165,7 +165,7 @@ public class Lexeme : ILexeme
             "XCHG" => DIFactory.GenerateIInstruction<InstructionXCHG>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "XLAT" => DIFactory.GenerateIInstruction<InstructionXLAT>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
             "XOR" => DIFactory.GenerateIInstruction<InstructionXOR>(instructionVariant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor),
-            _ => throw new Exception($"Unknown opcode \"{SourceCodeLine.SourceCode}\" : {SourceCodeLine.Line}"),
+            _ => throw new InstructionNotFoundException($"Unknown opcode \"{SourceCodeLine.SourceCode}\" : {SourceCodeLine.Line}"),
         };
 
         return instruction;

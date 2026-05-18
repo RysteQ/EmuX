@@ -1,4 +1,5 @@
 ﻿using EmuXCore.InstructionLogic.Interfaces;
+using EmuXCore.InstructionLogic.Interfaces.Exceptions;
 using EmuXCore.InstructionLogic.Prefixes;
 
 namespace EmuXCore.InstructionLogic;
@@ -12,6 +13,11 @@ public class PrefixLookup : IPrefixLookup
 
     public Type GetPrefixType(string prefix)
     {
+        if (!_allPrefixNamesAndTypes.ContainsKey(prefix.ToUpper()))
+        {
+            throw new InvalidPrefixException($"A prefix with the name {prefix} does not exist");
+        }
+
         return _allPrefixNamesAndTypes[prefix.ToUpper()];
     }
 

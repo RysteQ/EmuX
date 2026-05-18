@@ -2,6 +2,7 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Interfaces.Exceptions;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.SegmentRegisters;
 
@@ -25,7 +26,7 @@ public class VirtualRegisterES : IVirtualRegister
         }
         else
         {
-            throw new ArgumentException($"Invalid register name, cannot find register of name {register} in [{nameof(ES)}]");
+            throw new VirtualRegisterNotFoundException($"Invalid register name, cannot find register of name {register} in [{nameof(ES)}]");
         }
     }
 
@@ -33,7 +34,7 @@ public class VirtualRegisterES : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ES), Size.Word, false));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(ES), Size.Word, false));
 
             return _es;
         }
@@ -41,7 +42,7 @@ public class VirtualRegisterES : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(ES)], BitConverter.GetBytes(ES), BitConverter.GetBytes(value), nameof(ES));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(ES), Size.Word, true, ES, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(ES), Size.Word, true, ES, value));
 
             _es = value;
         }

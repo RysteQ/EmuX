@@ -363,7 +363,7 @@ public static class DIFactory
     /// <param name="previousValue">The previous value of the register</param>
     /// <param name="newValue">The new value of the register</param>
     /// <returns>The implementation of IRegisterAccess</returns>
-    public static IRegisterAccess GenerateIRegisteAccess(string registerName, Size size, bool write, ulong previousValue = 0, ulong newValue = 0) => new RegisterAccess(registerName, size, write, previousValue, newValue);
+    public static IRegisterAccess GenerateIRegisterAccess(string registerName, Size size, bool write, ulong previousValue = 0, ulong newValue = 0) => new RegisterAccess(registerName, size, write, previousValue, newValue);
 
     /// <summary>
     /// Generates an instance of IVideoCardAccess

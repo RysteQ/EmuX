@@ -1,6 +1,7 @@
 ﻿using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Interfaces.Exceptions;
 using EmuXCore.VM.Internal.CPU.Registers;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCore.VM.Internal.CPU.Registers.SegmentRegisters;
@@ -45,7 +46,7 @@ public class VirtualCPU : IVirtualCPU
             }
         }
 
-        throw new KeyNotFoundException($"Cannot find any register of type {typeof(T)}");
+        throw new VirtualRegisterNotFoundException($"Cannot find any register of type {typeof(T)}");
     }
 
     public IVirtualRegister GetRegister(string registerName)
@@ -58,7 +59,7 @@ public class VirtualCPU : IVirtualCPU
             }
         }
 
-        throw new KeyNotFoundException($"Cannot find the register {registerName}");
+        throw new VirtualRegisterNotFoundException($"Cannot find the register {registerName}");
     }
 
     public IReadOnlyCollection<IVirtualRegister> Registers { get; init; }

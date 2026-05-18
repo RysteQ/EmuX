@@ -2,6 +2,7 @@
 using EmuXCore.VM.Enums;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Interfaces.Exceptions;
 
 namespace EmuXCore.VM.Internal.CPU.Registers.SpecialRegisters;
 
@@ -33,7 +34,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         }
         else
         {
-            throw new ArgumentException($"Invalid register name, cannot find register of name {register} in [{nameof(RFLAGS)} {nameof(EFLAGS)} {nameof(FLAGS)}]");
+            throw new VirtualRegisterNotFoundException($"Invalid register name, cannot find register of name {register} in [{nameof(RFLAGS)} {nameof(EFLAGS)} {nameof(FLAGS)}]");
         }
     }
 
@@ -41,7 +42,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RFLAGS), Size.Qword, false));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(RFLAGS), Size.Qword, false));
 
             return _rflags;
         }
@@ -49,7 +50,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(RFLAGS)], BitConverter.GetBytes(RFLAGS), BitConverter.GetBytes(value), nameof(RFLAGS));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(RFLAGS), Size.Qword, true, RFLAGS, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(RFLAGS), Size.Qword, true, RFLAGS, value));
 
             _rflags = value;
         }
@@ -59,7 +60,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EFLAGS), Size.Dword, false));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(EFLAGS), Size.Dword, false));
 
             return (uint)(_rflags & 0x00000000ffffffff);
         }
@@ -67,7 +68,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(EFLAGS)], BitConverter.GetBytes(EFLAGS), BitConverter.GetBytes(value), nameof(EFLAGS));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(EFLAGS), Size.Dword, true, FLAGS, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(EFLAGS), Size.Dword, true, FLAGS, value));
 
             _rflags = value;
         }
@@ -77,7 +78,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
     {
         get
         {
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(FLAGS), Size.Word, false));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(FLAGS), Size.Word, false));
 
             return (ushort)((_rflags & 0x00000000ffffffff) & 0x0000ffff);
         }
@@ -85,7 +86,7 @@ public class VirtualRegisterEFLAGS : IVirtualRegister
         set
         {
             ParentVirtualMachine?.RegisterAction(VmActionCategory.ModifiedRegister, RegisterNamesAndSizes[nameof(FLAGS)], BitConverter.GetBytes(FLAGS), BitConverter.GetBytes(value), nameof(FLAGS));
-            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisteAccess(nameof(FLAGS), Size.Word, true, FLAGS, value));
+            ParentVirtualMachine?.InvokeAccessEvent((EventArgs)DIFactory.GenerateIRegisterAccess(nameof(FLAGS), Size.Word, true, FLAGS, value));
 
             _rflags = ((_rflags & 0x00000000ffffffff) & 0xffff0000) + value;
         }

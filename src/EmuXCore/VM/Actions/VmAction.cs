@@ -4,6 +4,7 @@ using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Actions;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Interfaces.Exceptions;
 
 namespace EmuXCore.VM.Actions;
 
@@ -30,7 +31,7 @@ public class VmAction : IVmAction
             case VmActionCategory.ModifiedDisk: UndoDiskAction(virtualMachineInstance); break;
             case VmActionCategory.ModifiedDevice: UndoDeviceAction(virtualMachineInstance); break;
             case VmActionCategory.ModifiedGpu: UndoGpuAction(virtualMachineInstance); break;
-            default: throw new ArgumentException("Invalid action");
+            default: throw new InvalidActionException("Invalid action");
         }
     }
 
@@ -43,7 +44,7 @@ public class VmAction : IVmAction
             case VmActionCategory.ModifiedDisk: RedoDiskAction(virtualMachineInstance); break;
             case VmActionCategory.ModifiedDevice: RedoDeviceAction(virtualMachineInstance); break;
             case VmActionCategory.ModifiedGpu: RedoGpuAction(virtualMachineInstance); break;
-            default: throw new ArgumentException("Invalid action");
+            default: throw new InvalidActionException("Invalid action");
         }
     }
 
@@ -54,7 +55,7 @@ public class VmAction : IVmAction
 
         if (string.IsNullOrEmpty(RegisterName))
         {
-            throw new ArgumentNullException($"Value {nameof(RegisterName)} is null or empty");
+            throw new InvalidActionException($"Value {nameof(RegisterName)} is null or empty");
         }
 
         virtualRegister = virtualMachineInstance.CPU.GetRegister(RegisterName);
@@ -66,7 +67,7 @@ public class VmAction : IVmAction
             case Size.Word: virtualRegister.Set(RegisterName, (currentRegisterValue & 0x_ff_ff_ff_ff_ff_ff_00_00) + ConvertBytesToUlong(PreviousValue)); break;
             case Size.Dword: virtualRegister.Set(RegisterName, (currentRegisterValue & 0x_ff_ff_ff_ff_00_00_00_00) + ConvertBytesToUlong(PreviousValue)); break;
             case Size.Qword: virtualRegister.Set(RegisterName, ConvertBytesToUlong(PreviousValue)); break;
-            default: throw new ArgumentException("Invalid size");
+            default: throw new InvalidActionException("Invalid size");
         }
     }
 
@@ -74,7 +75,7 @@ public class VmAction : IVmAction
     {
         if (MemoryPointer == null)
         {
-            throw new ArgumentNullException($"Value {nameof(MemoryPointer)} is null or empty");
+            throw new InvalidActionException($"Value {nameof(MemoryPointer)} is null or empty");
         }
 
         for (int i = 0; i < PreviousValue.Length; i++)
@@ -89,12 +90,12 @@ public class VmAction : IVmAction
 
         if (MemoryPointer == null)
         {
-            throw new ArgumentNullException($"Value {nameof(MemoryPointer)} is null or empty");
+            throw new InvalidActionException($"Value {nameof(MemoryPointer)} is null or empty");
         }
 
         if (virtualDisk == null)
         {
-            throw new ArgumentNullException($"Cannot find the disk with the ID of {DiskId}");
+            throw new InvalidActionException($"Cannot find the disk with the ID of {DiskId}");
         }
 
         for (int i = 0; i < PreviousValue.Length; i++)
@@ -109,12 +110,12 @@ public class VmAction : IVmAction
 
         if (MemoryPointer == null)
         {
-            throw new ArgumentNullException($"Value {nameof(MemoryPointer)} is null or empty");
+            throw new InvalidActionException($"Value {nameof(MemoryPointer)} is null or empty");
         }
 
         if (virtualDevice == null)
         {
-            throw new ArgumentNullException($"Cannot find the device with the ID of {DeviceId}");
+            throw new InvalidActionException($"Cannot find the device with the ID of {DeviceId}");
         }
 
         for (int i = 0; i < PreviousValue.Length; i++)
@@ -129,7 +130,7 @@ public class VmAction : IVmAction
 
         if (MemoryPointer == null)
         {
-            throw new ArgumentNullException($"Value {nameof(MemoryPointer)} is null or empty");
+            throw new InvalidActionException($"Value {nameof(MemoryPointer)} is null or empty");
         }
 
         for (int i = 0; i < PreviousValue.Length; i++)
@@ -145,7 +146,7 @@ public class VmAction : IVmAction
 
         if (string.IsNullOrEmpty(RegisterName))
         {
-            throw new ArgumentNullException($"Value {nameof(RegisterName)} is null or empty");
+            throw new InvalidActionException($"Value {nameof(RegisterName)} is null or empty");
         }
 
         virtualRegister = virtualMachineInstance.CPU.GetRegister(RegisterName);
@@ -157,7 +158,7 @@ public class VmAction : IVmAction
             case Size.Word: virtualRegister.Set(RegisterName, (currentRegisterValue & 0x_ff_ff_ff_ff_ff_ff_00_00) + ConvertBytesToUlong(NewValue)); break;
             case Size.Dword: virtualRegister.Set(RegisterName, (currentRegisterValue & 0x_ff_ff_ff_ff_00_00_00_00) + ConvertBytesToUlong(NewValue)); break;
             case Size.Qword: virtualRegister.Set(RegisterName, ConvertBytesToUlong(NewValue)); break;
-            default: throw new ArgumentException("Invalid size");
+            default: throw new InvalidActionException("Invalid size");
         }
     }
 
@@ -165,7 +166,7 @@ public class VmAction : IVmAction
     {
         if (MemoryPointer == null)
         {
-            throw new ArgumentNullException($"Value {nameof(MemoryPointer)} is null or empty");
+            throw new InvalidActionException($"Value {nameof(MemoryPointer)} is null or empty");
         }
 
         for (int i = 0; i < PreviousValue.Length; i++)
@@ -180,12 +181,12 @@ public class VmAction : IVmAction
 
         if (MemoryPointer == null)
         {
-            throw new ArgumentNullException($"Value {nameof(MemoryPointer)} is null or empty");
+            throw new InvalidActionException($"Value {nameof(MemoryPointer)} is null or empty");
         }
 
         if (virtualDisk == null)
         {
-            throw new ArgumentNullException($"Cannot find the disk with the ID of {DiskId}");
+            throw new InvalidActionException($"Cannot find the disk with the ID of {DiskId}");
         }
 
         for (int i = 0; i < NewValue.Length; i++)
@@ -200,12 +201,12 @@ public class VmAction : IVmAction
 
         if (MemoryPointer == null)
         {
-            throw new ArgumentNullException($"Value {nameof(MemoryPointer)} is null or empty");
+            throw new InvalidActionException($"Value {nameof(MemoryPointer)} is null or empty");
         }
 
         if (virtualDevice == null)
         {
-            throw new ArgumentNullException($"Cannot find the device with the ID of {DeviceId}");
+            throw new InvalidActionException($"Cannot find the device with the ID of {DeviceId}");
         }
 
         for (int i = 0; i < NewValue.Length; i++)
@@ -220,7 +221,7 @@ public class VmAction : IVmAction
 
         if (MemoryPointer == null)
         {
-            throw new ArgumentNullException($"Value {nameof(MemoryPointer)} is null or empty");
+            throw new InvalidActionException($"Value {nameof(MemoryPointer)} is null or empty");
         }
 
         for (int i = 0; i < NewValue.Length; i++)
@@ -237,7 +238,7 @@ public class VmAction : IVmAction
             case Size.Word: return ((ulong)bytesToConvert[1] << 8) + (ulong)bytesToConvert[0];
             case Size.Dword: return ((ulong)bytesToConvert[3] << 24) + ((ulong)bytesToConvert[2] << 16) + ((ulong)bytesToConvert[1] << 8) + (ulong)bytesToConvert[0];
             case Size.Qword: return ((ulong)bytesToConvert[7] << 56) + ((ulong)bytesToConvert[6] << 48) + ((ulong)bytesToConvert[5] << 40) + ((ulong)bytesToConvert[4] << 32) + ((ulong)bytesToConvert[3] << 24) + ((ulong)bytesToConvert[2] << 16) + ((ulong)bytesToConvert[1] << 8) + (ulong)bytesToConvert[0];
-            default: throw new ArgumentException($"Cannot convert the value given in method {nameof(VmAction)}.{nameof(ConvertBytesToUlong)}, invalid size {Size}");
+            default: throw new InvalidActionException($"Cannot convert the value given in method {nameof(VmAction)}.{nameof(ConvertBytesToUlong)}, invalid size {Size}");
         }
     }
 

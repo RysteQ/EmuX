@@ -4,6 +4,7 @@ using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
+using EmuXCore.VM.Interfaces.Exceptions;
 
 namespace EmuXCore.VM.Internal.BIOS;
 
@@ -23,7 +24,7 @@ public class VirtualBIOS : IVirtualBIOS
     {
         if (ParentVirtualMachine == null)
         {
-            throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
+            throw new VirtualMachineNotFoundException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
         }
 
         switch (interruptCode)
@@ -37,7 +38,7 @@ public class VirtualBIOS : IVirtualBIOS
     {
         if (ParentVirtualMachine == null)
         {
-            throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
+            throw new VirtualMachineNotFoundException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
         }
 
         // It is granted that the virtual machine is going to have an operational virtual RTC unit
@@ -56,7 +57,7 @@ public class VirtualBIOS : IVirtualBIOS
     {
         if (ParentVirtualMachine == null)
         {
-            throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
+            throw new VirtualMachineNotFoundException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
         }
 
         switch (interruptCode)
@@ -73,7 +74,7 @@ public class VirtualBIOS : IVirtualBIOS
     {
         if (ParentVirtualMachine == null)
         {
-            throw new ArgumentNullException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
+            throw new VirtualMachineNotFoundException($"Property {nameof(ParentVirtualMachine)} cannot be null when calling this method, please provide a value for it");
         }
 
         switch (interruptCode)
