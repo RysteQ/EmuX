@@ -1,27 +1,29 @@
 ﻿using EmuXCore.Common.Enums;
+using EmuXCore.VM.Interfaces.Exceptions;
 
 namespace EmuXCore.VM.Interfaces.Components.Internal;
 
 /// <summary>
-/// This is used to implement any register for the IVirtualCPU module
+/// This is used to implement any register for the <see cref="IVirtualCPU"/> module.
 /// </summary>
 public interface IVirtualRegister : IVirtualComponent
 {
     /// <summary>
-    /// Generic getter method, must return the value of the largest (in terms of binary digits) available register property
+    /// Generic getter method.
     /// </summary>
-    /// <returns>The value of the register</returns>
+    /// <returns>The the largest (in terms of binary digits) available register property value.</returns>
     ulong Get();
 
     /// <summary>
-    /// Generic setter method, must set the value of the largest (in terms of binary digits) available register property
+    /// Generic setter method.
     /// </summary>
-    /// <param name="value">The value to set the register at</param>
-    /// <param name="register">The name of the register to set the value at, it is case insensitive</param>
+    /// <param name="value">The value to set the register at.</param>
+    /// <param name="register">The name of the register to set the value at, it is case insensitive.</param>
+    /// <exception cref="VirtualRegisterNotFoundException" />
     void Set(string register, ulong value);
 
     /// <summary>
-    /// The name of the register
+    /// The name of the register.
     /// </summary>
     string Name { get; }
 

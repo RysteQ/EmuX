@@ -1,9 +1,10 @@
 ﻿using System.Drawing;
+using EmuXCore.VM.Interfaces.Exceptions;
 
 namespace EmuXCore.VM.Interfaces.Components;
 
 /// <summary>
-/// The IVirtualGPU is meant to emulate a real GPU
+/// The IVirtualGPU meant to emulate a real GPU.
 /// </summary>
 public interface IVirtualGPU : IVirtualComponent
 {
@@ -14,25 +15,33 @@ public interface IVirtualGPU : IVirtualComponent
     /// StartY - EndY: EDX[0:15] - EDX[16:31] <br/>
     /// Red: CS[0:7] <br/>
     /// Green: SS[0:7] <br/>
-    /// Blue: DS[0:7] <br/>
+    /// Blue: DS[0:7]
     /// </summary>
-    /// <exception cref="IndexOutOfRangeException">Thrown if the coordinates are out of range / invalid</exception>
+    /// <exception cref="InvalidGPUOperationException" />
+    /// <exception cref="VirtualMachineNotFoundException" />
     void Execute();
 
     /// <summary>
     /// Gets the pixel colour specified as a strictly RGB only value.
     /// </summary>
-    /// <param name="x">The pixel to retrive the colour from in the X coordinate</param>
-    /// <param name="y">The pixel to retrive the colour from in the Y coordinate</param>
-    /// <exception cref="IndexOutOfRangeException">Thrown if the coordinates are out of range / invalid</exception>
-    /// <returns>The RGB value of the x:y pixel</returns>
+    /// <param name="x">The pixel to retrive the colour from in the X coordinate.</param>
+    /// <param name="y">The pixel to retrive the colour from in the Y coordinate.</param>
+    /// <exception cref="InvalidGPUOperationException" />
+    /// <returns>The RGB value of the x:y pixel.</returns>
     Color GetPixelColour(int x, int y);
 
+    /// <summary>
+    /// The supported GPU render height in pixels.
+    /// </summary>
     public ushort Height { get; }
+
+    /// <summary>
+    /// The supported GPU render width in pixels.
+    /// </summary>
     public ushort Width { get; }
 
     /// <summary>
-    /// Used to access the internal buffer of the GPU, anything that writes inside that buffer should be done via the Execute() method
+    /// Used to access the internal buffer of the GPU, anything that writes inside that buffer should be done via the Execute() method.
     /// </summary>
     public byte[] Data { get; }
 }

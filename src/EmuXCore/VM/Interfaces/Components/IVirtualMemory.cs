@@ -3,27 +3,28 @@
 namespace EmuXCore.VM.Interfaces.Components;
 
 /// <summary>
-/// The IVirtualMemory module meant to emulate the memory of a computer
+/// The IVirtualMemory responsible for emulating the memory of a real machine.
 /// </summary>
 public interface IVirtualMemory : IVirtualComponent
 {
     /// <summary>
-    /// This property is used to find the labels and their properties during runtime and their name acting as a key to this collection
+    /// Used to find the labels using their name as a key to retrieve their properties during runtime.
     /// </summary>
     IDictionary<string, IMemoryLabel> LabelMemoryLocations { get; set; }
 
     /// <summary>
-    /// The RAM of the VMemory, must be the size of IO_MEMORY + GENERAL_PURPOSE_MEMORY. It is not recommended to read / write directly to RAM, please use the Read / Write methods instead
+    /// The RAM of the VMemory module, must be the size of IO_MEMORY + GENERAL_PURPOSE_MEMORY. <br/>
+    /// It is not recommended to read / write directly to RAM, please use the Read / Write methods instead of the <see cref="IVirtualMachine" />
     /// </summary>
     byte[] RAM { get; set; }
 
     /// <summary>
-    /// The size allocated for general purpose memory
+    /// The size allocated for general purpose memory.
     /// </summary>
     uint GENERAL_PURPOSE_MEMORY { get; }
 
     /// <summary>
-    /// The size allocated for IO memory
+    /// The size allocated for IO memory.
     /// </summary>
     public uint IO_MEMORY { get; init; }
 }

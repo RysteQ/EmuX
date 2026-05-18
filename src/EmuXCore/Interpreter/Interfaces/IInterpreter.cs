@@ -5,86 +5,86 @@ using EmuXCore.VM.Interfaces;
 namespace EmuXCore.Interpreter.Interfaces;
 
 /// <summary>
-/// The IInterpreter serves as a way to manage code execution in its IL state
+/// The IInterpreter serves as a way to manage code execution in its IL state.
 /// </summary>
 public interface IInterpreter
 {
     /// <summary>
-    /// Executes all instructions
+    /// Executes all instructions.
     /// </summary>
     void Execute();
 
     /// <summary>
-    /// Executes the next instruction
+    /// Executes the next instruction.
     /// </summary>
     void ExecuteStep();
 
     /// <summary>
-    /// Just like execute step but if the instruction is a call instruction, it will execute all instructions until the return instruction of the call instruction is reached
+    /// Just like execute step but if the instruction is a call instruction, it will execute all instructions until the return instruction of the call instruction is reached.
     /// </summary>
     void ExecuteStepOver();
 
     /// <summary>
-    /// Undo a single action
+    /// Undo a single action.
     /// </summary>
     void UndoAction();
 
     /// <summary>
-    /// Undo N actions
+    /// Undo N actions.
     /// </summary>
-    /// <param name="actions">The amount of actions to undo</param>
+    /// <param name="actions">The amount of actions to undo.</param>
     void UndoActions(int actions);
 
     /// <summary>
-    /// Redo a single action
+    /// Redo a single action.
     /// </summary>
     void RedoAction();
 
     /// <summary>
-    /// Redo N actions
+    /// Redo N actions.
     /// </summary>
-    /// <param name="actions">The amount of actions to redo</param>
+    /// <param name="actions">The amount of actions to redo.</param>
     void RedoActions(int actions);
 
     /// <summary>
-    /// 
+    /// Stops the execution of the program.
     /// </summary>
     void StopExecution();
 
     /// <summary>
-    /// Resets the execution of the program and the IVirtualMachine to its previous state
+    /// Resets the execution of the program and the <see cref="IVirtualMachine"/> to its previous state.
     /// </summary>
     void ResetExecution();
 
     event EventHandler? InstructionIndexUpdated;
 
     /// <summary>
-    /// The <c>IVirtualMachine</c> implementation to run the code under
+    /// The <see cref="IVirtualMachine"/> implementation to run the code in.
     /// </summary>
     IVirtualMachine VirtualMachine { get; set; }
 
     /// <summary>
-    /// The instructions to execute
+    /// The instructions to execute.
     /// </summary>
     IList<IInstruction> Instructions { get; set; }
 
     /// <summary>
-    /// The labels required for the code to run
+    /// The labels required for the code to run.
     /// </summary>
     IList<ILabel> Labels { get; set; }
 
     /// <summary>
-    /// The current instruction being executed 
+    /// The current instruction being executed.
     /// </summary>
     IInstruction CurrentInstruction { get; }
 
     /// <summary>
-    /// The current instruction index being executed, -1 if no instruction has been executed / all actions have been undone
+    /// The current instruction index being executed, -1 if no instruction has been executed / all actions have been undone.
     /// </summary>
     int CurrentInstructionIndex { get; }
 
     /// <summary>
-    /// Useful for the Execute() method to indicate when the execution of the code has finished or not
+    /// Useful for the <see cref="Execute()"/> method to indicate when the execution of the code has finished or not.
     /// </summary>
     bool ExecutingCode { get; }
 }

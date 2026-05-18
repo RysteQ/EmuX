@@ -3,29 +3,29 @@
 namespace EmuXCore.Common.Interfaces;
 
 /// <summary>
-/// This is used to structure prefixes for all instruction types
+/// This is used to structure prefixes for all <see cref="IInstruction"/> implementations.
 /// </summary>
 public interface IPrefix
 {
     /// <summary>
-    /// Used to execute the prefix logic
+    /// Used to execute the prefix logic.
     /// </summary>
-    /// <param name="instruction">The instruction to loop through</param>
-    /// <param name="virtualMachine">The virtual machine the prefix is executed under</param>
+    /// <param name="instruction">The instruction to loop through.</param>
+    /// <param name="virtualMachine">The <see cref="IVirtualMachine"/> implementation the prefix is executed under.</param>
     void Loop(IInstruction instruction, IVirtualMachine virtualMachine);
 
     /// <summary>
-    /// The type of the prefix, used to check the validity of some instructions since prefixes may or may not be valid with some instructions
+    /// The type of the prefix, used to check the validity of some instructions since prefixes may or may not be valid with some instructions.
     /// </summary>
     Type Type { get; }
 
     /// <summary>
-    /// The full operand of the prefix as read from the source code
+    /// The full operand of the prefix as read from the source code.
     /// </summary>
     string Prefix { get; }
 
     /// <summary>
-    /// The machine code representation of the prefix
+    /// The machine code representation of the prefix.
     /// </summary>
     byte PrefixMachineCodeByte { get; }
 }

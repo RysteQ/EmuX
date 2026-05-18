@@ -4,56 +4,56 @@ using EmuXCore.VM.Interfaces.Components.BIOS;
 namespace EmuXCore.VM.Interfaces;
 
 /// <summary>
-/// Due to the IVirtualMachine complexity the use of the IVirtualMachineBuilder is recommended when building an instance of the IVirtualMachine interface
+/// Due to the <see cref="IVirtualMachine"/> complexity the use of the IVirtualMachineBuilder is recommended when building an instance of the IVirtualMachine interface.
 /// </summary>
 public interface IVirtualMachineBuilder
 {
     /// <summary>
-    /// Sets the CPU of the IVirtualMachine
+    /// Sets the CPU of the <see cref="IVirtualMachine"/>.
     /// </summary>
-    /// <param name="virtualCPU">The IVirtualCPU implementation</param>
+    /// <param name="virtualCPU">The <see cref="IVirtualCPU"/> implementation.</param>
     IVirtualMachineBuilder SetCpu(IVirtualCPU virtualCPU);
 
     /// <summary>
-    /// Sets the memory of the IVirtualMachine
+    /// Sets the memory of the <see cref="IVirtualMachine"/>.
     /// </summary>
-    /// <param name="virtualMemory">The IVirtualMemory implementation</param>
+    /// <param name="virtualCPU">The <see cref="IVirtualMemory"/> implementation.</param>
     IVirtualMachineBuilder SetMemory(IVirtualMemory virtualMemory);
 
     /// <summary>
-    /// Sets the GPU of the IVirtualMachine
+    /// Sets the GPU of the <see cref="IVirtualMachine"/>.
     /// </summary>
-    /// <param name="virtualGPU">The IVirtualGPU implementation</param>
+    /// <param name="virtualCPU">The <see cref="IVirtualGPU"/> implementation.</param>
     IVirtualMachineBuilder SetGPU(IVirtualGPU virtualGPU);
 
     /// <summary>
-    /// Adds a IVirtualDisk to the IVirtualMachine
+    /// Adds a IVirtualDisk to the <see cref="IVirtualMachine"/>.
     /// </summary>
-    /// <param name="virtualDisk">The IVirtualDisk implementation</param>
+    /// <param name="virtualCPU">The <see cref="IVirtualDisk"/> implementation.</param>
     IVirtualMachineBuilder AddDisk(IVirtualDisk virtualDisk);
 
     /// <summary>
-    /// Sets the BIOS of the IVirtualMachine
+    /// Sets the BIOS of the <see cref="IVirtualMachine"/>.
     /// </summary>
-    /// <param name="virtualBios">The IVirtualBIOS implementation</param>
+    /// <param name="virtualCPU">The <see cref="IVirtualBIOS"/> implementation.</param>
     IVirtualMachineBuilder SetBios(IVirtualBIOS virtualBios);
 
     /// <summary>
-    /// Sets the RTC of the IVirtualMachine
+    /// Sets the RTC of the <see cref="IVirtualMachine"/>.
     /// </summary>
-    /// <param name="virtualRTC">The IVirtualRTC implementation</param>
+    /// <param name="virtualCPU">The <see cref="IVirtualRTC"/> implementation.</param>
     IVirtualMachineBuilder SetRTC(IVirtualRTC virtualRTC);
 
     /// <summary>
-    /// Adds a IVirtualDevice to the IVirtualMachine
+    /// Adds a IVirtualDevice to the <see cref="IVirtualMachine"/>.
     /// </summary>
-    /// <param name="virtualDevice">The IVirtualDevice implementation</param>
+    /// <param name="virtualCPU">The <see cref="IVirtualDevice"/> implementation.</param>
     IVirtualMachineBuilder AddVirtualDevice(IVirtualDevice virtualDevice);
 
     /// <summary>
-    /// Builds an instance of the IVirtualMachine
+    /// Builds an instance of the <see cref="IVirtualMachine"/>.
     /// </summary>
-    /// <exception cref="ArgumentNullException">Thrown if a necessary module (IVirtualCPU, IVirtualMemory, IVirtualGPU, IVirtualBIOS, IVirtualRTC) has not been supplied beforehand</exception>
-    /// <returns>The new instance of the IVirtualMachine</returns>
+    /// <exception cref="ArgumentNullException">Thrown if a necessary module (<see cref="IVirtualCPU"/>, <see cref="IVirtualMemory"/>, <see cref="IVirtualGPU"/>, <see cref="IVirtualBIOS"/>, <see cref="IVirtualRTC"/>) has not been provided beforehand.</exception>
+    /// <returns>The new instance of the <see cref="IVirtualMachine"/>.</returns>
     IVirtualMachine Build();
 }

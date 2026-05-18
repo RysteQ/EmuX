@@ -3,34 +3,32 @@
 namespace EmuXCore.VM.Interfaces.Events;
 
 /// <summary>
-/// To be used with a class that inherits from the <c>EventArgs</c> class for register access event operations
+/// Raised for register access operations, must be of type <see cref="EventArgs"/>.
 /// </summary>
 public interface IRegisterAccess
 {
     /// <summary>
-    /// The name of the register that got accessed
+    /// The name of the register that was accessed.
     /// </summary>
     public string RegisterName { get; init; }
 
     /// <summary>
-    /// The size of the register that got accessed
+    /// The size of the register that was accessed.
     /// </summary>
     public Size Size { get; init; }
 
     /// <summary>
-    /// True if the access was a write access, otherwise false
+    /// True if the operation was a READ operation, otherwise false for the WRITE operation.
     /// </summary>
     public bool Write { get; set; }
 
     /// <summary>
-    /// The previous value of the register <br/>
-    /// Null if the action did not write to the register but read from it
+    /// The previous value of the register.
     /// </summary>
     public ulong PreviousValue { get; init; }
 
     /// <summary>
-    /// The new value of the register <br/>
-    /// Null if the action did not write to the register but read from it
+    /// The new value of the register.
     /// </summary>
     public ulong NewValue { get; init; }
 }
