@@ -1,7 +1,9 @@
-﻿namespace EmuXCore.VM.Enums;
+﻿using EmuXCore.VM.Interfaces;
+
+namespace EmuXCore.VM.Enums;
 
 /// <summary>
-/// Indicates the action taken in the VM to modify its current state
+/// Indicates the action taken in the <see cref="IVirtualMachine"/> to modify its current state.
 /// </summary>
 public enum VmActionCategory : byte
 {

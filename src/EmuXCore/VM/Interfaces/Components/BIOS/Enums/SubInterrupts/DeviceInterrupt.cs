@@ -1,7 +1,7 @@
 ﻿namespace EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
 
 /// <summary>
-/// All the available deevice interrupts
+/// All the available device interrupts.
 /// </summary>
 public enum DeviceInterrupt : byte
 {

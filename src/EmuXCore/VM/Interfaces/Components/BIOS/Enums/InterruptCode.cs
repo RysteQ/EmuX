@@ -1,7 +1,9 @@
-﻿namespace EmuXCore.VM.Interfaces.Components.BIOS.Enums;
+﻿using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
+
+namespace EmuXCore.VM.Interfaces.Components.BIOS.Enums;
 
 /// <summary>
-/// All the available main interrupt codes to categorise the functionality into small singular compartments of code
+/// All the available main interrupt codes to categorise the functionality into small singular compartments of code (an example is <see cref="VideoInterrupt"/>).
 /// </summary>
 public enum InterruptCode : byte
 {

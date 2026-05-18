@@ -1,7 +1,7 @@
 ﻿namespace EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 
 /// <summary>
-/// All the available disk interrupts
+/// All the available disk interrupts.
 /// </summary>
 public enum DiskInterrupt : byte
 {

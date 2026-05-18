@@ -1,7 +1,7 @@
 ﻿namespace EmuXCore.Common.Enums;
 
 /// <summary>
-/// Indicates what type the operand of any instruction is
+/// Indicates what type the operand of any instruction is.
 /// </summary>
 public enum OperandVariant : short
 {

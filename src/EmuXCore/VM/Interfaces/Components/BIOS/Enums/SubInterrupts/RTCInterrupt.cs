@@ -1,7 +1,7 @@
 ﻿namespace EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 
 /// <summary>
-/// All the available RTC interrupts
+/// All the available RTC interrupts.
 /// </summary>
 public enum RTCInterrupt : byte
 {

@@ -1,7 +1,7 @@
 ﻿namespace EmuXCore.Interpreter.Enums;
 
 /// <summary>
-/// Indicated what type the lexer token is
+/// Indicated what type the lexer token is.
 /// </summary>
 public enum TokenType : byte
 {

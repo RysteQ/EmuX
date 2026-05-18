@@ -1,7 +1,9 @@
-﻿namespace EmuXCore.VM.Enums;
+﻿using EmuXCore.VM.Interfaces.Components;
+
+namespace EmuXCore.VM.Enums;
 
 /// <summary>
-/// The device status is used to indicate if a device is operational or not
+/// The <see cref="IVirtualDevice"/> status is used to indicate if a device is operational or not.
 /// </summary>
 public enum DeviceStatus : byte
 {

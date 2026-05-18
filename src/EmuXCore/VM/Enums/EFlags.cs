@@ -1,7 +1,7 @@
 ﻿namespace EmuXCore.VM.Enums;
 
 /// <summary>
-/// The EFlags enum value is not only used to indicate a certain EFLAGS register flag, but also to be used as a bitmask for said flag
+/// The EFlags enum value is not only used to indicate a certain EFLAGS register flag, but also to be used as a bitmask for said flag.
 /// </summary>
 public enum EFlags : int
 {
