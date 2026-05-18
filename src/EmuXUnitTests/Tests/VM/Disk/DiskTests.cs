@@ -1,4 +1,5 @@
 ﻿using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Interfaces.Exceptions;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.VM.Disk;
@@ -51,7 +52,19 @@ public sealed class DiskTests : TestWideInternalConstants
 
             CollectionAssert.AreEqual(randomBytesBuffer, virtualDisk.ReadSector(randomPlatter, randomTrack, randomSector));
         }
-        catch (IndexOutOfRangeException ex)
+        catch (InvalidDiskPlatterException ex)
+        {
+            Assert.IsTrue(true);
+        }
+        catch (InvalidDiskTrackException ex)
+        {
+            Assert.IsTrue(true);
+        }
+        catch (InvalidDiskSectorException ex)
+        {
+            Assert.IsTrue(true);
+        }
+        catch (DiskWriteOperationExceedsAvailableMemoryException ex)
         {
             Assert.IsTrue(true);
         }

@@ -1,5 +1,6 @@
 ﻿using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Enums.SubInterrupts;
+using EmuXCore.VM.Interfaces.Exceptions;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCoreUnitTests.Tests.Common;
 
@@ -19,7 +20,7 @@ public sealed class DeviceInterruptTests : TestWideInternalConstants
         {
             virtualMachine.BIOS.HandleDeviceInterrupt(DeviceInterrupt.ExecuteLogic);
         }
-        catch (ArgumentNullException ex)
+        catch (VirtualDeviceNotFoundException ex)
         {
             Assert.IsTrue(true);
         }
