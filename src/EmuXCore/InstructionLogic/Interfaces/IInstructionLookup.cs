@@ -22,4 +22,9 @@ public interface IInstructionLookup
     /// <exception cref="InvalidInstructionException" />
     /// <returns>The type of the instruction.</returns>
     public Type GetInstructionType(string instruction);
+
+    /// <summary>
+    /// Gets all of the available instruction names.
+    /// </summary>
+    public string[] Instructions { get; }
 }

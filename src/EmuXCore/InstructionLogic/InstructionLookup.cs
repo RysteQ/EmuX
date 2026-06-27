@@ -22,6 +22,8 @@ public class InstructionLookup : IInstructionLookup
         return _allInstructionNamesAndTypes[instruction.ToUpper()];
     }
 
+    public string[] Instructions => _allInstructionNamesAndTypes.Keys.ToArray();
+
     private readonly Dictionary<string, Type> _allInstructionNamesAndTypes = new()
     {
         { "AAA", typeof(InstructionAAA) }, { "AAD", typeof(InstructionAAD) }, { "AAM", typeof(InstructionAAM) }, { "AAS", typeof(InstructionAAS) }, { "ADC", typeof(InstructionADC) },
