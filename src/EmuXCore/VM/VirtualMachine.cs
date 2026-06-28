@@ -397,7 +397,7 @@ public class VirtualMachine : IVirtualMachine
     public event EventHandler? RegisterAccessed;
     public event EventHandler? VideoCardAccessed;
 
-    public List<IVmAction> Actions { get; set; }
+    public IList<IVmAction> Actions { get; set; }
 
     public IVirtualMemory Memory { get; init; }
     public IVirtualCPU CPU { get; init; }

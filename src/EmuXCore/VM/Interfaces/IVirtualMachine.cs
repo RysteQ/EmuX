@@ -215,7 +215,7 @@ public interface IVirtualMachine
     /// <summary>
     /// The actions that modified the state of the <see cref="IVirtualMachine"/> for memory related operations.
     /// </summary>
-    public List<IVmAction> Actions { get; set; }
+    public IList<IVmAction> Actions { get; set; }
 
     /// <summary>
     /// The <see cref="IVirtualMemory"/> module implementation.
