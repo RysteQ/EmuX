@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Interfaces.Components;
+﻿using System;
+using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 

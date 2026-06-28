@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Interfaces.Components.BIOS;
+﻿using System;
+using EmuXCore.VM.Interfaces.Components.BIOS;
 
 namespace EmuXCore.VM.Interfaces.Exceptions;
 

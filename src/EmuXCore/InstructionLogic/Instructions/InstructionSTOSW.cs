@@ -1,4 +1,6 @@
-﻿using EmuXCore.Common.Interfaces;
+﻿using System;
+using System.Linq;
+using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;
 using EmuXCore.InstructionLogic.Prefixes;

@@ -1,4 +1,6 @@
-﻿namespace EmuXCore.VM.Interfaces.Components;
+﻿using System;
+
+namespace EmuXCore.VM.Interfaces.Components;
 
 /// <summary>
 /// The IVirtualRTC is meant to emulate the RTC of a real system.

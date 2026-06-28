@@ -1,4 +1,5 @@
 ﻿using EmuXCore.Common.Interfaces;
+using System;
 
 namespace EmuXCore.InstructionLogic.Interfaces.Exceptions;
 

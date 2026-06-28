@@ -1,5 +1,6 @@
 ﻿using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.Common.Interfaces;
+using System.Collections.Generic;
 
 namespace EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 

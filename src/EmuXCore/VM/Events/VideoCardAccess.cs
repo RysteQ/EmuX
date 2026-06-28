@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
+﻿using System;
+using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Events;
 
 namespace EmuXCore.VM.Events;

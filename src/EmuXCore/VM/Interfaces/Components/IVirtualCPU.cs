@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Interfaces.Components.Internal;
+﻿using System.Collections.Generic;
+using EmuXCore.VM.Interfaces.Components.Internal;
 using EmuXCore.VM.Interfaces.Exceptions;
 
 namespace EmuXCore.VM.Interfaces.Components;

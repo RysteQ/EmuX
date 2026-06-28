@@ -1,4 +1,7 @@
-﻿using EmuXCore.Common.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using EmuXCore.Common.Interfaces;
 using EmuXCore.Interpreter.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
@@ -214,6 +217,7 @@ public class Interpreter : IInterpreter
         get => field;
         set
         {
+            field = value;
             field = value;
 
             ConfigureInstructionsLookupTable();

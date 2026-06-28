@@ -1,4 +1,6 @@
-﻿using EmuXCore.InstructionLogic.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using EmuXCore.InstructionLogic.Interfaces;
 using EmuXCore.InstructionLogic.Interfaces.Exceptions;
 using EmuXCore.InstructionLogic.Prefixes;
 

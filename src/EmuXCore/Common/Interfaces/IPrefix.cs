@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Interfaces;
+﻿using System;
+using EmuXCore.VM.Interfaces;
 
 namespace EmuXCore.Common.Interfaces;
 

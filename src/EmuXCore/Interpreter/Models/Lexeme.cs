@@ -7,7 +7,10 @@ using EmuXCore.InstructionLogic.Prefixes;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace EmuXCore.Interpreter.Models;
 
@@ -402,7 +405,7 @@ public class Lexeme : ILexeme
 
     private bool IsRegisterType(string operand)
     {
-        IVirtualCPU virtualCPU = DIFactory.GenerateIVirtualCPU();
+        IVirtualCPU virtualCPU = DIFactory.GenerateIVirtualCPU(_cpu.GetType());
 
         foreach (IVirtualRegister virtualRegister in virtualCPU.Registers)
         {
@@ -432,7 +435,7 @@ public class Lexeme : ILexeme
 
     private IVirtualRegister GetRegister(string operand)
     {
-        IVirtualCPU virtualCPU = DIFactory.GenerateIVirtualCPU();
+        IVirtualCPU virtualCPU = DIFactory.GenerateIVirtualCPU(_cpu.GetType());
 
         foreach (IVirtualRegister virtualRegister in virtualCPU.Registers)
         {

@@ -1,4 +1,8 @@
-﻿using EmuXCore.Common.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.VM.Interfaces;

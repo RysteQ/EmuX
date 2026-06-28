@@ -12,19 +12,19 @@ public interface IVirtualMachineBuilder
     /// Sets the CPU of the <see cref="IVirtualMachine"/>.
     /// </summary>
     /// <param name="virtualCPU">The <see cref="IVirtualCPU"/> implementation.</param>
-    IVirtualMachineBuilder SetCpu(IVirtualCPU virtualCPU);
+    IVirtualMachineBuilder SetCPU(IVirtualCPU virtualCPU);
+    
+    /// <summary>
+    /// Sets the GPU of the <see cref="IVirtualMachine"/>.
+    /// </summary>
+    /// <param name="virtualCPU">The <see cref="IVirtualGPU"/> implementation.</param>
+    IVirtualMachineBuilder SetGPU(IVirtualGPU virtualGPU);
 
     /// <summary>
     /// Sets the memory of the <see cref="IVirtualMachine"/>.
     /// </summary>
     /// <param name="virtualCPU">The <see cref="IVirtualMemory"/> implementation.</param>
     IVirtualMachineBuilder SetMemory(IVirtualMemory virtualMemory);
-
-    /// <summary>
-    /// Sets the GPU of the <see cref="IVirtualMachine"/>.
-    /// </summary>
-    /// <param name="virtualCPU">The <see cref="IVirtualGPU"/> implementation.</param>
-    IVirtualMachineBuilder SetGPU(IVirtualGPU virtualGPU);
 
     /// <summary>
     /// Adds a IVirtualDisk to the <see cref="IVirtualMachine"/>.

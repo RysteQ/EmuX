@@ -1,4 +1,6 @@
-﻿using EmuXCore.Common.Enums;
+﻿using System;
+using System.Collections.Generic;
+using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
@@ -280,16 +282,26 @@ public static class DIFactory
     /// <summary>
     /// Generates an instance of IVirtualCPU
     /// </summary>
+    /// <param name="cpuType">The implementation of IVirtualCPU to create</param>
     /// <param name="virtualMachine">The virtual machine the IVirtualBIOS is part of</param>
     /// <returns>The implementation of IVirtualCPU</returns>
-    public static IVirtualCPU GenerateIVirtualCPU(IVirtualMachine? virtualMachine = null) => new VirtualCPU(virtualMachine);
+    public static IVirtualCPU GenerateIVirtualCPU(Type cpuType, IVirtualMachine? virtualMachine = null) => (IVirtualCPU)Activator.CreateInstance(cpuType, virtualMachine)!;
 
     /// <summary>
     /// Generates an instance of IVirtualDevice
     /// </summary>
+    /// <param name="deviceId">The ID of the devic</param>
     /// <typeparam name="T">The implementation type of IVirtualDevice</typeparam>
     /// <returns>The implementation of IVirtualDevice</returns>
     public static IVirtualDevice GenerateIVirtualDevice<T>(ushort deviceId) where T : IVirtualDevice => (T)Activator.CreateInstance(typeof(T), deviceId, null)!;
+
+    /// <summary>
+    /// Generates an instance of IVirtualDevice
+    /// </summary>
+    /// <param name="type">The implementation of IVirtualDevice to create</param>
+    /// <param name="deviceId">The ID of the devic</param>
+    /// <returns>The implementation of IVirtualDevice</returns>
+    public static IVirtualDevice GenerateIVirtualDevice(Type type, ushort deviceId) => (IVirtualDevice)Activator.CreateInstance(type, deviceId, null)!;
 
     /// <summary>
     /// Generates an instance of IVirtualDisk
@@ -308,6 +320,14 @@ public static class DIFactory
     /// <param name="parentVirtualMachine">The virtual machine the IVirtualGPU is part of</param>
     /// <returns>The implementation of IVirtualGPU</returns>
     public static IVirtualGPU GenerateIVirtualGPU(IVirtualMachine? parentVirtualMachine = null) => new VirtualGPU(parentVirtualMachine);
+
+    /// <summary>
+    /// Generates an instance of IVirtualGPU
+    /// </summary>
+    /// <param name="gpuType">The implementation of IVirtualGPU to create</param>
+    /// <param name="parentVirtualMachine">The virtual machine the IVirtualGPU is part of</param>
+    /// <returns>The implementation of IVirtualGPU</returns>
+    public static IVirtualGPU GenerateIVirtualGPU(Type gpuType, IVirtualMachine? parentVirtualMachine = null) => (IVirtualGPU)Activator.CreateInstance(gpuType, parentVirtualMachine)!;
 
     /// <summary>
     /// Generates an instance of IVirtualMemory

@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Interfaces.Components;
+﻿using System;
+using EmuXCore.VM.Interfaces.Components;
 
 namespace EmuXCore.VM.Interfaces.Exceptions;
 

@@ -1,4 +1,6 @@
-﻿using EmuXCore.Common.Interfaces;
+using System;
+using System.Collections.Generic;
+using EmuXCore.Common.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
 

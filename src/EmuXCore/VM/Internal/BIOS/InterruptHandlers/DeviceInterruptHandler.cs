@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Interfaces.Components;
+﻿using System.Linq;
+using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Exceptions;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;

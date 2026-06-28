@@ -1,4 +1,6 @@
-﻿namespace EmuXCore.VM.Interfaces.Exceptions;
+﻿using System;
+
+namespace EmuXCore.VM.Interfaces.Exceptions;
 
 /// <summary>
 /// Raised when the <see cref="IVirtualMachine"/> is not found.

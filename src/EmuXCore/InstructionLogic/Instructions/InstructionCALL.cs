@@ -1,4 +1,5 @@
-﻿using EmuXCore.Common.Enums;
+﻿using System.Linq;
+using EmuXCore.Common.Enums;
 using EmuXCore.Common.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Interfaces;
 using EmuXCore.InstructionLogic.Instructions.Internal;

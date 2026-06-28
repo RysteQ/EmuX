@@ -1,4 +1,5 @@
-﻿using EmuXCore.VM.Interfaces;
+﻿using System;
+using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 
 namespace EmuXCore.VM.Internal.RTC;

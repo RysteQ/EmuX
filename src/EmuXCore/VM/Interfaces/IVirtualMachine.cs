@@ -7,6 +7,8 @@ using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums;
 using EmuXCore.VM.Interfaces.Exceptions;
 using EmuXCore.VM.Interfaces.Events;
+using System;
+using System.Collections.Generic;
 
 namespace EmuXCore.VM.Interfaces;
 
@@ -208,7 +210,7 @@ public interface IVirtualMachine
 
     /// <summary>
     /// The event is raised when the <see cref="IVirtualGPU"/> memory buffer is modified. <br/>
-    /// Returns an <see cref="EventArgs"/> object of type <see cref="IVirtualGPU"/>.
+    /// Returns an <see cref="EventArgs"/> object of type <see cref="IVideoCardAccess"/>.
     /// </summary>
     event EventHandler? VideoCardAccessed;
 

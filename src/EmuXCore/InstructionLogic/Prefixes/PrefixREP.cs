@@ -1,4 +1,5 @@
-﻿using EmuXCore.Common.Interfaces;
+﻿using System;
+using EmuXCore.Common.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 

@@ -1,4 +1,6 @@
-﻿using EmuXCore.VM.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.Internal;
@@ -7,7 +9,7 @@ namespace EmuXCore.VM;
 
 public class VirtualMachineBuilder : IVirtualMachineBuilder
 {
-    public IVirtualMachineBuilder SetCpu(IVirtualCPU virtualCPU)
+    public IVirtualMachineBuilder SetCPU(IVirtualCPU virtualCPU)
     {
         _virtualCPU = virtualCPU;
 

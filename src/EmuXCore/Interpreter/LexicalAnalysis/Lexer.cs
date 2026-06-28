@@ -1,4 +1,7 @@
-﻿using EmuXCore.InstructionLogic.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using EmuXCore.InstructionLogic.Interfaces;
 using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;

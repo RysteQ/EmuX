@@ -1,4 +1,5 @@
-﻿using EmuXCore.Common.Enums;
+﻿using System;
+using EmuXCore.Common.Enums;
 
 namespace EmuXCore.InstructionLogic.Instructions.Internal;
 

@@ -4,6 +4,7 @@ using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
 using EmuXCore.VM.Interfaces.Exceptions;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
+using System;
 using System.Drawing;
 
 namespace EmuXCore.VM.Internal.GPUs;
