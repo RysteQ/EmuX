@@ -1,4 +1,5 @@
 ﻿using EmuXCore;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCore.VM.Internal.Device.USBDrives;
 using EmuXUI.Enums;
 using EmuXUI.Models.Logic;
@@ -28,7 +29,7 @@ public sealed class VirtualMachineConfigurationViewModel : BaseViewModel
 
         AvailableCPUs = new
         ([
-            new("CPU Mk1", DIFactory.GenerateIVirtualCPU())
+            new("CPU Mk1", DIFactory.GenerateIVirtualCPU(typeof(VirtualCPU)))
         ]);
 
         AvailableGPUs = new

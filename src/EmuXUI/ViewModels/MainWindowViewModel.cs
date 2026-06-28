@@ -3,6 +3,7 @@ using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCore.VM.Internal.Device.USBDrives;
 using EmuXUI.Enums;
 using EmuXUI.Models.Logic;
@@ -36,7 +37,7 @@ public sealed class MainWindowViewModel : BaseViewModel
         IVirtualMachineBuilder virtualMachineBuilder = DIFactory.GenerateIVirtualMachineBuilder();
 
         virtualMachineBuilder = virtualMachineBuilder
-            .SetCpu(DIFactory.GenerateIVirtualCPU())
+            .SetCPU(DIFactory.GenerateIVirtualCPU(typeof(VirtualCPU)))
             .SetMemory(DIFactory.GenerateIVirtualMemory(65_536, 1_048_576))
             .SetBios(DIFactory.GenerateIVirtualBIOS(DIFactory.GenerateIDiskInterruptHandler(), DIFactory.GenerateIRTCInterruptHandler(), DIFactory.GenerateIVideoInterruptHandler(), DIFactory.GenerateIDeviceInterruptHandler()))
             .SetRTC(DIFactory.GenerateIVirtualRTC())
@@ -73,7 +74,7 @@ public sealed class MainWindowViewModel : BaseViewModel
         VirtualMachineConfiguration _virtualMachineConfiguration = (VirtualMachineConfiguration)e;
 
         virtualMachineBuilder = virtualMachineBuilder
-            .SetCpu(_virtualMachineConfiguration.SelectedCPU.CPU)
+            .SetCPU(_virtualMachineConfiguration.SelectedCPU.CPU)
             .SetMemory(DIFactory.GenerateIVirtualMemory((uint)_virtualMachineConfiguration.SelectedIOMemoryInKbAmount * 1024, (uint)_virtualMachineConfiguration.SelectedGeneralPurposeMemoryInKbAmount * 1024))
             .SetBios(DIFactory.GenerateIVirtualBIOS(DIFactory.GenerateIDiskInterruptHandler(), DIFactory.GenerateIRTCInterruptHandler(), DIFactory.GenerateIVideoInterruptHandler(), DIFactory.GenerateIDeviceInterruptHandler()))
             .SetRTC(DIFactory.GenerateIVirtualRTC())
@@ -96,7 +97,7 @@ public sealed class MainWindowViewModel : BaseViewModel
     {
         try
         {
-            ILexer lexer = DIFactory.GenerateILexer(DIFactory.GenerateIVirtualCPU(), DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
+            ILexer lexer = DIFactory.GenerateILexer(DIFactory.GenerateIVirtualCPU(typeof(VirtualCPU)), DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
             IParser parser = DIFactory.GenerateIParser(_virtualMachine, DIFactory.GenerateIInstructionLookup(), DIFactory.GenerateIPrefixLookup());
             IList<IToken> tokens = lexer.Tokenize(SourceCode);
             IList<int> sameNameLabels = [];
