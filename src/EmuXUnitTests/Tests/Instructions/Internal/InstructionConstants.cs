@@ -6,7 +6,7 @@ using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Instructions.Internal;
 
-public class InstructionConstants<T> : TestWideInternalConstants where T : IInstruction
+public abstract class InstructionConstants<T> : TestWideInternalConstants where T : IInstruction
 {
     protected T GenerateInstruction(InstructionVariant? variant = null, IPrefix? prefix = null, IOperand? firstOperand = null, IOperand? secondOperand = null, IOperand? thirdOperand = null)
     {

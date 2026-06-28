@@ -1,6 +1,7 @@
 ﻿using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Interpreter.LexerTests;
@@ -12,7 +13,7 @@ public sealed class RegisterLexerImmediate : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithInvalidOperands_OneInstructionParsed()
     {
         string inputString = "add al, 255";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -30,7 +31,7 @@ public sealed class RegisterLexerImmediate : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithInvalidOperands_OneInstructionParsed_2()
     {
         string inputString = "add al, 0xff";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -48,7 +49,7 @@ public sealed class RegisterLexerImmediate : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithInvalidOperands_OneInstructionParsed_3()
     {
         string inputString = "add al, 0b11111111";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -66,7 +67,7 @@ public sealed class RegisterLexerImmediate : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithInvalidOperands_ParseError()
     {
         string inputString = "add al, 1364";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);

@@ -1,6 +1,7 @@
 ﻿using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Interpreter.LexerTests;
@@ -12,7 +13,7 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithMemoryAccess()
     {
         string inputString = "add byte ptr [rbx], 10";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -34,7 +35,7 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithMemoryAccess_2()
     {
         string inputString = "add byte ptr [rbx + 10], 10";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -58,7 +59,7 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithMemoryAccess_3()
     {
         string inputString = "add byte ptr [rbx - 20], 10";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -82,7 +83,7 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithMemoryAccess_4()
     {
         string inputString = "add byte ptr [10h], 10";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -104,7 +105,7 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithMemoryAccess_5()
     {
         string inputString = "add byte ptr [rbx + rcx], 10";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -128,7 +129,7 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithMemoryAccess_6()
     {
         string inputString = "add byte ptr [rbx - rcx], 10";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -152,7 +153,7 @@ public sealed class MemoryImmediateLexerTests : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithMemoryAccess_7()
     {
         string inputString = "add dword ptr [0x10], 10";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);

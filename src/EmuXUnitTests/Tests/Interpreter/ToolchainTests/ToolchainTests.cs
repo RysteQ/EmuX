@@ -4,6 +4,7 @@ using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
 using EmuXCore.VM.Interfaces;
 using EmuXCore.VM.Interfaces.Components.BIOS.Enums.SubInterrupts;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCore.VM.Internal.CPU.Registers.MainRegisters;
 using EmuXCoreUnitTests.Tests.Common;
 
@@ -17,8 +18,8 @@ public sealed class ToolchainTests : TestWideInternalConstants
     {
         IParserResult parserResult;
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
-        IParser parser = DIFactory.GenerateIParser(virtualMachine, GenerateInstructionLookup(), GeneratePrefixLookup());
-        ILexer lexer = DIFactory.GenerateILexer(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
+        IParser parser = GenerateParser();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IInterpreter interpreter = GenerateInterpreter();
         string toParse = """
             jmp calculate
@@ -64,8 +65,8 @@ public sealed class ToolchainTests : TestWideInternalConstants
     {
         IParserResult parserResult;
         IVirtualMachine virtualMachine = GenerateVirtualMachine();
-        IParser parser = DIFactory.GenerateIParser(virtualMachine, GenerateInstructionLookup(), GeneratePrefixLookup());
-        ILexer lexer = DIFactory.GenerateILexer(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
+        IParser parser = GenerateParser();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IInterpreter interpreter = GenerateInterpreter();
         string toParse = """
             mov ah, 0x51

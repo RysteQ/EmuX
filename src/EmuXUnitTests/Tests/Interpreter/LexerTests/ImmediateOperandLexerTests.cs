@@ -1,6 +1,7 @@
 ﻿using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Interpreter.LexerTests;
@@ -12,7 +13,7 @@ public sealed class ImmediateOperandLexerTests : TestWideInternalConstants
     public void TestParseMethod_SingleInstructionWithOneTrailingHexOperand()
     {
         string inputString = "aad 10h";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -28,7 +29,7 @@ public sealed class ImmediateOperandLexerTests : TestWideInternalConstants
     public void TestParseMethod_SingleInstructionWithOneLeadingHexOperand()
     {
         string inputString = "aad 0x10";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -44,7 +45,7 @@ public sealed class ImmediateOperandLexerTests : TestWideInternalConstants
     public void TestParseMethod_SingleInstructionWithNoOperand()
     {
         string inputString = "aad";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -59,7 +60,7 @@ public sealed class ImmediateOperandLexerTests : TestWideInternalConstants
     public void TestParseMethod_SingleInstructionWithOneDirectValueOperand()
     {
         string inputString = "aad 10";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -75,7 +76,7 @@ public sealed class ImmediateOperandLexerTests : TestWideInternalConstants
     public void TestParseMethod_SingleInstructionWithOneCharOperand()
     {
         string inputString = "aad 'a'";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -91,7 +92,7 @@ public sealed class ImmediateOperandLexerTests : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithDirectValueAfterSomeEmptyLines()
     {
         string inputString = "\n\naam 'a'";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -107,7 +108,7 @@ public sealed class ImmediateOperandLexerTests : TestWideInternalConstants
     public void TestParseMethod_SignleInstructionWithRegisterAndDirectValueOperands()
     {
         string inputString = "add rax, qword 10";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);

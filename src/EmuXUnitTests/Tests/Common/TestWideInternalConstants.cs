@@ -14,6 +14,7 @@ using EmuXCore.VM.Interfaces.Components;
 using EmuXCore.VM.Interfaces.Components.BIOS;
 using EmuXCore.VM.Interfaces.Components.BIOS.Interfaces;
 using EmuXCore.VM.Interfaces.Components.Internal;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCore.VM.Internal.Device.USBDrives;
 
 namespace EmuXCoreUnitTests.Tests.Common;
@@ -28,13 +29,13 @@ public class TestWideInternalConstants
     protected IInterpreter GenerateInterpreter() => DIFactory.GenerateIInterpreter(typeof(InstructionCALL), typeof(InstructionRET));
 
     protected IToken GenerateToken(TokenType tokenType, string fullSourceCode) => DIFactory.GenerateIToken(tokenType, fullSourceCode);
-    protected ILexer GenerateLexer() => DIFactory.GenerateILexer(GenerateVirtualCPU(), GenerateInstructionLookup(), GeneratePrefixLookup());
+    protected ILexer GenerateLexer(Type cpuType) => DIFactory.GenerateILexer(GenerateVirtualCPU(cpuType), GenerateInstructionLookup(), GeneratePrefixLookup());
     protected IParser GenerateParser() => DIFactory.GenerateIParser(GenerateVirtualMachine(), GenerateInstructionLookup(), GeneratePrefixLookup());
     protected IInstructionLookup GenerateInstructionLookup() => DIFactory.GenerateIInstructionLookup();
     protected IPrefixLookup GeneratePrefixLookup() => DIFactory.GenerateIPrefixLookup();
     protected IInstruction GenerateInstruction<T>(InstructionVariant variant, IPrefix? prefix, IOperand? firstOperand, IOperand? secondOperand, IOperand? thirdOperand, IOperandDecoder operandDecoder, IFlagStateProcessor flagStateProcessor, ulong bytes = 5) where T : IInstruction => (T)Activator.CreateInstance(typeof(T), new object[] { variant, prefix, firstOperand, secondOperand, thirdOperand, operandDecoder, flagStateProcessor, bytes });
 
-    protected IVirtualCPU GenerateVirtualCPU() => DIFactory.GenerateIVirtualCPU();
+    protected IVirtualCPU GenerateVirtualCPU(Type cpuType) => DIFactory.GenerateIVirtualCPU(cpuType);
     protected IVirtualMemory GenerateVirtualMemory() => DIFactory.GenerateIVirtualMemory(65_536, 1_048_576);
     protected IVirtualBIOS GenerateVirtualBIOS() => DIFactory.GenerateIVirtualBIOS(GenerateDiskInterruptHandler(), GenerateRTCInterruptHandler(), GenerateVideoInterruptHandler(), GenerateDeviceInterruptHandler());
     protected IVirtualDisk GenerateVirtualDisk(byte diskNumber, byte platters = 1, ushort tracks = 16, byte sectorPerTrack = 16) => DIFactory.GenerateIVirtualDisk(diskNumber, platters, tracks, sectorPerTrack);
@@ -48,7 +49,7 @@ public class TestWideInternalConstants
         IVirtualMachineBuilder virtualMachineBuilder = GenerateVirtualMachineBuilder();
 
         virtualMachineBuilder
-            .SetCpu(GenerateVirtualCPU())
+            .SetCPU(GenerateVirtualCPU(typeof(VirtualCPU)))
             .SetMemory(GenerateVirtualMemory())
             .SetBios(GenerateVirtualBIOS())
             .SetRTC(GenerateVirtualRTC())

@@ -1,6 +1,7 @@
 ﻿using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Interpreter.LexerTests;
@@ -12,7 +13,7 @@ public sealed class LabelLexerTests : TestWideInternalConstants
     public void TestParseMethod_SingleLabel_Success()
     {
         string inputString = "test_label:";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -28,7 +29,7 @@ public sealed class LabelLexerTests : TestWideInternalConstants
     public void TestParseMethod_SingleLabelJmpInstruction_Success()
     {
         string inputString = "test_label:\njmp test_label";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);

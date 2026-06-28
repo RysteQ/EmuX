@@ -1,6 +1,7 @@
 ﻿using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Interpreter.LexerTests;
@@ -12,7 +13,7 @@ public sealed class PrefixLexerTests : TestWideInternalConstants
     public void TestParseMethod_PrefixREP()
     {
         string inputString = "rep movsb";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -28,7 +29,7 @@ public sealed class PrefixLexerTests : TestWideInternalConstants
     public void TestParseMethod_PrefixREPE()
     {
         string inputString = "repe movsb";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -44,7 +45,7 @@ public sealed class PrefixLexerTests : TestWideInternalConstants
     public void TestParseMethod_PrefixREPNE()
     {
         string inputString = "repne movsb";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -60,7 +61,7 @@ public sealed class PrefixLexerTests : TestWideInternalConstants
     public void TestParseMethod_PrefixREPNZ()
     {
         string inputString = "repnz movsb";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -76,7 +77,7 @@ public sealed class PrefixLexerTests : TestWideInternalConstants
     public void TestParseMethod_PrefixREPZ()
     {
         string inputString = "repz movsb";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);

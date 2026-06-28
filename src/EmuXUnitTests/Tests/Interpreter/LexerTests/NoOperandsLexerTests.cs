@@ -1,6 +1,7 @@
 ﻿using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Interpreter.LexerTests;
@@ -12,7 +13,7 @@ public sealed class NoOperandsLexerTests : TestWideInternalConstants
     public void TestParseMethod_SingleInstruction()
     {
         string inputString = "aaa";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -27,7 +28,7 @@ public sealed class NoOperandsLexerTests : TestWideInternalConstants
     public void TestParseMethod_SingleInstructionWithAComment()
     {
         string inputString = "aaa ; test";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -43,7 +44,7 @@ public sealed class NoOperandsLexerTests : TestWideInternalConstants
     {
         string inputString = "aaa ; test\n" +
             "aaa";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -66,7 +67,7 @@ public sealed class NoOperandsLexerTests : TestWideInternalConstants
             "   ;  332321\n" +
             "aaa\n" +
             "   ";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -86,7 +87,7 @@ public sealed class NoOperandsLexerTests : TestWideInternalConstants
     {
         string inputString = "aaa\n" +
             "aad";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);

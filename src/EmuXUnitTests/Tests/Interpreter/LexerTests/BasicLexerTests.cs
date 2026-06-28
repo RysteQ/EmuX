@@ -1,6 +1,7 @@
 ﻿using EmuXCore.Interpreter.Enums;
 using EmuXCore.Interpreter.LexicalAnalysis.Interfaces;
 using EmuXCore.Interpreter.Models.Interfaces;
+using EmuXCore.VM.Internal.CPU;
 using EmuXCoreUnitTests.Tests.Common;
 
 namespace EmuXCoreUnitTests.Tests.Interpreter.LexerTests;
@@ -12,7 +13,7 @@ public sealed class BasicLexerTests : TestWideInternalConstants
     public void TestParseMethod_Empty()
     {
         string inputString = string.Empty;
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -25,7 +26,7 @@ public sealed class BasicLexerTests : TestWideInternalConstants
     public void TestParseMethod_Spaces()
     {
         string inputString = "   ";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -38,7 +39,7 @@ public sealed class BasicLexerTests : TestWideInternalConstants
     public void TestParseMethod_NewLines()
     {
         string inputString = "\n\n\n";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
@@ -51,7 +52,7 @@ public sealed class BasicLexerTests : TestWideInternalConstants
     public void TestParseMethod_Comment()
     {
         string inputString = " ; test";
-        ILexer lexer = GenerateLexer();
+        ILexer lexer = GenerateLexer(typeof(VirtualCPU));
         IList<IToken> tokens;
 
         tokens = lexer.Tokenize(inputString);
